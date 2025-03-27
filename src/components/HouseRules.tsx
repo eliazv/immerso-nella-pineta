@@ -1,8 +1,22 @@
-
-import React from 'react';
-import { cn } from '@/lib/utils';
-import { Check, X, Clock, Calendar, Car, Sparkles, ChevronDown, Mail, Phone } from 'lucide-react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import React from "react";
+import { cn } from "@/lib/utils";
+import {
+  Check,
+  X,
+  Clock,
+  Calendar,
+  Car,
+  Sparkles,
+  ChevronDown,
+  Mail,
+  Phone,
+} from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface RulesListProps {
   className?: string;
@@ -10,12 +24,12 @@ interface RulesListProps {
 
 const HouseRules = ({ className }: RulesListProps) => {
   const generalRules = [
-    { rule: "No feste o eventi", allowed: false },
     { rule: "Animali domestici ammessi", allowed: true },
-    { rule: "Non è consentito fumare", allowed: false },
     { rule: "Check-in autonomo con cassetta di sicurezza", allowed: true },
     { rule: "Parcheggio privato incluso", allowed: true },
     { rule: "Lenzuola e asciugamani forniti", allowed: true },
+    { rule: "No feste o eventi", allowed: false },
+    { rule: "Non è consentito fumare", allowed: false },
   ];
 
   return (
@@ -29,11 +43,11 @@ const HouseRules = ({ className }: RulesListProps) => {
           <ul className="space-y-3">
             <li className="flex justify-between items-center">
               <span className="text-sm">Check-in</span>
-              <span className="text-sm font-medium">14:00 - 20:00</span>
+              <span className="text-sm font-medium">dalle 14:00</span>
             </li>
             <li className="flex justify-between items-center">
               <span className="text-sm">Check-out</span>
-              <span className="text-sm font-medium">10:00</span>
+              <span className="text-sm font-medium">fino alle 10:00</span>
             </li>
           </ul>
         </div>
@@ -44,16 +58,18 @@ const HouseRules = ({ className }: RulesListProps) => {
             Politica di cancellazione
           </h3>
           <p className="text-sm">
-            Cancellazione gratuita fino a 7 giorni prima del check-in.
-            In caso di cancellazione tra 7 giorni e 24 ore prima dell'arrivo, 
-            si applica una penale del 50%. Nessun rimborso per cancellazioni 
-            effettuate meno di 24 ore prima dell'arrivo.
+            Cancellazione gratuita fino a 7 giorni prima del check-in. In caso
+            di cancellazione tra 7 giorni e 24 ore prima dell'arrivo, si applica
+            una penale del 50%. Nessun rimborso per cancellazioni effettuate
+            meno di 24 ore prima dell'arrivo.
           </p>
         </div>
       </div>
 
       <div className="p-6 rounded-xl border border-border bg-card/50">
-        <h3 className="font-serif text-lg font-medium mb-4">Regole della casa</h3>
+        <h3 className="font-serif text-lg font-medium mb-4">
+          Regole della casa
+        </h3>
         <ul className="space-y-3">
           {generalRules.map((item, index) => (
             <li key={index} className="flex items-start">
@@ -74,11 +90,11 @@ const HouseRules = ({ className }: RulesListProps) => {
           Parcheggio
         </h3>
         <p className="text-sm mb-2">
-          Gli ospiti possono accedere comodamente al cortile interno con l'auto 
+          Gli ospiti possono accedere comodamente al cortile interno con l'auto
           e parcheggiare nel posto riservato, identificato dal numero 3.
         </p>
       </div>
-      
+
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
           <Sparkles className="mr-2 h-5 w-5 text-pine-dark" />
@@ -91,9 +107,9 @@ const HouseRules = ({ className }: RulesListProps) => {
             </AccordionTrigger>
             <AccordionContent className="text-sm">
               <p>
-                Durante il soggiorno verrà fornito un set completo di lenzuola, 
-                federe e asciugamani. Inoltre, avrete a disposizione delle stoviglie 
-                e tutto il necessario per la pulizia della casa.
+                Durante il soggiorno verrà fornito un set completo di lenzuola,
+                federe e asciugamani. Inoltre, avrete a disposizione delle
+                stoviglie e tutto il necessario per la pulizia della casa.
               </p>
             </AccordionContent>
           </AccordionItem>
@@ -103,7 +119,7 @@ const HouseRules = ({ className }: RulesListProps) => {
             </AccordionTrigger>
             <AccordionContent className="text-sm">
               <p>
-                Non vengono forniti articoli per l'igiene personale, come saponi 
+                Non vengono forniti articoli per l'igiene personale, come saponi
                 da bagno, né generi alimentari.
               </p>
             </AccordionContent>
@@ -114,22 +130,26 @@ const HouseRules = ({ className }: RulesListProps) => {
             </AccordionTrigger>
             <AccordionContent className="text-sm">
               <p>
-                La tassa di soggiorno, pari a €1 per notte per adulto (dai 15 anni in su), 
-                è applicabile dal 1° maggio al 30 settembre per un massimo di 7 pernottamenti 
-                consecutivi. Il pagamento può essere effettuato separatamente tramite Pay Pal, 
-                Satispay o bonifico bancario.
+                La tassa di soggiorno, pari a €1 per notte per adulto (dai 15
+                anni in su), è applicabile dal 1° maggio al 30 settembre per un
+                massimo di 7 pernottamenti consecutivi. Il pagamento può essere
+                effettuato separatamente tramite Pay Pal, Satispay o bonifico
+                bancario.
               </p>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
-      
+
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4">Contatti</h3>
         <ul className="space-y-3">
           <li className="flex items-center">
             <Mail className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
-            <a href="mailto:zavattaelia@gmail.com" className="text-sm hover:underline">
+            <a
+              href="mailto:zavattaelia@gmail.com"
+              className="text-sm hover:underline"
+            >
               zavattaelia@gmail.com
             </a>
           </li>
