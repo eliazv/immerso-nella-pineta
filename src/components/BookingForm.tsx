@@ -21,6 +21,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const [checkOut, setCheckOut] = useState<Date | undefined>(undefined);
   const [adults, setAdults] = useState<number>(2);
   const [children, setChildren] = useState<number>(0);
+  const [pets, setPets] = useState<number>(0);
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
@@ -28,6 +29,8 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const { toast } = useToast();
+
+  const totalGuests = adults + children;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,9 +44,18 @@ const BookingForm = ({ className }: BookingFormProps) => {
       return;
     }
     
+    if (totalGuests > 4) {
+      toast({
+        title: 'Numero di ospiti eccessivo',
+        description: 'Il numero massimo di ospiti (adulti + bambini) consentito è 4.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
-    // Simulate API call
+    // Simulate API call - in a real scenario, send to the provided email
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -83,7 +95,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="space-y-2">
-          <Label htmlFor="check-in">Check-in</Label>
+          <Label htmlFor="check-in">Check-in (dalle 14:00)</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -112,7 +124,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="check-out">Check-out</Label>
+          <Label htmlFor="check-out">Check-out (entro le 10:00)</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -141,9 +153,9 @@ const BookingForm = ({ className }: BookingFormProps) => {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="space-y-2">
-          <Label htmlFor="adults">Adulti</Label>
+          <Label htmlFor="adults">Adulti (max 4 totali)</Label>
           <Input
             id="adults"
             type="number"
@@ -160,9 +172,21 @@ const BookingForm = ({ className }: BookingFormProps) => {
             id="children"
             type="number"
             min={0}
-            max={2}
+            max={3}
             value={children}
             onChange={(e) => setChildren(parseInt(e.target.value))}
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="pets">Animali</Label>
+          <Input
+            id="pets"
+            type="number"
+            min={0}
+            max={2}
+            value={pets}
+            onChange={(e) => setPets(parseInt(e.target.value))}
           />
         </div>
       </div>
@@ -210,10 +234,16 @@ const BookingForm = ({ className }: BookingFormProps) => {
         </div>
       </div>
       
+      {totalGuests > 4 && (
+        <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded-md text-sm">
+          Il numero massimo di ospiti consentito è 4 (adulti + bambini).
+        </div>
+      )}
+      
       <Button 
         type="submit" 
         className="w-full" 
-        disabled={isSubmitting}
+        disabled={isSubmitting || totalGuests > 4}
       >
         {isSubmitting ? (
           <>
@@ -229,6 +259,16 @@ const BookingForm = ({ className }: BookingFormProps) => {
         * Campi obbligatori. Inviando il modulo, accetti di essere contattato 
         riguardo alla tua richiesta di prenotazione.
       </p>
+      
+      <div className="mt-6 pt-6 border-t border-border">
+        <p className="text-sm text-muted-foreground">
+          Per ulteriori informazioni:
+        </p>
+        <div className="mt-2 space-y-1">
+          <p className="text-sm">📧 <a href="mailto:zavattaelia@gmail.com" className="text-primary hover:underline">zavattaelia@gmail.com</a></p>
+          <p className="text-sm">📞 <a href="tel:+393938932793" className="text-primary hover:underline">+39 393 893 2793</a></p>
+        </div>
+      </div>
     </form>
   );
 };

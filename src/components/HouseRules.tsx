@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Check, X, Clock, Calendar, Car, Sparkles, ChevronDown } from 'lucide-react';
+import { Check, X, Clock, Calendar, Car, Sparkles, ChevronDown, Mail, Phone } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface RulesListProps {
@@ -11,7 +11,7 @@ interface RulesListProps {
 const HouseRules = ({ className }: RulesListProps) => {
   const generalRules = [
     { rule: "No feste o eventi", allowed: false },
-    { rule: "Animali domestici non ammessi", allowed: false },
+    { rule: "Animali domestici ammessi", allowed: true },
     { rule: "Non è consentito fumare", allowed: false },
     { rule: "Check-in autonomo con cassetta di sicurezza", allowed: true },
     { rule: "Parcheggio privato incluso", allowed: true },
@@ -29,7 +29,7 @@ const HouseRules = ({ className }: RulesListProps) => {
           <ul className="space-y-3">
             <li className="flex justify-between items-center">
               <span className="text-sm">Check-in</span>
-              <span className="text-sm font-medium">15:00 - 20:00</span>
+              <span className="text-sm font-medium">14:00 - 20:00</span>
             </li>
             <li className="flex justify-between items-center">
               <span className="text-sm">Check-out</span>
@@ -122,6 +122,24 @@ const HouseRules = ({ className }: RulesListProps) => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+      </div>
+      
+      <div className="p-6 rounded-xl border border-border bg-card/50">
+        <h3 className="font-serif text-lg font-medium mb-4">Contatti</h3>
+        <ul className="space-y-3">
+          <li className="flex items-center">
+            <Mail className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
+            <a href="mailto:zavattaelia@gmail.com" className="text-sm hover:underline">
+              zavattaelia@gmail.com
+            </a>
+          </li>
+          <li className="flex items-center">
+            <Phone className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
+            <a href="tel:+393938932793" className="text-sm hover:underline">
+              +39 393 893 2793
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
