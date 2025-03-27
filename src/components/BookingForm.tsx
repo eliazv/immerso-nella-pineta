@@ -14,9 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
-emailjs.init("YOUR_PUBLIC_KEY");
+emailjs.init("service_qns60dh");
 
 interface BookingFormProps {
   className?: string;
@@ -46,11 +46,12 @@ const BookingForm = ({ className }: BookingFormProps) => {
       setShowKeyInput(true);
       toast({
         title: "Email JS Setup Required",
-        description: "Please enter your EmailJS public key to enable email sending.",
+        description:
+          "Please enter your EmailJS public key to enable email sending.",
       });
       return false;
     }
-    
+
     if (!emailjsPublicKey && showKeyInput) {
       toast({
         title: "Email JS Key Required",
@@ -65,8 +66,12 @@ const BookingForm = ({ className }: BookingFormProps) => {
         to_email: "zavattaelia@gmail.com",
         from_name: name,
         from_email: email,
-        check_in: checkIn ? format(checkIn, "dd/MM/yyyy", { locale: it }) : "Non specificato",
-        check_out: checkOut ? format(checkOut, "dd/MM/yyyy", { locale: it }) : "Non specificato",
+        check_in: checkIn
+          ? format(checkIn, "dd/MM/yyyy", { locale: it })
+          : "Non specificato",
+        check_out: checkOut
+          ? format(checkOut, "dd/MM/yyyy", { locale: it })
+          : "Non specificato",
         adults: adults,
         children: children,
         pets: pets,
@@ -91,7 +96,8 @@ const BookingForm = ({ className }: BookingFormProps) => {
       console.error("Error sending email:", error);
       toast({
         title: "Errore nell'invio",
-        description: "Si è verificato un problema nell'invio dell'email. Riprova più tardi o contattaci direttamente.",
+        description:
+          "Si è verificato un problema nell'invio dell'email. Riprova più tardi o contattaci direttamente.",
         variant: "destructive",
       });
       return false;
@@ -124,7 +130,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
     setIsSubmitting(true);
 
     const emailSent = await sendEmail();
-    
+
     if (emailSent) {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -175,7 +181,10 @@ const BookingForm = ({ className }: BookingFormProps) => {
 
       {showKeyInput && (
         <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
-          <Label htmlFor="emailjs-key" className="font-semibold text-yellow-800 mb-2 block">
+          <Label
+            htmlFor="emailjs-key"
+            className="font-semibold text-yellow-800 mb-2 block"
+          >
             EmailJS Public Key (necessario per l'invio delle email)
           </Label>
           <Input
@@ -195,7 +204,8 @@ const BookingForm = ({ className }: BookingFormProps) => {
             >
               emailjs.com
             </a>{" "}
-            per creare un account, configurare un servizio e un template, quindi incolla qui la chiave pubblica.
+            per creare un account, configurare un servizio e un template, quindi
+            incolla qui la chiave pubblica.
           </p>
         </div>
       )}
