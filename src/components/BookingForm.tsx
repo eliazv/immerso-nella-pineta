@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from "react";
 import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,7 +17,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
 
-emailjs.init("service_qns60dh");
+// Initialize EmailJS with your service ID
+emailjs.init("service_8vct8zl");
 
 interface BookingFormProps {
   className?: string;
@@ -34,33 +36,12 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const [message, setMessage] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [emailjsPublicKey, setEmailjsPublicKey] = useState<string>("");
-  const [showKeyInput, setShowKeyInput] = useState<boolean>(false);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
   const totalGuests = adults + children;
 
   const sendEmail = async () => {
-    if (!emailjsPublicKey && !showKeyInput) {
-      setShowKeyInput(true);
-      toast({
-        title: "Email JS Setup Required",
-        description:
-          "Please enter your EmailJS public key to enable email sending.",
-      });
-      return false;
-    }
-
-    if (!emailjsPublicKey && showKeyInput) {
-      toast({
-        title: "Email JS Key Required",
-        description: "Please enter your EmailJS public key to proceed.",
-        variant: "destructive",
-      });
-      return false;
-    }
-
     try {
       const templateParams = {
         to_email: "zavattaelia@gmail.com",
@@ -80,14 +61,13 @@ const BookingForm = ({ className }: BookingFormProps) => {
         reply_to: email,
       };
 
-      const serviceId = "default_service";
+      const serviceId = "service_8vct8zl";
       const templateId = "template_booking";
 
       const response = await emailjs.send(
         serviceId,
         templateId,
-        templateParams,
-        emailjsPublicKey
+        templateParams
       );
 
       console.log("Email sent successfully:", response);
@@ -178,37 +158,6 @@ const BookingForm = ({ className }: BookingFormProps) => {
       <h3 className="font-serif text-xl font-medium mb-6">
         Richiedi prenotazione
       </h3>
-
-      {showKeyInput && (
-        <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
-          <Label
-            htmlFor="emailjs-key"
-            className="font-semibold text-yellow-800 mb-2 block"
-          >
-            EmailJS Public Key (necessario per l'invio delle email)
-          </Label>
-          <Input
-            id="emailjs-key"
-            value={emailjsPublicKey}
-            onChange={(e) => setEmailjsPublicKey(e.target.value)}
-            placeholder="Inserisci la tua chiave pubblica di EmailJS"
-            className="border-yellow-300 mb-2"
-          />
-          <p className="text-xs text-yellow-700">
-            È necessario configurare EmailJS per inviare email. Visita{" "}
-            <a
-              href="https://www.emailjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
-              emailjs.com
-            </a>{" "}
-            per creare un account, configurare un servizio e un template, quindi
-            incolla qui la chiave pubblica.
-          </p>
-        </div>
-      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="space-y-2">
