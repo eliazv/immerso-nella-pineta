@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from "react";
 import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
 
 // Initialize EmailJS with your service ID
-emailjs.init("service_8vct8zl");
+emailjs.init("cL0t8BEEWVW6SEE86");
 
 interface BookingFormProps {
   className?: string;
@@ -62,7 +61,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
       };
 
       const serviceId = "service_8vct8zl";
-      const templateId = "template_booking";
+      const templateId = "template_rbva3vf";
 
       const response = await emailjs.send(
         serviceId,
