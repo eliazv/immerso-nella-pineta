@@ -8,6 +8,9 @@ import {
   ShowerHead,
   Wifi,
   ChevronRight,
+  MapPin,
+  Calendar,
+  Utensils,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -267,6 +270,71 @@ const Index = () => {
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Attractions Preview Section */}
+      <section className="py-20 overflow-x-hidden">
+        <div className="container px-4 mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="scroll-reveal">
+              <div className="inline-flex items-center gap-2 bg-sea-light text-sea-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+                <MapPin className="h-4 w-4" />
+                <span>Scopri la zona</span>
+              </div>
+
+              <h2 className="font-serif text-3xl font-medium mb-6">
+                Attrazioni e consigli utili
+              </h2>
+
+              <p className="text-muted-foreground mb-6">
+                Scopri i migliori ristoranti, gli eventi locali, e i suggerimenti per 
+                rendere il tuo soggiorno indimenticabile. Abbiamo raccolto per te tutte le 
+                informazioni più utili sulla zona.
+              </p>
+
+              <div className="flex flex-col md:flex-row gap-6 mb-8">
+                <div className="flex items-start">
+                  <Utensils className="text-sea-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
+                  <div>
+                    <h3 className="font-medium">Ristoranti locali</h3>
+                    <p className="text-sm text-muted-foreground">
+                      I migliori ristoranti e pizzerie della zona
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <Calendar className="text-sea-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
+                  <div>
+                    <h3 className="font-medium">Eventi e attività</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Cosa fare durante il tuo soggiorno
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <Button asChild>
+                <Link to="/attractions">
+                  Scopri di più
+                  <ChevronRight className="ml-1 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="scroll-reveal">
+              <div className="relative">
+                <div className="aspect-[4/3] rounded-xl overflow-hidden">
+                  <img
+                    src="https://www.visitcervia.it/wp-content/uploads/2019/06/lungomare_pinarella_tagliata.jpg"
+                    alt="Lungomare di Pinarella"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="absolute -bottom-6 -right-6 -z-10 w-full h-full bg-sea-light rounded-xl" />
+              </div>
             </div>
           </div>
         </div>

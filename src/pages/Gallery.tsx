@@ -43,20 +43,20 @@ const Gallery = () => {
             <div className="mt-16 text-center animate-fade-in">
               <h2 className="font-serif text-2xl font-medium mb-4">La nostra posizione</h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                L'appartamento si trova in una posizione ideale, a soli 200 metri dalla pineta 
+                L'appartamento si trova in una posizione ideale, in Via Vallombrosa 10, a soli 200 metri dalla pineta 
                 e a 5 minuti a piedi dalle splendide spiagge di Pinarella di Cervia.
               </p>
               
               <div className="aspect-[16/9] max-w-4xl mx-auto rounded-xl overflow-hidden border border-border">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11513.585038369447!2d12.32975037565047!3d44.26420099382092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132cb379cc3883ef%3A0x5d0d1274825bdaf5!2s48015%20Pinarella%20RA!5e0!3m2!1sit!2sit!4v1685123456789!5m2!1sit!2sit" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2861.4594899133296!2d12.342095476954382!3d44.265698271082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132cb3792b13fb41%3A0x43c34fb88847c5b4!2sVia%20Vallombrosa%2C%2010%2C%2048015%20Pinarella%20RA!5e0!3m2!1sit!2sit!4v1712756903345!5m2!1sit!2sit" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
                   allowFullScreen 
                   loading="lazy" 
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Mappa di Pinarella"
+                  title="Mappa di Pinarella - Via Vallombrosa 10"
                 />
               </div>
             </div>
