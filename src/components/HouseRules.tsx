@@ -1,3 +1,4 @@
+
 import React from "react";
 import { cn } from "@/lib/utils";
 import {
@@ -10,6 +11,9 @@ import {
   ChevronDown,
   Mail,
   Phone,
+  CalendarDays,
+  Video,
+  ChevronRight,
 } from "lucide-react";
 import {
   Accordion,
@@ -17,6 +21,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface RulesListProps {
   className?: string;
@@ -139,6 +144,105 @@ const HouseRules = ({ className }: RulesListProps) => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+      </div>
+
+      <div className="p-6 rounded-xl border border-border bg-card/50">
+        <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
+          <CalendarDays className="mr-2 h-5 w-5 text-pine-dark" />
+          Calendario Raccolta Rifiuti
+        </h3>
+        <Collapsible className="w-full">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
+            <span className="text-sm font-medium">Visualizza calendario</span>
+            <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-4">
+            <p className="text-sm mb-4">
+              A Pinarella è attivo il sistema di raccolta differenziata porta a porta. Vi preghiamo di rispettare il calendario della raccolta per contribuire a mantenere pulito e sostenibile il nostro ambiente.
+            </p>
+            
+            <div className="aspect-auto w-full mb-6">
+              <object
+                data="https://drive.google.com/file/d/1N8HQg5BPYv9BtOivz9wr526nfutmxKu9/preview"
+                type="application/pdf"
+                width="100%"
+                height="300px"
+                className="rounded-lg border border-border"
+              >
+                <div className="bg-muted p-4 rounded-lg text-center">
+                  <p>Impossibile visualizzare il PDF direttamente.</p>
+                  <a
+                    href="https://drive.google.com/file/d/1N8HQg5BPYv9BtOivz9wr526nfutmxKu9/view"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Clicca qui per visualizzare il calendario
+                  </a>
+                </div>
+              </object>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div className="bg-pine-light/30 rounded-lg p-3">
+                <h4 className="font-medium text-sm mb-1">Organico</h4>
+                <p className="text-xs">Lunedì, Mercoledì, Venerdì, Sabato</p>
+              </div>
+              <div className="bg-blue-100 rounded-lg p-3">
+                <h4 className="font-medium text-sm mb-1">Carta e Cartone</h4>
+                <p className="text-xs">Martedì</p>
+              </div>
+              <div className="bg-yellow-100 rounded-lg p-3">
+                <h4 className="font-medium text-sm mb-1">Plastica e Lattine</h4>
+                <p className="text-xs">Giovedì</p>
+              </div>
+              <div className="bg-gray-100 rounded-lg p-3">
+                <h4 className="font-medium text-sm mb-1">Indifferenziato</h4>
+                <p className="text-xs">Sabato</p>
+              </div>
+            </div>
+            
+            <p className="text-xs text-muted-foreground">
+              Nel nostro appartamento troverete i contenitori per la raccolta differenziata. Vi chiediamo gentilmente di buttare i rifiuti nei bidoni all'esterno la sera prima del giorno di raccolta.
+            </p>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+
+      <div className="p-6 rounded-xl border border-border bg-card/50">
+        <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
+          <Video className="mr-2 h-5 w-5 text-pine-dark" />
+          Istruzioni Macchina Caffè
+        </h3>
+        <Collapsible className="w-full">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
+            <span className="text-sm font-medium">Visualizza istruzioni</span>
+            <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-4">
+            <div className="aspect-video w-full rounded-lg overflow-hidden mb-4">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/qd90HdASCKc"
+                title="Istruzioni Macchina Caffè"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              <p className="mb-3">La nostra macchina per il caffè è facile da usare, ma ecco alcune istruzioni utili:</p>
+              <ol className="list-decimal pl-4 space-y-2">
+                <li>Assicuratevi che il serbatoio dell'acqua sia riempito almeno fino al livello minimo.</li>
+                <li>Inserite la cialda nell'apposito vano dopo aver sollevato la leva.</li>
+                <li>Abbassate la leva e premete il pulsante per il tipo di caffè desiderato.</li>
+                <li>Attendete che l'erogazione sia completata.</li>
+                <li>Non dimenticate di rimuovere la cialda usata dopo aver preparato il caffè.</li>
+              </ol>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
 
       <div className="p-6 rounded-xl border border-border bg-card/50">

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BookingForm from '@/components/BookingForm';
-import AvailabilityCalendar from '@/components/AvailabilityCalendar';
 
 const Book = () => {
   useEffect(() => {
@@ -26,14 +25,8 @@ const Book = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-              <div className="order-2 lg:order-1">
-                <AvailabilityCalendar className="animate-scale-in" />
-              </div>
-              
-              <div className="order-1 lg:order-2">
-                <BookingForm />
-              </div>
+            <div className="max-w-2xl mx-auto">
+              <BookingForm />
             </div>
           </div>
         </section>

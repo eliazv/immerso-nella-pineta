@@ -1,5 +1,6 @@
+
 import React, { useState, useRef } from "react";
-import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
+import { Calendar as CalendarIcon, Check, Loader2, Link } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import emailjs from "@emailjs/browser";
 
 // Initialize EmailJS with your service ID
@@ -39,6 +41,12 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const totalGuests = adults + children;
+  
+  // Sample unavailable dates (in a real implementation, these would come from the Google Calendar)
+  const disabledDates = [
+    { from: new Date(2024, 6, 1), to: new Date(2024, 6, 15) }, // July 1-15
+    { from: new Date(2024, 7, 10), to: new Date(2024, 7, 20) }, // August 10-20
+  ];
 
   const sendEmail = async () => {
     try {
@@ -157,6 +165,22 @@ const BookingForm = ({ className }: BookingFormProps) => {
       <h3 className="font-serif text-xl font-medium mb-6">
         Richiedi prenotazione
       </h3>
+      
+      <Alert className="mb-6">
+        <CalendarIcon className="h-4 w-4" />
+        <AlertTitle>Disponibilità</AlertTitle>
+        <AlertDescription className="mt-2">
+          Per vedere la disponibilità aggiornata in tempo reale, consultare il nostro <a 
+            href="https://calendar.google.com/calendar/u/1?cid=MDhjMDg1ZTEyZWVkZTVmNTY4ZWQ4ZmViMDk5ZjlmZjA1NGFiMDc0N2UyYTgyMmZhZjE4ZmI3M2I5MGU0MTgzNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary font-medium hover:underline inline-flex items-center"
+          >
+            Google Calendar
+            <Link className="h-3 w-3 ml-1" />
+          </a>.
+        </AlertDescription>
+      </Alert>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="space-y-2">
@@ -183,8 +207,12 @@ const BookingForm = ({ className }: BookingFormProps) => {
                 selected={checkIn}
                 onSelect={setCheckIn}
                 initialFocus
-                disabled={(date) => date < new Date()}
+                disabled={[
+                  { before: new Date() },
+                  ...disabledDates
+                ]}
                 locale={it}
+                className="rounded-md border pointer-events-auto"
               />
             </PopoverContent>
           </Popover>
@@ -214,12 +242,27 @@ const BookingForm = ({ className }: BookingFormProps) => {
                 selected={checkOut}
                 onSelect={setCheckOut}
                 initialFocus
-                disabled={(date) => !checkIn || date <= checkIn}
+                disabled={[
+                  { before: checkIn || new Date() },
+                  ...disabledDates
+                ]}
                 locale={it}
+                className="rounded-md border pointer-events-auto"
               />
             </PopoverContent>
           </Popover>
         </div>
+      </div>
+
+      <div className="text-right mb-4">
+        <a
+          href="https://calendar.google.com/calendar/u/1?cid=MDhjMDg1ZTEyZWVkZTVmNTY4ZWQ4ZmViMDk5ZjlmZjA1NGFiMDc0N2UyYTgyMmZhZjE4ZmI3M2I5MGU0MTgzNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-primary hover:underline"
+        >
+          Verifica disponibilità completa
+        </a>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
