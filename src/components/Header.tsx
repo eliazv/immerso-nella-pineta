@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { TreePine, Waves, Home, Image, ScrollText, Calendar } from 'lucide-react';
+import { TreePine, Waves, Home, Image, ScrollText, Calendar, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Header = () => {
@@ -21,6 +21,7 @@ const Header = () => {
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Galleria', href: '/gallery', icon: Image },
+    { name: 'Attrazioni', href: '/attractions', icon: MapPin },
     { name: 'Regole', href: '/rules', icon: ScrollText },
     { name: 'Prenota', href: '/book', icon: Calendar },
   ];

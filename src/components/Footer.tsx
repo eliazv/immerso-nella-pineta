@@ -1,3 +1,4 @@
+
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -47,6 +48,9 @@ const Footer = ({ className }: { className?: string }) => {
                 <Mail className="h-5 w-5" />
               </a>
             </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              CIN: IT039007C2RWYMLE52
+            </p>
           </div>
 
           <div>
@@ -68,6 +72,14 @@ const Footer = ({ className }: { className?: string }) => {
                   className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
                 >
                   Galleria foto
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/attractions"
+                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                >
+                  Attrazioni
                 </Link>
               </li>
               <li>

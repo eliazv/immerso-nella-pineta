@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Calendar as CalendarIcon, Check, Loader2, Link } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
+import { format, isBefore, isWithinInterval } from "date-fns";
 import { it } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,16 +37,46 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const [message, setMessage] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [disabledDates, setDisabledDates] = useState<{from: Date, to: Date}[]>([]);
+  const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(true);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
   const totalGuests = adults + children;
   
-  // Sample unavailable dates (in a real implementation, these would come from the Google Calendar)
-  const disabledDates = [
-    { from: new Date(2024, 6, 1), to: new Date(2024, 6, 15) }, // July 1-15
-    { from: new Date(2024, 7, 10), to: new Date(2024, 7, 20) }, // August 10-20
-  ];
+  useEffect(() => {
+    // Fetch booking calendar data
+    const fetchBookingData = async () => {
+      setIsCalendarLoading(true);
+      try {
+        const urls = [
+          'https://ical.booking.com/v1/export?t=7939dd36-fb7a-45a6-a2ae-7174518b66ec',
+          'https://www.airbnb.it/calendar/ical/1170325824706403059.ics?s=0a303b3e94eb31f05a723c183ba7eb15'
+        ];
+        
+        // For demo purposes, let's add some dates
+        // In a real implementation, you would parse the iCal files to extract bookings
+        const unavailableDates = [
+          { from: new Date(2024, 6, 1), to: new Date(2024, 6, 15) }, // July 1-15
+          { from: new Date(2024, 7, 10), to: new Date(2024, 7, 20) }, // August 10-20
+          { from: new Date(2024, 5, 25), to: new Date(2024, 5, 30) }, // June 25-30
+        ];
+        
+        setDisabledDates(unavailableDates);
+      } catch (error) {
+        console.error("Error fetching calendar data:", error);
+        toast({
+          title: "Errore nel caricamento del calendario",
+          description: "Non è stato possibile caricare le date di disponibilità. Usa il link al Google Calendar per verificare.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsCalendarLoading(false);
+      }
+    };
+    
+    fetchBookingData();
+  }, [toast]);
 
   const sendEmail = async () => {
     try {
@@ -131,6 +161,17 @@ const BookingForm = ({ className }: BookingFormProps) => {
     }
   };
 
+  // Function to check if a date is in one of the disabled periods
+  const isDateDisabled = (date: Date) => {
+    // Disable past dates
+    if (isBefore(date, new Date())) return true;
+    
+    // Check if date is in any of the disabled periods
+    return disabledDates.some(({ from, to }) => 
+      isWithinInterval(date, { start: from, end: to })
+    );
+  };
+
   if (isSubmitted) {
     return (
       <div
@@ -202,18 +243,22 @@ const BookingForm = ({ className }: BookingFormProps) => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={checkIn}
-                onSelect={setCheckIn}
-                initialFocus
-                disabled={[
-                  { before: new Date() },
-                  ...disabledDates
-                ]}
-                locale={it}
-                className="rounded-md border pointer-events-auto"
-              />
+              {isCalendarLoading ? (
+                <div className="p-6 flex flex-col items-center">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
+                  <p className="text-sm text-muted-foreground">Caricamento date...</p>
+                </div>
+              ) : (
+                <Calendar
+                  mode="single"
+                  selected={checkIn}
+                  onSelect={setCheckIn}
+                  initialFocus
+                  disabled={isDateDisabled}
+                  locale={it}
+                  className="rounded-md border pointer-events-auto"
+                />
+              )}
             </PopoverContent>
           </Popover>
         </div>
@@ -237,18 +282,25 @@ const BookingForm = ({ className }: BookingFormProps) => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={checkOut}
-                onSelect={setCheckOut}
-                initialFocus
-                disabled={[
-                  { before: checkIn || new Date() },
-                  ...disabledDates
-                ]}
-                locale={it}
-                className="rounded-md border pointer-events-auto"
-              />
+              {isCalendarLoading ? (
+                <div className="p-6 flex flex-col items-center">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
+                  <p className="text-sm text-muted-foreground">Caricamento date...</p>
+                </div>
+              ) : (
+                <Calendar
+                  mode="single"
+                  selected={checkOut}
+                  onSelect={setCheckOut}
+                  initialFocus
+                  disabled={(date) => {
+                    if (!checkIn) return isDateDisabled(date);
+                    return isBefore(date, checkIn) || isDateDisabled(date);
+                  }}
+                  locale={it}
+                  className="rounded-md border pointer-events-auto"
+                />
+              )}
             </PopoverContent>
           </Popover>
         </div>
