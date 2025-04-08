@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ScrollText, ChevronRight } from 'lucide-react';
+import { ScrollText, ChevronRight, FileText, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -33,6 +33,15 @@ const Rules = () => {
                 Informazioni utili e regole della casa per rendere il tuo soggiorno 
                 piacevole e senza sorprese.
               </p>
+              <div className="flex justify-center">
+                <Button asChild variant="outline" className="gap-2">
+                  <Link to="/rules/pdf" target="_blank">
+                    <FileText className="h-4 w-4" />
+                    <span>Versione stampabile PDF</span>
+                    <Printer className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -71,6 +80,17 @@ const Rules = () => {
                     <ChevronRight className="ml-1 h-4 w-4" />
                   </Link>
                 </Button>
+              </div>
+              
+              <div className="mt-6 text-center">
+                <Link 
+                  to="/rules/pdf" 
+                  target="_blank"
+                  className="text-pine-dark hover:underline inline-flex items-center gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  <span>Visualizza versione stampabile delle regole</span>
+                </Link>
               </div>
             </div>
           </div>
