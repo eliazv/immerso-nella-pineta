@@ -56,7 +56,7 @@ const HouseRulesPDF = () => {
               Regole della Casa
             </h2>
             <div className="space-y-4 print:space-y-2 print:text-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:gap-2">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:gap-2">
                 <div className="p-3 print:p-2 border rounded-md">
                   <h3 className="font-medium mb-2 print:mb-1">Orari</h3>
                   <ul className="space-y-1 text-sm print:text-xs">
@@ -82,7 +82,7 @@ const HouseRulesPDF = () => {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </div> */}
 
               <div className="p-3 print:p-2 border rounded-md">
                 <h3 className="font-medium mb-2 print:mb-1">
@@ -94,8 +94,8 @@ const HouseRulesPDF = () => {
                     <span>Animali domestici ammessi</span>
                   </li>
                   <li className="flex items-center gap-1">
-                    <span className="text-pine-dark">✓</span>
-                    <span>Check-in autonomo con cassetta di sicurezza</span>
+                    <span className="text-destructive">✗</span>
+                    <span>No feste o eventi</span>
                   </li>
                   <li className="flex items-center gap-1">
                     <span className="text-pine-dark">✓</span>
@@ -103,12 +103,14 @@ const HouseRulesPDF = () => {
                   </li>
                   <li className="flex items-center gap-1">
                     <span className="text-destructive">✗</span>
-                    <span>No feste o eventi</span>
+                    <span>Non è consentito fumare</span>
                   </li>
+                  <li></li>
                   <li className="flex items-center gap-1">
                     <span className="text-destructive">✗</span>
                     <span>Non è consentito fumare</span>
                   </li>
+                  {/* no ospiti extra */}
                 </ul>
               </div>
               <div className="p-3 print:p-2 border rounded-md">
@@ -145,12 +147,10 @@ const HouseRulesPDF = () => {
                   <h3 className="font-medium mb-1">Supermercati vicini:</h3>
                   <ul className="list-disc pl-5 space-y-1">
                     <li>
-                      Conad: Via Mezzanotte, 1b, 48015 Cervia RA (200m, aperto
-                      da giugno a settembre)
+                      Svelto A&O: Via Mezzanotte, 1b, 48015 Cervia RA (200m,
+                      aperto da giugno a settembre)
                     </li>
-                    <li>
-                      Svelto A&O: Viale Europa Unita, 4, 48015 Cervia RA (2km)
-                    </li>
+                    <li>Conad: Viale Europa Unita, 4, 48015 Cervia RA (2km)</li>
                   </ul>
                 </li>
                 <li>
