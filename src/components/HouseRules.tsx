@@ -150,10 +150,9 @@ const HouseRules = ({ className }: RulesListProps) => {
                 Entro il primo giorno di soggiorno, sarà necessario fornire le
                 copie dei documenti. Tassa di soggiorno: €1 a notte per ogni
                 adulto (dai 15 anni in su), applicabile dal 1° maggio al 30
-                settembre, fino a un massimo di 7 notti. Può essere lasciata sul
-                tavolo in contanti al momento del check-out, inviata tramite
-                PayPal, Satispay ai contatti indicati sopra o bonifico bancario
-                (IBAN: IT92W0357601601010002973340).
+                settembre, fino a un massimo di 7 notti. Può essere inviata
+                tramite PayPal, Satispay ai contatti indicati sopra o bonifico
+                bancario (IBAN: IT92W0357601601010002973340).
               </p>
             </AccordionContent>
           </AccordionItem>

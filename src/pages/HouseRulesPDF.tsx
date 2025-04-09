@@ -141,9 +141,8 @@ const HouseRulesPDF = () => {
                 </h3>
                 <p className="text-sm print:text-xs">
                   €1 a notte per ogni ospite dai 15 anni in su, dal 1° maggio al
-                  30 settembre (max 7 notti). Può essere lasciata in contanti
-                  nell'appartamento al check-out o inviata via PayPal, Satispay
-                  (contatti sopra) o bonifico (IBAN:
+                  30 settembre (max 7 notti). Può essere inviata via PayPal,
+                  Satispay (contatti sopra) o bonifico (IBAN:
                   IT92W0357601601010002973340).
                 </p>
               </div>
