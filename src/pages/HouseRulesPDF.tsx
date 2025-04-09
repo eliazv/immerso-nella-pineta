@@ -133,6 +133,7 @@ const HouseRulesPDF = () => {
 
           <section>
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
+              <FileText className="h-5 w-5" />
               Consigli utili
             </h2>
             <div className="space-y-4 print:space-y-2 print:text-sm">
@@ -193,6 +194,7 @@ const HouseRulesPDF = () => {
 
           <section>
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
+              <ExternalLink className="h-5 w-5" />
               Contatti
             </h2>
             <div className="p-3 print:p-2 border rounded-md">
@@ -211,6 +213,7 @@ const HouseRulesPDF = () => {
 
           <section>
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
+              <FileText className="h-5 w-5" />
               Note importanti
             </h2>
             <div className="space-y-4 print:space-y-2 print:text-sm">
@@ -228,9 +231,12 @@ const HouseRulesPDF = () => {
                   Tassa di soggiorno:
                 </h3>
                 <p className="text-sm print:text-xs">
-                  €1 per notte per adulto (dai 15 anni in su), applicabile dal
-                  1° maggio al 30 settembre per un massimo di 7 notti. PayPal o
-                  satispay TODO
+                  Tassa di soggiorno: €1 a notte per ogni adulto (dai 15 anni in
+                  su), applicabile dal 1° maggio al 30 settembre, fino a un
+                  massimo di 7 notti. Può essere lasciata sul tavolo in contanti
+                  al momento del check-out, inviata tramite PayPal, Satispay ai
+                  contatti indicati sopra o bonifico bancario (IBAN:
+                  IT92W0357601601010002973340).
                 </p>
               </div>
             </div>
