@@ -135,35 +135,37 @@ const HouseRulesPDF = () => {
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
               Consigli utili
             </h2>
-            <div className="p-3 print:p-2 border rounded-md">
-              <h3 className="font-medium mb-2 print:mb-1">
-                Supermercati vicini:
-              </h3>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>
-                  Svelto A&O: Via Mezzanotte, 1b, 48015 Cervia RA (200m, aperto
-                  da giugno a settembre)
-                </li>
-                <li>Conad: Viale Europa Unita, 4, 48015 Cervia RA (2km)</li>
-              </ul>
-            </div>
-            <div className="p-3 print:p-2 border rounded-md">
-              <h3 className="font-medium mb-2 print:mb-1">Spiaggia:</h3>
-              <p>
-                Le spiagge di Pinarella sono a 5 minuti a piedi. La prima
-                spiaggia libera vicino all'appartamento dista 700 metri (circa 9
-                minuti a piedi) ed è situata di fianco al Bagno 59 (Via Arenile
-                Demaniale, 59, 48015 Cervia RA).
-              </p>
-            </div>
-            <div className="p-3 print:p-2 border rounded-md">
-              <h3 className="font-medium mb-2 print:mb-1">
-                Raccolta differenziata - Calendario raccolta porta a porta
-              </h3>
-              <p>
-                Organico: Martedì, Venerdì, Domenica. Indifferenziato: Sabato.
-                Per soggiorni brevi ci occuperemo noi dello smaltimento.
-              </p>
+            <div className="space-y-4 print:space-y-2 print:text-sm">
+              <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">
+                  Supermercati vicini:
+                </h3>
+                <ul className="list-disc pl-5 space-y-1 text-sm print:text-xs">
+                  <li>
+                    Svelto A&O: Via Mezzanotte, 1b, 48015 Cervia RA (200m,
+                    aperto da giugno a settembre)
+                  </li>
+                  <li>Conad: Viale Europa Unita, 4, 48015 Cervia RA (2km)</li>
+                </ul>
+              </div>
+              <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">Spiaggia:</h3>
+                <p className="text-sm print:text-xs">
+                  Le spiagge di Pinarella sono a 5 minuti a piedi. La prima
+                  spiaggia libera vicino all'appartamento dista 700 metri (circa
+                  9 minuti a piedi) ed è situata di fianco al Bagno 59 (Via
+                  Arenile Demaniale, 59, 48015 Cervia RA).
+                </p>
+              </div>
+              <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">
+                  Raccolta differenziata - Calendario raccolta porta a porta
+                </h3>
+                <p className="text-sm print:text-xs">
+                  Organico: Martedì, Venerdì, Domenica. Indifferenziato: Sabato.
+                  Per soggiorni brevi ci occuperemo noi dello smaltimento.
+                </p>
+              </div>
             </div>
           </section>
         </div>
@@ -211,23 +213,26 @@ const HouseRulesPDF = () => {
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
               Note importanti
             </h2>
-
-            <div className="p-3 print:p-2 border rounded-md">
-              <h3 className="font-medium mb-2 print:mb-1">
-                Registrazione ospiti:
-              </h3>
-              <span>
-                Entro il primo giorno di soggiorno, sarà necessario fornire le
-                copie dei documenti.
-              </span>
-            </div>
-            <div className="p-3 print:p-2 border rounded-md">
-              <h3 className="font-medium mb-2 print:mb-1">
-                Tassa di soggiorno:
-              </h3>
-              €1 per notte per adulto (dai 15 anni in su), applicabile dal 1°
-              maggio al 30 settembre per un massimo di 7 notti. PayPal o
-              satispay TODO
+            <div className="space-y-4 print:space-y-2 print:text-sm">
+              <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">
+                  Registrazione ospiti:
+                </h3>
+                <p className="text-sm print:text-xs">
+                  Entro il primo giorno di soggiorno, sarà necessario fornire le
+                  copie dei documenti.
+                </p>
+              </div>
+              <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">
+                  Tassa di soggiorno:
+                </h3>
+                <p className="text-sm print:text-xs">
+                  €1 per notte per adulto (dai 15 anni in su), applicabile dal
+                  1° maggio al 30 settembre per un massimo di 7 notti. PayPal o
+                  satispay TODO
+                </p>
+              </div>
             </div>
           </section>
         </div>
