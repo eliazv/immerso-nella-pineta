@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Calendar as CalendarIcon, Check, Loader2, Link } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -15,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import emailjs from "@emailjs/browser";
 
 // Initialize EmailJS with your service ID
@@ -37,23 +36,25 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const [message, setMessage] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [disabledDates, setDisabledDates] = useState<{from: Date, to: Date}[]>([]);
+  const [disabledDates, setDisabledDates] = useState<
+    { from: Date; to: Date }[]
+  >([]);
   const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(true);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
   const totalGuests = adults + children;
-  
+
   useEffect(() => {
     // Fetch booking calendar data
     const fetchBookingData = async () => {
       setIsCalendarLoading(true);
       try {
         const urls = [
-          'https://ical.booking.com/v1/export?t=7939dd36-fb7a-45a6-a2ae-7174518b66ec',
-          'https://www.airbnb.it/calendar/ical/1170325824706403059.ics?s=0a303b3e94eb31f05a723c183ba7eb15'
+          "https://ical.booking.com/v1/export?t=7939dd36-fb7a-45a6-a2ae-7174518b66ec",
+          "https://www.airbnb.it/calendar/ical/1170325824706403059.ics?s=0a303b3e94eb31f05a723c183ba7eb15",
         ];
-        
+
         // For demo purposes, let's add some dates
         // In a real implementation, you would parse the iCal files to extract bookings
         const unavailableDates = [
@@ -61,20 +62,21 @@ const BookingForm = ({ className }: BookingFormProps) => {
           { from: new Date(2024, 7, 10), to: new Date(2024, 7, 20) }, // August 10-20
           { from: new Date(2024, 5, 25), to: new Date(2024, 5, 30) }, // June 25-30
         ];
-        
+
         setDisabledDates(unavailableDates);
       } catch (error) {
         console.error("Error fetching calendar data:", error);
         toast({
           title: "Errore nel caricamento del calendario",
-          description: "Non è stato possibile caricare le date di disponibilità. Usa il link al Google Calendar per verificare.",
+          description:
+            "Non è stato possibile caricare le date di disponibilità. Usa il link al Google Calendar per verificare.",
           variant: "destructive",
         });
       } finally {
         setIsCalendarLoading(false);
       }
     };
-    
+
     fetchBookingData();
   }, [toast]);
 
@@ -165,9 +167,9 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const isDateDisabled = (date: Date) => {
     // Disable past dates
     if (isBefore(date, new Date())) return true;
-    
+
     // Check if date is in any of the disabled periods
-    return disabledDates.some(({ from, to }) => 
+    return disabledDates.some(({ from, to }) =>
       isWithinInterval(date, { start: from, end: to })
     );
   };
@@ -206,8 +208,8 @@ const BookingForm = ({ className }: BookingFormProps) => {
       <h3 className="font-serif text-xl font-medium mb-6">
         Richiedi prenotazione
       </h3>
-      
-      <Alert className="mb-6">
+
+      {/* <Alert className="mb-6">
         <CalendarIcon className="h-4 w-4" />
         <AlertTitle>Disponibilità</AlertTitle>
         <AlertDescription className="mt-2">
@@ -221,7 +223,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
             <Link className="h-3 w-3 ml-1" />
           </a>.
         </AlertDescription>
-      </Alert>
+      </Alert> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="space-y-2">
@@ -246,7 +248,9 @@ const BookingForm = ({ className }: BookingFormProps) => {
               {isCalendarLoading ? (
                 <div className="p-6 flex flex-col items-center">
                   <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
-                  <p className="text-sm text-muted-foreground">Caricamento date...</p>
+                  <p className="text-sm text-muted-foreground">
+                    Caricamento date...
+                  </p>
                 </div>
               ) : (
                 <Calendar
@@ -285,7 +289,9 @@ const BookingForm = ({ className }: BookingFormProps) => {
               {isCalendarLoading ? (
                 <div className="p-6 flex flex-col items-center">
                   <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
-                  <p className="text-sm text-muted-foreground">Caricamento date...</p>
+                  <p className="text-sm text-muted-foreground">
+                    Caricamento date...
+                  </p>
                 </div>
               ) : (
                 <Calendar
@@ -306,7 +312,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
         </div>
       </div>
 
-      <div className="text-right mb-4">
+      {/* <div className="text-right mb-4">
         <a
           href="https://calendar.google.com/calendar/u/1?cid=MDhjMDg1ZTEyZWVkZTVmNTY4ZWQ4ZmViMDk5ZjlmZjA1NGFiMDc0N2UyYTgyMmZhZjE4ZmI3M2I5MGU0MTgzNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
           target="_blank"
@@ -315,7 +321,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
         >
           Verifica disponibilità completa
         </a>
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="space-y-2">
