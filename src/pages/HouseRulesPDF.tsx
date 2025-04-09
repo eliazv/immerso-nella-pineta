@@ -71,11 +71,16 @@ const HouseRulesPDF = () => {
                   </ul>
                 </div>
                 <div className="p-3 print:p-2 border rounded-md">
-                  <h3 className="font-medium mb-2 print:mb-1">Parcheggio</h3>
-                  <p className="text-sm print:text-xs">
-                    Gli ospiti possono parcheggiare unicamente nel parcheggio di
-                    fronte all'appartamento, identificato dal numero 3.
-                  </p>
+                  <ul className="space-y-2 print:space-y-1 text-sm print:text-xs">
+                    <li className="flex flex-col">
+                      <span className="font-medium">Telefono:</span>
+                      <span>+39 3938932793</span>
+                    </li>
+                    <li className="flex flex-col">
+                      <span className="font-medium">Email:</span>
+                      <span>zavattaelia@gmail.com</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -110,13 +115,22 @@ const HouseRulesPDF = () => {
                 <h3 className="font-medium mb-2 print:mb-1">Check Out</h3>
                 <ul className="space-y-1 text-sm print:text-xs">
                   <li>
-                    <span className="font-medium">AA:</span> Lasciare chaivi
-                    nella cassettina di sicurezza.
+                    Spegnere tutte le luci e gli elettrodomestici che avete
+                    acceso.
                   </li>
                   <li>
-                    <span className="font-medium">TODO:</span> todo
+                    Assicurarsi di chiudere a chiave la porta principale.
+                    Chiudere anche le finestre.
                   </li>
+                  <li>Riporre le chiavi nella cassettina di sicurezza.</li>
                 </ul>
+              </div>
+              <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">Parcheggio</h3>
+                <p className="text-sm print:text-xs">
+                  Gli ospiti possono parcheggiare unicamente nel parcheggio di
+                  fronte all'appartamento, identificato dal numero 3.
+                </p>
               </div>
             </div>
           </section>
