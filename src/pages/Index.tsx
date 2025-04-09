@@ -53,7 +53,7 @@ const Index = () => {
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/70cdc17b-b1f7-462e-9751-c2071478d2ce.jpeg?q=80&w=1920&auto=format&fit=crop"
+            src="https://www.pinarellavillage.com/images/slider/1.jpg"
             alt="Pineta di Cervia"
             className="object-cover w-full h-full"
           />
@@ -290,9 +290,10 @@ const Index = () => {
               </h2>
 
               <p className="text-muted-foreground mb-6">
-                Scopri i migliori ristoranti, gli eventi locali, e i suggerimenti per 
-                rendere il tuo soggiorno indimenticabile. Abbiamo raccolto per te tutte le 
-                informazioni più utili sulla zona.
+                Scopri i migliori ristoranti, gli eventi locali, e i
+                suggerimenti per rendere il tuo soggiorno indimenticabile.
+                Abbiamo raccolto per te tutte le informazioni più utili sulla
+                zona.
               </p>
 
               <div className="flex flex-col md:flex-row gap-6 mb-8">
@@ -328,7 +329,7 @@ const Index = () => {
               <div className="relative">
                 <div className="aspect-[4/3] rounded-xl overflow-hidden">
                   <img
-                    src="https://www.visitcervia.it/wp-content/uploads/2019/06/lungomare_pinarella_tagliata.jpg"
+                    src="https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg"
                     alt="Lungomare di Pinarella"
                     className="object-cover w-full h-full"
                   />
