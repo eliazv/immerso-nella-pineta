@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { QrCode, FileText, ExternalLink } from "lucide-react";
+import {
+  QrCode,
+  FileText,
+  ExternalLink,
+  Contact,
+  Sparkles,
+  Info,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const HouseRulesPDF = () => {
@@ -105,20 +112,20 @@ const HouseRulesPDF = () => {
                     <span className="text-destructive">✗</span>
                     <span>Non è consentito fumare</span>
                   </li>
+                  <li className="flex items-center gap-1 md:col-span-2">
+                    <span className="text-destructive">✗</span>
+                    <span>
+                      Non accendere molti elettrodomestici simultaneamente
+                    </span>
+                  </li>
                 </ul>
               </div>
               <div className="p-3 print:p-2 border rounded-md">
                 <h3 className="font-medium mb-2 print:mb-1">Check Out</h3>
-                <ul className="space-y-1 text-sm print:text-xs">
-                  <li>
-                    Spegnere tutte le luci e gli elettrodomestici che avete
-                    acceso.
-                  </li>
-                  <li>
-                    Assicurarsi di chiudere a chiave la porta principale.
-                    Chiudere anche le finestre.
-                  </li>
-                  <li>Riporre le chiavi nella cassettina di sicurezza.</li>
+                <ul className="list-disc pl-5 space-y-1 text-sm print:text-xs">
+                  <li>Spegnete tutte le luci ed elettrodomestici accesi.</li>
+                  <li>Chiudete a chiave la porta principale e le finestre.</li>
+                  <li>Riponete le chiavi nella cassettina di sicurezza.</li>
                 </ul>
               </div>
               <div className="p-3 print:p-2 border rounded-md">
@@ -128,12 +135,24 @@ const HouseRulesPDF = () => {
                   fronte all'appartamento, identificato dal numero 3.
                 </p>
               </div>
+              <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">
+                  Tassa di soggiorno:
+                </h3>
+                <p className="text-sm print:text-xs">
+                  €1 a notte per ogni ospite dai 15 anni in su, dal 1° maggio al
+                  30 settembre (max 7 notti). Può essere lasciata in contanti
+                  nell'appartamento al check-out o inviata via PayPal, Satispay
+                  (contatti sopra) o bonifico (IBAN:
+                  IT92W0357601601010002973340).
+                </p>
+              </div>
             </div>
           </section>
 
           <section>
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
-              <FileText className="h-5 w-5" />
+              <Sparkles className="h-5 w-5" />
               Consigli utili
             </h2>
             <div className="space-y-4 print:space-y-2 print:text-sm">
@@ -158,15 +177,6 @@ const HouseRulesPDF = () => {
                   Arenile Demaniale, 59, 48015 Cervia RA).
                 </p>
               </div>
-              <div className="p-3 print:p-2 border rounded-md">
-                <h3 className="font-medium mb-2 print:mb-1">
-                  Raccolta differenziata - Calendario raccolta porta a porta
-                </h3>
-                <p className="text-sm print:text-xs">
-                  Organico: Martedì, Venerdì, Domenica. Indifferenziato: Sabato.
-                  Per soggiorni brevi ci occuperemo noi dello smaltimento.
-                </p>
-              </div>
             </div>
           </section>
         </div>
@@ -181,20 +191,20 @@ const HouseRulesPDF = () => {
             <div className="p-4 print:p-2 border rounded-md bg-white">
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-                  window.location.origin
+                  "https://bit.ly/immerso-nella-pineta"
                 )}`}
                 alt="QR Code"
                 className="w-32 h-32 print:w-28 print:h-28"
               />
             </div>
             <p className="text-center text-sm print:text-xs mt-2">
-              Scansiona per altre informazioni sulla zona e l'appartamento.
+              Scansiona per altre informazioni sull'appartamento e Pinarella.
             </p>
           </section>
 
           <section>
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
-              <ExternalLink className="h-5 w-5" />
+              <Contact className="h-5 w-5" />
               Contatti
             </h2>
             <div className="p-3 print:p-2 border rounded-md">
@@ -213,20 +223,29 @@ const HouseRulesPDF = () => {
 
           <section>
             <h2 className="font-serif text-xl font-medium mb-3 print:mb-2 flex items-center gap-2 text-pine-dark">
-              <FileText className="h-5 w-5" />
-              Note importanti
+              <Info className="h-5 w-5" />
+              Altre informazioni
             </h2>
             <div className="space-y-4 print:space-y-2 print:text-sm">
               <div className="p-3 print:p-2 border rounded-md">
                 <h3 className="font-medium mb-2 print:mb-1">
-                  Registrazione ospiti:
+                  Raccolta differenziata - Calendario raccolta porta a porta
                 </h3>
                 <p className="text-sm print:text-xs">
-                  Entro il primo giorno di soggiorno, sarà necessario fornire le
-                  copie dei documenti.
+                  Organico: Martedì, Venerdì, Domenica. Indifferenziato: Sabato.
+                  Per soggiorni brevi ci occuperemo noi dello smaltimento.
                 </p>
               </div>
               <div className="p-3 print:p-2 border rounded-md">
+                <h3 className="font-medium mb-2 print:mb-1">
+                  Lascia una recensione
+                </h3>
+                <p className="text-sm print:text-xs">
+                  Se hai apprezzato il tuo soggiorno, ti invitiamo a lasciare
+                  una recensione positiva. Il tuo feedback è importante per noi!
+                </p>
+              </div>
+              {/* <div className="p-3 print:p-2 border rounded-md">
                 <h3 className="font-medium mb-2 print:mb-1">
                   Tassa di soggiorno:
                 </h3>
@@ -238,7 +257,7 @@ const HouseRulesPDF = () => {
                   contatti indicati sopra o bonifico bancario (IBAN:
                   IT92W0357601601010002973340).
                 </p>
-              </div>
+              </div> */}
             </div>
           </section>
         </div>
@@ -251,25 +270,6 @@ const HouseRulesPDF = () => {
         </p>
         <p>CIN: IT039007C2RWYMLE52</p>
       </footer>
-
-      {/* Print-specific styles */}
-      <style
-        type="text/css"
-        dangerouslySetInnerHTML={{
-          __html: `
-        @media print {
-          @page {
-            margin: 1cm;
-            size: A4;
-          }
-          body {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-        }
-      `,
-        }}
-      />
     </div>
   );
 };

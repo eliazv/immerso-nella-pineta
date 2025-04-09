@@ -13,6 +13,10 @@ import {
   CalendarDays,
   Video,
   ChevronRight,
+  ExternalLink,
+  Contact,
+  LogOut,
+  PocketKnife,
 } from "lucide-react";
 import {
   Accordion,
@@ -33,11 +37,15 @@ interface RulesListProps {
 const HouseRules = ({ className }: RulesListProps) => {
   const generalRules = [
     { rule: "Animali domestici ammessi", allowed: true },
-    { rule: "Check-in autonomo con cassetta di sicurezza", allowed: true },
-    { rule: "Parcheggio privato incluso", allowed: true },
+    // { rule: "Check-in autonomo con cassetta di sicurezza", allowed: true },
+    // { rule: "Parcheggio privato incluso", allowed: true },
     { rule: "Lenzuola e asciugamani forniti", allowed: true },
     { rule: "No feste o eventi", allowed: false },
     { rule: "Non è consentito fumare", allowed: false },
+    {
+      rule: "Non accendere molti elettrodomestici simultaneamente",
+      allowed: false,
+    },
   ];
 
   return (
@@ -62,22 +70,31 @@ const HouseRules = ({ className }: RulesListProps) => {
 
         <div className="p-6 rounded-xl border border-border bg-card/50">
           <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
-            <Calendar className="mr-2 h-5 w-5 text-pine-dark" />
-            Politica di cancellazione
+            <Contact className="mr-2 h-5 w-5 text-pine-dark" />
+            Contatti
           </h3>
-          <p className="text-sm">
-            Cancellazione gratuita fino a 7 giorni prima del check-in. In caso
-            di cancellazione tra 7 giorni e 24 ore prima dell'arrivo, si applica
-            una penale del 50%. Nessun rimborso per cancellazioni effettuate
-            meno di 24 ore prima dell'arrivo.
-          </p>
+          <ul className="space-y-3">
+            <li className="flex items-center">
+              <Mail className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
+              <a
+                href="mailto:zavattaelia@gmail.com"
+                className="text-sm hover:underline"
+              >
+                zavattaelia@gmail.com
+              </a>
+            </li>
+            <li className="flex items-center">
+              <Phone className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
+              <a href="tel:+393938932793" className="text-sm hover:underline">
+                +39 393 893 2793
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
 
       <div className="p-6 rounded-xl border border-border bg-card/50">
-        <h3 className="font-serif text-lg font-medium mb-4">
-          Regole della casa
-        </h3>
+        <h3 className="font-serif text-lg font-medium mb-4">Regole generali</h3>
         <ul className="space-y-3">
           {generalRules.map((item, index) => (
             <li key={index} className="flex items-start">
@@ -91,6 +108,21 @@ const HouseRules = ({ className }: RulesListProps) => {
           ))}
         </ul>
       </div>
+      <div className="p-6 rounded-xl border border-border bg-card/50">
+        <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
+          <LogOut className="mr-2 h-5 w-5 text-pine-dark" />
+          Check Out
+        </h3>
+
+        <ul className="list-disc pl-5 space-y-1 text-sm print:text-xs">
+          <li>Spegnete tutte le luci e gli elettrodomestici utilizzati.</li>
+          <li>
+            Chiudete a chiave la porta principale e assicuratevi di chiudere
+            anche le finestre.
+          </li>
+          <li>Riponete le chiavi nella cassettina di sicurezza.</li>
+        </ul>
+      </div>
 
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
@@ -98,18 +130,34 @@ const HouseRules = ({ className }: RulesListProps) => {
           Parcheggio
         </h3>
         <p className="text-sm mb-2">
-          Gli ospiti possono accedere comodamente al cortile interno con l'auto
-          e parcheggiare nel posto riservato, identificato dal numero 3.
+          Gli ospiti possono parcheggiare unicamente nel parcheggio di fronte
+          all'appartamento, identificato dal numero 3.
         </p>
       </div>
 
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
           <Sparkles className="mr-2 h-5 w-5 text-pine-dark" />
-          Pulizia e Servizi
+          Note importanti
         </h3>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-b">
+            <AccordionTrigger className="text-sm font-medium">
+              Registrazione ospiti e tassa di soggiorno
+            </AccordionTrigger>
+            <AccordionContent className="text-sm">
+              <p>
+                Entro il primo giorno di soggiorno, sarà necessario fornire le
+                copie dei documenti. Tassa di soggiorno: €1 a notte per ogni
+                adulto (dai 15 anni in su), applicabile dal 1° maggio al 30
+                settembre, fino a un massimo di 7 notti. Può essere lasciata sul
+                tavolo in contanti al momento del check-out, inviata tramite
+                PayPal, Satispay ai contatti indicati sopra o bonifico bancario
+                (IBAN: IT92W0357601601010002973340).
+              </p>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2" className="border-b">
             <AccordionTrigger className="text-sm font-medium">
               Cosa è incluso nel soggiorno?
             </AccordionTrigger>
@@ -117,32 +165,9 @@ const HouseRules = ({ className }: RulesListProps) => {
               <p>
                 Durante il soggiorno verrà fornito un set completo di lenzuola,
                 federe e asciugamani. Inoltre, avrete a disposizione delle
-                stoviglie e tutto il necessario per la pulizia della casa.
-              </p>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2" className="border-b">
-            <AccordionTrigger className="text-sm font-medium">
-              Cosa non è incluso?
-            </AccordionTrigger>
-            <AccordionContent className="text-sm">
-              <p>
-                Non vengono forniti articoli per l'igiene personale, come saponi
-                da bagno, né generi alimentari.
-              </p>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger className="text-sm font-medium">
-              Tassa di soggiorno
-            </AccordionTrigger>
-            <AccordionContent className="text-sm">
-              <p>
-                La tassa di soggiorno, pari a €1 per notte per adulto (dai 15
-                anni in su), è applicabile dal 1° maggio al 30 settembre per un
-                massimo di 7 pernottamenti consecutivi. Il pagamento può essere
-                effettuato separatamente tramite Pay Pal, Satispay o bonifico
-                bancario.
+                stoviglie e tutto il necessario per la pulizia della casa. Non
+                vengono forniti articoli per l'igiene personale, come saponi da
+                bagno, né generi alimentari.
               </p>
             </AccordionContent>
           </AccordionItem>
@@ -150,10 +175,9 @@ const HouseRules = ({ className }: RulesListProps) => {
       </div>
 
       <div className="p-6 rounded-xl border border-border bg-card/50">
-        <Collapsible defaultOpen={true} className="w-full">
+        <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
-            {" "}
-            <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
+            <h3 className="font-serif text-lg font-medium flex items-center">
               <Video className="mr-2 h-5 w-5 text-pine-dark" />
               Istruzioni Macchina Caffè
             </h3>
@@ -199,11 +223,34 @@ const HouseRules = ({ className }: RulesListProps) => {
           </CollapsibleContent>
         </Collapsible>
       </div>
+      <div className="p-6 rounded-xl border border-border bg-card/50">
+        <Collapsible className="w-full">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
+            <h3 className="font-serif text-lg font-medium flex items-center">
+              <PocketKnife className="mr-2 h-5 w-5 text-pine-dark" />
+              E' saltata la corrente?
+            </h3>
+            <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-4">
+            <div className="text-sm text-muted-foreground">
+              <p className="mb-3">riavvia contatore e allega foto:</p>
+              <ol className="list-decimal pl-4 space-y-2">
+                <li>prendere chiave in posto x</li>
+                <li>uscire</li>
+                <li>andare x</li>
+                <li>aprire</li>
+                <li>spegni accendi e metti aposto</li>
+              </ol>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
 
       <div className="p-6 rounded-xl border border-border bg-card/50">
-        <Collapsible className="w-full" defaultOpen>
+        <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
-            <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
+            <h3 className="font-serif text-lg font-medium flex items-center">
               <CalendarDays className="mr-2 h-5 w-5 text-pine-dark" />
               Calendario Raccolta Rifiuti
             </h3>
@@ -266,27 +313,6 @@ const HouseRules = ({ className }: RulesListProps) => {
             </p>
           </CollapsibleContent>
         </Collapsible>
-      </div>
-
-      <div className="p-6 rounded-xl border border-border bg-card/50">
-        <h3 className="font-serif text-lg font-medium mb-4">Contatti</h3>
-        <ul className="space-y-3">
-          <li className="flex items-center">
-            <Mail className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
-            <a
-              href="mailto:zavattaelia@gmail.com"
-              className="text-sm hover:underline"
-            >
-              zavattaelia@gmail.com
-            </a>
-          </li>
-          <li className="flex items-center">
-            <Phone className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
-            <a href="tel:+393938932793" className="text-sm hover:underline">
-              +39 393 893 2793
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   );

@@ -68,7 +68,7 @@ const Attractions = () => {
                   <span className="hidden sm:inline">Eventi</span>
                 </TabsTrigger>
                 <TabsTrigger value="tips">
-                  <Video className="h-4 w-4 mr-2" />
+                  <MapPin className="h-4 w-4 mr-2" />
                   <span className="hidden sm:inline">Consigli Utili</span>
                 </TabsTrigger>
               </TabsList>
@@ -146,8 +146,8 @@ const Attractions = () => {
                 </div>
                 <div className="mt-6 text-center">
                   <p className="text-muted-foreground">
-                    Per altri consigli su ristoranti e locali nelle vicinanze
-                    non esitate a chiedere!
+                    Esplora la mappa per trovare altri ristoranti e attrazioni
+                    nelle vicinanze.
                   </p>
                 </div>
               </TabsContent>
@@ -270,8 +270,8 @@ const Attractions = () => {
                     </CollapsibleTrigger>
                     <CollapsibleContent className="px-5 pb-5">
                       <p className="mb-4">
-                        A 5 minuti a piedi dall'appartamento troverete diverse
-                        spiagge ben attrezzate con tutti i servizi:
+                        Alcuni consigli per le spiagge più vicine
+                        all'appartamento:
                       </p>
                       <ul className="space-y-3">
                         <li className="flex items-start">
@@ -280,37 +280,68 @@ const Attractions = () => {
                           </span>
                           <div>
                             <h4 className="font-medium">
-                              Bagno 125 - La Pineta
+                              Bagno Settebello 76 - Il piu vicino
                             </h4>
                             <p className="text-sm text-muted-foreground">
-                              Spiaggia tranquilla e familiare con giochi per
-                              bambini e ristorante.
+                              Situata a 400 metri di distanza, è la struttura
+                              balneare piu vicina all'appartamento
                             </p>
                           </div>
                         </li>
+
                         <li className="flex items-start">
                           <span className="bg-sea-light text-sea-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
                             2
                           </span>
                           <div>
                             <h4 className="font-medium">
-                              Bagno 130 - Sole e Mare
+                              Spiaggia libera - di fianco al Bagno 59
                             </h4>
                             <p className="text-sm text-muted-foreground">
-                              Ottimo per gli sportivi, con campi da beach volley
-                              e beach tennis.
+                              Dista 700 metri (circa 9 minuti a piedi) ed è
+                              situata di fianco al Bagno 59 (Via Arenile
+                              Demaniale, 59, 48015 Cervia RA).
+                            </p>
+                          </div>
+                        </li>
+                      </ul>
+                    </CollapsibleContent>
+                  </Collapsible>
+
+                  <Collapsible
+                    defaultOpen={true}
+                    className="bg-white rounded-xl overflow-hidden shadow-md border border-border mb-6"
+                  >
+                    <CollapsibleTrigger className="flex items-center justify-between w-full p-5 text-left">
+                      <div className="flex items-center">
+                        <CalendarDays className="h-5 w-5 mr-3 text-sea-dark" />
+                        <span className="font-medium">Supermercati</span>
+                      </div>
+                      <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="px-5 pb-5">
+                      <ul className="space-y-3">
+                        <li className="flex items-start">
+                          <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
+                            L
+                          </span>
+                          <div>
+                            <h4 className="font-medium">Svelto A&O</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Piccolo alimentari a 200 metri, aperto da giugno a
+                              settembre. Via Mezzanotte, 1b, 48015 Cervia RA
                             </p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="bg-sea-light text-sea-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            3
+                          <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
+                            G
                           </span>
                           <div>
-                            <h4 className="font-medium">Bagno 135 - Delfino</h4>
+                            <h4 className="font-medium">Conad</h4>
                             <p className="text-sm text-muted-foreground">
-                              Ideale per famiglie con bambini piccoli, con area
-                              giochi e acqua bassa.
+                              Grande supermercato, a 2km di distanza. Viale
+                              Europa Unita, 4, 48015 Cervia RA
                             </p>
                           </div>
                         </li>

@@ -1,11 +1,10 @@
-
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ScrollText, ChevronRight, FileText, Printer } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import HouseRules from '@/components/HouseRules';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ScrollText, ChevronRight, FileText, Printer } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import HouseRules from "@/components/HouseRules";
 
 const Rules = () => {
   useEffect(() => {
@@ -16,7 +15,7 @@ const Rules = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-20">
         {/* Hero Section */}
         <section className="py-12 md:py-20">
@@ -30,8 +29,8 @@ const Rules = () => {
                 Tutto ciò che devi sapere
               </h1>
               <p className="text-muted-foreground text-lg mb-8">
-                Informazioni utili e regole della casa per rendere il tuo soggiorno 
-                piacevole e senza sorprese.
+                Informazioni utili e regole della casa per rendere il tuo
+                soggiorno piacevole e senza sorprese.
               </p>
               <div className="flex justify-center">
                 <Button asChild variant="outline" className="gap-2">
@@ -45,34 +44,26 @@ const Rules = () => {
             </div>
           </div>
         </section>
-        
+
         {/* Rules Section */}
         <section className="pb-20">
           <div className="container px-4 mx-auto">
             <div className="max-w-3xl mx-auto animate-scale-in">
               <HouseRules />
             </div>
-            
-            <div className="max-w-3xl mx-auto mt-16 bg-sea-light/30 p-8 rounded-xl border border-sea-light animate-fade-in">
-              <h2 className="font-serif text-2xl font-medium mb-4">Accessibilità</h2>
+
+            <div className="max-w-3xl mx-auto mt-10 bg-sea-light/30 p-8 rounded-xl border border-sea-light animate-fade-in">
+              <h2 className="font-serif text-2xl font-medium mb-4">
+                Accessibilità
+              </h2>
               <p className="text-muted-foreground mb-6">
-                Purtroppo, l'alloggio non è completamente accessibile per persone in sedia a rotelle. 
-                L'ingresso principale ha una larghezza di 81 cm, mentre le porte interne della camera e 
-                del bagno misurano rispettivamente 76 cm e 68 cm. Il bagno presenta uno scalino di 6 cm.
+                Purtroppo, l'alloggio non è completamente accessibile per
+                persone in sedia a rotelle. L'ingresso principale ha una
+                larghezza di 81 cm, mentre le porte interne della camera e del
+                bagno misurano rispettivamente 76 cm e 68 cm. Il bagno presenta
+                uno scalino di 6 cm.
               </p>
-              
-              <h2 className="font-serif text-2xl font-medium mb-4">Registrazione ospiti</h2>
-              <p className="text-muted-foreground mb-6">
-                Entro il primo giorno di soggiorno, sarà necessario fornire le copie dei documenti per 
-                la registrazione degli ospiti, come richiesto dalle normative locali.
-              </p>
-              
-              <h2 className="font-serif text-2xl font-medium mb-4">Servizi e negozi nelle vicinanze</h2>
-              <p className="text-muted-foreground mb-6">
-                Da giugno a settembre, il supermercato più vicino si trova a soli 200 metri dall'appartamento. 
-                Durante la stagione invernale, il supermercato più vicino dista 2 km.
-              </p>
-              
+
               <div className="mt-8 text-center">
                 <Button asChild>
                   <Link to="/book">
@@ -81,22 +72,11 @@ const Rules = () => {
                   </Link>
                 </Button>
               </div>
-              
-              <div className="mt-6 text-center">
-                <Link 
-                  to="/rules/pdf" 
-                  target="_blank"
-                  className="text-pine-dark hover:underline inline-flex items-center gap-2"
-                >
-                  <FileText className="h-4 w-4" />
-                  <span>Visualizza versione stampabile delle regole</span>
-                </Link>
-              </div>
             </div>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );
