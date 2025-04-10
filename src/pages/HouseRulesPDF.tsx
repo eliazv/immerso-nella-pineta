@@ -121,7 +121,9 @@ const HouseRulesPDF = () => {
                 </ul>
               </div>
               <div className="p-3 print:p-2 border rounded-md">
-                <h3 className="font-medium mb-2 print:mb-1">Check Out</h3>
+                <h3 className="font-medium mb-2 print:mb-1">
+                  Check Out (entro le 10:00)
+                </h3>
                 <ul className="list-disc pl-5 space-y-1 text-sm print:text-xs">
                   <li>Spegnete tutte le luci ed elettrodomestici accesi.</li>
                   <li>Chiudete a chiave la porta principale e le finestre.</li>

@@ -276,7 +276,7 @@ const Attractions = () => {
                       <ul className="space-y-3">
                         <li className="flex items-start">
                           <span className="bg-sea-light text-sea-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            1
+                            🏖️
                           </span>
                           <div>
                             <h4 className="font-medium">
@@ -291,7 +291,7 @@ const Attractions = () => {
 
                         <li className="flex items-start">
                           <span className="bg-sea-light text-sea-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            2
+                            🆓
                           </span>
                           <div>
                             <h4 className="font-medium">
@@ -323,7 +323,7 @@ const Attractions = () => {
                       <ul className="space-y-3">
                         <li className="flex items-start">
                           <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            L
+                            💈
                           </span>
                           <div>
                             <h4 className="font-medium">Svelto A&O</h4>
@@ -335,7 +335,7 @@ const Attractions = () => {
                         </li>
                         <li className="flex items-start">
                           <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            G
+                            🏪
                           </span>
                           <div>
                             <h4 className="font-medium">Conad</h4>
@@ -362,20 +362,39 @@ const Attractions = () => {
                     </CollapsibleTrigger>
                     <CollapsibleContent className="px-5 pb-5">
                       <p className="mb-4">
-                        Durante il vostro soggiorno potrete visitare i mercati
-                        locali nelle vicinanze:
+                        Durante il vostro soggiorno potrete visitare i
+                        <a
+                          href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          mercati locali
+                        </a>
+                        nelle vicinanze:
                       </p>
                       <ul className="space-y-3">
                         <li className="flex items-start">
                           <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            L
+                            M
                           </span>
                           <div>
                             <h4 className="font-medium">
-                              Mercato di Pinarella
+                              <a
+                                href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini/mercato-serale-a-pinarella-di-cervia"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                Mercato di Pinarella
+                              </a>
                             </h4>
                             <p className="text-sm text-muted-foreground">
-                              Lunedì mattina in Piazza della Repubblica.
+                              Tutti i martedì sera, dal 15 maggio al 23
+                              settembre, scopri le bancarelle del mercato serale
+                              di Pinarella. 41 posteggi di ambulanti ti
+                              aspettano dalle ore 17 in viale Italia, nel tratto
+                              da viale De Amicis a viale Lucania.
                             </p>
                           </div>
                         </li>
@@ -384,22 +403,42 @@ const Attractions = () => {
                             G
                           </span>
                           <div>
-                            <h4 className="font-medium">Mercato di Cervia</h4>
+                            <h4 className="font-medium">
+                              <a
+                                href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini/mercato-annuale-di-cervia"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                Mercato di Cervia
+                              </a>
+                            </h4>
                             <p className="text-sm text-muted-foreground">
-                              Giovedì mattina nel centro storico.
+                              Durante tutto l'anno, scopri le bancarelle del
+                              mercato di Cervia tutti i giovedì mattina in
+                              piazza Andrea Costa.
                             </p>
                           </div>
                         </li>
                         <li className="flex items-start">
                           <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            S
+                            G
                           </span>
                           <div>
                             <h4 className="font-medium">
-                              Mercatino dell'Artigianato
+                              <a
+                                href="https://www.turismo.comunecervia.it/it/eventi/manifestazioni-e-iniziative/mercatini-mostre-mercato/mercatino-dell-artigianato-artistico"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                Mercatino dell'Artigianato
+                              </a>
                             </h4>
                             <p className="text-sm text-muted-foreground">
-                              Sabato sera sul lungomare (solo in estate).
+                              Nei giovedì estivi di Pinarella (fine maggio -
+                              metà settembre), mercatino di originali oggetti
+                              fatti a mano.
                             </p>
                           </div>
                         </li>

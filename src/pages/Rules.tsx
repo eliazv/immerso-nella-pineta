@@ -58,10 +58,11 @@ const Rules = () => {
               </h2>
               <p className="text-muted-foreground mb-6">
                 Purtroppo, l'alloggio non è completamente accessibile per
-                persone in sedia a rotelle. L'ingresso principale ha una
-                larghezza di 81 cm, mentre le porte interne della camera e del
-                bagno misurano rispettivamente 76 cm e 68 cm. Il bagno presenta
-                uno scalino di 6 cm.
+                persone in sedia a rotelle. E' situato interamente al piano
+                terra ma l'ingresso principale ha una larghezza di 81 cm, mentre
+                le porte interne della camera e del bagno misurano
+                rispettivamente 76 cm e 68 cm. Il bagno presenta uno scalino di
+                6 cm.
               </p>
 
               <div className="mt-8 text-center">
