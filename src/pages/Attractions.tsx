@@ -89,13 +89,13 @@ const Attractions = () => {
                         "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1000&auto=format&fit=crop",
                     },
                     {
-                      name: "Ristorante L'Orto",
+                      name: "Ristorante Damida",
                       type: "Pesce e Cucina Italiana",
-                      distance: "0.5 km",
+                      distance: "1.5 km",
                       description:
-                        "Cucina a base di pesce con proposte creative e ingredienti di stagione. Ambiente elegante e raffinato, perfetto per una cena speciale.",
+                        "Cucina a base di pesce con proposte creative e ingredienti di stagione. Ambiente elegante e raffinato, perfetto per una cena speciale. Vle Titano, 106, 48015 Cervia RA",
                       image:
-                        "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=1000&auto=format&fit=crop",
+                        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/c7/78/54/frittone-dello-sborone.jpg?q=80&w=1000&auto=format&fit=crop",
                     },
                     {
                       name: "Pizzeria Il Veliero",
