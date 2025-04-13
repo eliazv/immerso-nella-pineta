@@ -230,7 +230,7 @@ const HouseRulesPDF = () => {
             <div className="space-y-4 print:space-y-2 print:text-sm">
               <div className="p-3 print:p-2 border rounded-md">
                 <h3 className="font-medium mb-2 print:mb-1">
-                  Raccolta differenziata - Calendario raccolta porta a porta
+                  Raccolta differenziata
                 </h3>
                 <p className="text-sm print:text-xs">
                   Organico: Martedì, Venerdì, Domenica. Indifferenziato: Sabato.
@@ -243,7 +243,10 @@ const HouseRulesPDF = () => {
                 </h3>
                 <p className="text-sm print:text-xs">
                   Se hai apprezzato il tuo soggiorno, ti invitiamo a lasciare
-                  una recensione positiva. Il tuo feedback è importante per noi!
+                  una <strong>recensione positiva</strong>: il tuo feedback è
+                  prezioso per noi! E se stai pensando di tornare, contattaci
+                  direttamente per prenotare e riceverai uno{" "}
+                  <strong>sconto speciale</strong> riservato a te!
                 </p>
               </div>
               {/* <div className="p-3 print:p-2 border rounded-md">

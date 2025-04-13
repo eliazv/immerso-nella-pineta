@@ -126,7 +126,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!checkIn || !checkOut || !name || !email) {
+    if (!checkIn || !checkOut || !name || !phone) {
       toast({
         title: "Compila tutti i campi obbligatori",
         description:
@@ -146,21 +146,30 @@ const BookingForm = ({ className }: BookingFormProps) => {
       return;
     }
 
-    setIsSubmitting(true);
-
-    const emailSent = await sendEmail();
-
-    if (emailSent) {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      toast({
-        title: "Richiesta inviata con successo!",
-        description:
-          "Ti contatteremo al più presto per confermare la tua prenotazione.",
-      });
-    } else {
-      setIsSubmitting(false);
+    const whatsappMessage = `Ciao, vorrei richiedere una prenotazione per l'appartamento Immerso nella Pineta 3 con i seguenti dettagli:
+- Nome: ${name}
+- Check-in: ${
+      checkIn
+        ? format(checkIn, "dd/MM/yyyy", { locale: it })
+        : "Non specificato"
     }
+- Check-out: ${
+      checkOut
+        ? format(checkOut, "dd/MM/yyyy", { locale: it })
+        : "Non specificato"
+    }
+- Adulti: ${adults}
+- Bambini: ${children}
+- Animali: ${pets}
+- Telefono: ${phone}
+- Messaggio: ${message || "Nessun messaggio"}`;
+
+    const whatsappUrl = `https://wa.me/393938932793?text=${encodeURIComponent(
+      whatsappMessage
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
+    setIsSubmitted(true);
   };
 
   // Function to check if a date is in one of the disabled periods
@@ -378,22 +387,22 @@ const BookingForm = ({ className }: BookingFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email *</Label>
+          <Label htmlFor="phone">Telefono *</Label>
           <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             required
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">Telefono</Label>
+          <Label htmlFor="email">Email</Label>
           <Input
-            id="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -437,7 +446,8 @@ const BookingForm = ({ className }: BookingFormProps) => {
 
       <div className="mt-6 pt-6 border-t border-border">
         <p className="text-sm text-muted-foreground">
-          Per ulteriori informazioni:
+          Oppure contattaci direttamente ai recapiti qui sotto: siamo a
+          disposizione per qualsiasi informazione aggiuntiva!
         </p>
         <div className="mt-2 space-y-1">
           <p className="text-sm">
