@@ -236,7 +236,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="space-y-2">
-          <Label htmlFor="check-in">Check-in (dalle 14:00)</Label>
+          <Label htmlFor="check-in">Check-in (dalle 14:00) *</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -277,7 +277,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="check-out">Check-out (entro le 10:00)</Label>
+          <Label htmlFor="check-out">Check-out (entro le 10:00) *</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -334,7 +334,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="space-y-2">
-          <Label htmlFor="adults">Adulti</Label>
+          <Label htmlFor="adults">Adulti *</Label>
           <Input
             id="adults"
             type="number"

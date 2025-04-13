@@ -164,25 +164,25 @@ const Attractions = () => {
                         title: "Pinarella Summer Festival",
                         date: "Giugno - Agosto 2024",
                         description:
-                          "Concerti, spettacoli e animazione serale sul lungomare di Pinarella. Programma completo sul sito ufficiale.",
+                          "Concerti, spettacoli e animazione serale sul lungomare di Pinarella. Programma completo nei siti qui sotto.",
                         image:
                           "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1000&auto=format&fit=crop",
                       },
                       {
-                        title: "Cervia Sapore di Sale",
-                        date: "Settembre 2024",
+                        title: "Festival Internazionale dell'Aquilone",
+                        date: "Fine aprile - Inizio maggio",
                         description:
-                          "Evento dedicato alla millenaria tradizione del sale di Cervia con dimostrazioni, degustazioni e spettacoli.",
+                          "Gli aquiloni di tutto il mondo in volo sulla spiaggia di Pinarella, oltre 200 artisti del vento e campioni internazionali di volo acrobatico, 2000 appassionati in arrivo da 50 paesi si incontrano nella Capitale dell'Aquilone per celebrare il mondo unito da un progetto di pace. ",
                         image:
-                          "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1000&auto=format&fit=crop",
+                          "https://www.ravenna24ore.it/wp-content/uploads/sites/6/2023/04/36-ARTEVENTO-CERVIA-Davide-Baroni-scaled-1.jpg?q=80&w=1000&auto=format&fit=crop",
                       },
                       {
                         title: "Mercatino dell'Artigianato",
-                        date: "Ogni martedì sera (Giugno-Settembre)",
+                        date: "Ogni giovedì sera (Maggio-Settembre)",
                         description:
-                          "Mercatino serale sul lungomare con prodotti artigianali, specialità gastronomiche e intrattenimento per bambini.",
+                          "A Pinarella, in via Mezzanotte, si svolge un incantevole mercatino artistico e artigianale da maggio a settembre. Ogni settimana, visitatori possono esplorare una selezione di opere uniche, prodotti artigianali e creazioni artistiche locali. L'atmosfera vivace e accogliente rende questo mercatino un luogo ideale per scoprire talenti locali e trovare pezzi unici da portare a casa. Altri mercatini locali nei consigli utili!",
                         image:
-                          "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1000&auto=format&fit=crop",
+                          "https://www.novaratoday.it/~media/horizontal-hi/49129561680332/mercatino-antiquariato-arona-1.jpg?q=80&w=1000&auto=format&fit=crop",
                       },
                     ].map((event, index) => (
                       <CarouselItem key={index}>
