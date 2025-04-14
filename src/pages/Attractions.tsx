@@ -82,7 +82,7 @@ const Attractions = () => {
                     {
                       name: "Ristorante Saretina 152",
                       type: "Cucina Romagnola e Pesce",
-                      distance: "0.6 km",
+                      distance: "2 km",
                       description:
                         "Autentica cucina romagnola di mare, con pesce fresco dell'Adriatico e piatti della tradizione locale. Da provare i primi piatti fatti in casa.",
                       image:
@@ -93,25 +93,24 @@ const Attractions = () => {
                       type: "Pesce e Cucina Italiana",
                       distance: "1.5 km",
                       description:
-                        "Cucina a base di pesce con proposte creative e ingredienti di stagione. Ambiente elegante e raffinato, perfetto per una cena speciale. Vle Titano, 106, 48015 Cervia RA",
+                        "Cucina a base di pesce con proposte creative e ingredienti di stagione. Ambiente elegante e raffinato, perfetto per una cena speciale.",
                       image:
                         "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/c7/78/54/frittone-dello-sborone.jpg?q=80&w=1000&auto=format&fit=crop",
                     },
                     {
-                      name: "Pizzeria Il Veliero",
-                      type: "Pizzeria",
-                      distance: "0.3 km",
+                      name: "Bagno Andrea N.83",
+                      type: "Pranzo in riva al mare",
+                      distance: "0.5 km",
                       description:
-                        "Pizzeria con forno a legna, impasti ad alta digeribilità e ingredienti genuini. Propone anche piadine, piatti romagnoli e una selezione di birre artigianali.",
+                        "Ristorante sito in uno stabilimento balneare presso Pinarella di Cervia. 100 coperti per poter degustare antipasti di pesce,primi e secondi sia a base di pesce che carne, ottime insalatone di vario tipo e fresche brioches e paste cervesi. Qualità e quantità garantite in ogni porzione.",
                       image:
-                        "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000&auto=format&fit=crop",
+                        "https://www.ravennaedintorni.it/wp-content/uploads/2022/08/losco.jpg?q=80&w=1000&auto=format&fit=crop",
                     },
                     {
-                      name: "Gelateria La Pineta",
-                      type: "Gelateria Artigianale",
-                      distance: "0.4 km",
-                      description:
-                        "Gelateria artigianale con gusti classici e innovativi. Produce quotidianamente gelato con materie prime fresche e di qualità, proprio nel cuore di Pinarella.",
+                      name: "Gelateria Mezzanotte",
+                      type: "Gelateria",
+                      distance: "0.2 km",
+                      description: "Gelateria a pochi passi dall'alloggio.",
                       image:
                         "https://images.unsplash.com/photo-1557142046-c704a3adf364?q=80&w=1000&auto=format&fit=crop",
                     },

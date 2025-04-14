@@ -1,4 +1,3 @@
-
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -111,8 +110,17 @@ const Footer = ({ className }: { className?: string }) => {
               rigogliose e una ricca tradizione culinaria.
             </p>
             <p className="text-muted-foreground text-sm">
-              © {new Date().getFullYear()} Immerso nella Pineta. Tutti i diritti
-              riservati.
+              © {new Date().getFullYear()} Immerso nella Pineta. Sito web
+              sviluppato da{" "}
+              <a
+                href="https://bit.ly/eliazavatta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground text-pine-dark transition-colors"
+              >
+                Elia Zavatta
+              </a>
+              . Tutti i diritti riservati.
             </p>
           </div>
         </div>

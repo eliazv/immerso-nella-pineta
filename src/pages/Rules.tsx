@@ -18,7 +18,7 @@ const Rules = () => {
 
       <main className="flex-1 pt-20">
         {/* Hero Section */}
-        <section className="py-12 md:py-20">
+        <section className="py-12 md:py-12">
           <div className="container px-4 mx-auto">
             <div className="max-w-3xl mx-auto text-center animate-page-in">
               <div className="inline-flex items-center gap-2 bg-pine-light text-pine-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
@@ -32,15 +32,6 @@ const Rules = () => {
                 Informazioni utili e regole della casa per rendere il tuo
                 soggiorno piacevole e senza sorprese.
               </p>
-              <div className="flex justify-center">
-                <Button asChild variant="outline" className="gap-2">
-                  <Link to="/rules/pdf" target="_blank">
-                    <FileText className="h-4 w-4" />
-                    <span>Versione stampabile PDF</span>
-                    <Printer className="h-4 w-4 ml-1" />
-                  </Link>
-                </Button>
-              </div>
             </div>
           </div>
         </section>
@@ -74,6 +65,15 @@ const Rules = () => {
                 </Button>
               </div>
             </div>
+          </div>
+          <div className="flex justify-center mt-4">
+            <Button asChild variant="outline" className="gap-2">
+              <Link to="/rules/pdf" target="_blank">
+                <FileText className="h-4 w-4" />
+                <span>Versione stampabile delle regole in PDF</span>
+                <Printer className="h-4 w-4 ml-1" />
+              </Link>
+            </Button>
           </div>
         </section>
       </main>
