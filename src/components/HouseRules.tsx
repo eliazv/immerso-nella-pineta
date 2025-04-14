@@ -85,7 +85,12 @@ const HouseRules = ({ className }: RulesListProps) => {
             </li>
             <li className="flex items-center">
               <Phone className="h-5 w-5 text-pine-dark shrink-0 mr-3" />
-              <a href="tel:+393938932793" className="text-sm hover:underline">
+              <a
+                href="https://wa.me/393938932793"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm hover:underline"
+              >
                 +39 393 893 2793
               </a>
             </li>
@@ -142,14 +147,30 @@ const HouseRules = ({ className }: RulesListProps) => {
         </h3>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-b">
-            <AccordionTrigger className="text-sm font-medium">
-              Registrazione ospiti e tassa di soggiorno
+            <AccordionTrigger className="text-base font-medium">
+              Registrazione ospiti
             </AccordionTrigger>
             <AccordionContent className="text-sm">
               <p>
                 Entro il primo giorno di soggiorno, sarà necessario fornire le
-                copie dei documenti.
+                copie dei documenti. Potete inviarli tramite{" "}
+                <a
+                  href="https://wa.me/393938932793"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  WhatsApp
+                </a>{" "}
+                al numero +39 393 893 2793 o via email a zavattaelia@gmail.com .
               </p>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2" className="border-b">
+            <AccordionTrigger className="text-base font-medium">
+              Tassa di soggiorno
+            </AccordionTrigger>
+            <AccordionContent className="text-sm">
               <p>
                 Tassa di soggiorno: €1 a notte per ogni adulto (dai 15 anni in
                 su), applicabile dal 1° maggio al 30 settembre, fino a un
@@ -176,8 +197,8 @@ const HouseRules = ({ className }: RulesListProps) => {
               </p>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2" className="border-b">
-            <AccordionTrigger className="text-sm font-medium">
+          <AccordionItem value="item-3" className="border-b">
+            <AccordionTrigger className="text-medium font-medium">
               Cosa è incluso nel soggiorno?
             </AccordionTrigger>
             <AccordionContent className="text-sm">
