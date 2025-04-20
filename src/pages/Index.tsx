@@ -81,7 +81,7 @@ const Index = () => {
               asChild
               className="bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20"
             >
-              <Link to="/book">Prenota ora</Link>
+              <Link to="/rules">Regole e Istruzioni</Link>
             </Button>
           </div>
         </div>
