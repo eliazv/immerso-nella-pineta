@@ -274,14 +274,16 @@ const HouseRules = ({ className }: RulesListProps) => {
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-4">
             <div className="text-sm text-muted-foreground">
-              <p className="mb-3">riavvia contatore e allega foto:</p>
+              <p className="mb-3">Contattami</p>
+              {/* <p className="mb-3">riavvia contatore e allega foto:</p>
               <ol className="list-decimal pl-4 space-y-2">
                 <li>prendere chiave in posto x</li>
                 <li>uscire</li>
                 <li>andare x</li>
                 <li>aprire</li>
                 <li>spegni accendi e metti aposto</li>
-              </ol>
+                <li>riaccendi salvavita?</li>
+              </ol> */}
             </div>
           </CollapsibleContent>
         </Collapsible>
@@ -304,27 +306,12 @@ const HouseRules = ({ className }: RulesListProps) => {
               Per soggiorni brevi ci occuperemo noi dello smaltimento dei
               rifiuti al check-out.
             </p>
-
             <div className="aspect-auto w-full mb-6">
-              <object
-                data="https://drive.google.com/file/d/1N8HQg5BPYv9BtOivz9wr526nfutmxKu9/preview"
-                type="application/pdf"
-                width="100%"
-                height="300px"
-                className="rounded-lg border border-border"
-              >
-                <div className="bg-muted p-4 rounded-lg text-center">
-                  <p>Impossibile visualizzare il PDF direttamente.</p>
-                  <a
-                    href="https://drive.google.com/file/d/1N8HQg5BPYv9BtOivz9wr526nfutmxKu9/view"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline"
-                  >
-                    Clicca qui per visualizzare il calendario
-                  </a>
-                </div>
-              </object>
+              <img
+                src="public\rifiuti_calendario.jpg"
+                alt="Calendario Raccolta Rifiuti"
+                className="rounded-lg border border-border w-full"
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

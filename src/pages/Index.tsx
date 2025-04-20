@@ -73,15 +73,16 @@ const Index = () => {
               asChild
               className="bg-sea-dark hover:bg-sea-dark/90"
             >
-              <Link to="/gallery">Esplora la casa</Link>
+              <Link to="/rules">Regole e Istruzioni</Link>
+              {/* <Link to="/gallery">Esplora la casa</Link> */}
             </Button>
             <Button
               size="lg"
               variant="outline"
               asChild
-              className="bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20"
+              className="bg-pine-dark/50 backdrop-blur-md border border-pine-light/70 text-white hover:bg-pine-dark/30 hover:text-white"
             >
-              <Link to="/rules">Regole e Istruzioni</Link>
+              <Link to="/attractions">Scopri la zona</Link>
             </Button>
           </div>
         </div>
