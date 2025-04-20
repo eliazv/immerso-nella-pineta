@@ -192,7 +192,7 @@ const HouseRulesPDF = () => {
             <div className="p-4 print:p-2 border rounded-md bg-white">
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-                  "https://bit.ly/immerso-nella-pineta"
+                  "https://immerso-nella-pineta.lovable.app/"
                 )}`}
                 alt="QR Code"
                 className="w-32 h-32 print:w-28 print:h-28"
