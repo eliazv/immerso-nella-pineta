@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import Book from "./pages/Book";
 import Attractions from "./pages/Attractions";
 import HouseRulesPDF from "./pages/HouseRulesPDF";
 import NotFound from "./pages/NotFound";
+import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +27,10 @@ const App = () => (
           <Route path="/rules" element={<Rules />} />
           <Route path="/book" element={<Book />} />
           <Route path="/rules/pdf" element={<HouseRulesPDF />} />
+          <Route
+            path="/calendario-disponibilita"
+            element={<AvailabilityCalendar />}
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

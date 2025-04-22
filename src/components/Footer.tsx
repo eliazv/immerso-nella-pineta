@@ -97,6 +97,14 @@ const Footer = ({ className }: { className?: string }) => {
                   Prenota ora
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/calendario-disponibilita"
+                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                >
+                  Calendario Disponibilità
+                </Link>
+              </li>
             </ul>
           </div>
 

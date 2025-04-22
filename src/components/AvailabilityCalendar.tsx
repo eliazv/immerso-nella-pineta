@@ -1,82 +1,210 @@
-import React from "react";
-import { Calendar } from "@/components/ui/calendar";
+import React, { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { CalendarDays, Link } from "lucide-react";
-import { addDays } from "date-fns";
+import { CalendarDays } from "lucide-react";
+import axios from "axios";
 
 interface AvailabilityCalendarProps {
   className?: string;
 }
 
 const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
-  // This is a simplified version - a full implementation would fetch data from
-  // the Google Calendar API to determine availability
-  const today = new Date();
+  const [bookedDates, setBookedDates] = useState<Date[]>([]);
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
 
-  // Sample unavailable dates (in a real implementation, these would come from the Google Calendar)
-  const disabledDates = [
-    { from: new Date(2024, 6, 1), to: new Date(2024, 6, 15) }, // July 1-15
-    { from: new Date(2024, 7, 10), to: new Date(2024, 7, 20) }, // August 10-20
-  ];
+  const handlePasswordSubmit = () => {
+    if (password === "sabrisabri") {
+      setIsAuthenticated(true);
+    } else {
+      alert("Password errata. Riprova.");
+    }
+  };
+
+  // Funzione per recuperare i dati dal foglio Google Sheets
+  const fetchBookings = async () => {
+    try {
+      const url =
+        "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/Affitti3";
+      const response = await axios.get(url);
+      const data = response.data;
+
+      // Filtra le prenotazioni valide
+      const validBookings = data.filter((row: any) => row["Nome"] !== "");
+
+      // Converte i dati in un array di date prenotate
+      const dates: Date[] = [];
+      validBookings.forEach((row: any) => {
+        const startDate = new Date(row["Check-in"]);
+        const endDate = new Date(row["Check-out"]);
+        for (
+          let date = new Date(startDate);
+          date <= endDate;
+          date.setDate(date.getDate() + 1)
+        ) {
+          dates.push(new Date(date));
+        }
+      });
+
+      setBookedDates(dates);
+      setBookings(validBookings);
+    } catch (error) {
+      console.error("Errore durante il recupero delle prenotazioni:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  // Funzione per aggiungere un indicatore visivo alle date prenotate
+  const tileContent = ({ date }: { date: Date }) => {
+    const isBooked = bookedDates.some(
+      (bookedDate) =>
+        bookedDate.getFullYear() === date.getFullYear() &&
+        bookedDate.getMonth() === date.getMonth() &&
+        bookedDate.getDate() === date.getDate()
+    );
+
+    return isBooked ? (
+      <div className="flex justify-center items-center">
+        <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+      </div>
+    ) : null;
+  };
+
+  const getOtaLogo = (ota: string) => {
+    if (ota.toLowerCase() === "booking") {
+      return (
+        <img
+          src="https://cdn.worldvectorlogo.com/logos/bookingcom-1.svg"
+          alt="Booking"
+          className="inline-block h-5 w-auto"
+        />
+      );
+    }
+    if (ota.toLowerCase() === "airbnb") {
+      return (
+        <img
+          src="https://img.icons8.com/?size=512&id=103424&format=png"
+          alt="Airbnb"
+          className="inline-block h-5 w-auto"
+        />
+      );
+    }
+    if (ota.toLowerCase() === "extra") {
+      return;
+    }
+    return <span>{ota}</span>; // Fallback per altri OTA
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-medium mb-4">Inserisci la password</h2>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border rounded-lg p-2 w-full mb-4"
+            placeholder="Password"
+          />
+          <button
+            onClick={handlePasswordSubmit}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+          >
+            Accedi
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className={className}>
-      <div className="bg-white rounded-xl p-6 shadow-md border border-border">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <h3 className="font-serif text-xl font-medium">
-            Calendario disponibilità
-          </h3>
-          <div className="inline-flex items-center text-sm text-muted-foreground">
-            <span className="w-3 h-3 bg-primary rounded-full mr-2"></span> Date
-            non disponibili
-          </div>
-        </div>
-
+    <div className={`bg-white rounded-xl p-6 shadow-md border ${className}`}>
+      <h3 className="font-serif text-xl font-medium mb-4">
+        Calendario Disponibilità
+      </h3>
+      <div className="mb-6">
         <Calendar
-          mode="range"
-          disabled={[{ before: today }, ...disabledDates]}
-          numberOfMonths={2}
-          className="rounded-md border mx-auto"
+          tileClassName={({ date }) =>
+            bookedDates.some(
+              (bookedDate) =>
+                bookedDate.getFullYear() === date.getFullYear() &&
+                bookedDate.getMonth() === date.getMonth() &&
+                bookedDate.getDate() === date.getDate()
+            )
+              ? "bg-red-100"
+              : ""
+          }
+          tileContent={tileContent}
+          className="mx-auto"
+          locale="it-IT"
         />
-
-        <Alert className="mt-6">
-          <CalendarDays className="h-4 w-4" />
-          <AlertTitle>Sincronizzazione con Google Calendar</AlertTitle>
-          <AlertDescription className="mt-2">
-            Questo calendario mostra solo date di esempio. Per vedere la
-            disponibilità aggiornata in tempo reale, consultare il nostro{" "}
-            <a
-              href="https://calendar.google.com/calendar/u/1?cid=MDhjMDg1ZTEyZWVkZTVmNTY4ZWQ4ZmViMDk5ZjlmZjA1NGFiMDc0N2UyYTgyMmZhZjE4ZmI3M2I5MGU0MTgzNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary font-medium hover:underline inline-flex items-center"
-            >
-              Google Calendar
-              <Link className="h-3 w-3 ml-1" />
-            </a>
-            .
-          </AlertDescription>
-        </Alert>
-
-        {/* <div className="mt-6 flex justify-center">
-          <Button asChild>
-            <a 
-              href="https://calendar.google.com/calendar/u/1?cid=MDhjMDg1ZTEyZWVkZTVmNTY4ZWQ4ZmViMDk5ZjlmZjA1NGFiMDc0N2UyYTgyMmZhZjE4ZmI3M2I5MGU0MTgzNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Verifica disponibilità completa
-            </a>
-          </Button>
-        </div> */}
       </div>
 
-      <div className="mt-4 text-sm text-center text-muted-foreground">
-        <p>
-          Per un'integrazione completa con Google Calendar, contattaci per
-          implementare un sistema di prenotazione sincronizzato.
-        </p>
+      <Alert className="mb-6">
+        <CalendarDays className="h-4 w-4" />
+        <AlertTitle>Sincronizzazione con Google Sheets</AlertTitle>
+        <AlertDescription className="mt-2">
+          Questo calendario mostra le date di prenotazione sincronizzate con il
+          nostro foglio Google Sheets.
+        </AlertDescription>
+      </Alert>
+
+      <div>
+        <h4 className="font-serif text-lg font-medium mb-4">
+          Lista Prenotazioni
+        </h4>
+        {bookings.length === 0 ? (
+          <p className="text-muted-foreground">Nessuna prenotazione trovata.</p>
+        ) : (
+          <div className="space-y-4">
+            {bookings.map((booking, index) => (
+              <div
+                key={index}
+                className="border rounded-lg p-4 shadow-sm bg-gray-50"
+              >
+                <div
+                  className="flex justify-between items-center cursor-pointer"
+                  onClick={() =>
+                    setExpandedIndex(expandedIndex === index ? null : index)
+                  }
+                >
+                  <div>
+                    <strong>
+                      {getOtaLogo(booking.OTA)} {booking.Nome}
+                    </strong>{" "}
+                    -{" "}
+                    <span>
+                      {booking["Check-in"]} → {booking["Check-out"]} (
+                      {booking.Notti} notti - {booking["Totale"]} )
+                    </span>
+                  </div>
+                  <button className="text-primary">
+                    {expandedIndex === index ? "Nascondi" : "Dettagli"}
+                  </button>
+                </div>
+                {expandedIndex === index && (
+                  <div className="mt-4 text-sm text-muted-foreground">
+                    {booking.Note && <p>Note: {booking.Note}</p>}
+                    <p>Adulti: {booking.adulti || "0"}</p>
+                    <p>Bambini: {booking.bambini || "0"}</p>
+                    <p>Totale Cliente: {booking["Totale cliente"] || "N/A"}</p>
+                    <p>Totale: {booking["Totale"] || "N/A"}</p>
+                    <p>Costo Notti: {booking["Costo notti"] || "N/A"}</p>
+                    <p>Pulizia: {booking["Pulizia"] || "N/A"}</p>
+                    <p>Media a Notte: {booking["Media a notte"] || "N/A"}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
