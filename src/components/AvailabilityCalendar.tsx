@@ -13,16 +13,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState("");
-
-  const handlePasswordSubmit = () => {
-    if (password === "sabrisabri") {
-      setIsAuthenticated(true);
-    } else {
-      alert("Password errata. Riprova.");
-    }
-  };
 
   // Funzione per recuperare i dati dal foglio Google Sheets
   const fetchBookings = async () => {
@@ -100,29 +90,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     }
     return <span>{ota}</span>; // Fallback per altri OTA
   };
-
-  if (!isAuthenticated) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-lg font-medium mb-4">Inserisci la password</h2>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border rounded-lg p-2 w-full mb-4"
-            placeholder="Password"
-          />
-          <button
-            onClick={handlePasswordSubmit}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-          >
-            Accedi
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={`bg-white rounded-xl p-6 shadow-md border ${className}`}>
