@@ -170,7 +170,9 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
               booking.bambini || "0"
             })\nCheck-in: ${booking.CheckIn}\nCheck-out: ${
               booking.CheckOut
-            }\nTotale: ${booking.Totale}`
+            }\nTotale: ${booking.Totale}${
+              booking.Note ? `\nNote: ${booking.Note}` : ""
+            }`
           );
         }}
         height="auto"
