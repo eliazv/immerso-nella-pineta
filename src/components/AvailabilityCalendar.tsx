@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Calendar from "react-calendar";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import "react-calendar/dist/Calendar.css";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CalendarDays } from "lucide-react";
@@ -9,10 +11,34 @@ interface AvailabilityCalendarProps {
   className?: string;
 }
 
+interface Booking {
+  Nome: string;
+  OTA: string;
+  CheckIn: string;
+  CheckOut: string;
+  Notti: string;
+  adulti: string;
+  bambini: string;
+  TotaleCliente: string;
+  FuoriOTA: string;
+  CostoNotti: string;
+  MediaANotte: string;
+  Pulizia: string;
+  Sconti: string;
+  SoggiornoTax: string;
+  OTATax: string;
+  CedolareSecca: string;
+  Totale: string;
+  Note?: string;
+}
+
 const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
-  const [bookings, setBookings] = useState<any[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [events, setEvents] = useState<
+    { title: string; start: string; end: string; extendedProps: Booking }[]
+  >([]);
 
   // Funzione per recuperare i dati dal foglio Google Sheets
   const fetchBookings = async () => {
@@ -22,24 +48,55 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
       const response = await axios.get(url);
       const data = response.data;
 
-      // Filtra le prenotazioni valide
-      const validBookings = data.filter((row: any) => row["Nome"] !== "");
+      // Mappa i dati dell'API ai nuovi nomi dei campi
+      const validBookings: Booking[] = data
+        .filter((row: Record<string, string>) => row["Nome"] !== "")
+        .map((row: Record<string, string>) => ({
+          Nome: row["Nome"],
+          OTA: row["OTA"],
+          CheckIn: row["Check-in"],
+          CheckOut: row["Check-out"],
+          Notti: row["Notti"],
+          adulti: row["adulti"],
+          bambini: row["bambini"],
+          TotaleCliente: row["Totale cliente"],
+          FuoriOTA: row["Fuori OTA"],
+          CostoNotti: row["Costo notti"],
+          MediaANotte: row["Media a notte"],
+          Pulizia: row["Pulizia"],
+          Sconti: row["Sconti "],
+          SoggiornoTax: row["Soggiorno Tax"],
+          OTATax: row["OTA tax"],
+          CedolareSecca: row["Cedolare Secca (21%)"],
+          Totale: row["Totale"],
+          Note: row["Note"],
+        }));
 
-      // Converte i dati in un array di date prenotate
-      const dates: Date[] = [];
-      validBookings.forEach((row: any) => {
-        const startDate = new Date(row["Check-in"]);
-        const endDate = new Date(row["Check-out"]);
-        for (
-          let date = new Date(startDate);
-          date <= endDate;
-          date.setDate(date.getDate() + 1)
-        ) {
-          dates.push(new Date(date));
-        }
+      // Funzione per convertire le date da DD/MM/YYYY a YYYY-MM-DD
+      const formatDate = (date: string) => {
+        const [day, month, year] = date.split("/");
+        return `${year}-${month}-${day}`;
+      };
+
+      // Crea eventi per il calendario con colori basati sull'OTA
+      const events = validBookings.map((booking) => {
+        let backgroundColor = "#808080"; // Default: grigio
+        if (booking.OTA.toLowerCase() === "booking")
+          backgroundColor = "#0000FF"; // Blu
+        if (booking.OTA.toLowerCase() === "airbnb") backgroundColor = "#FF0000"; // Rosso
+        if (booking.OTA.toLowerCase() === "extra") backgroundColor = "#008000"; // Verde
+
+        return {
+          title: `${booking.Nome} (${booking.OTA})`,
+          start: formatDate(booking.CheckIn), // Converti la data
+          end: formatDate(booking.CheckOut), // Converti la data
+          backgroundColor, // Colore basato sull'OTA
+          borderColor: backgroundColor,
+          extendedProps: booking,
+        };
       });
 
-      setBookedDates(dates);
+      setEvents(events);
       setBookings(validBookings);
     } catch (error) {
       console.error("Errore durante il recupero delle prenotazioni:", error);
@@ -49,22 +106,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   useEffect(() => {
     fetchBookings();
   }, []);
-
-  // Funzione per aggiungere un indicatore visivo alle date prenotate
-  const tileContent = ({ date }: { date: Date }) => {
-    const isBooked = bookedDates.some(
-      (bookedDate) =>
-        bookedDate.getFullYear() === date.getFullYear() &&
-        bookedDate.getMonth() === date.getMonth() &&
-        bookedDate.getDate() === date.getDate()
-    );
-
-    return isBooked ? (
-      <div className="flex justify-center items-center">
-        <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-      </div>
-    ) : null;
-  };
 
   const getOtaLogo = (ota: string) => {
     if (ota.toLowerCase() === "booking") {
@@ -90,38 +131,35 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     }
     return <span>{ota}</span>; // Fallback per altri OTA
   };
+  console.log("bookedDates :", bookedDates);
 
   return (
     <div className={`bg-white rounded-xl p-6 shadow-md border ${className}`}>
       <h3 className="font-serif text-xl font-medium mb-4">
         Calendario Disponibilità
       </h3>
-      <div className="mb-6">
-        <Calendar
-          tileClassName={({ date }) =>
-            bookedDates.some(
-              (bookedDate) =>
-                bookedDate.getFullYear() === date.getFullYear() &&
-                bookedDate.getMonth() === date.getMonth() &&
-                bookedDate.getDate() === date.getDate()
-            )
-              ? "bg-red-100"
-              : ""
-          }
-          tileContent={tileContent}
-          className="mx-auto"
-          locale="it-IT"
-        />
-      </div>
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        locale="it"
+        events={events}
+        eventClick={(info) => {
+          const booking = info.event.extendedProps as Booking;
+          alert(
+            `Dettagli Prenotazione:\nNome: ${booking.Nome}\nOTA: ${booking.OTA}\nCheck-in: ${booking.CheckIn}\nCheck-out: ${booking.CheckOut}\nTotale: ${booking.Totale}`
+          );
+        }}
+        height="auto"
+      />
 
-      <Alert className="mb-6">
+      {/* <Alert className="mb-6">
         <CalendarDays className="h-4 w-4" />
         <AlertTitle>Sincronizzazione con Google Sheets</AlertTitle>
         <AlertDescription className="mt-2">
           Questo calendario mostra le date di prenotazione sincronizzate con il
           nostro foglio Google Sheets.
         </AlertDescription>
-      </Alert>
+      </Alert> */}
 
       <div>
         <h4 className="font-serif text-lg font-medium mb-4">
@@ -148,8 +186,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
                     </strong>{" "}
                     -{" "}
                     <span>
-                      {booking["Check-in"]} → {booking["Check-out"]} (
-                      {booking.Notti} notti - {booking["Totale"]} )
+                      {booking.CheckIn} → {booking.CheckOut} ({booking.Notti}{" "}
+                      notti - {booking.Totale} )
                     </span>
                   </div>
                   <button className="text-primary">
@@ -157,15 +195,74 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
                   </button>
                 </div>
                 {expandedIndex === index && (
-                  <div className="mt-4 text-sm text-muted-foreground">
-                    {booking.Note && <p>Note: {booking.Note}</p>}
-                    <p>Adulti: {booking.adulti || "0"}</p>
-                    <p>Bambini: {booking.bambini || "0"}</p>
-                    <p>Totale Cliente: {booking["Totale cliente"] || "N/A"}</p>
-                    <p>Totale: {booking["Totale"] || "N/A"}</p>
-                    <p>Costo Notti: {booking["Costo notti"] || "N/A"}</p>
-                    <p>Pulizia: {booking["Pulizia"] || "N/A"}</p>
-                    <p>Media a Notte: {booking["Media a notte"] || "N/A"}</p>
+                  <div className="mt-4 text-sm text-muted-foreground grid grid-cols-3 gap-4">
+                    <div>
+                      <p>
+                        <strong>Nome:</strong> {booking.Nome}
+                      </p>
+                      <p>
+                        <strong>OTA:</strong> {booking.OTA}
+                      </p>
+                      <p>
+                        <strong>Check-in:</strong> {booking.CheckIn}
+                      </p>
+                      <p>
+                        <strong>Check-out:</strong> {booking.CheckOut}
+                      </p>
+                      <p>
+                        <strong>Notti:</strong> {booking.Notti}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Adulti:</strong> {booking.adulti || "0"}
+                      </p>
+                      <p>
+                        <strong>Bambini:</strong> {booking.bambini || "0"}
+                      </p>
+                      <p>
+                        <strong>Totale Cliente:</strong>{" "}
+                        {booking.TotaleCliente || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Fuori OTA:</strong> {booking.FuoriOTA || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Costo Notti:</strong>{" "}
+                        {booking.CostoNotti || "N/A"}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Media a Notte:</strong>{" "}
+                        {booking.MediaANotte || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Pulizia:</strong> {booking.Pulizia || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Sconti:</strong> {booking.Sconti || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Soggiorno Tax:</strong>{" "}
+                        {booking.SoggiornoTax || "N/A"}
+                      </p>
+                      <p>
+                        <strong>OTA Tax:</strong> {booking.OTATax || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Cedolare Secca (21%):</strong>{" "}
+                        {booking.CedolareSecca || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Totale:</strong> {booking.Totale || "N/A"}
+                      </p>
+                      {booking.Note && (
+                        <p>
+                          <strong>Note:</strong> {booking.Note}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

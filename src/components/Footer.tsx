@@ -8,7 +8,7 @@ const Footer = ({ className }: { className?: string }) => {
     <footer className={cn("border-t border-border mt-16", className)}>
       <div className="container px-4 py-12 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
+          <div className="p-6 bg-gray-50 rounded-lg shadow-md">
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex items-center">
                 <TreePine className="text-pine-dark h-6 w-6" />
@@ -52,7 +52,7 @@ const Footer = ({ className }: { className?: string }) => {
             </p>
           </div>
 
-          <div>
+          <div className="p-6 bg-gray-50 rounded-lg shadow-md">
             <h3 className="font-serif font-medium text-base mb-4">
               Collegamenti rapidi
             </h3>
@@ -97,18 +97,10 @@ const Footer = ({ className }: { className?: string }) => {
                   Prenota ora
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/calendario-disponibilita"
-                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
-                >
-                  Calendario Disponibilità
-                </Link>
-              </li>
             </ul>
           </div>
 
-          <div>
+          <div className="p-6 bg-gray-50 rounded-lg shadow-md">
             <h3 className="font-serif font-medium text-base mb-4">
               Informazioni
             </h3>
