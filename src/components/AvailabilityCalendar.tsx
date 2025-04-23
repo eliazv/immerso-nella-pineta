@@ -39,6 +39,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [events, setEvents] = useState<
     { title: string; start: string; end: string; extendedProps: Booking }[]
   >([]);
+  const [showOnlyUpcoming, setShowOnlyUpcoming] = useState<boolean>(true);
 
   // Funzione per recuperare i dati dal foglio Google Sheets
   const fetchBookings = async () => {
@@ -131,13 +132,30 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     }
     return <span>{ota}</span>; // Fallback per altri OTA
   };
-  console.log("bookedDates :", bookedDates);
+
+  // Funzione per filtrare le prenotazioni future
+  const getFilteredBookings = () => {
+    if (!showOnlyUpcoming) return bookings;
+
+    const today = new Date();
+    return bookings.filter((booking) => {
+      // Converti la data di checkout da formato DD/MM/YYYY a Date
+      const [checkoutDay, checkoutMonth, checkoutYear] =
+        booking.CheckOut.split("/");
+      const checkoutDate = new Date(
+        `${checkoutYear}-${checkoutMonth}-${checkoutDay}`
+      );
+
+      // Mantieni la prenotazione se la data di checkout è oggi o successiva
+      return checkoutDate >= today;
+    });
+  };
 
   return (
     <div className={`bg-white rounded-xl p-6 shadow-md border ${className}`}>
-      <h3 className="font-serif text-xl font-medium mb-4">
+      <h2 className="font-serif text-xl font-medium mb-4">
         Calendario Disponibilità
-      </h3>
+      </h2>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -146,12 +164,17 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         eventClick={(info) => {
           const booking = info.event.extendedProps as Booking;
           alert(
-            `Dettagli Prenotazione:\nNome: ${booking.Nome}\nOTA: ${booking.OTA}\nCheck-in: ${booking.CheckIn}\nCheck-out: ${booking.CheckOut}\nTotale: ${booking.Totale}`
+            `Dettagli Prenotazione:\nNumero di Ospiti: ${
+              parseInt(booking.adulti || "0") + parseInt(booking.bambini || "0")
+            } (Adulti: ${booking.adulti || "0"}; Bambini: ${
+              booking.bambini || "0"
+            })\nCheck-in: ${booking.CheckIn}\nCheck-out: ${
+              booking.CheckOut
+            }\nTotale: ${booking.Totale}`
           );
         }}
         height="auto"
       />
-
       {/* <Alert className="mb-6">
         <CalendarDays className="h-4 w-4" />
         <AlertTitle>Sincronizzazione con Google Sheets</AlertTitle>
@@ -160,16 +183,45 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           nostro foglio Google Sheets.
         </AlertDescription>
       </Alert> */}
-
+      <p className="text-xs text-muted-foreground">
+        La data di check-out si riferisce alla mattina della partenza
+        dell’ospite. Di conseguenza, nel calendario l’appartamento risulterà
+        occupato fino alla notte del giorno precedente. Ad esempio, se il
+        check-out è previsto per il 10, l’ultima notte prenotata sarà quella del
+        9.
+      </p>
       <div>
-        <h4 className="font-serif text-lg font-medium mb-4">
-          Lista Prenotazioni
-        </h4>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="font-serif text-lg font-medium">Lista Prenotazioni</h3>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setShowOnlyUpcoming(true)}
+              className={`px-3 py-1 text-sm rounded-md ${
+                showOnlyUpcoming
+                  ? "bg-primary text-white"
+                  : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              Prossime
+            </button>
+            <button
+              onClick={() => setShowOnlyUpcoming(false)}
+              className={`px-3 py-1 text-sm rounded-md ${
+                !showOnlyUpcoming
+                  ? "bg-primary text-white"
+                  : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              Tutte
+            </button>
+          </div>
+        </div>
+
         {bookings.length === 0 ? (
           <p className="text-muted-foreground">Nessuna prenotazione trovata.</p>
         ) : (
           <div className="space-y-4">
-            {bookings.map((booking, index) => (
+            {getFilteredBookings().map((booking, index) => (
               <div
                 key={index}
                 className="border rounded-lg p-4 shadow-sm bg-gray-50"
