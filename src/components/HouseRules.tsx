@@ -17,6 +17,12 @@ import {
   Contact,
   LogOut,
   PocketKnife,
+  Flame,
+  FileText,
+  Power,
+  Thermometer,
+  Fan,
+  TimerIcon,
 } from "lucide-react";
 import {
   Accordion,
@@ -263,6 +269,158 @@ const HouseRules = ({ className }: RulesListProps) => {
           </CollapsibleContent>
         </Collapsible>
       </div>
+
+      <div className="p-6 rounded-xl border border-border bg-card/50">
+        <Collapsible className="w-full">
+          <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
+            <h3 className="font-serif text-lg font-medium flex items-center">
+              <Flame className="mr-2 h-5 w-5 text-pine-dark" />
+              Istruzioni per il Termoventilatore
+            </h3>
+            <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-4">
+            <div className="text-sm text-muted-foreground">
+              <p className="mb-3">
+                Ecco le istruzioni per utilizzare correttamente il
+                termoventilatore:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h4 className="font-medium text-base flex items-center mb-3">
+                    <Power className="h-4 w-4 mr-2 text-pine-dark" />
+                    Accensione e Spegnimento
+                  </h4>
+                  <ol className="list-decimal pl-4 space-y-2">
+                    <li>Inserire la spina nella presa di corrente.</li>
+                    <li>
+                      Toccare il pulsante sull'apparecchio per accendere il
+                      termoventilatore. L'apparecchio emetterà un segnale
+                      acustico.
+                    </li>
+                    <li>
+                      Toccare nuovamente il pulsante per spegnere il
+                      termoventilatore. L'apparecchio inizierà un conto alla
+                      rovescia di 15 secondi prima di spegnersi.
+                    </li>
+                  </ol>
+                  <p className="mt-3 text-amber-600">
+                    <strong>Nota:</strong> Per sicurezza, il termoventilatore si
+                    spegne automaticamente dopo 16 ore di funzionamento continuo
+                    senza interazioni.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h4 className="font-medium text-base flex items-center mb-3">
+                    <Fan className="h-4 w-4 mr-2 text-pine-dark" />
+                    Modalità di Funzionamento
+                  </h4>
+                  <p className="mb-2">
+                    Toccare il pulsante per cambiare tra le quattro modalità
+                    disponibili:
+                  </p>
+                  <ul className="space-y-2">
+                    <li>
+                      <strong>Modalità automatica:</strong> Il dispositivo
+                      funziona autonomamente regolando la potenza in base alla
+                      temperatura ambiente.
+                    </li>
+                    <li>
+                      <strong>Modalità alta:</strong> Velocità elevata per un
+                      riscaldamento potente e rapido.
+                    </li>
+                    <li>
+                      <strong>Modalità bassa:</strong> Offre una piacevole
+                      brezza riscaldata a potenza ridotta.
+                    </li>
+                    <li>
+                      <strong>Modalità ventilazione:</strong> Funziona solo come
+                      ventilatore senza riscaldamento.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h4 className="font-medium text-base flex items-center mb-3">
+                    <Thermometer className="h-4 w-4 mr-2 text-pine-dark" />
+                    Regolazione della Temperatura
+                  </h4>
+                  <p>
+                    In modalità automatica, è possibile regolare la temperatura
+                    toccando i pulsanti + o -. L'intervallo di temperatura va da
+                    1°C a 37°C.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h4 className="font-medium text-base flex items-center mb-3">
+                    <TimerIcon className="h-4 w-4 mr-2 text-pine-dark" />
+                    Timer
+                  </h4>
+                  <p>
+                    Premere il pulsante timer per impostare le ore di
+                    funzionamento (da 1 a 12 ore).
+                  </p>
+                  <p className="mt-2">
+                    Per annullare il timer, tenere premuto il pulsante per 3
+                    secondi.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 p-4 rounded-lg border mb-4">
+                <h4 className="font-medium text-base mb-2">Altre funzioni</h4>
+                <ul className="space-y-2">
+                  <li>
+                    <strong>Oscillazione:</strong> Toccare il pulsante
+                    oscillazione per attivare il movimento del termoventilatore.
+                  </li>
+                  <li>
+                    <strong>Riattivazione display:</strong> Dopo lo spegnimento
+                    dello schermo, toccare qualsiasi pulsante per riattivarlo.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-4 bg-amber-50 p-3 rounded-md border border-amber-200">
+                <p className="text-amber-700 font-medium">Attenzione:</p>
+                <ul className="list-disc pl-4 mt-1 space-y-1 text-amber-700">
+                  <li>
+                    Non collocare oggetti infiammabili vicino al
+                    termoventilatore
+                  </li>
+                  <li>
+                    Mantenere una distanza di sicurezza di almeno 1 metro da
+                    mobili e tende
+                  </li>
+                  <li>Non coprire mai il termoventilatore durante l'uso</li>
+                  <li>
+                    In caso di malfunzionamento, scollegare immediatamente dalla
+                    presa
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-4">
+                <a
+                  href="https://www.documents.philips.com/assets/20230920/d6f6f430cdc74f2588eeb083006040af.pdf#page=9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline flex items-center"
+                >
+                  <FileText className="mr-2 h-5 w-5" />
+                  Manuale completo del termoventilatore
+                </a>
+              </div>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left">

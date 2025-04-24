@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar as CalendarIcon, Check, Loader2, Link } from "lucide-react";
+import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,14 +14,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import emailjs from "@emailjs/browser";
+import axios from "axios";
 
-// Initialize EmailJS with your service ID
-emailjs.init("cL0t8BEEWVW6SEE86");
+// emailjs.init("cL0t8BEEWVW6SEE86");
 
 interface BookingFormProps {
   className?: string;
+}
+
+interface Booking {
+  Nome: string;
+  OTA: string;
+  CheckIn: string;
+  CheckOut: string;
+  // altri campi non necessari per il calendario di disponibilità
 }
 
 const BookingForm = ({ className }: BookingFormProps) => {
@@ -46,22 +52,38 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const totalGuests = adults + children;
 
   useEffect(() => {
-    // Fetch booking calendar data
+    // Fetch booking data from the same Google Sheets source
     const fetchBookingData = async () => {
       setIsCalendarLoading(true);
       try {
-        const urls = [
-          "https://ical.booking.com/v1/export?t=7939dd36-fb7a-45a6-a2ae-7174518b66ec",
-          "https://www.airbnb.it/calendar/ical/1170325824706403059.ics?s=0a303b3e94eb31f05a723c183ba7eb15",
-        ];
+        // Utilizza la stessa URL di AvailabilityCalendar per ottenere i dati
+        const url =
+          "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/Affitti3";
+        const response = await axios.get(url);
+        const data = response.data;
 
-        // For demo purposes, let's add some dates
-        // In a real implementation, you would parse the iCal files to extract bookings
-        const unavailableDates = [
-          { from: new Date(2024, 6, 1), to: new Date(2024, 6, 15) }, // July 1-15
-          { from: new Date(2024, 7, 10), to: new Date(2024, 7, 20) }, // August 10-20
-          { from: new Date(2024, 5, 25), to: new Date(2024, 5, 30) }, // June 25-30
-        ];
+        // Filtra le prenotazioni valide
+        const validBookings: Booking[] = data
+          .filter((row: Record<string, string>) => row["Nome"] !== "")
+          .map((row: Record<string, string>) => ({
+            Nome: row["Nome"],
+            OTA: row["OTA"],
+            CheckIn: row["Check-in"],
+            CheckOut: row["Check-out"],
+          }));
+
+        // Converti le date da DD/MM/YYYY a oggetti Date
+        const unavailableDates = validBookings.map((booking) => {
+          const [checkInDay, checkInMonth, checkInYear] =
+            booking.CheckIn.split("/");
+          const [checkOutDay, checkOutMonth, checkOutYear] =
+            booking.CheckOut.split("/");
+
+          return {
+            from: new Date(`${checkInYear}-${checkInMonth}-${checkInDay}`),
+            to: new Date(`${checkOutYear}-${checkOutMonth}-${checkOutDay}`),
+          };
+        });
 
         setDisabledDates(unavailableDates);
       } catch (error) {
@@ -69,7 +91,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
         toast({
           title: "Errore nel caricamento del calendario",
           description:
-            "Non è stato possibile caricare le date di disponibilità. Usa il link al Google Calendar per verificare.",
+            "Non è stato possibile caricare le date di disponibilità.",
           variant: "destructive",
         });
       } finally {
@@ -79,49 +101,6 @@ const BookingForm = ({ className }: BookingFormProps) => {
 
     fetchBookingData();
   }, [toast]);
-
-  const sendEmail = async () => {
-    try {
-      const templateParams = {
-        to_email: "zavattaelia@gmail.com",
-        from_name: name,
-        from_email: email,
-        check_in: checkIn
-          ? format(checkIn, "dd/MM/yyyy", { locale: it })
-          : "Non specificato",
-        check_out: checkOut
-          ? format(checkOut, "dd/MM/yyyy", { locale: it })
-          : "Non specificato",
-        adults: adults,
-        children: children,
-        pets: pets,
-        phone: phone || "Non specificato",
-        message: message || "Nessun messaggio",
-        reply_to: email,
-      };
-
-      const serviceId = "service_8vct8zl";
-      const templateId = "template_rbva3vf";
-
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams
-      );
-
-      console.log("Email sent successfully:", response);
-      return true;
-    } catch (error) {
-      console.error("Error sending email:", error);
-      toast({
-        title: "Errore nell'invio",
-        description:
-          "Si è verificato un problema nell'invio dell'email. Riprova più tardi o contattaci direttamente.",
-        variant: "destructive",
-      });
-      return false;
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -178,9 +157,30 @@ const BookingForm = ({ className }: BookingFormProps) => {
     if (isBefore(date, new Date())) return true;
 
     // Check if date is in any of the disabled periods
-    return disabledDates.some(({ from, to }) =>
-      isWithinInterval(date, { start: from, end: to })
-    );
+    return disabledDates.some(({ from, to }) => {
+      // La data è disabilitata se cade nel periodo di una prenotazione
+      // (nota: il check-out è disponibile come data di check-in per nuove prenotazioni)
+      const adjustedTo = new Date(to);
+      adjustedTo.setDate(adjustedTo.getDate() - 1); // La disponibilità termina il giorno prima del checkout
+
+      return isWithinInterval(date, { start: from, end: adjustedTo });
+    });
+  };
+
+  // Funzione per verificare se c'è disponibilità per un intervallo di date
+  const isRangeAvailable = (start: Date, end: Date) => {
+    // Crea un array di date da controllare (dal giorno dopo il check-in fino al check-out escluso)
+    const dateToCheck = new Date(start);
+    dateToCheck.setDate(dateToCheck.getDate() + 1); // Inizia dal giorno dopo il check-in
+
+    // Controlla ogni giorno tra start e end (escluso il giorno di end che è il check-out)
+    while (dateToCheck < end) {
+      if (isDateDisabled(dateToCheck)) {
+        return false; // Se una qualsiasi data nell'intervallo è disabilitata, l'intero intervallo non è disponibile
+      }
+      dateToCheck.setDate(dateToCheck.getDate() + 1);
+    }
+    return true; // Tutte le date nell'intervallo sono disponibili
   };
 
   if (isSubmitted) {
@@ -265,7 +265,17 @@ const BookingForm = ({ className }: BookingFormProps) => {
                 <Calendar
                   mode="single"
                   selected={checkIn}
-                  onSelect={setCheckIn}
+                  onSelect={(date) => {
+                    setCheckIn(date);
+                    // Se il check-out è già selezionato e prima del nuovo check-in o se l'intervallo non è disponibile, resetta il check-out
+                    if (
+                      checkOut &&
+                      (isBefore(checkOut, date) ||
+                        !isRangeAvailable(date, checkOut))
+                    ) {
+                      setCheckOut(undefined);
+                    }
+                  }}
                   initialFocus
                   disabled={isDateDisabled}
                   locale={it}
@@ -310,7 +320,13 @@ const BookingForm = ({ className }: BookingFormProps) => {
                   initialFocus
                   disabled={(date) => {
                     if (!checkIn) return isDateDisabled(date);
-                    return isBefore(date, checkIn) || isDateDisabled(date);
+
+                    // Non permettere date di check-out prima del check-in o date disabilitate
+                    if (isBefore(date, checkIn) || isDateDisabled(date))
+                      return true;
+
+                    // Controlla che tutte le date tra check-in e check-out siano disponibili
+                    return !isRangeAvailable(checkIn, date);
                   }}
                   locale={it}
                   className="rounded-md border pointer-events-auto"
