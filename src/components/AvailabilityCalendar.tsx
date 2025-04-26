@@ -4,8 +4,17 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "react-calendar/dist/Calendar.css";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Lock } from "lucide-react";
 import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -32,6 +41,9 @@ interface Booking {
   Note?: string;
 }
 
+// Tipo di calendario selezionabile
+type CalendarType = "principale" | "secondario" | "terziario";
+
 const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -40,12 +52,68 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     { title: string; start: string; end: string; extendedProps: Booking }[]
   >([]);
   const [showOnlyUpcoming, setShowOnlyUpcoming] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [pin, setPin] = useState<string>("");
+  const [pinError, setPinError] = useState<string>("");
+  const [selectedCalendar, setSelectedCalendar] =
+    useState<CalendarType>("principale");
+
+  // Verifica se l'utente è già autenticato al caricamento del componente
+  useEffect(() => {
+    const authStatus = localStorage.getItem("calendarAuth");
+    if (authStatus) {
+      const { timestamp, authenticated } = JSON.parse(authStatus);
+      // Controlla se l'autenticazione è ancora valida (24 ore)
+      const now = new Date().getTime();
+      if (authenticated && now - timestamp < 24 * 60 * 60 * 1000) {
+        setIsAuthenticated(true);
+      } else {
+        // Autenticazione scaduta
+        localStorage.removeItem("calendarAuth");
+      }
+    }
+  }, []);
+
+  // Funzione per verificare il PIN
+  const handlePinSubmit = () => {
+    if (pin === "2222") {
+      setIsAuthenticated(true);
+      setPinError("");
+      // Salva lo stato di autenticazione nel localStorage con timestamp
+      localStorage.setItem(
+        "calendarAuth",
+        JSON.stringify({
+          authenticated: true,
+          timestamp: new Date().getTime(),
+        })
+      );
+    } else {
+      setPinError("PIN non valido. Riprova.");
+      setPin("");
+    }
+  };
 
   // Funzione per recuperare i dati dal foglio Google Sheets
   const fetchBookings = async () => {
     try {
-      const url =
-        "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/Affitti3";
+      let url =
+        "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/";
+
+      // Seleziona il foglio corretto in base al calendario selezionato
+      switch (selectedCalendar) {
+        case "principale":
+          url += "Affitti3";
+          break;
+        case "secondario":
+          url += "Affitti4";
+          break;
+        case "terziario":
+          url += "Affitti8";
+          break;
+        default:
+          url += "Affitti3";
+      }
+
       const response = await axios.get(url);
       const data = response.data;
 
@@ -105,8 +173,10 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   };
 
   useEffect(() => {
-    fetchBookings();
-  }, []);
+    if (isAuthenticated) {
+      fetchBookings();
+    }
+  }, [isAuthenticated, selectedCalendar]);
 
   const getOtaLogo = (ota: string) => {
     if (ota.toLowerCase() === "booking") {
@@ -151,11 +221,81 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     });
   };
 
+  // Se l'utente non è autenticato, mostra il form di inserimento PIN
+  if (!isAuthenticated) {
+    return (
+      <div
+        className={`bg-white rounded-xl p-6 shadow-md border ${className} flex flex-col items-center justify-center`}
+      >
+        <Lock className="h-8 w-8 text-primary mb-4" />
+        <h2 className="font-serif text-xl font-medium mb-4">
+          Area Protetta - Calendario Prenotazioni
+        </h2>
+        <p className="text-sm text-muted-foreground mb-6 text-center">
+          Inserisci il codice PIN per accedere al calendario delle prenotazioni
+        </p>
+        <div className="flex flex-col items-center w-full max-w-xs gap-4">
+          <Input
+            type="password"
+            placeholder="Inserisci il PIN"
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+            className="text-center text-lg"
+            maxLength={4}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handlePinSubmit();
+              }
+            }}
+          />
+          {pinError && <p className="text-sm text-red-500">{pinError}</p>}
+          <Button onClick={handlePinSubmit} className="w-full">
+            Accedi
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`bg-white rounded-xl p-6 shadow-md border ${className}`}>
-      <h2 className="font-serif text-xl font-medium mb-4">
-        Calendario Disponibilità
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="font-serif text-xl font-medium">
+          Calendario Disponibilità
+        </h2>
+        <div className="flex items-center gap-3">
+          <Select
+            value={selectedCalendar}
+            onValueChange={(value) => {
+              // Reset eventi e prenotazioni prima di cambiare calendario
+              setEvents([]);
+              setBookings([]);
+              setSelectedCalendar(value as CalendarType);
+              // fetchBookings verrà chiamato dall'useEffect quando selectedCalendar cambia
+            }}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Seleziona calendario" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="principale">N° 3</SelectItem>
+              <SelectItem value="secondario">N° 4</SelectItem>
+              <SelectItem value="terziario">N° 8</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              localStorage.removeItem("calendarAuth");
+              setIsAuthenticated(false);
+            }}
+          >
+            Esci
+          </Button>
+        </div>
+      </div>
+
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -177,23 +317,28 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         }}
         height="auto"
       />
-      {/* <Alert className="mb-6">
-        <CalendarDays className="h-4 w-4" />
-        <AlertTitle>Sincronizzazione con Google Sheets</AlertTitle>
-        <AlertDescription className="mt-2">
-          Questo calendario mostra le date di prenotazione sincronizzate con il
-          nostro foglio Google Sheets.
-        </AlertDescription>
-      </Alert> */}
-      <p className="text-xs text-muted-foreground">
+
+      <div className="mt-4">
+        <h3 className="text-sm font-medium mb-2">
+          Calendario attivo:{" "}
+          {selectedCalendar === "principale"
+            ? "Appartamento 3"
+            : selectedCalendar === "secondario"
+            ? "Appartamento 4"
+            : "Appartamento 8"}
+        </h3>
+      </div>
+
+      <p className="text-xs text-muted-foreground mt-4">
         La data di check-out si riferisce alla mattina della partenza
-        dell’ospite. Di conseguenza, nel calendario l’appartamento risulterà
+        dell'ospite. Di conseguenza, nel calendario l'appartamento risulterà
         occupato fino alla notte del giorno precedente. Ad esempio, se il
-        check-out è previsto per il 10, l’ultima notte prenotata sarà quella del
+        check-out è previsto per il 10, l'ultima notte prenotata sarà quella del
         9.
       </p>
+
       <div>
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center my-6">
           <h3 className="font-serif text-lg font-medium">Lista Prenotazioni</h3>
           <div className="flex items-center space-x-2">
             <button
