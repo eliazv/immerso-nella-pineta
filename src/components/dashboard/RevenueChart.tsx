@@ -1,0 +1,137 @@
+import React from "react";
+import {
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  ComposedChart,
+  Bar,
+} from "recharts";
+import { RevenueStats } from "@/services/dashboardService";
+
+interface RevenueChartProps {
+  data: RevenueStats;
+}
+
+const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
+  // Organizziamo i dati per il grafico
+  // Estraiamo il mese e l'anno separatamente per un migliore ordinamento
+  const processedData = data.monthlyRevenue
+    .map((item) => {
+      const [monthName, year] = item.month.split(" ");
+      return {
+        ...item,
+        monthName,
+        year,
+        shortMonth: monthName.substring(0, 3),
+      };
+    })
+    .sort((a, b) => {
+      if (a.year !== b.year) return parseInt(a.year) - parseInt(b.year);
+
+      // Array dei mesi per l'ordinamento
+      const months = [
+        "Gennaio",
+        "Febbraio",
+        "Marzo",
+        "Aprile",
+        "Maggio",
+        "Giugno",
+        "Luglio",
+        "Agosto",
+        "Settembre",
+        "Ottobre",
+        "Novembre",
+        "Dicembre",
+      ];
+
+      return months.indexOf(a.monthName) - months.indexOf(b.monthName);
+    });
+
+  // Calcoliamo la media mobile a 3 mesi per mostrare la tendenza
+  processedData.forEach((item, index, array) => {
+    if (index >= 2) {
+      const sum =
+        array[index].revenue +
+        array[index - 1].revenue +
+        array[index - 2].revenue;
+      item.trend = Math.round(sum / 3);
+    } else {
+      item.trend = item.revenue;
+    }
+  });
+
+  // Formatter per i valori in euro
+  const euroFormatter = (value: number) => `€ ${value.toLocaleString("it-IT")}`;
+
+  return (
+    <div className="w-full h-[400px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <ComposedChart
+          data={processedData}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 20,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <XAxis
+            dataKey="shortMonth"
+            tick={{ fill: "#555" }}
+            axisLine={{ stroke: "#e0e0e0" }}
+          />
+          <YAxis
+            tickFormatter={euroFormatter}
+            tick={{ fill: "#555" }}
+            axisLine={{ stroke: "#e0e0e0" }}
+          />
+          <Tooltip
+            formatter={(value: number) => [euroFormatter(value), "Ricavo"]}
+            labelFormatter={(label, items) => {
+              const dataPoint = processedData.find(
+                (item) => item.shortMonth === label
+              );
+              return dataPoint
+                ? `${dataPoint.monthName} ${dataPoint.year}`
+                : label;
+            }}
+          />
+          <Legend />
+          <Bar
+            dataKey="revenue"
+            name="Ricavo Mensile"
+            fill="var(--primary)"
+            radius={[4, 4, 0, 0]}
+            opacity={0.7}
+            maxBarSize={60}
+          />
+          <Line
+            type="monotone"
+            dataKey="trend"
+            name="Tendenza (media mobile 3 mesi)"
+            stroke="#ff7d00"
+            strokeWidth={2}
+            dot={{ r: 4 }}
+          />
+        </ComposedChart>
+      </ResponsiveContainer>
+
+      <div className="text-center text-muted-foreground text-sm mt-2">
+        Ricavi totali: <strong>{euroFormatter(data.totalRevenue)}</strong> |
+        Media per notte: <strong>{euroFormatter(data.averagePerNight)}</strong>{" "}
+        | Media per prenotazione:{" "}
+        <strong>{euroFormatter(data.averagePerBooking)}</strong>
+      </div>
+    </div>
+  );
+};
+
+export default RevenueChart;

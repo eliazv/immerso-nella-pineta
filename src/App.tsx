@@ -11,6 +11,7 @@ import Attractions from "./pages/Attractions";
 import HouseRulesPDF from "./pages/HouseRulesPDF";
 import NotFound from "./pages/NotFound";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/book" element={<Book />} />
           <Route path="/rules/pdf" element={<HouseRulesPDF />} />
           <Route path="/calendar" element={<AvailabilityCalendar />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

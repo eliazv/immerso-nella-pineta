@@ -17,6 +17,8 @@ export interface Booking {
   CedolareSecca: string;
   Totale: string;
   Note?: string;
+  id?: string; // Identificatore univoco per la prenotazione
+  rowIndex?: number; // Numero della riga nel foglio Excel
 }
 
 // Tipo di calendario selezionabile

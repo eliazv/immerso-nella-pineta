@@ -11,11 +11,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Link } from "react-router-dom";
+import { BarChart3 } from "lucide-react";
 
 import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
 import { fetchBookings } from "@/services/bookingService";
 import PinAuth from "@/components/calendar/PinAuth";
 import BookingsList from "@/components/calendar/BookingsList";
+import BookingModal from "@/components/calendar/BookingModal";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -27,6 +30,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [selectedCalendar, setSelectedCalendar] =
     useState<CalendarType>("principale");
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Verifica se l'utente è già autenticato al caricamento del componente
   useEffect(() => {
@@ -58,6 +63,12 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     setBookings(bookings);
   };
 
+  // Apre il modale con i dettagli della prenotazione
+  const openBookingDetails = (booking: Booking) => {
+    setSelectedBooking(booking);
+    setIsModalOpen(true);
+  };
+
   // Se l'utente non è autenticato, mostra il form di inserimento PIN
   if (!isAuthenticated) {
     return (
@@ -85,7 +96,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
               // loadBookings verrà chiamato dall'useEffect quando selectedCalendar cambia
             }}
           >
-            <SelectTrigger>
+            <SelectTrigger className="min-w-[100px] w-auto">
               <SelectValue placeholder="Seleziona calendario" />
             </SelectTrigger>
             <SelectContent>
@@ -94,6 +105,16 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
               <SelectItem value="terziario">N° 8</SelectItem>
             </SelectContent>
           </Select>
+          <Link to="/dashboard">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1"
+            >
+              <BarChart3 className="h-4 w-4" />
+              Dashboard
+            </Button>
+          </Link>
           <Button
             variant="outline"
             size="sm"
@@ -112,19 +133,10 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         initialView="dayGridMonth"
         locale="it"
         events={events}
+        firstDay={1} // Imposta lunedì come primo giorno della settimana
         eventClick={(info) => {
           const booking = info.event.extendedProps as Booking;
-          alert(
-            `Dettagli Prenotazione:\nNumero di Ospiti: ${
-              parseInt(booking.adulti || "0") + parseInt(booking.bambini || "0")
-            } (Adulti: ${booking.adulti || "0"}; Bambini: ${
-              booking.bambini || "0"
-            })\nCheck-in: ${booking.CheckIn}\nCheck-out: ${
-              booking.CheckOut
-            }\nTotale: ${booking.Totale}${
-              booking.Note ? `\nNote: ${booking.Note}` : ""
-            }`
-          );
+          openBookingDetails(booking);
         }}
         height="auto"
       />
@@ -148,7 +160,19 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         9.
       </p>
 
-      <BookingsList bookings={bookings} />
+      <BookingsList
+        bookings={bookings}
+        onBookingClick={(booking) => openBookingDetails(booking)}
+      />
+
+      {/* Modale per i dettagli della prenotazione */}
+      <BookingModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        booking={selectedBooking}
+        calendarType={selectedCalendar}
+        onUpdate={loadBookings}
+      />
     </div>
   );
 };

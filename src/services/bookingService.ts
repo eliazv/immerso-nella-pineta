@@ -1,9 +1,13 @@
 import axios from "axios";
 import { Booking, CalendarType, CalendarEvent } from "@/types/calendar";
 
-// Base URL per l'API Google Sheets
+// Base URL per l'API Google Sheets (lettura)
 const BASE_URL =
   "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/";
+
+// URL del Google Apps Script
+const API_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbyClrLjSCXjQEZ4KOi9yRzJvcdks1HOf3P0BbsOZhjhiP8D18pN5uzwV5w7Gr9SPmpVfw/exec";
 
 // Funzione per recuperare i dati dal foglio Google Sheets
 export const fetchBookings = async (
@@ -55,6 +59,9 @@ export const fetchBookings = async (
         CedolareSecca: row["Cedolare Secca (21%)"],
         Totale: row["Totale"],
         Note: row["Note"],
+        id:
+          row["id"] || `${row["Nome"]}-${row["Check-in"]}-${row["Check-out"]}`, // Aggiungiamo un ID univoco
+        rowIndex: row["__rowNum__"], // Per identificare la riga esatta nel foglio Excel
       }));
 
     // Funzione per convertire le date da DD/MM/YYYY a YYYY-MM-DD
@@ -84,5 +91,112 @@ export const fetchBookings = async (
   } catch (error) {
     console.error("Errore durante il recupero delle prenotazioni:", error);
     return { events: [], bookings: [] };
+  }
+};
+
+/**
+ * Implementazione diretta che aggira CORS in modo solido
+ * Usare window.open per aprire una nuova finestra con i parametri per aggiornarla
+ */
+function submitViaDirectAccess(action: string, data: any): Promise<boolean> {
+  return new Promise((resolve) => {
+    console.log(`Chiamata API: ${action}`, data); // Per debug
+
+    // Creo URL-encoded dati
+    const jsonStr = encodeURIComponent(JSON.stringify(data));
+
+    // Apro una finestra temporanea con i parametri
+    const popupWindow = window.open(
+      `${API_ENDPOINT}?action=${action}&data=${jsonStr}`,
+      "_blank",
+      "width=1,height=1"
+    );
+
+    // Attendi 3 secondi, poi chiudi la finestra popup se ancora aperta
+    setTimeout(() => {
+      if (popupWindow && !popupWindow.closed) {
+        popupWindow.close();
+      }
+      console.log("API chiamata completata:", action);
+      resolve(true);
+    }, 3000);
+  });
+}
+
+// Funzione per aggiornare una prenotazione esistente
+export const updateBooking = async (
+  booking: Booking,
+  calendarType: CalendarType
+): Promise<boolean> => {
+  try {
+    console.log("⚡️ updateBooking chiamato!", booking); // Per debug
+
+    // Otteniamo il foglio corretto in base al calendario selezionato
+    let sheet = "";
+    switch (calendarType) {
+      case "principale":
+        sheet = "Affitti3";
+        break;
+      case "secondario":
+        sheet = "Affitti4";
+        break;
+      case "terziario":
+        sheet = "Affitti8";
+        break;
+      default:
+        sheet = "Affitti3";
+    }
+
+    // Creiamo il payload da inviare
+    const payload = {
+      booking,
+      sheet,
+      spreadsheetId: "156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc",
+    };
+
+    // Utilizziamo l'accesso diretto aggirando CORS
+    return await submitViaDirectAccess("update", payload);
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento della prenotazione:", error);
+    return false;
+  }
+};
+
+// Funzione per cancellare una prenotazione
+export const deleteBooking = async (
+  booking: Booking,
+  calendarType: CalendarType
+): Promise<boolean> => {
+  try {
+    console.log("⚡️ deleteBooking chiamato!", booking); // Per debug
+
+    // Otteniamo il foglio corretto in base al calendario selezionato
+    let sheet = "";
+    switch (calendarType) {
+      case "principale":
+        sheet = "Affitti3";
+        break;
+      case "secondario":
+        sheet = "Affitti4";
+        break;
+      case "terziario":
+        sheet = "Affitti8";
+        break;
+      default:
+        sheet = "Affitti3";
+    }
+
+    // Creiamo il payload da inviare
+    const payload = {
+      booking,
+      sheet,
+      spreadsheetId: "156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc",
+    };
+
+    // Utilizziamo l'accesso diretto aggirando CORS
+    return await submitViaDirectAccess("delete", payload);
+  } catch (error) {
+    console.error("Errore durante la cancellazione della prenotazione:", error);
+    return false;
   }
 };

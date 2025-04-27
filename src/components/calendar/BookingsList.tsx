@@ -3,10 +3,13 @@ import { Booking } from "@/types/calendar";
 
 interface BookingsListProps {
   bookings: Booking[];
+  onBookingClick: (booking: Booking) => void;
 }
 
-export const BookingsList: React.FC<BookingsListProps> = ({ bookings }) => {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+export const BookingsList: React.FC<BookingsListProps> = ({
+  bookings,
+  onBookingClick,
+}) => {
   const [showOnlyUpcoming, setShowOnlyUpcoming] = useState<boolean>(true);
 
   // Funzione per filtrare le prenotazioni future
@@ -50,7 +53,7 @@ export const BookingsList: React.FC<BookingsListProps> = ({ bookings }) => {
       return (
         <img
           src="https://cdn-icons-png.freepik.com/512/5361/5361038.png?size=512&id=103424&format=png"
-          alt="Airbnb"
+          alt="Extra"
           className="inline-block h-5 w-auto"
         />
       );
@@ -59,7 +62,7 @@ export const BookingsList: React.FC<BookingsListProps> = ({ bookings }) => {
       return (
         <img
           src="https://cdn-icons-png.freepik.com/256/6522/6522039.png?size=512&id=103424&format=png"
-          alt="Airbnb"
+          alt="Agenzia"
           className="inline-block h-5 w-auto"
         />
       );
@@ -103,14 +106,10 @@ export const BookingsList: React.FC<BookingsListProps> = ({ bookings }) => {
           {getFilteredBookings().map((booking, index) => (
             <div
               key={index}
-              className="border rounded-lg p-4 shadow-sm bg-gray-50"
+              className="border rounded-lg p-4 shadow-sm bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors"
+              onClick={() => onBookingClick(booking)}
             >
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() =>
-                  setExpandedIndex(expandedIndex === index ? null : index)
-                }
-              >
+              <div className="flex justify-between items-center">
                 <div>
                   <strong>
                     {getOtaLogo(booking.OTA)} {booking.Nome}
@@ -118,84 +117,11 @@ export const BookingsList: React.FC<BookingsListProps> = ({ bookings }) => {
                   -{" "}
                   <span>
                     {booking.CheckIn} → {booking.CheckOut} ({booking.Notti}{" "}
-                    notti - {booking.Totale} )
+                    notti - {booking.Totale})
                   </span>
                 </div>
-                <button className="text-primary">
-                  {expandedIndex === index ? "Nascondi" : "Dettagli"}
-                </button>
+                <button className="text-primary">Dettagli</button>
               </div>
-              {expandedIndex === index && (
-                <div className="mt-4 text-sm text-muted-foreground grid grid-cols-3 gap-4">
-                  <div>
-                    <p>
-                      <strong>Nome:</strong> {booking.Nome}
-                    </p>
-                    <p>
-                      <strong>OTA:</strong> {booking.OTA}
-                    </p>
-                    <p>
-                      <strong>Check-in:</strong> {booking.CheckIn}
-                    </p>
-                    <p>
-                      <strong>Check-out:</strong> {booking.CheckOut}
-                    </p>
-                    <p>
-                      <strong>Notti:</strong> {booking.Notti}
-                    </p>
-                  </div>
-                  <div>
-                    <p>
-                      <strong>Adulti:</strong> {booking.adulti || "0"}
-                    </p>
-                    <p>
-                      <strong>Bambini:</strong> {booking.bambini || "0"}
-                    </p>
-                    <p>
-                      <strong>Totale Cliente:</strong>{" "}
-                      {booking.TotaleCliente || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Fuori OTA:</strong> {booking.FuoriOTA || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Costo Notti:</strong>{" "}
-                      {booking.CostoNotti || "N/A"}
-                    </p>
-                  </div>
-                  <div>
-                    <p>
-                      <strong>Media a Notte:</strong>{" "}
-                      {booking.MediaANotte || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Pulizia:</strong> {booking.Pulizia || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Sconti:</strong> {booking.Sconti || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Soggiorno Tax:</strong>{" "}
-                      {booking.SoggiornoTax || "N/A"}
-                    </p>
-                    <p>
-                      <strong>OTA Tax:</strong> {booking.OTATax || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Cedolare Secca (21%):</strong>{" "}
-                      {booking.CedolareSecca || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Totale:</strong> {booking.Totale || "N/A"}
-                    </p>
-                    {booking.Note && (
-                      <p>
-                        <strong>Note:</strong> {booking.Note}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           ))}
         </div>
