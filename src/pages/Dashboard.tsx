@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -24,42 +24,23 @@ import SeasonalityChart from "@/components/dashboard/SeasonalityChart";
 import SummaryCards from "@/components/dashboard/SummaryCards";
 import { Loader2 } from "lucide-react";
 
+// Interfaccia per il contesto condiviso dal layout
+interface BackofficeContext {
+  selectedCalendar: CalendarType;
+}
+
 const Dashboard: React.FC = () => {
-  const [selectedCalendar, setSelectedCalendar] =
-    useState<CalendarType>("principale");
+  const { selectedCalendar } = useOutletContext<BackofficeContext>();
   const [selectedYear, setSelectedYear] = useState<string>(
     new Date().getFullYear().toString()
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [stats, setStats] = useState<any>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const navigate = useNavigate();
 
-  // Verifica se l'utente è già autenticato al caricamento del componente
+  // Carica i dati quando il componente viene montato o cambiano i filtri
   useEffect(() => {
-    const authStatus = localStorage.getItem("calendarAuth");
-    if (authStatus) {
-      const { timestamp, authenticated } = JSON.parse(authStatus);
-      // Controlla se l'autenticazione è ancora valida (24 ore)
-      const now = new Date().getTime();
-      if (authenticated && now - timestamp < 24 * 60 * 60 * 1000) {
-        setIsAuthenticated(true);
-      } else {
-        // Autenticazione scaduta
-        localStorage.removeItem("calendarAuth");
-        navigate("/calendar"); // Reindirizza alla pagina di autenticazione
-      }
-    } else {
-      navigate("/calendar"); // Reindirizza alla pagina di autenticazione
-    }
-  }, [navigate]);
-
-  // Carica i dati quando l'utente è autenticato o cambia i filtri
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadStats();
-    }
-  }, [isAuthenticated, selectedCalendar, selectedYear]);
+    loadStats();
+  }, [selectedCalendar, selectedYear]);
 
   const loadStats = async () => {
     setIsLoading(true);
@@ -76,45 +57,30 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Genera array di anni per il filtro (ultimi 5 anni)
-  const availableYears = Array.from({ length: 5 }, (_, i) =>
-    (new Date().getFullYear() - i).toString()
+  // Genera array di anni per il filtro (dal 2024 all'anno attuale)
+  const currentYear = new Date().getFullYear();
+  const availableYears = Array.from(
+    { length: currentYear - 2024 + 1 },
+    (_, i) => (2024 + i).toString()
   );
 
-  if (!isAuthenticated) {
-    return null; // Non mostrare nulla se non autenticato
-  }
+  // Mappa tra codici calendario e nomi degli appartamenti
+  const apartmentNames = {
+    principale: "Appartamento 3",
+    secondario: "Appartamento 4",
+    terziario: "Appartamento 8",
+  };
 
   return (
-    <div className="container px-4 py-8">
-      <h1 className="text-3xl font-serif font-medium mb-6">
-        Dashboard Gestionale
-      </h1>
-
-      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+    <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
+      <div className="flex flex-wrap justify-between items-center gap-4">
         <div>
-          <h2 className="text-xl">Statistiche e Performance</h2>
+          <h2 className="text-xl font-medium">Statistiche e Performance</h2>
           <p className="text-muted-foreground">
-            Analisi delle prenotazioni e dei ricavi
+            Analisi per {apartmentNames[selectedCalendar]}
           </p>
         </div>
-        <div className="flex gap-4">
-          <Select
-            value={selectedCalendar}
-            onValueChange={(value) =>
-              setSelectedCalendar(value as CalendarType)
-            }
-          >
-            <SelectTrigger className="min-w-[180px]">
-              <SelectValue placeholder="Seleziona appartamento" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="principale">Appartamento N° 3</SelectItem>
-              <SelectItem value="secondario">Appartamento N° 4</SelectItem>
-              <SelectItem value="terziario">Appartamento N° 8</SelectItem>
-            </SelectContent>
-          </Select>
-
+        <div className="flex flex-wrap gap-4">
           <Select value={selectedYear} onValueChange={setSelectedYear}>
             <SelectTrigger className="w-[120px]">
               <SelectValue placeholder="Anno" />

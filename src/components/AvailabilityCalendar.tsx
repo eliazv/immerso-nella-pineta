@@ -3,20 +3,10 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "react-calendar/dist/Calendar.css";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Link } from "react-router-dom";
-import { BarChart3 } from "lucide-react";
+import { useOutletContext } from "react-router-dom";
 
 import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
 import { fetchBookings } from "@/services/bookingService";
-import PinAuth from "@/components/calendar/PinAuth";
 import BookingsList from "@/components/calendar/BookingsList";
 import BookingModal from "@/components/calendar/BookingModal";
 
@@ -24,43 +14,34 @@ interface AvailabilityCalendarProps {
   className?: string;
 }
 
+// Interfaccia per il contesto condiviso dal layout
+interface BackofficeContext {
+  selectedCalendar: CalendarType;
+}
+
 const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [selectedCalendar, setSelectedCalendar] =
-    useState<CalendarType>("principale");
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Verifica se l'utente è già autenticato al caricamento del componente
-  useEffect(() => {
-    const authStatus = localStorage.getItem("calendarAuth");
-    if (authStatus) {
-      const { timestamp, authenticated } = JSON.parse(authStatus);
-      // Controlla se l'autenticazione è ancora valida (24 ore)
-      const now = new Date().getTime();
-      if (authenticated && now - timestamp < 24 * 60 * 60 * 1000) {
-        setIsAuthenticated(true);
-      } else {
-        // Autenticazione scaduta
-        localStorage.removeItem("calendarAuth");
-      }
-    }
-  }, []);
+  // Ottiene il calendario selezionato dal contesto del layout
+  const { selectedCalendar } = useOutletContext<BackofficeContext>();
 
-  // Carica i dati quando l'utente è autenticato o cambia calendario
+  // Carica i dati quando il componente viene montato o cambia calendario
   useEffect(() => {
-    if (isAuthenticated) {
-      loadBookings();
-    }
-  }, [isAuthenticated, selectedCalendar]);
+    loadBookings();
+  }, [selectedCalendar]);
 
   // Funzione per caricare le prenotazioni
   const loadBookings = async () => {
-    const { events, bookings } = await fetchBookings(selectedCalendar);
-    setEvents(events);
-    setBookings(bookings);
+    try {
+      const { events, bookings } = await fetchBookings(selectedCalendar);
+      setEvents(events);
+      setBookings(bookings);
+    } catch (error) {
+      console.error("Errore durante il caricamento delle prenotazioni:", error);
+    }
   };
 
   // Apre il modale con i dettagli della prenotazione
@@ -69,15 +50,12 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     setIsModalOpen(true);
   };
 
-  // Se l'utente non è autenticato, mostra il form di inserimento PIN
-  if (!isAuthenticated) {
-    return (
-      <PinAuth
-        onAuthenticate={() => setIsAuthenticated(true)}
-        className={className}
-      />
-    );
-  }
+  // Mappa tra codici calendario e nomi degli appartamenti
+  const apartmentNames = {
+    principale: "Appartamento 3",
+    secondario: "Appartamento 4",
+    terziario: "Appartamento 8",
+  };
 
   return (
     <div className={`bg-white rounded-xl p-6 shadow-md border ${className}`}>
@@ -85,47 +63,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         <h2 className="font-serif text-xl font-medium">
           Calendario Disponibilità
         </h2>
-        <div className="flex items-center gap-3">
-          <Select
-            value={selectedCalendar}
-            onValueChange={(value) => {
-              // Reset eventi e prenotazioni prima di cambiare calendario
-              setEvents([]);
-              setBookings([]);
-              setSelectedCalendar(value as CalendarType);
-              // loadBookings verrà chiamato dall'useEffect quando selectedCalendar cambia
-            }}
-          >
-            <SelectTrigger className="min-w-[100px] w-auto">
-              <SelectValue placeholder="Seleziona calendario" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="principale">N° 3</SelectItem>
-              <SelectItem value="secondario">N° 4</SelectItem>
-              <SelectItem value="terziario">N° 8</SelectItem>
-            </SelectContent>
-          </Select>
-          <Link to="/dashboard">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1"
-            >
-              <BarChart3 className="h-4 w-4" />
-              Dashboard
-            </Button>
-          </Link>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              localStorage.removeItem("calendarAuth");
-              setIsAuthenticated(false);
-            }}
-          >
-            Esci
-          </Button>
-        </div>
       </div>
 
       <FullCalendar
@@ -139,18 +76,15 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           openBookingDetails(booking);
         }}
         height="auto"
+        titleFormat={{
+          year: "numeric",
+          month: "short", // Usa l'abbreviazione del mese per ridurre la lunghezza
+        }}
+        viewClassNames="calendar-view"
+        contentHeight="auto"
+        eventClassNames="text-sm"
+        dayCellClassNames="text-xs"
       />
-
-      <div className="mt-4">
-        <h3 className="text-sm font-medium mb-2">
-          Calendario attivo:{" "}
-          {selectedCalendar === "principale"
-            ? "Appartamento 3"
-            : selectedCalendar === "secondario"
-            ? "Appartamento 4"
-            : "Appartamento 8"}
-        </h3>
-      </div>
 
       <p className="text-xs text-muted-foreground mt-4">
         La data di check-out si riferisce alla mattina della partenza

@@ -163,9 +163,18 @@ const calculateOccupancyStats = (
 };
 
 // Funzione per calcolare le statistiche di ricavo
-const calculateRevenueStats = (bookings: Booking[]): RevenueStats => {
-  // Filtra le prenotazioni con valori validi
-  const validBookings = bookings.filter((booking) => booking.Totale);
+const calculateRevenueStats = (
+  bookings: Booking[],
+  year: number
+): RevenueStats => {
+  // Filtra le prenotazioni con valori validi e dell'anno selezionato
+  const validBookings = bookings.filter((booking) => {
+    if (!booking.Totale || !booking.CheckIn) return false;
+
+    // Filtra per anno
+    const bookingYear = parseInt(booking.CheckIn.split("/")[2]);
+    return bookingYear === year;
+  });
 
   if (validBookings.length === 0) {
     return {
@@ -230,14 +239,21 @@ const calculateRevenueStats = (bookings: Booking[]): RevenueStats => {
 };
 
 // Funzione per calcolare le statistiche OTA
-const calculateOTAStats = (bookings: Booking[]): OTAStats => {
+const calculateOTAStats = (bookings: Booking[], year: number): OTAStats => {
+  // Filtra le prenotazioni dell'anno selezionato
+  const yearBookings = bookings.filter((booking) => {
+    if (!booking.CheckIn) return false;
+    const bookingYear = parseInt(booking.CheckIn.split("/")[2]);
+    return bookingYear === year;
+  });
+
   // Inizializza le mappe per conteggio, ricavi e notti per OTA
   const countMap = new Map<string, number>();
   const revenueMap = new Map<string, number>();
   const nightsMap = new Map<string, number>();
 
   // Raggruppa i dati per OTA
-  bookings.forEach((booking) => {
+  yearBookings.forEach((booking) => {
     const ota = booking.OTA || "Sconosciuto";
     const revenue = parseMoneyValue(booking.Totale || "0");
     const nights = parseInt(booking.Notti || "0");
@@ -276,14 +292,24 @@ const calculateOTAStats = (bookings: Booking[]): OTAStats => {
 };
 
 // Funzione per calcolare le statistiche di stagionalità
-const calculateSeasonalityStats = (bookings: Booking[]): SeasonalityStats => {
+const calculateSeasonalityStats = (
+  bookings: Booking[],
+  year: number
+): SeasonalityStats => {
+  // Filtra le prenotazioni dell'anno selezionato
+  const yearBookings = bookings.filter((booking) => {
+    if (!booking.CheckIn) return false;
+    const bookingYear = parseInt(booking.CheckIn.split("/")[2]);
+    return bookingYear === year;
+  });
+
   // Inizializza contatori per prenotazioni e prezzi mensili
   const monthlyBookingsMap = new Map<string, number>();
   const monthlyRevenueMap = new Map<string, number>();
   const monthlyNightsMap = new Map<string, number>();
 
   // Raggruppa prenotazioni per mese
-  bookings.forEach((booking) => {
+  yearBookings.forEach((booking) => {
     if (!booking.CheckIn) return;
 
     const [_, month] = booking.CheckIn.split("/");
@@ -336,9 +362,9 @@ export const getDashboardStats = async (
 
     // Calcola le diverse statistiche
     const occupancy = calculateOccupancyStats(bookings, year);
-    const revenue = calculateRevenueStats(bookings);
-    const ota = calculateOTAStats(bookings);
-    const seasonality = calculateSeasonalityStats(bookings);
+    const revenue = calculateRevenueStats(bookings, year);
+    const ota = calculateOTAStats(bookings, year);
+    const seasonality = calculateSeasonalityStats(bookings, year);
 
     // Calcola i mesi migliori e peggiori (combinando occupazione e ricavi)
     const monthlyData = monthNames.map((month, index) => {
