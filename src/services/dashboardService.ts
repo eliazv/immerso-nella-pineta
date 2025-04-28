@@ -356,9 +356,12 @@ const calculateSeasonalityStats = (
 export const getDashboardStats = async (
   calendarType: CalendarType,
   year: number = new Date().getFullYear()
-): Promise<DashboardStats> => {
+): Promise<{
+  stats: DashboardStats;
+  isCachedData: boolean; // Indichiamo se i dati sono cached
+}> => {
   try {
-    const { bookings } = await fetchBookings(calendarType);
+    const { bookings, isCachedData } = await fetchBookings(calendarType);
 
     // Calcola le diverse statistiche
     const occupancy = calculateOccupancyStats(bookings, year);
@@ -388,7 +391,7 @@ export const getDashboardStats = async (
       (a, b) => b.revenue - a.revenue
     );
 
-    return {
+    const stats = {
       occupancy,
       revenue,
       ota,
@@ -396,11 +399,16 @@ export const getDashboardStats = async (
       topMonths: sortedByRevenue.slice(0, 3), // I primi 3 mesi
       worstMonths: sortedByRevenue.slice(-3).reverse(), // Gli ultimi 3 mesi (dal peggiore al meno peggiore)
     };
+
+    return {
+      stats,
+      isCachedData,
+    };
   } catch (error) {
     console.error("Errore durante il recupero delle statistiche:", error);
 
     // Restituisci dati vuoti in caso di errore
-    return {
+    const emptyStats = {
       occupancy: {
         totalDays: 365,
         occupiedDays: 0,
@@ -425,6 +433,11 @@ export const getDashboardStats = async (
       },
       topMonths: [],
       worstMonths: [],
+    };
+
+    return {
+      stats: emptyStats,
+      isCachedData: false,
     };
   }
 };

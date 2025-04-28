@@ -9,14 +9,64 @@ const BASE_URL =
 const API_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbyClrLjSCXjQEZ4KOi9yRzJvcdks1HOf3P0BbsOZhjhiP8D18pN5uzwV5w7Gr9SPmpVfw/exec";
 
+// Tempo di scadenza della cache (in millisecondi)
+const CACHE_EXPIRATION = 1000 * 60 * 60 * 6; // 6 ore
+
+// Funzione per salvare le prenotazioni nella cache locale
+const cacheBookings = (
+  calendarType: CalendarType,
+  data: { events: CalendarEvent[]; bookings: Booking[] }
+) => {
+  const cacheKey = `bookings_${calendarType}`;
+  const cachedData = {
+    timestamp: new Date().getTime(),
+    data: data,
+  };
+  localStorage.setItem(cacheKey, JSON.stringify(cachedData));
+};
+
+// Funzione per recuperare le prenotazioni dalla cache locale
+const getCachedBookings = (
+  calendarType: CalendarType
+): { events: CalendarEvent[]; bookings: Booking[] } | null => {
+  const cacheKey = `bookings_${calendarType}`;
+  const cachedData = localStorage.getItem(cacheKey);
+
+  if (!cachedData) return null;
+
+  const { timestamp, data } = JSON.parse(cachedData);
+  const now = new Date().getTime();
+
+  // Verifica se la cache è scaduta
+  if (now - timestamp > CACHE_EXPIRATION) {
+    localStorage.removeItem(cacheKey);
+    return null;
+  }
+
+  return data;
+};
+
 // Funzione per recuperare i dati dal foglio Google Sheets
 export const fetchBookings = async (
-  calendarType: CalendarType
+  calendarType: CalendarType,
+  forceRefresh = false
 ): Promise<{
   events: CalendarEvent[];
   bookings: Booking[];
+  isCachedData: boolean;
 }> => {
   try {
+    // Verifica se ci sono dati in cache e se non è richiesto un refresh forzato
+    if (!forceRefresh) {
+      const cachedData = getCachedBookings(calendarType);
+      if (cachedData) {
+        console.log("Usando dati in cache per", calendarType);
+        return { ...cachedData, isCachedData: true };
+      }
+    }
+
+    console.log("Recuperando dati freschi per", calendarType);
+
     let url = BASE_URL;
 
     // Seleziona il foglio corretto in base al calendario selezionato
@@ -53,18 +103,17 @@ export const fetchBookings = async (
         CostoNotti: row["Costo notti"],
         MediaANotte: row["Media a notte"],
         Pulizia: row["Pulizia"],
-        Sconti: row["Sconti "],
+        Sconti: row["Sconti"],
         SoggiornoTax: row["Soggiorno Tax"],
-        OTATax: row["OTA tax"],
-        CedolareSecca: row["Cedolare Secca (21%)"],
+        OTATax: row["OTA Tax"],
+        CedolareSecca: row["Cedolare secca"],
         Totale: row["Totale"],
         Note: row["Note"],
-        id:
-          row["id"] || `${row["Nome"]}-${row["Check-in"]}-${row["Check-out"]}`, // Aggiungiamo un ID univoco
-        rowIndex: row["__rowNum__"], // Per identificare la riga esatta nel foglio Excel
+        id: `${row["Nome"]}-${row["Check-in"]}-${row["Check-out"]}`,
+        rowIndex: data.indexOf(row) + 2, // +2 perché la prima riga è l'intestazione, e gli indici delle celle partono da 1
       }));
 
-    // Funzione per convertire le date da DD/MM/YYYY a YYYY-MM-DD
+    // Funzione per convertire un formato data DD/MM/YYYY in YYYY-MM-DD
     const formatDate = (date: string) => {
       const [day, month, year] = date.split("/");
       return `${year}-${month}-${day}`;
@@ -87,10 +136,23 @@ export const fetchBookings = async (
       };
     });
 
-    return { events, bookings: validBookings };
+    const result = { events, bookings: validBookings };
+
+    // Salva i dati in cache
+    cacheBookings(calendarType, result);
+
+    return { ...result, isCachedData: false };
   } catch (error) {
     console.error("Errore durante il recupero delle prenotazioni:", error);
-    return { events: [], bookings: [] };
+
+    // In caso di errore, prova a recuperare la cache anche se scaduta
+    const cachedData = getCachedBookings(calendarType);
+    if (cachedData) {
+      console.log("Usando dati in cache dopo errore nella chiamata API");
+      return { ...cachedData, isCachedData: true };
+    }
+
+    return { events: [], bookings: [], isCachedData: false };
   }
 };
 
@@ -100,26 +162,46 @@ export const fetchBookings = async (
  */
 function submitViaDirectAccess(action: string, data: any): Promise<boolean> {
   return new Promise((resolve) => {
-    console.log(`Chiamata API: ${action}`, data); // Per debug
+    // Converti l'oggetto in un parametro URL
+    const params = encodeURIComponent(JSON.stringify({ action, ...data }));
+    // URL dell'endpoint con parametri inclusi
+    const url = `${API_ENDPOINT}?data=${params}`;
 
-    // Creo URL-encoded dati
-    const jsonStr = encodeURIComponent(JSON.stringify(data));
+    // Apre in una nuova finestra
+    const newWindow = window.open(url, "_blank");
 
-    // Apro una finestra temporanea con i parametri
-    const popupWindow = window.open(
-      `${API_ENDPOINT}?action=${action}&data=${jsonStr}`,
-      "_blank",
-      "width=1,height=1"
-    );
-
-    // Attendi 3 secondi, poi chiudi la finestra popup se ancora aperta
-    setTimeout(() => {
-      if (popupWindow && !popupWindow.closed) {
-        popupWindow.close();
+    // Controlla periodicamente se la finestra è stata chiusa
+    const checkClosed = setInterval(() => {
+      if (newWindow?.closed) {
+        clearInterval(checkClosed);
+        // Quando la finestra viene chiusa, consideriamo l'operazione completata
+        // Invalidiamo la cache per forzare un aggiornamento al prossimo caricamento
+        const cacheKey = `bookings_${
+          data.sheet === "Affitti3"
+            ? "principale"
+            : data.sheet === "Affitti4"
+            ? "secondario"
+            : "terziario"
+        }`;
+        localStorage.removeItem(cacheKey);
+        resolve(true);
       }
-      console.log("API chiamata completata:", action);
+    }, 1000);
+
+    // Dopo 30 secondi, consideriamo completata l'operazione anche se la finestra è ancora aperta
+    setTimeout(() => {
+      clearInterval(checkClosed);
+      // Invalidiamo la cache per forzare un aggiornamento al prossimo caricamento
+      const cacheKey = `bookings_${
+        data.sheet === "Affitti3"
+          ? "principale"
+          : data.sheet === "Affitti4"
+          ? "secondario"
+          : "terziario"
+      }`;
+      localStorage.removeItem(cacheKey);
       resolve(true);
-    }, 3000);
+    }, 30000);
   });
 }
 
@@ -155,7 +237,15 @@ export const updateBooking = async (
     };
 
     // Utilizziamo l'accesso diretto aggirando CORS
-    return await submitViaDirectAccess("update", payload);
+    const result = await submitViaDirectAccess("update", payload);
+
+    // Dopo un aggiornamento, rimuoviamo la cache per forzare un refresh al prossimo caricamento
+    if (result) {
+      const cacheKey = `bookings_${calendarType}`;
+      localStorage.removeItem(cacheKey);
+    }
+
+    return result;
   } catch (error) {
     console.error("Errore durante l'aggiornamento della prenotazione:", error);
     return false;
@@ -194,9 +284,30 @@ export const deleteBooking = async (
     };
 
     // Utilizziamo l'accesso diretto aggirando CORS
-    return await submitViaDirectAccess("delete", payload);
+    const result = await submitViaDirectAccess("delete", payload);
+
+    // Dopo una cancellazione, rimuoviamo la cache per forzare un refresh al prossimo caricamento
+    if (result) {
+      const cacheKey = `bookings_${calendarType}`;
+      localStorage.removeItem(cacheKey);
+    }
+
+    return result;
   } catch (error) {
     console.error("Errore durante la cancellazione della prenotazione:", error);
+    return false;
+  }
+};
+
+// Funzione per forzare un refresh della cache
+export const refreshBookingsCache = async (
+  calendarType: CalendarType
+): Promise<boolean> => {
+  try {
+    await fetchBookings(calendarType, true);
+    return true;
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento forzato della cache:", error);
     return false;
   }
 };

@@ -6,9 +6,10 @@ import "react-calendar/dist/Calendar.css";
 import { useOutletContext } from "react-router-dom";
 
 import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
-import { fetchBookings } from "@/services/bookingService";
+import { fetchBookings, refreshBookingsCache } from "@/services/bookingService";
 import BookingsList from "@/components/calendar/BookingsList";
 import BookingModal from "@/components/calendar/BookingModal";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -24,6 +25,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isMobile = useIsMobile();
 
   // Ottiene il calendario selezionato dal contesto del layout
   const { selectedCalendar } = useOutletContext<BackofficeContext>();
@@ -34,14 +37,31 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   }, [selectedCalendar]);
 
   // Funzione per caricare le prenotazioni
-  const loadBookings = async () => {
+  const loadBookings = async (forceRefresh = false) => {
     try {
-      const { events, bookings } = await fetchBookings(selectedCalendar);
+      setIsLoading(true);
+      const beforeFetch = new Date();
+      const { events, bookings, isCachedData } = await fetchBookings(
+        selectedCalendar,
+        forceRefresh
+      );
+
+      // Controlla se i dati sono stati caricati dalla cache in base al tempo di risposta
+      // e al flag restituito dal servizio
+      setIsCached(isCachedData);
       setEvents(events);
       setBookings(bookings);
+      setLastUpdated(new Date().toLocaleTimeString());
     } catch (error) {
       console.error("Errore durante il caricamento delle prenotazioni:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  // Funzione per forzare un aggiornamento dei dati
+  const handleRefresh = async () => {
+    await loadBookings(true);
   };
 
   // Apre il modale con i dettagli della prenotazione
@@ -61,6 +81,56 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-medium">Calendario Disponibilità</h2>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleRefresh}
+            disabled={isLoading}
+            className="flex items-center gap-1 px-3 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+          >
+            {isLoading ? (
+              <>
+                <svg
+                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                {!isMobile && <span>Caricamento...</span>}
+              </>
+            ) : (
+              <>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
+                </svg>
+                {!isMobile && <span>Aggiorna dati</span>}
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl p-3 shadow-md border">
