@@ -8,7 +8,13 @@ import {
 } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, BarChart3, LogOut, Building } from "lucide-react";
+import {
+  Calendar,
+  BarChart3,
+  LogOut,
+  Building,
+  ShieldAlert,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -18,13 +24,15 @@ import {
 } from "@/components/ui/select";
 import PinAuth from "@/components/calendar/PinAuth";
 import { CalendarType } from "@/types/calendar";
+import { isAuthenticated, logout } from "@/services/authService";
 
 /**
  * Layout condiviso per le pagine del backoffice (Dashboard e Calendario)
  * Si occupa della gestione dell'autenticazione e della navigazione tra le sezioni
  */
 const BackofficeLayout: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCalendar, setSelectedCalendar] =
@@ -40,18 +48,9 @@ const BackofficeLayout: React.FC = () => {
 
   // Verifica se l'utente è già autenticato al caricamento del componente
   useEffect(() => {
-    const authStatus = localStorage.getItem("calendarAuth");
-    if (authStatus) {
-      const { timestamp, authenticated } = JSON.parse(authStatus);
-      // Controlla se l'autenticazione è ancora valida (24 ore)
-      const now = new Date().getTime();
-      if (authenticated && now - timestamp < 24 * 60 * 60 * 1000) {
-        setIsAuthenticated(true);
-      } else {
-        // Autenticazione scaduta
-        localStorage.removeItem("calendarAuth");
-      }
-    }
+    // Verifica autenticazione utilizzando il servizio di auth sicuro
+    setIsAuth(isAuthenticated());
+    setIsLoading(false);
   }, []);
 
   // Carica la selezione dell'appartamento salvata (se disponibile)
@@ -74,18 +73,26 @@ const BackofficeLayout: React.FC = () => {
 
   // Gestisce il logout
   const handleLogout = () => {
-    localStorage.removeItem("calendarAuth");
-    setIsAuthenticated(false);
+    logout();
+    setIsAuth(false);
   };
 
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl flex items-center justify-center min-h-[60vh]">
+        <div className="animate-pulse flex flex-col items-center">
+          <ShieldAlert className="h-12 w-12 text-muted-foreground mb-4" />
+          <p className="text-muted-foreground">Verifica accesso in corso...</p>
+        </div>
+      </div>
+    );
+  }
+
   // Se l'utente non è autenticato, mostra il form di autenticazione
-  if (!isAuthenticated) {
+  if (!isAuth) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <PinAuth
-          onAuthenticate={() => setIsAuthenticated(true)}
-          className="mt-16"
-        />
+        <PinAuth onAuthenticate={() => setIsAuth(true)} className="mt-16" />
       </div>
     );
   }

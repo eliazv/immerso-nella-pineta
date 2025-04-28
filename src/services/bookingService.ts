@@ -2,11 +2,14 @@ import axios from "axios";
 import { Booking, CalendarType, CalendarEvent } from "@/types/calendar";
 
 // Base URL per l'API Google Sheets (lettura)
-const BASE_URL =
-  "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/";
+const BASE_URL = "https://opensheet.elk.sh/";
 
-// URL del Google Apps Script
+// Utilizza valori sicuri dalle variabili d'ambiente
+const SPREADSHEET_ID =
+  import.meta.env.VITE_GOOGLE_SHEET_ID ||
+  "156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc";
 const API_ENDPOINT =
+  import.meta.env.VITE_GOOGLE_SCRIPT_ENDPOINT ||
   "https://script.google.com/macros/s/AKfycbyClrLjSCXjQEZ4KOi9yRzJvcdks1HOf3P0BbsOZhjhiP8D18pN5uzwV5w7Gr9SPmpVfw/exec";
 
 // Tempo di scadenza della cache (in millisecondi)
@@ -67,7 +70,7 @@ export const fetchBookings = async (
 
     console.log("Recuperando dati freschi per", calendarType);
 
-    let url = BASE_URL;
+    let url = BASE_URL + SPREADSHEET_ID + "/";
 
     // Seleziona il foglio corretto in base al calendario selezionato
     switch (calendarType) {
@@ -120,6 +123,7 @@ export const fetchBookings = async (
     };
 
     // Crea eventi per il calendario con colori basati sull'OTA
+    // Mantiene i nomi completi per garantire la trasparenza nel backoffice
     const events = validBookings.map((booking) => {
       let backgroundColor = "#808080"; // Default: grigio
       if (booking.OTA.toLowerCase() === "booking") backgroundColor = "#0000FF"; // Blu
@@ -233,7 +237,7 @@ export const updateBooking = async (
     const payload = {
       booking,
       sheet,
-      spreadsheetId: "156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc",
+      spreadsheetId: SPREADSHEET_ID,
     };
 
     // Utilizziamo l'accesso diretto aggirando CORS
@@ -280,7 +284,7 @@ export const deleteBooking = async (
     const payload = {
       booking,
       sheet,
-      spreadsheetId: "156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc",
+      spreadsheetId: SPREADSHEET_ID,
     };
 
     // Utilizziamo l'accesso diretto aggirando CORS

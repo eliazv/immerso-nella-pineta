@@ -42,7 +42,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const loadBookings = async (forceRefresh = false) => {
     try {
       setIsLoading(true);
-      const beforeFetch = new Date();
       const { events, bookings, isCachedData } = await fetchBookings(
         selectedCalendar,
         forceRefresh
