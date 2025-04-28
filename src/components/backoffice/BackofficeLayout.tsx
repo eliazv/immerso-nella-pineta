@@ -155,7 +155,7 @@ const BackofficeLayout: React.FC = () => {
       <div className="mb-8 border-b pb-2"></div>
 
       {/* Passa l'appartamento selezionato alle pagine figlie */}
-      <div className="pt-12">
+      <div className="pt-10 pb-6">
         <Outlet context={{ selectedCalendar }} />
       </div>
     </div>

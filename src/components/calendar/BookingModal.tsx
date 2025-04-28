@@ -181,127 +181,121 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
               <div className="space-y-2">
-                <div>
-                  <span className="font-semibold">Nome:</span> {booking.Nome}
-                </div>
-                <div>
-                  <span className="font-semibold">OTA:</span> {booking.OTA}
-                </div>
-                <div>
-                  <span className="font-semibold">Check-in:</span>{" "}
-                  {booking.CheckIn}
-                </div>
-                <div>
-                  <span className="font-semibold">Check-out:</span>{" "}
-                  {booking.CheckOut}
-                </div>
-                <div>
-                  <span className="font-semibold">Notti:</span> {booking.Notti}
-                </div>
-                <div>
-                  <span className="font-semibold">Ospiti:</span>{" "}
-                  {parseInt(booking.adulti || "0") +
-                    parseInt(booking.bambini || "0")}
-                  (Adulti: {booking.adulti || "0"}; Bambini:{" "}
-                  {booking.bambini || "0"})
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div>
-                  <span className="font-semibold">Totale Cliente:</span>{" "}
-                  {booking.TotaleCliente || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">Fuori OTA:</span>{" "}
-                  {booking.FuoriOTA || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">Costo Notti:</span>{" "}
-                  {booking.CostoNotti || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">Media a Notte:</span>{" "}
-                  {booking.MediaANotte || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">Pulizia:</span>{" "}
-                  {booking.Pulizia || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">Sconti:</span>{" "}
-                  {booking.Sconti || "N/A"}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div>
-                  <span className="font-semibold">Soggiorno Tax:</span>{" "}
-                  {booking.SoggiornoTax || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">OTA Tax:</span>{" "}
-                  {booking.OTATax || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">Cedolare Secca (21%):</span>{" "}
-                  {booking.CedolareSecca || "N/A"}
-                </div>
-                <div>
-                  <span className="font-semibold">Totale:</span>{" "}
-                  {booking.Totale || "N/A"}
-                </div>
-                {booking.Note && (
-                  <div className="col-span-3">
-                    <span className="font-semibold">Note:</span> {booking.Note}
+                {booking.Nome && (
+                  <div>
+                    <span className="font-semibold">Nome:</span> {booking.Nome}
                   </div>
                 )}
+                {booking.OTA && (
+                  <div>
+                    <span className="font-semibold">OTA:</span> {booking.OTA}
+                  </div>
+                )}
+                {booking.CheckIn && (
+                  <div>
+                    <span className="font-semibold">Check-in:</span>{" "}
+                    {booking.CheckIn}
+                  </div>
+                )}
+                {booking.CheckOut && (
+                  <div>
+                    <span className="font-semibold">Check-out:</span>{" "}
+                    {booking.CheckOut}
+                  </div>
+                )}
+                {booking.Notti && (
+                  <div>
+                    <span className="font-semibold">Notti:</span>{" "}
+                    {booking.Notti}
+                  </div>
+                )}
+                {(booking.adulti || booking.bambini) && (
+                  <div>
+                    <span className="font-semibold">Ospiti:</span>{" "}
+                    {parseInt(booking.adulti || "0") +
+                      parseInt(booking.bambini || "0")}
+                    (Adulti: {booking.adulti || "0"}; Bambini:{" "}
+                    {booking.bambini || "0"})
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                {booking.TotaleCliente && (
+                  <div>
+                    <span className="font-semibold">Totale Cliente:</span>{" "}
+                    {booking.TotaleCliente}
+                  </div>
+                )}
+                {booking.FuoriOTA && (
+                  <div>
+                    <span className="font-semibold">Fuori OTA:</span>{" "}
+                    {booking.FuoriOTA}
+                  </div>
+                )}
+                {booking.CostoNotti && (
+                  <div>
+                    <span className="font-semibold">Costo Notti:</span>{" "}
+                    {booking.CostoNotti}
+                  </div>
+                )}
+                {booking.MediaANotte && (
+                  <div>
+                    <span className="font-semibold">Media a Notte:</span>{" "}
+                    {booking.MediaANotte}
+                  </div>
+                )}
+                {booking.Pulizia && (
+                  <div>
+                    <span className="font-semibold">Pulizia:</span>{" "}
+                    {booking.Pulizia}
+                  </div>
+                )}
+                {booking.Sconti && (
+                  <div>
+                    <span className="font-semibold">Sconti:</span>{" "}
+                    {booking.Sconti}
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                {booking.SoggiornoTax && (
+                  <div>
+                    <span className="font-semibold">Soggiorno Tax:</span>{" "}
+                    {booking.SoggiornoTax}
+                  </div>
+                )}
+                {booking.OTATax && (
+                  <div>
+                    <span className="font-semibold">OTA Tax:</span>{" "}
+                    {booking.OTATax}
+                  </div>
+                )}
+                {booking.CedolareSecca && (
+                  <div>
+                    <span className="font-semibold">Cedolare Secca (21%):</span>{" "}
+                    {booking.CedolareSecca}
+                  </div>
+                )}
+                {booking.Totale && (
+                  <div>
+                    <span className="font-semibold">Totale:</span>{" "}
+                    {booking.Totale}
+                  </div>
+                )}
+                <div className="col-span-3">
+                  <span className="font-semibold">Note:</span>{" "}
+                  {booking.Note || "Nessuna nota"}
+                </div>
               </div>
             </div>
 
             <DialogFooter>
-              <div className="flex gap-2 justify-end w-full">
+              <div className="flex justify-end w-full">
                 <Button variant="outline" onClick={() => onOpenChange(false)}>
                   Chiudi
                 </Button>
-                <Button
-                  onClick={() => setIsEditing(true)}
-                  disabled={true} // Disabilitato temporaneamente
-                  title="Funzionalità temporaneamente non disponibile"
-                >
-                  Modifica
-                </Button>
-                <AlertDialog open={isDeleting} onOpenChange={setIsDeleting}>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      variant="destructive"
-                      disabled={true} // Disabilitato temporaneamente
-                      title="Funzionalità temporaneamente non disponibile"
-                    >
-                      Elimina
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Sei sicuro?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Stai per eliminare la prenotazione di {booking.Nome} dal{" "}
-                        {booking.CheckIn} al {booking.CheckOut}. Questa
-                        operazione non può essere annullata.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Annulla</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={handleDelete}
-                        className="bg-red-600 hover:bg-red-700"
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Eliminando..." : "Elimina"}
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
               </div>
             </DialogFooter>
           </>

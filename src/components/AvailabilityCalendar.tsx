@@ -58,33 +58,33 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   };
 
   return (
-    <div className={`bg-white rounded-xl p-6 shadow-md border ${className}`}>
+    <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-serif text-xl font-medium">
-          Calendario Disponibilità
-        </h2>
+        <h2 className="text-xl font-medium">Calendario Disponibilità</h2>
       </div>
 
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        locale="it"
-        events={events}
-        firstDay={1} // Imposta lunedì come primo giorno della settimana
-        eventClick={(info) => {
-          const booking = info.event.extendedProps as Booking;
-          openBookingDetails(booking);
-        }}
-        height="auto"
-        titleFormat={{
-          year: "numeric",
-          month: "short", // Usa l'abbreviazione del mese per ridurre la lunghezza
-        }}
-        viewClassNames="calendar-view"
-        contentHeight="auto"
-        eventClassNames="text-sm"
-        dayCellClassNames="text-xs"
-      />
+      <div className="bg-white rounded-xl p-3 shadow-md border">
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          locale="it"
+          events={events}
+          firstDay={1} // Imposta lunedì come primo giorno della settimana
+          eventClick={(info) => {
+            const booking = info.event.extendedProps as Booking;
+            openBookingDetails(booking);
+          }}
+          height="auto"
+          titleFormat={{
+            year: "numeric",
+            month: "short", // Usa l'abbreviazione del mese per ridurre la lunghezza
+          }}
+          viewClassNames="calendar-view"
+          contentHeight="auto"
+          eventClassNames="text-sm"
+          dayCellClassNames="text-xs"
+        />
+      </div>
 
       <p className="text-xs text-muted-foreground mt-4">
         La data di check-out si riferisce alla mattina della partenza
