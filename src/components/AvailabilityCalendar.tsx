@@ -26,6 +26,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isCached, setIsCached] = useState<boolean>(false);
+  const [lastUpdated, setLastUpdated] = useState<string>("");
   const isMobile = useIsMobile();
 
   // Ottiene il calendario selezionato dal contesto del layout
