@@ -1,8 +1,9 @@
+// Importa la configurazione pubblica
+import { authConfig } from "@/lib/config";
+
 // Configurazioni di autenticazione
-// Idealmente questi valori dovrebbero essere caricati da variabili d'ambiente
-const AUTH_PIN = import.meta.env.VITE_AUTH_PIN || "1234";
-const AUTH_PIN_EXPIRY =
-  Number(import.meta.env.VITE_AUTH_PIN_EXPIRY) || 86400000; // 24 ore (in ms)
+const AUTH_PIN = authConfig.PIN || "2222"; // Usa il PIN dalla configurazione pubblica con fallback corretto
+const AUTH_PIN_EXPIRY = authConfig.EXPIRY || 7 * 24 * 60 * 60 * 1000; // 7 giorni in ms come fallback
 const AUTH_TOKEN_KEY = "auth_token";
 const FAILED_ATTEMPTS_KEY = "failed_auth_attempts";
 const BLOCK_UNTIL_KEY = "auth_blocked_until";
