@@ -49,7 +49,7 @@ const getCachedBookings = (
   return data;
 };
 
-// Funzione per recuperare i dati dal foglio Google Sheets
+// Funzione per recuperare le prenotazioni
 export const fetchBookings = async (
   calendarType: CalendarType,
   forceRefresh = false
@@ -59,105 +59,166 @@ export const fetchBookings = async (
   isCachedData: boolean;
 }> => {
   try {
-    // Verifica se ci sono dati in cache e se non è richiesto un refresh forzato
+    // Se non è richiesto un refresh, controlla se esiste una versione in cache
     if (!forceRefresh) {
       const cachedData = getCachedBookings(calendarType);
       if (cachedData) {
-        console.log("Usando dati in cache per", calendarType);
         return { ...cachedData, isCachedData: true };
       }
     }
 
-    console.log("Recuperando dati freschi per", calendarType);
+    // Se è stata selezionata la vista "all", recupera le prenotazioni da tutti gli appartamenti
+    if (calendarType === "all") {
+      const principaleData = await fetchBookingsForCalendar("principale");
+      const secondarioData = await fetchBookingsForCalendar("secondario");
+      const terziarioData = await fetchBookingsForCalendar("terziario");
 
-    let url = BASE_URL + SPREADSHEET_ID + "/";
+      // Aggiungi l'identificativo dell'appartamento a ciascuna prenotazione e evento
+      const allBookings = [
+        ...principaleData.bookings.map((booking) => ({
+          ...booking,
+          apartment: "principale",
+        })),
+        ...secondarioData.bookings.map((booking) => ({
+          ...booking,
+          apartment: "secondario",
+        })),
+        ...terziarioData.bookings.map((booking) => ({
+          ...booking,
+          apartment: "terziario",
+        })),
+      ];
 
-    // Seleziona il foglio corretto in base al calendario selezionato
-    switch (calendarType) {
-      case "principale":
-        url += "Affitti3";
-        break;
-      case "secondario":
-        url += "Affitti4";
-        break;
-      case "terziario":
-        url += "Affitti8";
-        break;
-      default:
-        url += "Affitti3";
+      // Modifica i colori degli eventi in base all'appartamento
+      const allEvents = [
+        ...principaleData.events.map((event) => ({
+          ...event,
+          backgroundColor: "#3498db", // Blu per l'appartamento principale
+          borderColor: "#3498db",
+          extendedProps: {
+            ...event.extendedProps,
+            apartment: "principale",
+          },
+        })),
+        ...secondarioData.events.map((event) => ({
+          ...event,
+          backgroundColor: "#e74c3c", // Rosso per l'appartamento secondario
+          borderColor: "#e74c3c",
+          extendedProps: {
+            ...event.extendedProps,
+            apartment: "secondario",
+          },
+        })),
+        ...terziarioData.events.map((event) => ({
+          ...event,
+          backgroundColor: "#2ecc71", // Verde per l'appartamento terziario
+          borderColor: "#2ecc71",
+          extendedProps: {
+            ...event.extendedProps,
+            apartment: "terziario",
+          },
+        })),
+      ];
+
+      const result = { events: allEvents, bookings: allBookings };
+
+      // Salva i dati in cache
+      cacheBookings(calendarType, result);
+
+      return { ...result, isCachedData: false };
     }
 
-    const response = await axios.get(url);
-    const data = response.data;
-
-    // Mappa i dati dell'API ai nuovi nomi dei campi
-    const validBookings: Booking[] = data
-      .filter((row: Record<string, string>) => row["Nome"] !== "")
-      .map((row: Record<string, string>) => ({
-        Nome: row["Nome"],
-        OTA: row["OTA"],
-        CheckIn: row["Check-in"],
-        CheckOut: row["Check-out"],
-        Notti: row["Notti"],
-        adulti: row["adulti"],
-        bambini: row["bambini"],
-        TotaleCliente: row["Totale cliente"],
-        FuoriOTA: row["Fuori OTA"],
-        CostoNotti: row["Costo notti"],
-        MediaANotte: row["Media a notte"],
-        Pulizia: row["Pulizia"],
-        Sconti: row["Sconti"],
-        SoggiornoTax: row["Soggiorno Tax"],
-        OTATax: row["OTA Tax"],
-        CedolareSecca: row["Cedolare secca"],
-        Totale: row["Totale"],
-        Note: row["Note"],
-        id: `${row["Nome"]}-${row["Check-in"]}-${row["Check-out"]}`,
-        rowIndex: data.indexOf(row) + 2, // +2 perché la prima riga è l'intestazione, e gli indici delle celle partono da 1
-      }));
-
-    // Funzione per convertire un formato data DD/MM/YYYY in YYYY-MM-DD
-    const formatDate = (date: string) => {
-      const [day, month, year] = date.split("/");
-      return `${year}-${month}-${day}`;
-    };
-
-    // Crea eventi per il calendario con colori basati sull'OTA
-    // Mantiene i nomi completi per garantire la trasparenza nel backoffice
-    const events = validBookings.map((booking) => {
-      let backgroundColor = "#808080"; // Default: grigio
-      if (booking.OTA.toLowerCase() === "booking") backgroundColor = "#0000FF"; // Blu
-      if (booking.OTA.toLowerCase() === "airbnb") backgroundColor = "#FF0000"; // Rosso
-      if (booking.OTA.toLowerCase() === "extra") backgroundColor = "#008000"; // Verde
-
-      return {
-        title: `${booking.Nome} (${booking.OTA})`,
-        start: formatDate(booking.CheckIn), // Converti la data
-        end: formatDate(booking.CheckOut), // Converti la data
-        backgroundColor, // Colore basato sull'OTA
-        borderColor: backgroundColor,
-        extendedProps: booking,
-      };
-    });
-
-    const result = { events, bookings: validBookings };
+    // Altrimenti, recupera le prenotazioni solo per il calendario selezionato
+    const result = await fetchBookingsForCalendar(calendarType);
 
     // Salva i dati in cache
     cacheBookings(calendarType, result);
 
     return { ...result, isCachedData: false };
   } catch (error) {
-    console.error("Errore durante il recupero delle prenotazioni:", error);
-
-    // In caso di errore, prova a recuperare la cache anche se scaduta
-    const cachedData = getCachedBookings(calendarType);
-    if (cachedData) {
-      console.log("Usando dati in cache dopo errore nella chiamata API");
-      return { ...cachedData, isCachedData: true };
-    }
-
+    console.error("Errore nel caricamento delle prenotazioni:", error);
     return { events: [], bookings: [], isCachedData: false };
   }
+};
+
+// Funzione ausiliaria per recuperare le prenotazioni da un singolo calendario
+const fetchBookingsForCalendar = async (
+  calendarType: CalendarType
+): Promise<{
+  events: CalendarEvent[];
+  bookings: Booking[];
+}> => {
+  // Determina quale foglio del Google Sheet usare in base al tipo di calendario
+  let sheet = "";
+  switch (calendarType) {
+    case "principale":
+      sheet = "Affitti3";
+      break;
+    case "secondario":
+      sheet = "Affitti4";
+      break;
+    case "terziario":
+      sheet = "Affitti8";
+      break;
+    default:
+      sheet = "Affitti3";
+  }
+
+  // Carica i dati dal foglio Google
+  const url = `${BASE_URL}${SPREADSHEET_ID}/${sheet}`;
+  const response = await axios.get(url);
+  const data = response.data;
+
+  // Filtra le prenotazioni valide
+  const validBookings: Booking[] = data
+    .filter((row: Record<string, string>) => row["Nome"] !== "")
+    .map((row: Record<string, string>) => ({
+      Nome: row["Nome"],
+      OTA: row["OTA"],
+      CheckIn: row["Check-in"],
+      CheckOut: row["Check-out"],
+      Notti: row["Notti"],
+      adulti: row["Adulti"],
+      bambini: row["Bambini"],
+      TotaleCliente: row["Totale cliente"],
+      FuoriOTA: row["Fuori OTA"],
+      CostoNotti: row["Costo notti"],
+      MediaANotte: row["Media a notte"],
+      Pulizia: row["Pulizia"],
+      Sconti: row["Sconti"],
+      SoggiornoTax: row["Soggiorno Tax"],
+      OTATax: row["OTA Tax"],
+      CedolareSecca: row["Cedolare secca"],
+      Totale: row["Totale"],
+      Note: row["Note"],
+      id: `${row["Nome"]}-${row["Check-in"]}-${row["Check-out"]}`,
+      rowIndex: data.indexOf(row) + 2, // +2 perché la prima riga è l'intestazione, e gli indici delle celle partono da 1
+    }));
+
+  // Funzione per convertire un formato data DD/MM/YYYY in YYYY-MM-DD
+  const formatDate = (date: string) => {
+    const [day, month, year] = date.split("/");
+    return `${year}-${month}-${day}`;
+  };
+
+  // Crea eventi per il calendario con colori basati sull'OTA
+  const events = validBookings.map((booking) => {
+    let backgroundColor = "#808080"; // Default: grigio
+    if (booking.OTA.toLowerCase() === "booking") backgroundColor = "#0000FF"; // Blu
+    if (booking.OTA.toLowerCase() === "airbnb") backgroundColor = "#FF0000"; // Rosso
+    if (booking.OTA.toLowerCase() === "extra") backgroundColor = "#008000"; // Verde
+
+    return {
+      title: `${booking.Nome} (${booking.OTA})`,
+      start: formatDate(booking.CheckIn), // Converti la data
+      end: formatDate(booking.CheckOut), // Converti la data
+      backgroundColor, // Colore basato sull'OTA
+      borderColor: backgroundColor,
+      extendedProps: booking,
+    };
+  });
+
+  return { events, bookings: validBookings };
 };
 
 /**

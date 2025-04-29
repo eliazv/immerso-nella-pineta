@@ -22,7 +22,7 @@ export interface Booking {
 }
 
 // Tipo di calendario selezionabile
-export type CalendarType = "principale" | "secondario" | "terziario";
+export type CalendarType = "principale" | "secondario" | "terziario" | "all";
 
 // Evento per FullCalendar
 export interface CalendarEvent {

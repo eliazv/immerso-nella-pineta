@@ -30,6 +30,20 @@ export const BookingsList: React.FC<BookingsListProps> = ({
     });
   };
 
+  // Versione abbreviata dei nomi degli appartamenti
+  const getApartmentShortName = (apartment?: string) => {
+    switch (apartment) {
+      case "principale":
+        return "App.3";
+      case "secondario":
+        return "App.4";
+      case "terziario":
+        return "App.8";
+      default:
+        return "";
+    }
+  };
+
   const getOtaLogo = (ota: string) => {
     if (ota.toLowerCase() === "booking") {
       return (
@@ -113,6 +127,8 @@ export const BookingsList: React.FC<BookingsListProps> = ({
                 <div>
                   <strong>
                     {getOtaLogo(booking.OTA)} {booking.Nome}
+                    {booking.apartment &&
+                      ` - ${getApartmentShortName(booking.apartment)}`}
                   </strong>{" "}
                   -{" "}
                   <span>

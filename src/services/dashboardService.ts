@@ -361,6 +361,131 @@ export const getDashboardStats = async (
   isCachedData: boolean; // Indichiamo se i dati sono cached
 }> => {
   try {
+    // Se si richiede la visualizzazione combinata, otteniamo i dati di tutti gli appartamenti
+    if (calendarType === "all") {
+      // Otteniamo i dati di ciascun appartamento separatamente
+      const { bookings: bookingsPrincipale, isCachedData: isCachedPrincipale } =
+        await fetchBookings("principale");
+      const { bookings: bookingsSecondario, isCachedData: isCachedSecondario } =
+        await fetchBookings("secondario");
+      const { bookings: bookingsTerziario, isCachedData: isCachedTerziario } =
+        await fetchBookings("terziario");
+
+      // Calcoliamo le singole statistiche per ogni appartamento
+      const occupancyPrincipale = calculateOccupancyStats(
+        bookingsPrincipale,
+        year
+      );
+      const occupancySecondario = calculateOccupancyStats(
+        bookingsSecondario,
+        year
+      );
+      const occupancyTerziario = calculateOccupancyStats(
+        bookingsTerziario,
+        year
+      );
+
+      // Combiniamo tutti i bookings per calcolare le altre statistiche
+      const allBookings = [
+        ...bookingsPrincipale,
+        ...bookingsSecondario,
+        ...bookingsTerziario,
+      ];
+      // Aggiungiamo l'apartment come proprietà per distinguere i booking nella lista
+      const allBookingsWithApartment = allBookings.map((booking) => {
+        if (bookingsPrincipale.includes(booking))
+          return { ...booking, apartment: "principale" };
+        if (bookingsSecondario.includes(booking))
+          return { ...booking, apartment: "secondario" };
+        if (bookingsTerziario.includes(booking))
+          return { ...booking, apartment: "terziario" };
+        return booking;
+      });
+
+      // Calcoliamo l'occupazione combinata correttamente
+      const combinedOccupancy = {
+        // Il totale dei giorni è 365 * 3 (per i tre appartamenti)
+        totalDays: occupancyPrincipale.totalDays * 3,
+        // La somma dei giorni occupati nei tre appartamenti
+        occupiedDays:
+          occupancyPrincipale.occupiedDays +
+          occupancySecondario.occupiedDays +
+          occupancyTerziario.occupiedDays,
+        // La percentuale corretta
+        occupancyRate: parseFloat(
+          (
+            ((occupancyPrincipale.occupiedDays +
+              occupancySecondario.occupiedDays +
+              occupancyTerziario.occupiedDays) /
+              (occupancyPrincipale.totalDays * 3)) *
+            100
+          ).toFixed(2)
+        ),
+        // Occupazione mensile media dai tre appartamenti
+        monthlyOccupancy: monthNames.map((month, index) => {
+          const ratePrincipale =
+            occupancyPrincipale.monthlyOccupancy[index].rate;
+          const rateSecondario =
+            occupancySecondario.monthlyOccupancy[index].rate;
+          const rateTerziario = occupancyTerziario.monthlyOccupancy[index].rate;
+          // Media aritmetica delle percentuali di occupazione
+          const avgRate = parseFloat(
+            ((ratePrincipale + rateSecondario + rateTerziario) / 3).toFixed(2)
+          );
+          return {
+            month,
+            rate: avgRate,
+          };
+        }),
+      };
+
+      // Calcoliamo le altre statistiche sul set combinato
+      const revenue = calculateRevenueStats(allBookingsWithApartment, year);
+      const ota = calculateOTAStats(allBookingsWithApartment, year);
+      const seasonality = calculateSeasonalityStats(
+        allBookingsWithApartment,
+        year
+      );
+
+      // Calcoliamo i mesi migliori e peggiori
+      const monthlyData = monthNames.map((month, index) => {
+        const occupancyRate = combinedOccupancy.monthlyOccupancy[index].rate;
+        const monthlyRevenueEntry = revenue.monthlyRevenue.find((entry) =>
+          entry.month.startsWith(month)
+        );
+        const monthRevenue = monthlyRevenueEntry
+          ? monthlyRevenueEntry.revenue
+          : 0;
+
+        return {
+          month,
+          occupancyRate,
+          revenue: monthRevenue,
+        };
+      });
+
+      // Ordina per ricavi (decrescente)
+      const sortedByRevenue = [...monthlyData].sort(
+        (a, b) => b.revenue - a.revenue
+      );
+
+      const stats = {
+        occupancy: combinedOccupancy,
+        revenue,
+        ota,
+        seasonality,
+        topMonths: sortedByRevenue.slice(0, 3), // I primi 3 mesi
+        worstMonths: sortedByRevenue.slice(-3).reverse(), // Gli ultimi 3 mesi (dal peggiore al meno peggiore)
+      };
+
+      return {
+        stats,
+        isCachedData:
+          isCachedPrincipale && isCachedSecondario && isCachedTerziario,
+      };
+    }
+
+    // Gestione normale per la visualizzazione di un singolo appartamento
     const { bookings, isCachedData } = await fetchBookings(calendarType);
 
     // Calcola le diverse statistiche
@@ -434,10 +559,6 @@ export const getDashboardStats = async (
       topMonths: [],
       worstMonths: [],
     };
-
-    return {
-      stats: emptyStats,
-      isCachedData: false,
-    };
+    return { stats: emptyStats, isCachedData: false };
   }
 };

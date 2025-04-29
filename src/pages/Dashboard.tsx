@@ -22,7 +22,14 @@ import RevenueChart from "@/components/dashboard/RevenueChart";
 import OtaComparison from "@/components/dashboard/OtaComparison";
 import SeasonalityChart from "@/components/dashboard/SeasonalityChart";
 import SummaryCards from "@/components/dashboard/SummaryCards";
-import { Loader2, RefreshCw } from "lucide-react";
+import {
+  Loader2,
+  RefreshCw,
+  Calendar,
+  TrendingUp,
+  PieChart,
+  BarChart,
+} from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 // Interfaccia per il contesto condiviso dal layout
@@ -139,10 +146,32 @@ const Dashboard: React.FC = () => {
 
           <Tabs defaultValue="occupancy" className="mt-6">
             <TabsList className="grid grid-cols-4 mb-8 w-full max-w-4xl">
-              <TabsTrigger value="occupancy">Occupazione</TabsTrigger>
-              <TabsTrigger value="revenue">Ricavi</TabsTrigger>
-              <TabsTrigger value="ota">Confronto OTA</TabsTrigger>
-              <TabsTrigger value="seasonality">Stagionalità</TabsTrigger>
+              <TabsTrigger
+                value="occupancy"
+                className="flex items-center gap-1"
+              >
+                <Calendar className="h-4 w-4" />
+                <span className="hidden sm:inline">Occupazione</span>
+                <span className="sm:hidden">Occup.</span>
+              </TabsTrigger>
+              <TabsTrigger value="revenue" className="flex items-center gap-1">
+                <TrendingUp className="h-4 w-4" />
+                <span className="hidden sm:inline">Ricavi</span>
+                <span className="sm:hidden">Ricavi</span>
+              </TabsTrigger>
+              <TabsTrigger value="ota" className="flex items-center gap-1">
+                <PieChart className="h-4 w-4" />
+                <span className="hidden sm:inline">Confronto OTA</span>
+                <span className="sm:hidden">OTA</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="seasonality"
+                className="flex items-center gap-1"
+              >
+                <BarChart className="h-4 w-4" />
+                <span className="hidden sm:inline">Stagionalità</span>
+                <span className="sm:hidden">Stag.</span>
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="occupancy" className="animate-fade-in">

@@ -61,10 +61,19 @@ const BackofficeLayout: React.FC = () => {
     }
   }, []);
 
-  // Salva la selezione dell'appartamento per mantenere la coerenza tra le pagine
-  useEffect(() => {
-    localStorage.setItem("selectedApartment", selectedCalendar);
-  }, [selectedCalendar]);
+  // Salva la selezione dell'appartamento
+  const handleCalendarChange = (value: CalendarType) => {
+    setSelectedCalendar(value);
+    localStorage.setItem("selectedApartment", value);
+  };
+
+  // Mappa tra codici calendario e nomi degli appartamenti
+  const apartmentOptions = [
+    { value: "principale", label: "N° 3" },
+    { value: "secondario", label: "N° 4" },
+    { value: "terziario", label: "N° 8" },
+    { value: "all", label: "Tutti" },
+  ];
 
   // Gestisce il cambio di tab
   const handleTabChange = (value: string) => {
@@ -79,10 +88,10 @@ const BackofficeLayout: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl flex items-center justify-center min-h-[60vh]">
-        <div className="animate-pulse flex flex-col items-center">
-          <ShieldAlert className="h-12 w-12 text-muted-foreground mb-4" />
-          <p className="text-muted-foreground">Verifica accesso in corso...</p>
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Caricamento...</p>
         </div>
       </div>
     );
@@ -109,7 +118,7 @@ const BackofficeLayout: React.FC = () => {
             <Select
               value={selectedCalendar}
               onValueChange={(value) =>
-                setSelectedCalendar(value as CalendarType)
+                handleCalendarChange(value as CalendarType)
               }
             >
               <SelectTrigger className="min-w-[80px] border-dashed">
@@ -119,9 +128,11 @@ const BackofficeLayout: React.FC = () => {
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="principale">N° 3</SelectItem>
-                <SelectItem value="secondario">N° 4</SelectItem>
-                <SelectItem value="terziario">N° 8</SelectItem>
+                {apartmentOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

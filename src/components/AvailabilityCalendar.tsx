@@ -47,10 +47,22 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         forceRefresh
       );
 
+      // Se stiamo visualizzando tutti gli appartamenti, dobbiamo modificare
+      // il titolo degli eventi per includere il nome dell'appartamento
+      const processedEvents =
+        selectedCalendar === "all"
+          ? events.map((event) => ({
+              ...event,
+              title: `${getApartmentShortName(
+                event.extendedProps.apartment
+              )} - ${event.title}`,
+            }))
+          : events;
+
       // Controlla se i dati sono stati caricati dalla cache in base al tempo di risposta
       // e al flag restituito dal servizio
       setIsCached(isCachedData);
-      setEvents(events);
+      setEvents(processedEvents);
       setBookings(bookings);
       setLastUpdated(new Date().toLocaleTimeString());
     } catch (error) {
@@ -76,12 +88,54 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     principale: "Appartamento 3",
     secondario: "Appartamento 4",
     terziario: "Appartamento 8",
+    all: "Tutti gli appartamenti",
+  };
+
+  // Versione abbreviata dei nomi degli appartamenti per i titoli degli eventi
+  const getApartmentShortName = (apartment?: string) => {
+    switch (apartment) {
+      case "principale":
+        return "App.3";
+      case "secondario":
+        return "App.4";
+      case "terziario":
+        return "App.8";
+      default:
+        return "";
+    }
+  };
+
+  // Funzione per ottenere il titolo del calendario in base al tipo selezionato
+  const getCalendarTitle = () => {
+    return apartmentNames[selectedCalendar] || "Calendario Disponibilità";
+  };
+
+  // Legenda dei colori per la vista "all"
+  const renderColorLegend = () => {
+    if (selectedCalendar !== "all") return null;
+
+    return (
+      <div className="flex items-center gap-4 text-sm mt-2 justify-end">
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 rounded-full bg-[#3498db]"></div>
+          <span>App. 3</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 rounded-full bg-[#e74c3c]"></div>
+          <span>App. 4</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 rounded-full bg-[#2ecc71]"></div>
+          <span>App. 8</span>
+        </div>
+      </div>
+    );
   };
 
   return (
     <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-medium">Calendario Disponibilità</h2>
+        <h2 className="text-xl font-medium">{getCalendarTitle()}</h2>
         <div className="flex items-center gap-2">
           <button
             onClick={handleRefresh}
@@ -134,6 +188,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         </div>
       </div>
 
+      {renderColorLegend()}
+
       <div className="bg-white rounded-xl p-3 shadow-md border">
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -175,7 +231,11 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         booking={selectedBooking}
-        calendarType={selectedCalendar}
+        calendarType={
+          selectedCalendar === "all" && selectedBooking?.apartment
+            ? (selectedBooking.apartment as CalendarType)
+            : selectedCalendar
+        }
         onUpdate={loadBookings}
       />
     </div>
