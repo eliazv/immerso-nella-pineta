@@ -1,9 +1,5 @@
 import React from "react";
 import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -54,77 +50,58 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
       return months.indexOf(a.monthName) - months.indexOf(b.monthName);
     });
 
-  // Calcoliamo la media mobile a 3 mesi per mostrare la tendenza
-  processedData.forEach((item, index, array) => {
-    if (index >= 2) {
-      const sum =
-        array[index].revenue +
-        array[index - 1].revenue +
-        array[index - 2].revenue;
-      item.trend = Math.round(sum / 3);
-    } else {
-      item.trend = item.revenue;
-    }
-  });
-
   // Formatter per i valori in euro
   const euroFormatter = (value: number) => `€ ${value.toLocaleString("it-IT")}`;
 
   return (
-    <div className="w-full h-[400px]">
-      <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart
-          data={processedData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 20,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis
-            dataKey="shortMonth"
-            tick={{ fill: "#555" }}
-            axisLine={{ stroke: "#e0e0e0" }}
-          />
-          <YAxis
-            tickFormatter={euroFormatter}
-            tick={{ fill: "#555" }}
-            axisLine={{ stroke: "#e0e0e0" }}
-          />
-          <Tooltip
-            formatter={(value: number) => [euroFormatter(value), "Ricavo"]}
-            labelFormatter={(label, items) => {
-              const dataPoint = processedData.find(
-                (item) => item.shortMonth === label
-              );
-              return dataPoint
-                ? `${dataPoint.monthName} ${dataPoint.year}`
-                : label;
+    <div className="space-y-4">
+      <div className="w-full h-[350px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart
+            data={processedData}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 20,
             }}
-          />
-          <Legend />
-          <Bar
-            dataKey="revenue"
-            name="Ricavo Mensile"
-            fill="var(--primary)"
-            radius={[4, 4, 0, 0]}
-            opacity={0.7}
-            maxBarSize={60}
-          />
-          <Line
-            type="monotone"
-            dataKey="trend"
-            name="Tendenza (media mobile 3 mesi)"
-            stroke="#ff7d00"
-            strokeWidth={2}
-            dot={{ r: 4 }}
-          />
-        </ComposedChart>
-      </ResponsiveContainer>
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <XAxis
+              dataKey="shortMonth"
+              tick={{ fill: "#555" }}
+              axisLine={{ stroke: "#e0e0e0" }}
+            />
+            <YAxis
+              tickFormatter={euroFormatter}
+              tick={{ fill: "#555" }}
+              axisLine={{ stroke: "#e0e0e0" }}
+            />
+            <Tooltip
+              formatter={(value: number) => [euroFormatter(value), "Ricavo"]}
+              labelFormatter={(label, items) => {
+                const dataPoint = processedData.find(
+                  (item) => item.shortMonth === label
+                );
+                return dataPoint
+                  ? `${dataPoint.monthName} ${dataPoint.year}`
+                  : label;
+              }}
+            />
+            <Legend />
+            <Bar
+              dataKey="revenue"
+              name="Ricavo Mensile"
+              fill="var(--primary)"
+              radius={[4, 4, 0, 0]}
+              opacity={0.8}
+              maxBarSize={60}
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
 
-      <div className="text-center text-muted-foreground text-sm mt-2">
+      <div className="text-center text-muted-foreground text-sm border-t pt-4">
         Ricavi totali: <strong>{euroFormatter(data.totalRevenue)}</strong> |
         Media per notte: <strong>{euroFormatter(data.averagePerNight)}</strong>{" "}
         | Media per prenotazione:{" "}

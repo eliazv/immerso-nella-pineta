@@ -144,8 +144,13 @@ const Dashboard: React.FC = () => {
           {/* Schede riassuntive */}
           <SummaryCards stats={stats} />
 
-          <Tabs defaultValue="occupancy" className="mt-6">
+          <Tabs defaultValue="revenue" className="mt-6">
             <TabsList className="grid grid-cols-4 mb-8 w-full max-w-4xl">
+              <TabsTrigger value="revenue" className="flex items-center gap-1">
+                <TrendingUp className="h-4 w-4" />
+                <span className="hidden sm:inline">Ricavi</span>
+                <span className="sm:hidden">Ricavi</span>
+              </TabsTrigger>
               <TabsTrigger
                 value="occupancy"
                 className="flex items-center gap-1"
@@ -153,11 +158,6 @@ const Dashboard: React.FC = () => {
                 <Calendar className="h-4 w-4" />
                 <span className="hidden sm:inline">Occupazione</span>
                 <span className="sm:hidden">Occup.</span>
-              </TabsTrigger>
-              <TabsTrigger value="revenue" className="flex items-center gap-1">
-                <TrendingUp className="h-4 w-4" />
-                <span className="hidden sm:inline">Ricavi</span>
-                <span className="sm:hidden">Ricavi</span>
               </TabsTrigger>
               <TabsTrigger value="ota" className="flex items-center gap-1">
                 <PieChart className="h-4 w-4" />

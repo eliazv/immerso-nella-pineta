@@ -26,23 +26,6 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
     <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardContent className="flex items-center p-6">
-          <div className="bg-primary/10 p-2 rounded-full mr-4">
-            <Calendar className="h-6 w-6 text-primary" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-muted-foreground">
-              Tasso di Occupazione
-            </p>
-            <h3 className="text-2xl font-bold">{occupancy.occupancyRate}%</h3>
-            <p className="text-xs text-muted-foreground mt-1">
-              {occupancy.occupiedDays} giorni su {occupancy.totalDays}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="flex items-center p-6">
           <div className="bg-green-100 p-2 rounded-full mr-4">
             <TrendingUp className="h-6 w-6 text-green-600" />
           </div>
@@ -55,6 +38,23 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
             </h3>
             <p className="text-xs text-muted-foreground mt-1">
               € {revenue.averagePerNight} media a notte
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="flex items-center p-6">
+          <div className="bg-primary/10 p-2 rounded-full mr-4">
+            <Calendar className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-muted-foreground">
+              Tasso di Occupazione
+            </p>
+            <h3 className="text-2xl font-bold">{occupancy.occupancyRate}%</h3>
+            <p className="text-xs text-muted-foreground mt-1">
+              {occupancy.occupiedDays} giorni su {occupancy.totalDays}
             </p>
           </div>
         </CardContent>
