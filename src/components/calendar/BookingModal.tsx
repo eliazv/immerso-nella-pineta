@@ -39,7 +39,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { updateBooking, deleteBooking } from "@/services/bookingService";
+import { updateBooking, deleteBooking } from "@/services/pocketbaseService";
 import { useForm } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
 

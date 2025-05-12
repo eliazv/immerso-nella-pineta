@@ -1,0 +1,3 @@
+@echo off
+echo Avvio del server PocketBase per Immerso nella Pineta...
+start /B pocketbase.exe serve --http="127.0.0.1:8090"

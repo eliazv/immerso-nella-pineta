@@ -1,5 +1,9 @@
 // Importa la configurazione pubblica
 import { authConfig } from "@/lib/config";
+import { pb } from "./pocketbaseService";
+
+const PIN_STORAGE_KEY = "auth_state";
+const PIN_AUTHENTICATED_KEY = "auth_authenticated";
 
 // Configurazioni di autenticazione
 const AUTH_PIN = authConfig.PIN || "2222"; // Usa il PIN dalla configurazione pubblica con fallback corretto
@@ -65,25 +69,24 @@ const storeAuthToken = (token: string): void => {
  * @returns true se l'utente è autenticato e il token non è scaduto
  */
 export const isAuthenticated = (): boolean => {
-  const token = localStorage.getItem(AUTH_TOKEN_KEY);
+  // Controlla l'autenticazione in PocketBase
+  if (pb.authStore.isValid) {
+    return true;
+  }
 
-  if (!token) return false;
-
-  // Estrai il timestamp di scadenza dal token
-  const parts = token.split(":");
-  if (parts.length !== 2) return false;
-
-  const expiry = Number(parts[0]);
-  const now = Date.now();
-
-  return now < expiry;
+  // Fallback su autenticazione PIN
+  return sessionStorage.getItem(PIN_AUTHENTICATED_KEY) === "true";
 };
 
 /**
  * Esegue il logout dell'utente
  */
 export const logout = (): void => {
-  localStorage.removeItem(AUTH_TOKEN_KEY);
+  // Cancella l'autenticazione da PocketBase
+  pb.authStore.clear();
+
+  // Cancella l'autenticazione PIN
+  sessionStorage.removeItem(PIN_AUTHENTICATED_KEY);
 };
 
 /**
@@ -170,4 +173,19 @@ export const extendSession = (): boolean => {
   storeAuthToken(token);
 
   return true;
+};
+
+// Verifica se il PIN è corretto
+export const verifyPin = (pin: string): boolean => {
+  // Per questioni di sicurezza, usiamo un PIN hard-coded
+  // In un'applicazione di produzione, si dovrebbe usare un sistema di autenticazione più robusto
+  const correctPin = "4834"; // PIN semplice per test
+  const isValid = pin === correctPin;
+
+  if (isValid) {
+    // Salva lo stato di autenticazione
+    sessionStorage.setItem(PIN_AUTHENTICATED_KEY, "true");
+  }
+
+  return isValid;
 };

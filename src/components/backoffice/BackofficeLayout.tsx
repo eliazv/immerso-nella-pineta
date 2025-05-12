@@ -14,6 +14,7 @@ import {
   LogOut,
   Building,
   ShieldAlert,
+  Database,
 } from "lucide-react";
 import {
   Select,
@@ -25,6 +26,11 @@ import {
 import PinAuth from "@/components/calendar/PinAuth";
 import { CalendarType } from "@/types/calendar";
 import { isAuthenticated, logout } from "@/services/authService";
+import {
+  initPocketBase,
+  isPocketBaseAvailable,
+} from "@/services/pocketbaseService";
+import { toast } from "@/hooks/use-toast";
 
 /**
  * Layout condiviso per le pagine del backoffice (Dashboard e Calendario)
@@ -33,6 +39,7 @@ import { isAuthenticated, logout } from "@/services/authService";
 const BackofficeLayout: React.FC = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isPocketBaseActive, setIsPocketBaseActive] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCalendar, setSelectedCalendar] =
@@ -46,11 +53,33 @@ const BackofficeLayout: React.FC = () => {
     ? "calendar"
     : "calendar"; // Default
 
-  // Verifica se l'utente è già autenticato al caricamento del componente
+  // Verifica se l'utente è già autenticato e se PocketBase è disponibile
   useEffect(() => {
-    // Verifica autenticazione utilizzando il servizio di auth sicuro
-    setIsAuth(isAuthenticated());
-    setIsLoading(false);
+    const checkAuth = async () => {
+      try {
+        // Verifica se PocketBase è disponibile
+        const isAvailable = await isPocketBaseAvailable();
+        setIsPocketBaseActive(isAvailable);
+
+        if (!isAvailable) {
+          console.warn(
+            "PocketBase non è disponibile. Alcune funzionalità potrebbero non funzionare correttamente."
+          );
+        }
+
+        // Verifica autenticazione
+        setIsAuth(isAuthenticated());
+      } catch (error) {
+        console.error(
+          "Errore durante il controllo dell'autenticazione:",
+          error
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
   }, []);
 
   // Carica la selezione dell'appartamento salvata (se disponibile)
@@ -102,9 +131,20 @@ const BackofficeLayout: React.FC = () => {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <PinAuth onAuthenticate={() => setIsAuth(true)} className="mt-16" />
+        {!isPocketBaseActive && (
+          <div className="mt-4 p-4 bg-yellow-100 border border-yellow-400 rounded-md text-sm text-yellow-800">
+            <p className="font-semibold mb-1">Attenzione</p>
+            <p>
+              Il servizio PocketBase non è attivo. Alcune funzionalità
+              potrebbero non essere disponibili. Assicurati che il server
+              PocketBase sia in esecuzione prima di continuare.
+            </p>
+          </div>
+        )}
       </div>
     );
   }
+
   return (
     <div className="mx-auto">
       <div className="fixed top-0 left-0 right-0 bg-slate-100 shadow-sm z-50">
@@ -135,7 +175,6 @@ const BackofficeLayout: React.FC = () => {
               </SelectContent>
             </Select>
           </div>
-
           <div className="flex items-center gap-3 ml-auto">
             <Tabs value={activeTab} onValueChange={handleTabChange}>
               <TabsList className="grid grid-cols-2">
@@ -159,6 +198,16 @@ const BackofficeLayout: React.FC = () => {
             <Button
               variant="outline"
               size="sm"
+              onClick={() => navigate("/database-admin")}
+              className="flex items-center gap-1"
+            >
+              <Database className="h-4 w-4" />
+              <span className="hidden md:inline">Database</span>
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
               onClick={handleLogout}
               className="flex items-center gap-1"
             >
@@ -169,10 +218,22 @@ const BackofficeLayout: React.FC = () => {
         </div>
       </div>
 
+      {!isPocketBaseActive && (
+        <div className="fixed top-14 left-0 right-0 bg-yellow-100 z-40 py-2">
+          <div className="container mx-auto px-4 text-sm text-yellow-800 flex items-center gap-2">
+            <ShieldAlert className="h-4 w-4" />
+            <span>
+              PocketBase non è attivo. Alcune funzionalità potrebbero non essere
+              disponibili.
+            </span>
+          </div>
+        </div>
+      )}
+
       <div className="mb-8 border-b pb-2"></div>
 
       {/* Passa l'appartamento selezionato alle pagine figlie */}
-      <div className="pt-10 pb-6">
+      <div className={`pt-10 pb-6 ${!isPocketBaseActive ? "pt-16" : ""}`}>
         <Outlet context={{ selectedCalendar }} />
       </div>
     </div>

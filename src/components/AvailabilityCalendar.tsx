@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -6,7 +6,10 @@ import "react-calendar/dist/Calendar.css";
 import { useOutletContext } from "react-router-dom";
 
 import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
-import { fetchBookings, refreshBookingsCache } from "@/services/bookingService";
+import {
+  fetchBookings,
+  refreshBookingsCache,
+} from "@/services/pocketbaseService";
 import BookingsList from "@/components/calendar/BookingsList";
 import BookingModal from "@/components/calendar/BookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -32,49 +35,79 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
 
   // Ottiene il calendario selezionato dal contesto del layout
   const { selectedCalendar } = useOutletContext<BackofficeContext>();
+  // Versione abbreviata dei nomi degli appartamenti per i titoli degli eventi
+  const getApartmentShortName = useCallback((apartment?: string) => {
+    switch (apartment) {
+      case "principale":
+        return "App.3";
+      case "secondario":
+        return "App.4";
+      case "terziario":
+        return "App.8";
+      default:
+        return "";
+    }
+  }, []);
+
+  // Funzione per caricare le prenotazioni
+  const loadBookings = useCallback(
+    async (forceRefresh = false) => {
+      try {
+        setIsLoading(true);
+        const { events, bookings, isCachedData } = await fetchBookings(
+          selectedCalendar,
+          forceRefresh
+        );
+
+        // Se stiamo visualizzando tutti gli appartamenti, dobbiamo modificare
+        // il titolo degli eventi per includere il nome dell'appartamento
+        const processedEvents =
+          selectedCalendar === "all"
+            ? events.map((event) => ({
+                ...event,
+                title: `${getApartmentShortName(
+                  event.extendedProps.apartment
+                )} - ${event.title}`,
+              }))
+            : events;
+
+        // Controlla se i dati sono stati caricati dalla cache in base al tempo di risposta
+        // e al flag restituito dal servizio
+        setIsCached(isCachedData);
+        setEvents(processedEvents);
+        setBookings(bookings);
+        setLastUpdated(new Date().toLocaleTimeString());
+      } catch (error) {
+        console.error(
+          "Errore durante il caricamento delle prenotazioni:",
+          error
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [selectedCalendar, getApartmentShortName]
+  ); // Aggiunto getApartmentShortName come dipendenza
 
   // Carica i dati quando il componente viene montato o cambia calendario
   useEffect(() => {
     loadBookings();
-  }, [selectedCalendar]);
-
-  // Funzione per caricare le prenotazioni
-  const loadBookings = async (forceRefresh = false) => {
-    try {
-      setIsLoading(true);
-      const { events, bookings, isCachedData } = await fetchBookings(
-        selectedCalendar,
-        forceRefresh
-      );
-
-      // Se stiamo visualizzando tutti gli appartamenti, dobbiamo modificare
-      // il titolo degli eventi per includere il nome dell'appartamento
-      const processedEvents =
-        selectedCalendar === "all"
-          ? events.map((event) => ({
-              ...event,
-              title: `${getApartmentShortName(
-                event.extendedProps.apartment
-              )} - ${event.title}`,
-            }))
-          : events;
-
-      // Controlla se i dati sono stati caricati dalla cache in base al tempo di risposta
-      // e al flag restituito dal servizio
-      setIsCached(isCachedData);
-      setEvents(processedEvents);
-      setBookings(bookings);
-      setLastUpdated(new Date().toLocaleTimeString());
-    } catch (error) {
-      console.error("Errore durante il caricamento delle prenotazioni:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [selectedCalendar, loadBookings]);
 
   // Funzione per forzare un aggiornamento dei dati
   const handleRefresh = async () => {
-    await loadBookings(true);
+    try {
+      setIsLoading(true);
+      await refreshBookingsCache(selectedCalendar);
+      await loadBookings(true);
+    } catch (error) {
+      console.error(
+        "Errore durante l'aggiornamento delle prenotazioni:",
+        error
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Apre il modale con i dettagli della prenotazione
@@ -89,20 +122,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     secondario: "Appartamento 4",
     terziario: "Appartamento 8",
     all: "Tutti gli appartamenti",
-  };
-
-  // Versione abbreviata dei nomi degli appartamenti per i titoli degli eventi
-  const getApartmentShortName = (apartment?: string) => {
-    switch (apartment) {
-      case "principale":
-        return "App.3";
-      case "secondario":
-        return "App.4";
-      case "terziario":
-        return "App.8";
-      default:
-        return "";
-    }
   };
 
   // Funzione per ottenere il titolo del calendario in base al tipo selezionato
@@ -219,6 +238,11 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         occupato fino alla notte del giorno precedente. Ad esempio, se il
         check-out è previsto per il 10, l'ultima notte prenotata sarà quella del
         9.
+        {isCached && (
+          <span className="ml-2 text-yellow-600">
+            (Dati caricati dalla cache. Ultimo aggiornamento: {lastUpdated})
+          </span>
+        )}
       </p>
 
       <BookingsList

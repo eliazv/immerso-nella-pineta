@@ -15,8 +15,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import { isPocketBaseAvailable } from "@/services/pocketbaseService";
+import PocketBase from "pocketbase";
 
-// emailjs.init("cL0t8BEEWVW6SEE86");
+// Cliente PocketBase per connessione pubblica al database
+const pb = new PocketBase("http://127.0.0.1:8090");
 
 interface BookingFormProps {
   className?: string;
@@ -52,46 +55,82 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const totalGuests = adults + children;
 
   useEffect(() => {
-    // Fetch booking data from the same Google Sheets source
+    // Fetch booking data from PocketBase
     const fetchBookingData = async () => {
       setIsCalendarLoading(true);
       try {
-        // Utilizza la stessa URL di AvailabilityCalendar per ottenere i dati
-        const url =
-          "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/Affitti3";
-        const response = await axios.get(url);
-        const data = response.data;
+        // Verifica se PocketBase è disponibile
+        const isAvailable = await isPocketBaseAvailable();
 
-        // Filtra le prenotazioni valide
-        const validBookings: Booking[] = data
-          .filter((row: Record<string, string>) => row["Nome"] !== "")
-          .map((row: Record<string, string>) => ({
-            Nome: row["Nome"],
-            OTA: row["OTA"],
-            CheckIn: row["Check-in"],
-            CheckOut: row["Check-out"],
-          }));
+        if (!isAvailable) {
+          // Fallback per i dati di disponibilità se PocketBase non è disponibile
+          toast({
+            title: "Servizio di prenotazione non disponibile",
+            description:
+              "Stiamo riscontrando problemi con il servizio di prenotazione. Ti preghiamo di contattarci direttamente.",
+            variant: "destructive",
+          });
+          setIsCalendarLoading(false);
+          return;
+        }
 
-        // Converti le date da DD/MM/YYYY a oggetti Date
-        const unavailableDates = validBookings.map((booking) => {
-          const [checkInDay, checkInMonth, checkInYear] =
-            booking.CheckIn.split("/");
-          const [checkOutDay, checkOutMonth, checkOutYear] =
-            booking.CheckOut.split("/");
+        // Carica i dati da PocketBase (questo dovrebbe essere un endpoint API specifico per i clienti)
+        try {
+          const records = await pb
+            .collection("bookings_principale")
+            .getList(1, 100, {
+              sort: "CheckIn",
+            });
 
-          return {
-            from: new Date(`${checkInYear}-${checkInMonth}-${checkInDay}`),
-            to: new Date(`${checkOutYear}-${checkOutMonth}-${checkOutDay}`),
-          };
-        });
+          // Filtra le prenotazioni valide
+          const validBookings: Booking[] = records.items
+            .filter((record: any) => record.Nome !== "")
+            .map((record: any) => ({
+              Nome: record.Nome,
+              OTA: record.OTA,
+              CheckIn: record.CheckIn,
+              CheckOut: record.CheckOut,
+            }));
 
-        setDisabledDates(unavailableDates);
+          // Converti le date da DD/MM/YYYY a oggetti Date
+          const unavailableDates = validBookings.map((booking) => {
+            let fromDate, toDate;
+
+            // Gestisci diversi formati di data
+            if (booking.CheckIn.includes("/")) {
+              const [checkInDay, checkInMonth, checkInYear] =
+                booking.CheckIn.split("/");
+              const [checkOutDay, checkOutMonth, checkOutYear] =
+                booking.CheckOut.split("/");
+              fromDate = new Date(
+                `${checkInYear}-${checkInMonth}-${checkInDay}`
+              );
+              toDate = new Date(
+                `${checkOutYear}-${checkOutMonth}-${checkOutDay}`
+              );
+            } else {
+              // Se le date sono già in formato ISO (YYYY-MM-DD)
+              fromDate = new Date(booking.CheckIn);
+              toDate = new Date(booking.CheckOut);
+            }
+
+            return {
+              from: fromDate,
+              to: toDate,
+            };
+          });
+
+          setDisabledDates(unavailableDates);
+        } catch (error) {
+          console.error("Error fetching data from PocketBase:", error);
+          throw error;
+        }
       } catch (error) {
         console.error("Error fetching calendar data:", error);
         toast({
           title: "Errore nel caricamento del calendario",
           description:
-            "Non è stato possibile caricare le date di disponibilità.",
+            "Non è stato possibile caricare le date di disponibilità. Puoi contattarci direttamente per verificare.",
           variant: "destructive",
         });
       } finally {
