@@ -8,8 +8,14 @@ const BASE_URL = "https://opensheet.elk.sh/";
 const SPREADSHEET_ID =
   import.meta.env.VITE_GOOGLE_SHEET_ID ||
   "156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc";
-const API_ENDPOINT =
-  import.meta.env.VITE_GOOGLE_SCRIPT_ENDPOINT ||
+const API_END            // Deduce il numero di adulti sottraendo i bambini
+            // (se ci sono bambini e il totale è maggiore)
+            mappedBooking.adulti = (Math.max(1, ospiti - bambini)).toString();
+          }
+        } else {
+          // Se proprio non trova nulla, imposta a 1 adulto come minimo
+          mappedBooking.adulti = "1";
+        }mport.meta.env.VITE_GOOGLE_SCRIPT_ENDPOINT ||
   "https://script.google.com/macros/s/AKfycbyClrLjSCXjQEZ4KOi9yRzJvcdks1HOf3P0BbsOZhjhiP8D18pN5uzwV5w7Gr9SPmpVfw/exec";
 
 // Tempo di scadenza della cache (in millisecondi)
@@ -167,56 +173,286 @@ const fetchBookingsForCalendar = async (
   // Carica i dati dal foglio Google
   const url = `${BASE_URL}${SPREADSHEET_ID}/${sheet}`;
   const response = await axios.get(url);
-  const data = response.data;
+  const data = response.data;  // Logging per debug delle intestazioni
+  if (data && data.length > 0) {
+    // Intestazioni e valori del foglio Excel
+  }
+
+  // Funzione helper per trovare valori nel foglio con case insensitive e varianti dei nomi
+  const findFieldValue = (
+    row: Record<string, string>,
+    fieldNames: string[]
+  ): string => {
+    // Prima prova a cercare esattamente i nomi forniti
+    for (const fieldName of fieldNames) {
+      if (row[fieldName] !== undefined) {
+        return row[fieldName] || "";
+      }
+    }
+
+    // Se non trova, prova a cercare con case insensitive
+    const allKeys = Object.keys(row);
+    for (const fieldName of fieldNames) {
+      const lowerFieldName = fieldName.toLowerCase();
+      const matchingKey = allKeys.find(
+        (key) => key.toLowerCase() === lowerFieldName
+      );
+      if (matchingKey) {
+        return row[matchingKey] || "";
+      }
+    }
+
+    // Se ancora non trova, prova a cercare chiavi che contengono il testo cercato
+    for (const fieldName of fieldNames) {
+      const lowerFieldName = fieldName.toLowerCase();
+      const matchingKey = allKeys.find((key) =>
+        key.toLowerCase().includes(lowerFieldName)
+      );
+      if (matchingKey) {
+        return row[matchingKey] || "";
+      }
+    }
+
+    return ""; // Se non trova nulla, ritorna stringa vuota
+  };
 
   // Filtra le prenotazioni valide
   const validBookings: Booking[] = data
-    .filter((row: Record<string, string>) => row["Nome"] !== "")
-    .map((row: Record<string, string>) => ({
-      Nome: row["Nome"],
-      OTA: row["OTA"],
-      CheckIn: row["Check-in"],
-      CheckOut: row["Check-out"],
-      Notti: row["Notti"],
-      adulti: row["Adulti"],
-      bambini: row["Bambini"],
-      TotaleCliente: row["Totale cliente"],
-      FuoriOTA: row["Fuori OTA"],
-      CostoNotti: row["Costo notti"],
-      MediaANotte: row["Media a notte"],
-      Pulizia: row["Pulizia"],
-      Sconti: row["Sconti"],
-      SoggiornoTax: row["Soggiorno Tax"],
-      OTATax: row["OTA Tax"],
-      CedolareSecca: row["Cedolare secca"],
-      Totale: row["Totale"],
-      Note: row["Note"],
-      id: `${row["Nome"]}-${row["Check-in"]}-${row["Check-out"]}`,
-      rowIndex: data.indexOf(row) + 2, // +2 perché la prima riga è l'intestazione, e gli indici delle celle partono da 1
-    }));
+    .filter((row: Record<string, string>) => {
+      // Verifichiamo che ci sia almeno un nome o un identificativo di prenotazione
+      return (
+        findFieldValue(row, [
+          "Nome",
+          "nome",
+          "Name",
+          "name",
+          "Cliente",
+          "cliente",
+        ]) !== ""
+      );
+    })
+    .map((row: Record<string, string>) => {
+      // Verifica e normalizza tutti i campi per assicurarsi che non siano undefined
+      const mappedBooking = {
+        Nome: findFieldValue(row, [
+          "Nome",
+          "nome",
+          "Name",
+          "name",
+          "Cliente",
+          "cliente",
+        ]),
+        OTA: findFieldValue(row, ["OTA", "ota", "Canale", "canale", "Channel"]),
+        CheckIn: findFieldValue(row, [
+          "Check-in",
+          "check-in",
+          "CheckIn",
+          "checkin",
+          "Arrivo",
+          "arrivo",
+          "Data arrivo",
+        ]),
+        CheckOut: findFieldValue(row, [
+          "Check-out",
+          "check-out",
+          "CheckOut",
+          "checkout",
+          "Partenza",
+          "partenza",
+          "Data partenza",
+        ]),
+        Notti: findFieldValue(row, [
+          "Notti",
+          "notti",
+          "Nights",
+          "nights",
+          "Durata",
+          "durata",
+        ]),
+        adulti: findFieldValue(row, [
+          "Adulti",
+          "adulti",
+          "Adults",
+          "adults",
+          "Ospiti adulti",
+          "Adult",
+          "adult",
+          "Persone",
+          "persone",
+          "Num Adulti",
+          "num adulti",
+          "Numero Adulti",
+          "numero adulti",
+          "N° Adulti",
+          "n° adulti",
+          "Ospiti Adulti",
+          "Adulto",
+          "adulto",
+          "Num. Adulti",
+        ]),
+        bambini: findFieldValue(row, [
+          "Bambini",
+          "bambini",
+          "Children",
+          "children",
+          "Ospiti bambini",
+        ]),
+        animali: findFieldValue(row, [
+          "Animali",
+          "animali",
+          "Pets",
+          "pets",
+          "Animali domestici",
+        ]),
+        TotaleCliente: findFieldValue(row, [
+          "Totale cliente",
+          "totale cliente",
+          "Total",
+          "total",
+          "Importo",
+        ]),
+        FuoriOTA: findFieldValue(row, ["Fuori OTA", "fuori ota", "Extra OTA"]),
+        CostoNotti: findFieldValue(row, [
+          "Costo notti",
+          "costo notti",
+          "Room cost",
+        ]),
+        MediaANotte: findFieldValue(row, [
+          "Media a notte",
+          "media a notte",
+          "Average",
+        ]),
+        Pulizia: findFieldValue(row, [
+          "Pulizia",
+          "pulizia",
+          "Cleaning",
+          "cleaning",
+        ]),
+        Sconti: findFieldValue(row, [
+          "Sconti",
+          "sconti",
+          "Discount",
+          "discount",
+        ]),
+        SoggiornoTax: findFieldValue(row, [
+          "Soggiorno Tax",
+          "soggiorno tax",
+          "City Tax",
+          "city tax",
+          "Tassa di soggiorno",
+        ]),
+        OTATax: findFieldValue(row, ["OTA Tax", "ota tax", "Service Fee"]),
+        CedolareSecca: findFieldValue(row, [
+          "Cedolare secca",
+          "Cedolare Secca (21%)",
+          "cedolare",
+          "Tassa",
+          "tassa",
+        ]),
+        Totale: findFieldValue(row, [
+          "Totale",
+          "totale",
+          "Total Income",
+          "Income",
+        ]),
+        Note: findFieldValue(row, [
+          "Note",
+          "note",
+          "Notes",
+          "notes",
+          "Commenti",
+          "commenti",
+        ]),
+        id: `${findFieldValue(row, ["Nome", "nome", "Name"])}-${findFieldValue(
+          row,
+          ["Check-in", "check-in", "CheckIn"]
+        )}-${findFieldValue(row, ["Check-out", "check-out", "CheckOut"])}`,
+        rowIndex: data.indexOf(row) + 2, // +2 perché la prima riga è l'intestazione, e gli indici delle celle partono da 1
+      };
 
+      // Gestione speciale per gli adulti: se non è stato trovato, prova a dedurlo
+      if (!mappedBooking.adulti) {
+        // Cerca il totale ospiti
+        const totaleOspiti = findFieldValue(row, [
+          "Ospiti totali",
+          "Totale ospiti",
+          "Total guests",
+          "Guests",
+          "Ospiti",
+          "Totale persone",
+          "N° Ospiti",
+          "Numero ospiti",
+        ]);
+
+        if (totaleOspiti && totaleOspiti.trim() !== "") {
+          const ospiti = parseInt(totaleOspiti, 10);
+          const bambini = parseInt(mappedBooking.bambini || "0", 10);
+
+          if (!isNaN(ospiti) && ospiti > 0) {
+            // Deduce il numero di adulti sottraendo i bambini
+            // (se ci sono bambini e il totale è maggiore)
+            mappedBooking.adulti = Math.max(1, ospiti - bambini).toString();
+        
+          }
+        } else {
+          // Se proprio non trova nulla, imposta a 1 adulto come minimo
+          mappedBooking.adulti = "1";
+        }
+      }
+
+      return mappedBooking;
+    });
   // Funzione per convertire un formato data DD/MM/YYYY in YYYY-MM-DD
   const formatDate = (date: string) => {
-    const [day, month, year] = date.split("/");
-    return `${year}-${month}-${day}`;
+    if (!date || date.trim() === "") return "";
+
+    // Gestisce diversi possibili formati di data
+    if (date.includes("/")) {
+      const parts = date.split("/");
+      if (parts.length === 3) {
+        return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(
+          2,
+          "0"
+        )}`;
+      }
+    } else if (date.includes("-")) {
+      // Controlla se è già nel formato YYYY-MM-DD
+      const parts = date.split("-");
+      if (parts.length === 3 && parts[0].length === 4) {
+        return date; // È già nel formato corretto
+      } else if (parts.length === 3) {
+        return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(
+          2,
+          "0"
+        )}`;
+      }
+    }
+
+    // Se non riesce a interpretare la data, ritorna una stringa vuota
+    console.warn("Formato data non riconosciuto:", date);
+    return "";
   };
 
   // Crea eventi per il calendario con colori basati sull'OTA
-  const events = validBookings.map((booking) => {
-    let backgroundColor = "#808080"; // Default: grigio
-    if (booking.OTA.toLowerCase() === "booking") backgroundColor = "#0000FF"; // Blu
-    if (booking.OTA.toLowerCase() === "airbnb") backgroundColor = "#FF0000"; // Rosso
-    if (booking.OTA.toLowerCase() === "extra") backgroundColor = "#008000"; // Verde
+  const events = validBookings
+    .filter((booking) => booking.CheckIn && booking.CheckOut) // Filtra le prenotazioni senza date valide
+    .map((booking) => {
+      let backgroundColor = "#808080"; // Default: grigio
+      const otaLower = booking.OTA.toLowerCase();
 
-    return {
-      title: `${booking.Nome} (${booking.OTA})`,
-      start: formatDate(booking.CheckIn), // Converti la data
-      end: formatDate(booking.CheckOut), // Converti la data
-      backgroundColor, // Colore basato sull'OTA
-      borderColor: backgroundColor,
-      extendedProps: booking,
-    };
-  });
+      if (otaLower.includes("booking")) backgroundColor = "#0000FF"; // Blu
+      if (otaLower.includes("airbnb")) backgroundColor = "#FF0000"; // Rosso
+      if (otaLower.includes("extra")) backgroundColor = "#008000"; // Verde
+
+      return {
+        title: `${booking.Nome} (${booking.OTA})`,
+        start: formatDate(booking.CheckIn),
+        end: formatDate(booking.CheckOut),
+        backgroundColor,
+        borderColor: backgroundColor,
+        extendedProps: booking,
+      };
+    });
 
   return { events, bookings: validBookings };
 };
@@ -225,7 +461,10 @@ const fetchBookingsForCalendar = async (
  * Implementazione diretta che aggira CORS in modo solido
  * Usare window.open per aprire una nuova finestra con i parametri per aggiornarla
  */
-function submitViaDirectAccess(action: string, data: any): Promise<boolean> {
+function submitViaDirectAccess(
+  action: string,
+  data: Record<string, unknown>
+): Promise<boolean> {
   return new Promise((resolve) => {
     // Converti l'oggetto in un parametro URL
     const params = encodeURIComponent(JSON.stringify({ action, ...data }));
@@ -276,7 +515,6 @@ export const updateBooking = async (
   calendarType: CalendarType
 ): Promise<boolean> => {
   try {
-    console.log("⚡️ updateBooking chiamato!", booking); // Per debug
 
     // Otteniamo il foglio corretto in base al calendario selezionato
     let sheet = "";
@@ -323,7 +561,6 @@ export const deleteBooking = async (
   calendarType: CalendarType
 ): Promise<boolean> => {
   try {
-    console.log("⚡️ deleteBooking chiamato!", booking); // Per debug
 
     // Otteniamo il foglio corretto in base al calendario selezionato
     let sheet = "";

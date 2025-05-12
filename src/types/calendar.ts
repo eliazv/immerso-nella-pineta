@@ -6,6 +6,7 @@ export interface Booking {
   Notti: string;
   adulti: string;
   bambini: string;
+  animali: string;
   TotaleCliente: string;
   FuoriOTA: string;
   CostoNotti: string;
@@ -19,6 +20,7 @@ export interface Booking {
   Note?: string;
   id?: string; // Identificatore univoco per la prenotazione
   rowIndex?: number; // Numero della riga nel foglio Excel
+  apartment?: string; // Identificatore dell'appartamento (solo nella vista 'all')
 }
 
 // Tipo di calendario selezionabile
