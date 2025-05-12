@@ -156,62 +156,111 @@ const fetchBookingsFromPocketBase = async (
 }> => {
   // Determina quale collezione di PocketBase usare in base al tipo di calendario
   const collection = getCollectionForCalendarType(calendarType);
-
   try {
-    // Recupera i dati da PocketBase
-    const records = await pb.collection(collection).getFullList({
-      sort: "CheckIn",
-    });
+    // Verifica prima se PocketBase è disponibile
+    const isAvailable = await isPocketBaseAvailable();
+    if (!isAvailable) {
+      console.error(
+        `PocketBase non è disponibile per il calendario ${calendarType}`
+      );
+      throw new Error("PocketBase non disponibile");
+    }
 
-    // Formatta i dati come Booking
-    const validBookings: Booking[] = records.map((record) => {
-      return {
-        id: record.id,
-        Nome: record.Nome || "",
-        OTA: record.OTA || "",
-        CheckIn: record.CheckIn || "",
-        CheckOut: record.CheckOut || "",
-        Notti: record.Notti || "",
-        adulti: record.adulti || "1",
-        bambini: record.bambini || "0",
-        animali: record.animali || "",
-        TotaleCliente: record.TotaleCliente || "",
-        FuoriOTA: record.FuoriOTA || "",
-        CostoNotti: record.CostoNotti || "",
-        MediaANotte: record.MediaANotte || "",
-        Pulizia: record.Pulizia || "",
-        Sconti: record.Sconti || "",
-        SoggiornoTax: record.SoggiornoTax || "",
-        OTATax: record.OTATax || "",
-        CedolareSecca: record.CedolareSecca || "",
-        Totale: record.Totale || "",
-        Note: record.Note || "",
-        rowIndex: 0, // non necessario con PocketBase
-      };
-    });
+    // Imposta un timeout per la richiesta
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-    // Converti le prenotazioni in eventi per il calendario
-    const events = validBookings
-      .filter((booking) => booking.CheckIn && booking.CheckOut)
-      .map((booking) => {
-        let backgroundColor = "#808080"; // Default: grigio
-        const otaLower = booking.OTA.toLowerCase();
+    try {
+      // Recupera i dati da PocketBase con timeout
+      const records = await pb.collection(collection).getFullList({
+        sort: "CheckIn",
+        signal: controller.signal,
+      });
 
-        if (otaLower.includes("booking")) backgroundColor = "#0000FF"; // Blu
-        if (otaLower.includes("airbnb")) backgroundColor = "#FF0000"; // Rosso
-        if (otaLower.includes("extra")) backgroundColor = "#008000"; // Verde
+      clearTimeout(timeoutId);
 
+      if (!records || records.length === 0) {
+        console.warn(`Nessuna prenotazione trovata in ${collection}`);
+        // Ritorna array vuoti ma non lanciare errore - potrebbe semplicemente non esserci nessuna prenotazione
+        return { events: [], bookings: [] };
+      }
+
+      console.log(`Recuperate ${records.length} prenotazioni da ${collection}`);
+
+      // Formatta i dati come Booking
+      const validBookings: Booking[] = records.map((record) => {
         return {
-          title: `${booking.Nome} (${booking.OTA})`,
-          start: formatISODate(booking.CheckIn),
-          end: formatISODate(booking.CheckOut),
-          backgroundColor,
-          borderColor: backgroundColor,
-          extendedProps: booking,
+          id: record.id,
+          Nome: record.Nome || "",
+          OTA: record.OTA || "",
+          CheckIn: record.CheckIn || "",
+          CheckOut: record.CheckOut || "",
+          Notti: record.Notti || "",
+          adulti: record.adulti || "1",
+          bambini: record.bambini || "0",
+          animali: record.animali || "",
+          TotaleCliente: record.TotaleCliente || "",
+          FuoriOTA: record.FuoriOTA || "",
+          CostoNotti: record.CostoNotti || "",
+          MediaANotte: record.MediaANotte || "",
+          Pulizia: record.Pulizia || "",
+          Sconti: record.Sconti || "",
+          SoggiornoTax: record.SoggiornoTax || "",
+          OTATax: record.OTATax || "",
+          CedolareSecca: record.CedolareSecca || "",
+          Totale: record.Totale || "",
+          Note: record.Note || "",
+          rowIndex: 0, // non necessario con PocketBase
         };
       });
 
-    return { events, bookings: validBookings };
+      // Converti le prenotazioni in eventi per il calendario
+      const events = validBookings
+        .filter((booking) => booking.CheckIn && booking.CheckOut)
+        .map((booking) => {
+          let backgroundColor = "#808080"; // Default: grigio
+          const otaLower = booking.OTA.toLowerCase();
+
+          if (otaLower.includes("booking")) backgroundColor = "#0000FF"; // Blu
+          if (otaLower.includes("airbnb")) backgroundColor = "#FF0000"; // Rosso
+          if (otaLower.includes("extra")) backgroundColor = "#008000"; // Verde
+
+          const formattedStart = formatISODate(booking.CheckIn);
+          const formattedEnd = formatISODate(booking.CheckOut);
+
+          if (!formattedStart || !formattedEnd) {
+            console.warn(
+              `Date non valide per la prenotazione ${booking.id}:`,
+              booking.CheckIn,
+              booking.CheckOut
+            );
+            return null;
+          }
+
+          return {
+            title: `${booking.Nome} (${booking.OTA})`,
+            start: formattedStart,
+            end: formattedEnd,
+            backgroundColor,
+            borderColor: backgroundColor,
+            extendedProps: booking,
+          };
+        })
+        .filter(Boolean) as CalendarEvent[]; // Filtra gli eventi null
+
+      return { events, bookings: validBookings };
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      if (fetchError.name === "AbortError") {
+        console.error(
+          `Timeout durante la richiesta a PocketBase per ${collection}`
+        );
+        throw new Error(
+          `Timeout durante la richiesta a PocketBase per ${collection}`
+        );
+      }
+      throw fetchError;
+    }
   } catch (error) {
     console.error(
       `Errore nel recupero delle prenotazioni da PocketBase (${calendarType}):`,
@@ -225,37 +274,68 @@ const fetchBookingsFromPocketBase = async (
 const formatISODate = (date: string): string => {
   if (!date || date.trim() === "") return "";
 
-  // Se la data è già in formato ISO (YYYY-MM-DD), la restituisce come è
-  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return date;
-  }
+  try {
+    // Se la data è già in formato ISO (YYYY-MM-DD), la restituisce come è
+    if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return date;
+    }
 
-  // Gestisce formati come DD/MM/YYYY o DD-MM-YYYY
-  let parts;
-  if (date.includes("/")) {
-    parts = date.split("/");
-  } else if (date.includes("-")) {
-    parts = date.split("-");
-  } else {
+    // Gestisce formati come DD/MM/YYYY o DD-MM-YYYY
+    let parts;
+    if (date.includes("/")) {
+      parts = date.split("/");
+    } else if (date.includes("-")) {
+      parts = date.split("-");
+    } else {
+      console.warn("Formato data non riconosciuto:", date);
+      return "";
+    }
+
+    if (parts && parts.length === 3) {
+      // Controlla se il primo segmento è l'anno (ha 4 cifre)
+      if (parts[0].length === 4) {
+        // Verifica che sia una data valida
+        const testDate = new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
+        if (isNaN(testDate.getTime())) {
+          console.warn("Data non valida:", date);
+          return "";
+        }
+        return date; // È già nel formato corretto
+      } else {
+        // Controlla che siano numeri e validi come data
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10);
+        const year = parseInt(parts[2], 10);
+
+        if (
+          isNaN(day) ||
+          isNaN(month) ||
+          isNaN(year) ||
+          day < 1 ||
+          day > 31 ||
+          month < 1 ||
+          month > 12 ||
+          year < 2000 ||
+          year > 2100
+        ) {
+          console.warn("Data non valida:", date);
+          return "";
+        }
+
+        // Converte da DD/MM/YYYY a YYYY-MM-DD
+        return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(
+          2,
+          "0"
+        )}`;
+      }
+    }
+
     console.warn("Formato data non riconosciuto:", date);
     return "";
+  } catch (error) {
+    console.error("Errore nella conversione della data:", date, error);
+    return "";
   }
-
-  if (parts && parts.length === 3) {
-    // Controlla se il primo segmento è l'anno (ha 4 cifre)
-    if (parts[0].length === 4) {
-      return date; // È già nel formato corretto
-    } else {
-      // Converte da DD/MM/YYYY a YYYY-MM-DD
-      return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(
-        2,
-        "0"
-      )}`;
-    }
-  }
-
-  console.warn("Formato data non riconosciuto:", date);
-  return "";
 };
 
 // Funzione per aggiornare una prenotazione esistente
@@ -397,19 +477,24 @@ export const initPocketBase = async (): Promise<boolean> => {
 };
 
 // Funzione per gestire gli errori di PocketBase
-export const handlePocketBaseError = (error: any): string => {
+export const handlePocketBaseError = (error: unknown): string => {
   console.error("Errore PocketBase:", error);
 
-  if (error.status === 0) {
-    return "Impossibile connettersi al server. Verifica che PocketBase sia in esecuzione.";
-  }
+  // Verifica se è un errore di PocketBase con una struttura specifica
+  if (typeof error === "object" && error !== null) {
+    const pbError = error as { status?: number; data?: { message?: string } };
 
-  if (error.status === 401) {
-    return "Sessione scaduta o non autorizzata. Effettua nuovamente l'accesso.";
-  }
+    if (pbError.status === 0) {
+      return "Impossibile connettersi al server. Verifica che PocketBase sia in esecuzione.";
+    }
 
-  if (error.data?.message) {
-    return `Errore: ${error.data.message}`;
+    if (pbError.status === 401) {
+      return "Sessione scaduta o non autorizzata. Effettua nuovamente l'accesso.";
+    }
+
+    if (pbError.data?.message) {
+      return `Errore: ${pbError.data.message}`;
+    }
   }
 
   return "Si è verificato un errore imprevisto. Riprova più tardi.";
@@ -418,13 +503,31 @@ export const handlePocketBaseError = (error: any): string => {
 // Verifica se PocketBase è disponibile
 export const isPocketBaseAvailable = async (): Promise<boolean> => {
   try {
-    const response = await fetch(`${pb.baseUrl}/api/health`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      // Timeout di 5 secondi
-      signal: AbortSignal.timeout(5000),
-    });
-    return response.ok;
+    // Utilizziamo un timeout più breve per non bloccare l'interfaccia utente
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // Aumentato a 5 secondi
+
+    try {
+      // Semplifichiamo il controllo usando solo l'endpoint health
+      const response = await fetch(`${pb.baseUrl}/api/health`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        // Impediamo la cache del browser
+        cache: "no-store"
+      });
+
+      clearTimeout(timeoutId);
+
+      // Se riceviamo qualsiasi risposta, consideriamo PocketBase disponibile
+      // Anche errori 4xx significano che il server è in funzione
+      return true;
+    } catch (healthError) {
+      clearTimeout(timeoutId);
+      // Se fetch fallisce completamente, PocketBase non è disponibile
+      console.error("PocketBase health check error:", healthError);
+      return false;
+    }
   } catch (error) {
     console.error("PocketBase non disponibile:", error);
     return false;

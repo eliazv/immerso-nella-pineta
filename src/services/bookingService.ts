@@ -50,7 +50,7 @@ const getCachedBookings = (
 };
 
 // Funzione per recuperare le prenotazioni
-export const fetchBookings = async (
+const fetchBookingsFunc = async (
   calendarType: CalendarType,
   forceRefresh = false
 ): Promise<{
@@ -593,14 +593,27 @@ export const deleteBooking = async (
 };
 
 // Funzione per forzare un refresh della cache
-export const refreshBookingsCache = async (
+const refreshBookingsCacheFunc = async (
   calendarType: CalendarType
 ): Promise<boolean> => {
   try {
-    await fetchBookings(calendarType, true);
+    await fetchBookingsFunc(calendarType, true);
     return true;
   } catch (error) {
     console.error("Errore durante l'aggiornamento forzato della cache:", error);
     return false;
   }
 };
+
+// Esporta un oggetto bookingService per uso dinamico
+export const bookingService = {
+  fetchBookings: fetchBookingsFunc,
+  fetchBookingsForCalendar,
+  updateBooking,
+  deleteBooking,
+  refreshBookingsCache: refreshBookingsCacheFunc,
+};
+
+// Mantenere le esportazioni dirette per la compatibilità esistente
+export const fetchBookings = fetchBookingsFunc;
+export const refreshBookingsCache = refreshBookingsCacheFunc;
