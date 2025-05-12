@@ -8,14 +8,8 @@ const BASE_URL = "https://opensheet.elk.sh/";
 const SPREADSHEET_ID =
   import.meta.env.VITE_GOOGLE_SHEET_ID ||
   "156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc";
-const API_END            // Deduce il numero di adulti sottraendo i bambini
-            // (se ci sono bambini e il totale è maggiore)
-            mappedBooking.adulti = (Math.max(1, ospiti - bambini)).toString();
-          }
-        } else {
-          // Se proprio non trova nulla, imposta a 1 adulto come minimo
-          mappedBooking.adulti = "1";
-        }mport.meta.env.VITE_GOOGLE_SCRIPT_ENDPOINT ||
+const API_ENDPOINT =
+  import.meta.env.VITE_GOOGLE_SCRIPT_ENDPOINT ||
   "https://script.google.com/macros/s/AKfycbyClrLjSCXjQEZ4KOi9yRzJvcdks1HOf3P0BbsOZhjhiP8D18pN5uzwV5w7Gr9SPmpVfw/exec";
 
 // Tempo di scadenza della cache (in millisecondi)
@@ -173,7 +167,7 @@ const fetchBookingsForCalendar = async (
   // Carica i dati dal foglio Google
   const url = `${BASE_URL}${SPREADSHEET_ID}/${sheet}`;
   const response = await axios.get(url);
-  const data = response.data;  // Logging per debug delle intestazioni
+  const data = response.data; // Logging per debug delle intestazioni
   if (data && data.length > 0) {
     // Intestazioni e valori del foglio Excel
   }
@@ -392,7 +386,6 @@ const fetchBookingsForCalendar = async (
             // Deduce il numero di adulti sottraendo i bambini
             // (se ci sono bambini e il totale è maggiore)
             mappedBooking.adulti = Math.max(1, ospiti - bambini).toString();
-        
           }
         } else {
           // Se proprio non trova nulla, imposta a 1 adulto come minimo
@@ -515,7 +508,6 @@ export const updateBooking = async (
   calendarType: CalendarType
 ): Promise<boolean> => {
   try {
-
     // Otteniamo il foglio corretto in base al calendario selezionato
     let sheet = "";
     switch (calendarType) {
@@ -561,7 +553,6 @@ export const deleteBooking = async (
   calendarType: CalendarType
 ): Promise<boolean> => {
   try {
-
     // Otteniamo il foglio corretto in base al calendario selezionato
     let sheet = "";
     switch (calendarType) {
