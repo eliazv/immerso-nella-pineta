@@ -364,33 +364,11 @@ const fetchBookingsForCalendar = async (
         rowIndex: data.indexOf(row) + 2, // +2 perché la prima riga è l'intestazione, e gli indici delle celle partono da 1
       };
 
-      // Gestione speciale per gli adulti: se non è stato trovato, prova a dedurlo
-      if (!mappedBooking.adulti) {
-        // Cerca il totale ospiti
-        const totaleOspiti = findFieldValue(row, [
-          "Ospiti totali",
-          "Totale ospiti",
-          "Total guests",
-          "Guests",
-          "Ospiti",
-          "Totale persone",
-          "N° Ospiti",
-          "Numero ospiti",
-        ]);
-
-        if (totaleOspiti && totaleOspiti.trim() !== "") {
-          const ospiti = parseInt(totaleOspiti, 10);
-          const bambini = parseInt(mappedBooking.bambini || "0", 10);
-
-          if (!isNaN(ospiti) && ospiti > 0) {
-            // Deduce il numero di adulti sottraendo i bambini
-            // (se ci sono bambini e il totale è maggiore)
-            mappedBooking.adulti = Math.max(1, ospiti - bambini).toString();
-          }
-        } else {
-          // Se proprio non trova nulla, imposta a 1 adulto come minimo
-          mappedBooking.adulti = "1";
-        }
+      // Gestione speciale per gli adulti: rimuovo la deduzione automatica
+      if (!mappedBooking.adulti || mappedBooking.adulti.trim() === "") {
+        // Se non c'è indicazione degli adulti, lasciamo il campo vuoto
+        // Questo evita che vengano impostati valori casuali o predefiniti
+        mappedBooking.adulti = "";
       }
 
       return mappedBooking;

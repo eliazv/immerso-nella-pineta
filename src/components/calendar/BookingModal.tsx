@@ -46,9 +46,18 @@ import { toast } from "@/components/ui/use-toast";
 // Funzione per calcolare la tassa di soggiorno
 const calculateSoggiornoTax = (booking: Booking): string => {
   try {
+    // Se non c'è il campo adulti esplicitamente compilato, non calcoliamo la tassa
+    if (
+      !booking.adulti ||
+      booking.adulti.trim() === "" ||
+      booking.adulti === "0"
+    ) {
+      return "";
+    }
+
     // Verifica dati necessari
     if (!booking.CheckIn || !booking.Notti) {
-      return "0";
+      return "";
     }
 
     // Calcolo e validazione del periodo (maggio-settembre)
@@ -56,7 +65,7 @@ const calculateSoggiornoTax = (booking: Booking): string => {
     const parts = checkInValue.split("/");
 
     if (parts.length !== 3) {
-      return "0";
+      return "";
     }
 
     const day = parseInt(parts[0], 10);
@@ -64,47 +73,26 @@ const calculateSoggiornoTax = (booking: Booking): string => {
     const year = parseInt(parts[2], 10);
 
     if (isNaN(day) || isNaN(month) || isNaN(year)) {
-      return "0";
+      return "";
     }
 
     // Verifica se il mese è tra maggio (5) e settembre (9)
     if (month < 5 || month > 9) {
-      return "0";
-    } // Determina il numero di adulti con metodi più affidabili
-    let numAdulti: number; // Metodo 1: Usa il valore adulti diretto se presente e valido
-    if (
-      booking.adulti &&
-      booking.adulti.trim() !== "" &&
-      booking.adulti !== "0"
-    ) {
-      numAdulti = parseInt(booking.adulti, 10);
+      return "";
     }
-    // Metodo 2: Calcola gli adulti dalla differenza tra ospiti totali e bambini
-    else if (booking.TotaleCliente) {
-      // Assumiamo che TotaleCliente potrebbe contenere il numero totale di ospiti
-      const totaleOspiti = parseInt(booking.TotaleCliente, 10);
-      const bambini = parseInt(booking.bambini || "0", 10);
 
-      if (!isNaN(totaleOspiti) && totaleOspiti > 0) {
-        // Assumiamo che almeno un ospite sia adulto
-        numAdulti = Math.max(1, totaleOspiti - bambini);
-      } else {
-        // Se non c'è un totale valido, usiamo 1 come valore minimo
-        numAdulti = 2;
-      }
-    }
-    // Metodo 3: Se non abbiamo altre informazioni, usiamo 1 adulto come minimo assoluto
-    else {
-      numAdulti = 1;
-    } // Validazione finale del numero di adulti
+    // Utilizza solo il valore degli adulti esplicitamente specificato
+    const numAdulti = parseInt(booking.adulti, 10);
+
+    // Validazione finale del numero di adulti
     if (isNaN(numAdulti) || numAdulti <= 0) {
-      numAdulti = 1; // Fallback a 1 adulto come valore minimo
+      return "";
     }
 
     // Calcola il numero di notti (massimo 7 per la tassa)
     const nights = parseInt(booking.Notti, 10);
     if (isNaN(nights) || nights <= 0) {
-      return "0";
+      return "";
     }
 
     const taxableNights = Math.min(nights, 7);
@@ -114,7 +102,7 @@ const calculateSoggiornoTax = (booking: Booking): string => {
 
     return tax.toString();
   } catch (error) {
-    return "0";
+    return "";
   }
 };
 
@@ -176,26 +164,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         form.setValue(key as keyof Booking, booking[key as keyof Booking]);
       });
 
-      // Se il campo adulti è vuoto o mancante, possiamo provare a dedurlo da altri campi
-      if (!booking.adulti || booking.adulti.trim() === "") {
-        // Verifica se possiamo determinare gli adulti in qualche modo
-        if (
-          booking.TotaleCliente &&
-          !isNaN(parseInt(booking.TotaleCliente, 10))
-        ) {
-          // Se abbiamo un numero totale di ospiti, possiamo assumere che siano tutti adulti se mancano i bambini
-          const totalOspiti = parseInt(booking.TotaleCliente, 10);
-          const bambini = booking.bambini ? parseInt(booking.bambini, 10) : 0;
-
-          if (!isNaN(totalOspiti) && totalOspiti > 0) {
-            const adultiStimati = Math.max(1, totalOspiti - bambini);
-            form.setValue("adulti", adultiStimati.toString());
-          }
-        } else {
-          // Se non riusciamo a dedurlo, impostiamo un valore predefinito di 1 adulto
-          form.setValue("adulti", "1");
-        }
-      }
+      // Non impostiamo più valori predefiniti per gli adulti se non sono specificati
+      // Questo impedisce di avere valori casuali quando non ci sono dati
     }
   }, [booking, form]);
   // Calcola automaticamente la tassa di soggiorno quando cambiano i dati rilevanti
@@ -204,14 +174,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     "CheckOut",
     "adulti",
     "Notti",
-    "animali",
   ]);
 
   useEffect(() => {
     const formData = form.getValues();
-    if (formData.CheckIn && formData.CheckOut && formData.Notti) {
+    // Calcola la tassa di soggiorno solo se ci sono adulti specificati
+    if (
+      formData.adulti &&
+      formData.adulti.trim() !== "" &&
+      formData.adulti !== "0" &&
+      formData.CheckIn &&
+      formData.Notti
+    ) {
       const soggiornoTax = calculateSoggiornoTax(formData);
       form.setValue("SoggiornoTax", soggiornoTax);
+    } else {
+      // Se manca il numero di adulti, imposta vuoto il campo della tassa
+      form.setValue("SoggiornoTax", "");
     }
   }, [watchedBookingValues, form]);
 
@@ -301,12 +280,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-serif">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto bg-white border-slate-200">
+        <DialogHeader className="border-b pb-2 mb-2">
+          <DialogTitle className="text-xl font-serif text-slate-800">
             {isEditing ? "Modifica Prenotazione" : "Dettagli Prenotazione"}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-slate-600">
             {isEditing
               ? "Modifica i dettagli della prenotazione e salva per aggiornare."
               : `Prenotazione di ${booking.Nome} dal ${booking.CheckIn} al ${booking.CheckOut}`}
@@ -317,126 +296,243 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         {!isEditing ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
-              <div className="space-y-2">
+              <div className="space-y-3 bg-slate-50 p-3 rounded-md">
+                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider border-b pb-1 mb-1">
+                  Dati generali
+                </div>
                 <div>
                   <span className="font-semibold">Nome:</span>{" "}
-                  {booking.Nome || "-"}
+                  <span className="text-slate-800">{booking.Nome || "-"}</span>
                 </div>
                 <div>
                   <span className="font-semibold">OTA:</span>{" "}
-                  {booking.OTA || "-"}
+                  <span
+                    className={`px-2 py-0.5 rounded text-white ${
+                      booking.OTA?.toLowerCase().includes("booking")
+                        ? "bg-blue-600"
+                        : booking.OTA?.toLowerCase().includes("airbnb")
+                        ? "bg-red-600"
+                        : booking.OTA?.toLowerCase().includes("extra")
+                        ? "bg-green-600"
+                        : "bg-gray-600"
+                    }`}
+                  >
+                    {booking.OTA || "-"}
+                  </span>
                 </div>
                 <div>
                   <span className="font-semibold">Check-in:</span>{" "}
-                  {booking.CheckIn || "-"}
+                  <span className="text-slate-800">
+                    {booking.CheckIn || "-"}
+                  </span>
                 </div>
                 <div>
                   <span className="font-semibold">Check-out:</span>{" "}
-                  {booking.CheckOut || "-"}
+                  <span className="text-slate-800">
+                    {booking.CheckOut || "-"}
+                  </span>
                 </div>
                 <div>
                   <span className="font-semibold">Notti:</span>{" "}
-                  {booking.Notti || "-"}
-                </div>{" "}
+                  <span className="text-slate-800">{booking.Notti || "-"}</span>
+                </div>
                 <div>
                   <span className="font-semibold">Ospiti:</span>{" "}
-                  {parseInt(booking.adulti || "0") +
-                    parseInt(booking.bambini || "0")}{" "}
-                  {booking.adulti && `(Adulti: ${booking.adulti}`}
-                  {booking.adulti && booking.bambini && "; "}
-                  {booking.bambini && `Bambini: ${booking.bambini}`}
-                  {(booking.adulti || booking.bambini) &&
-                    booking.animali &&
-                    "; "}
-                  {booking.animali && `Animali: ${booking.animali}`}
-                  {(booking.adulti || booking.bambini || booking.animali) &&
-                    ")"}
+                  <div className="ml-2 flex flex-wrap gap-1 mt-1">
+                    {booking.adulti && booking.adulti !== "0" && (
+                      <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-sm">
+                        {booking.adulti} adulti
+                      </span>
+                    )}
+                    {booking.bambini && booking.bambini !== "0" && (
+                      <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-sm">
+                        {booking.bambini} bambini
+                      </span>
+                    )}
+                    {booking.animali && booking.animali !== "0" && (
+                      <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-sm">
+                        {booking.animali} animali
+                      </span>
+                    )}
+                    {(!booking.adulti || booking.adulti === "0") &&
+                      (!booking.bambini || booking.bambini === "0") &&
+                      (!booking.animali || booking.animali === "0") &&
+                      "-"}
+                  </div>
                 </div>
               </div>
-              <div className="space-y-2">
-                {" "}
+              <div className="space-y-3 bg-slate-50 p-3 rounded-md">
+                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider border-b pb-1 mb-1">
+                  Importi
+                </div>
                 <div>
                   <span className="font-semibold">Totale Cliente:</span>{" "}
-                  {booking.TotaleCliente || "-"}
+                  <span className="text-slate-800 font-mono">
+                    {booking.TotaleCliente
+                      ? booking.TotaleCliente.includes("€")
+                        ? booking.TotaleCliente
+                        : `€${booking.TotaleCliente}`
+                      : "-"}
+                  </span>
                 </div>
                 {booking.FuoriOTA && (
                   <div>
                     <span className="font-semibold">Fuori OTA:</span>{" "}
-                    {booking.FuoriOTA}
+                    <span className="text-slate-800 font-mono">
+                      {booking.FuoriOTA.includes("€")
+                        ? booking.FuoriOTA
+                        : `€${booking.FuoriOTA}`}
+                    </span>
                   </div>
                 )}
                 {booking.CostoNotti && (
                   <div>
                     <span className="font-semibold">Costo Notti:</span>{" "}
-                    {booking.CostoNotti}
+                    <span className="text-slate-800 font-mono">
+                      {booking.CostoNotti.includes("€")
+                        ? booking.CostoNotti
+                        : `€${booking.CostoNotti}`}
+                    </span>
                   </div>
                 )}
                 {booking.MediaANotte && (
                   <div>
                     <span className="font-semibold">Media a Notte:</span>{" "}
-                    {booking.MediaANotte}
+                    <span className="text-slate-800 font-mono">
+                      {booking.MediaANotte.includes("€")
+                        ? booking.MediaANotte
+                        : `€${booking.MediaANotte}`}
+                    </span>
                   </div>
                 )}
                 {booking.Pulizia && (
                   <div>
                     <span className="font-semibold">Pulizia:</span>{" "}
-                    {booking.Pulizia}
+                    <span className="text-slate-800 font-mono">
+                      {booking.Pulizia.includes("€")
+                        ? booking.Pulizia
+                        : `€${booking.Pulizia}`}
+                    </span>
                   </div>
                 )}
                 {booking.Sconti && (
                   <div>
                     <span className="font-semibold">Sconti:</span>{" "}
-                    {booking.Sconti}
-                  </div>
-                )}{" "}
-              </div>{" "}
-              <div className="space-y-2">
-                {(booking.SoggiornoTax ||
-                  calculateSoggiornoTax(booking) !== "0") && (
-                  <div>
-                    <span className="font-semibold">Tassa di Soggiorno:</span>
-                    {booking.SoggiornoTax || "0"}
-                    <span className="text-sm text-muted-foreground ml-1">
-                      (calc: €{calculateSoggiornoTax(booking)}{" "}
-                      {(!booking.adulti ||
-                        booking.adulti.trim() === "" ||
-                        booking.adulti === "0") &&
-                        "- default adulti"}
-                      )
+                    <span className="text-slate-800 font-mono">
+                      {booking.Sconti.includes("€")
+                        ? booking.Sconti
+                        : `€${booking.Sconti}`}
                     </span>
                   </div>
                 )}
+              </div>
+              <div className="space-y-3 bg-slate-50 p-3 rounded-md">
+                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider border-b pb-1 mb-1">
+                  Tasse e totale
+                </div>
+                {(booking.SoggiornoTax && booking.SoggiornoTax.trim() !== "") ||
+                (booking.adulti &&
+                  booking.adulti !== "0" &&
+                  calculateSoggiornoTax(booking) !== "") ? (
+                  <div>
+                    <span className="font-semibold">Tassa di Soggiorno:</span>{" "}
+                    <span className="text-slate-800 font-mono">
+                      {booking.SoggiornoTax &&
+                      booking.SoggiornoTax.includes("€")
+                        ? booking.SoggiornoTax
+                        : `€${
+                            booking.SoggiornoTax ||
+                            calculateSoggiornoTax(booking)
+                          }`}
+                    </span>
+                    {booking.SoggiornoTax !== calculateSoggiornoTax(booking) &&
+                      calculateSoggiornoTax(booking) !== "" && (
+                        <span className="text-xs text-slate-500 ml-1">
+                          (calcolato: €{calculateSoggiornoTax(booking)})
+                        </span>
+                      )}
+                  </div>
+                ) : null}
                 {booking.OTATax && (
                   <div>
                     <span className="font-semibold">OTA Tax:</span>{" "}
-                    {booking.OTATax}
+                    <span className="text-slate-800 font-mono">
+                      {booking.OTATax.includes("€")
+                        ? booking.OTATax
+                        : `€${booking.OTATax}`}
+                    </span>
                   </div>
                 )}
                 {booking.CedolareSecca && (
                   <div>
                     <span className="font-semibold">Cedolare Secca (21%):</span>{" "}
-                    {booking.CedolareSecca}
+                    <span className="text-slate-800 font-mono">
+                      {booking.CedolareSecca.includes("€")
+                        ? booking.CedolareSecca
+                        : `€${booking.CedolareSecca}`}
+                    </span>
                   </div>
                 )}
                 {booking.Totale && (
-                  <div>
+                  <div className="mt-2 pt-2 border-t">
                     <span className="font-semibold">Totale:</span>{" "}
-                    {booking.Totale}
+                    <span className="text-slate-800 font-mono font-bold">
+                      {booking.Totale.includes("€")
+                        ? booking.Totale
+                        : `€${booking.Totale}`}
+                    </span>
                   </div>
                 )}
                 {booking.Note && (
-                  <div>
-                    <span className="font-semibold">Note:</span> {booking.Note}
+                  <div className="mt-3 pt-2 border-t">
+                    <span className="font-semibold block mb-1">Note:</span>
+                    <div className="text-slate-800 bg-white p-2 rounded border border-slate-200 text-sm">
+                      {booking.Note}
+                    </div>
                   </div>
                 )}
               </div>
             </div>
 
             <DialogFooter>
-              <div className="flex justify-end w-full">
-                <Button variant="outline" onClick={() => onOpenChange(false)}>
+              <div className="flex gap-2 justify-end w-full mt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => onOpenChange(false)}
+                  className="bg-white hover:bg-slate-100"
+                >
                   Chiudi
                 </Button>
+                <AlertDialog open={isDeleting} onOpenChange={setIsDeleting}>
+                  {/* <AlertDialogTrigger asChild>
+                    <Button variant="destructive">Elimina</Button>
+                  </AlertDialogTrigger> */}
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Conferma eliminazione</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Sei sicuro di voler eliminare questa prenotazione?
+                        L'operazione non può essere annullata.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Annulla</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleDelete}
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Eliminando..." : "Elimina"}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                {/* <Button
+                  onClick={() => setIsEditing(true)}
+                  variant="default"
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  Modifica
+                </Button> */}
               </div>
             </DialogFooter>
           </>
@@ -444,148 +540,226 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           // Form di modifica
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-              <div className="space-y-2">
-                <div className="space-y-1">
-                  <Label htmlFor="Nome">Nome</Label>
-                  <Input id="Nome" {...form.register("Nome")} />
+              <div className="space-y-4 bg-slate-50/70 p-4 rounded-md">
+                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider mb-3">
+                  Dati generali
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="OTA">Piattaforma (OTA)</Label>
-                  <Select
-                    defaultValue={booking.OTA}
-                    onValueChange={(value) => form.setValue("OTA", value)}
-                  >
-                    <SelectTrigger className="min-w-[120px] w-full text-left">
-                      <SelectValue placeholder="Seleziona OTA" />
-                    </SelectTrigger>
-                    <SelectContent className="min-w-[120px]">
-                      {availableOTAs.map((ota) => (
-                        <SelectItem key={ota} value={ota}>
-                          {ota}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="CheckIn">Check-in (DD/MM/YYYY)</Label>
-                  <Input id="CheckIn" {...form.register("CheckIn")} />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="CheckOut">Check-out (DD/MM/YYYY)</Label>
-                  <Input id="CheckOut" {...form.register("CheckOut")} />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="Notti">Notti</Label>
-                  <Input id="Notti" {...form.register("Notti")} />
-                </div>{" "}
-                <div className="grid grid-cols-3 gap-2">
+                <div className="space-y-3">
                   <div className="space-y-1">
-                    <Label htmlFor="adulti">Adulti</Label>
-                    <Input id="adulti" {...form.register("adulti")} />
+                    <Label htmlFor="Nome">Nome</Label>
+                    <Input
+                      id="Nome"
+                      {...form.register("Nome")}
+                      className="bg-white"
+                    />
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="bambini">Bambini</Label>
-                    <Input id="bambini" {...form.register("bambini")} />
+                    <Label htmlFor="OTA">Piattaforma (OTA)</Label>
+                    <Select
+                      defaultValue={booking.OTA}
+                      onValueChange={(value) => form.setValue("OTA", value)}
+                    >
+                      <SelectTrigger className="min-w-[120px] w-full text-left bg-white">
+                        <SelectValue placeholder="Seleziona OTA" />
+                      </SelectTrigger>
+                      <SelectContent className="min-w-[120px]">
+                        {availableOTAs.map((ota) => (
+                          <SelectItem key={ota} value={ota}>
+                            {ota}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="animali">Animali</Label>
-                    <Input id="animali" {...form.register("animali")} />
+                    <Label htmlFor="CheckIn">Check-in (DD/MM/YYYY)</Label>
+                    <Input
+                      id="CheckIn"
+                      {...form.register("CheckIn")}
+                      className="bg-white"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="CheckOut">Check-out (DD/MM/YYYY)</Label>
+                    <Input
+                      id="CheckOut"
+                      {...form.register("CheckOut")}
+                      className="bg-white"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="Notti">Notti</Label>
+                    <Input
+                      id="Notti"
+                      {...form.register("Notti")}
+                      className="bg-white"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="space-y-1">
+                      <Label htmlFor="adulti">Adulti</Label>
+                      <Input
+                        id="adulti"
+                        {...form.register("adulti")}
+                        className="bg-white"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="bambini">Bambini</Label>
+                      <Input
+                        id="bambini"
+                        {...form.register("bambini")}
+                        className="bg-white"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="animali">Animali</Label>
+                      <Input
+                        id="animali"
+                        {...form.register("animali")}
+                        className="bg-white"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <div className="space-y-1">
-                  <Label htmlFor="TotaleCliente">Totale Cliente</Label>
-                  <Input
-                    id="TotaleCliente"
-                    {...form.register("TotaleCliente")}
-                  />
+              <div className="space-y-4 bg-slate-50/70 p-4 rounded-md">
+                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider mb-3">
+                  Importi
                 </div>
+                <div className="space-y-3">
+                  <div className="space-y-1">
+                    <Label htmlFor="TotaleCliente">Totale Cliente</Label>
+                    <Input
+                      id="TotaleCliente"
+                      {...form.register("TotaleCliente")}
+                      className="bg-white"
+                    />
+                  </div>
 
-                <div className="space-y-1">
-                  <Label htmlFor="FuoriOTA">Fuori OTA</Label>
-                  <Input id="FuoriOTA" {...form.register("FuoriOTA")} />
-                </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="FuoriOTA">Fuori OTA</Label>
+                    <Input
+                      id="FuoriOTA"
+                      {...form.register("FuoriOTA")}
+                      className="bg-white"
+                    />
+                  </div>
 
-                <div className="space-y-1">
-                  <Label htmlFor="CostoNotti">Costo Notti</Label>
-                  <Input id="CostoNotti" {...form.register("CostoNotti")} />
-                </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="CostoNotti">Costo Notti</Label>
+                    <Input
+                      id="CostoNotti"
+                      {...form.register("CostoNotti")}
+                      className="bg-white"
+                    />
+                  </div>
 
-                <div className="space-y-1">
-                  <Label htmlFor="MediaANotte">Media a Notte</Label>
-                  <Input id="MediaANotte" {...form.register("MediaANotte")} />
-                </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="MediaANotte">Media a Notte</Label>
+                    <Input
+                      id="MediaANotte"
+                      {...form.register("MediaANotte")}
+                      className="bg-white"
+                    />
+                  </div>
 
-                <div className="space-y-1">
-                  <Label htmlFor="Pulizia">Pulizia</Label>
-                  <Input id="Pulizia" {...form.register("Pulizia")} />
-                </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="Pulizia">Pulizia</Label>
+                    <Input
+                      id="Pulizia"
+                      {...form.register("Pulizia")}
+                      className="bg-white"
+                    />
+                  </div>
 
-                <div className="space-y-1">
-                  <Label htmlFor="Sconti">Sconti</Label>
-                  <Input id="Sconti" {...form.register("Sconti")} />
+                  <div className="space-y-1">
+                    <Label htmlFor="Sconti">Sconti</Label>
+                    <Input
+                      id="Sconti"
+                      {...form.register("Sconti")}
+                      className="bg-white"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-2">
-              {" "}
               <div className="space-y-1">
-                <Label htmlFor="SoggiornoTax">
-                  Tassa di Soggiorno (calcolata automaticamente)
-                </Label>
+                <Label htmlFor="SoggiornoTax">Tassa di Soggiorno</Label>
                 <Input
                   id="SoggiornoTax"
                   {...form.register("SoggiornoTax")}
-                  disabled
-                  className="bg-muted/50"
-                />{" "}
+                  className="bg-white"
+                />
                 <p className="text-xs text-muted-foreground">
-                  €1 per adulto per notte, applicabile da maggio a settembre,
-                  max 7 notti
-                  {(!form.getValues("adulti") ||
-                    form.getValues("adulti").trim() === "" ||
-                    form.getValues("adulti") === "0") &&
-                    " (default adulti)"}
+                  €1 per adulto per notte, maggio-settembre, max 7 notti.
+                  <br />
+                  <span className="text-amber-600">
+                    Applicabile solo se specificato il numero di adulti.
+                  </span>
                 </p>
               </div>
               <div className="space-y-1">
                 <Label htmlFor="OTATax">OTA Tax</Label>
-                <Input id="OTATax" {...form.register("OTATax")} />
+                <Input
+                  id="OTATax"
+                  {...form.register("OTATax")}
+                  className="bg-white"
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="CedolareSecca">Cedolare Secca (21%)</Label>
-                <Input id="CedolareSecca" {...form.register("CedolareSecca")} />
-              </div>
-            </div>
-
-            <div className="py-2">
-              <div className="space-y-1">
-                <Label htmlFor="Totale">Totale</Label>
-                <Input id="Totale" {...form.register("Totale")} />
-              </div>
-            </div>
-
-            <div className="py-2">
-              <div className="space-y-1">
-                <Label htmlFor="Note">Note</Label>
-                <Textarea
-                  id="Note"
-                  {...form.register("Note")}
-                  placeholder="Note opzionali sulla prenotazione"
+                <Input
+                  id="CedolareSecca"
+                  {...form.register("CedolareSecca")}
+                  className="bg-white"
                 />
+              </div>
+            </div>
+
+            <div className="py-2 bg-slate-50/70 p-4 rounded-md mt-4">
+              <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-1">
+                  <Label htmlFor="Totale" className="text-md font-semibold">
+                    Totale
+                  </Label>
+                  <Input
+                    id="Totale"
+                    {...form.register("Totale")}
+                    className="bg-white text-lg font-semibold"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <Label htmlFor="Note">Note</Label>
+                  <Textarea
+                    id="Note"
+                    {...form.register("Note")}
+                    placeholder="Note opzionali sulla prenotazione"
+                    className="bg-white min-h-[80px]"
+                  />
+                </div>
               </div>
             </div>
 
             <DialogFooter>
               <div className="flex gap-2 justify-end w-full mt-4">
-                <Button type="button" variant="outline" onClick={cancelEditing}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={cancelEditing}
+                  className="bg-white hover:bg-slate-100"
+                >
                   Annulla
                 </Button>
-                <Button type="submit" disabled={isLoading}>
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
                   {isLoading ? "Salvando..." : "Salva Modifiche"}
                 </Button>
               </div>
