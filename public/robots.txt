@@ -1,3 +1,15 @@
+# robots.txt for Immerso nella Pineta - Appartamento a Pinarella di Cervia
+User-agent: *
+Allow: /
+
+# Disallow backend routes
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /calendar
+
+# Sitemap location
+Sitemap: https://immersonellapineta.it/sitemap.xml
+
 User-agent: Googlebot
 Allow: /
 

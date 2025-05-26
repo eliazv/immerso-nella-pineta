@@ -93,6 +93,9 @@ const Header = () => {
           </div>
           <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
             Immerso nella Pineta
+            <span className="block text-xs text-muted-foreground font-normal">
+              Appartamento a Pinarella di Cervia
+            </span>
           </span>
         </Link>
 

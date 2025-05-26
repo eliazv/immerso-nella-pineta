@@ -19,8 +19,8 @@ const Footer = ({ className }: { className?: string }) => {
               </span>
             </div>
             <p className="text-muted-foreground mb-4 text-sm">
-              Appartamento a Cervia, Italia.
-              <br />A 5 minuti a piedi dal mare di Pinarella.
+              Appartamento a Pinarella di Cervia, Italia.
+              <br />A 5 minuti a piedi dal mare e 200 metri dalla pineta.
             </p>
             <div className="flex space-x-4">
               <a
@@ -105,9 +105,11 @@ const Footer = ({ className }: { className?: string }) => {
               Informazioni
             </h3>
             <p className="text-muted-foreground text-sm mb-2">
-              Cervia, una pittoresca città costiera sulla Riviera Romagnola,
-              offre una perfetta combinazione di spiagge dorate, pinete
-              rigogliose e una ricca tradizione culinaria.
+              Pinarella di Cervia, una pittoresca località costiera sulla
+              Riviera Romagnola, offre una perfetta combinazione di spiagge
+              dorate, pinete rigogliose e una ricca tradizione culinaria.
+              L'appartamento "Immerso nella Pineta" è la soluzione ideale per le
+              vostre vacanze estive.
             </p>
             <p className="text-muted-foreground text-sm">
               © {new Date().getFullYear()} Immerso nella Pineta. Sito web

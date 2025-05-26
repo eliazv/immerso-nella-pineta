@@ -24,6 +24,9 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import MetaTags from "@/components/MetaTags";
+import SEOSchema from "@/components/SEOSchema";
+
 const Attractions = () => {
   useEffect(() => {
     // Scroll to top on page load
@@ -32,6 +35,13 @@ const Attractions = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <MetaTags
+        title="Attrazioni e Luoghi da Visitare a Pinarella di Cervia | Immerso nella Pineta"
+        description="Scopri le migliori attrazioni vicino al nostro appartamento a Pinarella di Cervia: spiaggia, parchi tematici, musei e ristoranti a pochi minuti di distanza."
+        canonicalUrl="/attractions"
+        keywords="attrazioni pinarella di cervia, cosa fare a cervia, luoghi interesse cervia, parchi divertimento vicino pinarella"
+      />
+      <SEOSchema />
       <Header />
 
       <main className="flex-1 pt-20">

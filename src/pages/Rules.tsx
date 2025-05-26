@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HouseRules from "@/components/HouseRules";
+import MetaTags from "@/components/MetaTags";
+import SEOSchema from "@/components/SEOSchema";
 
 const Rules = () => {
   useEffect(() => {
@@ -14,6 +16,13 @@ const Rules = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <MetaTags
+        title="Regolamento Appartamento Pinarella di Cervia | Immerso nella Pineta"
+        description="Informazioni utili e regolamento per il soggiorno nel nostro appartamento a Pinarella di Cervia. Orari, norme sulla raccolta differenziata e indicazioni per gli ospiti."
+        canonicalUrl="/rules"
+        keywords="regolamento appartamento cervia, norme soggiorno pinarella, orari check-in pinarella, informazioni affitto estivo cervia"
+      />
+      <SEOSchema />
       <Header />
 
       <main className="flex-1 pt-20">

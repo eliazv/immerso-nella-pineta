@@ -13,32 +13,32 @@ const galleryImages: Image[] = [
   {
     id: 1,
     src: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/70cdc17b-b1f7-462e-9751-c2071478d2ce.jpeg?q=80&w=1200&h=800&auto=format&fit=crop",
-    alt: "Soggiorno luminoso con divano e vista esterna",
+    alt: "Soggiorno luminoso appartamento a Pinarella di Cervia",
   },
   {
     id: 2,
     src: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/eff48b0d-b353-4e4b-ae3f-edb746be6cb4.jpeg?q=80&w=1200&h=800&auto=format&fit=crop",
-    alt: "Cucina completamente attrezzata",
+    alt: "Cucina attrezzata appartamento Pinarella di Cervia",
   },
   {
     id: 3,
     src: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/96563b34-50a4-4a6b-8ab7-6d3ba9417c72.jpeg?q=80&w=1200&h=800&auto=format&fit=crop",
-    alt: "Camera da letto con letto matrimoniale",
+    alt: "Camera da letto appartamento in affitto Pinarella di Cervia",
   },
   {
     id: 4,
     src: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/2dc0e4e0-7b9f-4b13-9bc4-91198eac142f.jpeg?q=80&w=1200&h=800&auto=format&fit=crop",
-    alt: "Bagno con doccia",
+    alt: "Bagno con doccia appartamento Pinarella di Cervia",
   },
   {
     id: 5,
     src: "https://www.discovercervia.com/cervia/territorio-localita/pinarella/568/image-thumb__568__thumb800/PINETA%20AEREA%20GRANDE_slide_pinarella-di-cervia-Mattia%20Lumini.a288ca8a.jpg?q=80&w=1200&h=800&auto=format&fit=crop",
-    alt: "Vicino mare di Pinarella",
+    alt: "Spiaggia di Pinarella di Cervia vicino all'appartamento",
   },
   {
     id: 6,
     src: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/d0896c17-b5d9-48b7-bf98-9d2aba92f7f8.jpeg?q=80&w=1200&h=800&auto=format&fit=crop",
-    alt: "Pineta di Cervia",
+    alt: "Pineta di Pinarella di Cervia vicino all'appartamento",
   },
 ];
 

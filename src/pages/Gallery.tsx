@@ -3,6 +3,8 @@ import { MapPin, Waves } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PhotoGallery from "@/components/PhotoGallery";
+import MetaTags from "@/components/MetaTags";
+import SEOSchema from "@/components/SEOSchema";
 
 const Gallery = () => {
   useEffect(() => {
@@ -12,6 +14,13 @@ const Gallery = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <MetaTags
+        title="Galleria Foto Appartamento Pinarella di Cervia | Immerso nella Pineta"
+        description="Scopri il nostro appartamento a Pinarella di Cervia attraverso la galleria fotografica. Esplora gli spazi interni ed esterni vicino alla pineta e al mare."
+        canonicalUrl="/gallery"
+        keywords="foto appartamento pinarella, foto alloggio cervia, immagini casa vacanze pinarella, galleria appartamento cervia"
+      />
+      <SEOSchema />
       <Header />
 
       <main className="flex-1 pt-20">

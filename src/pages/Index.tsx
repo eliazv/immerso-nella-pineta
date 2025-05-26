@@ -18,6 +18,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PhotoGallery from "@/components/PhotoGallery";
 import HouseRules from "@/components/HouseRules";
+import MetaTags from "@/components/MetaTags";
+import SEOSchema from "@/components/SEOSchema";
 
 const Index = () => {
   useEffect(() => {
@@ -47,6 +49,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOSchema />
+      <MetaTags
+        title="Appartamento a Pinarella di Cervia | Immerso nella Pineta"
+        description="Prenota il tuo soggiorno in un appartamento a Pinarella di Cervia a soli 5 minuti dal mare e 200 metri dalla pineta. Ideale per famiglie e coppie in vacanza."
+        canonicalUrl="/"
+      />
+
       <Header />
 
       {/* Hero Section */}
