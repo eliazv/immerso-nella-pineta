@@ -3,7 +3,10 @@ import BookingModal from "@/components/BookingModal";
 import { Timestamp } from "firebase/firestore";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useBookings } from "@/hooks/useBookings";
-import { createBooking, updateBooking } from "@/services/firebaseBookingService";
+import {
+  createBooking,
+  updateBooking,
+} from "@/services/firebaseBookingService";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -113,7 +116,9 @@ const BookingManager: React.FC<BookingManagerProps> = ({
 
   // Stato modale
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState<Partial<Booking> | undefined>(undefined);
+  const [modalData, setModalData] = useState<Partial<Booking> | undefined>(
+    undefined
+  );
 
   // Apre modale per aggiunta
   const openAddModal = () => {
@@ -124,12 +129,15 @@ const BookingManager: React.FC<BookingManagerProps> = ({
   const openEditModal = (booking: Booking) => {
     setModalData({
       ...booking,
-      checkInDate: booking.checkInDate && typeof booking.checkInDate.toDate === 'function'
-        ? booking.checkInDate.toDate().toISOString().slice(0, 10)
-        : booking.checkInDate,
-      checkOutDate: booking.checkOutDate && typeof booking.checkOutDate.toDate === 'function'
-        ? booking.checkOutDate.toDate().toISOString().slice(0, 10)
-        : booking.checkOutDate,
+      checkInDate:
+        booking.checkInDate && typeof booking.checkInDate.toDate === "function"
+          ? booking.checkInDate.toDate().toISOString().slice(0, 10)
+          : booking.checkInDate,
+      checkOutDate:
+        booking.checkOutDate &&
+        typeof booking.checkOutDate.toDate === "function"
+          ? booking.checkOutDate.toDate().toISOString().slice(0, 10)
+          : booking.checkOutDate,
     });
     setModalOpen(true);
   };
@@ -299,20 +307,39 @@ const BookingManager: React.FC<BookingManagerProps> = ({
         <>
           <div className="flex flex-col gap-3">
             {filteredBookings.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">Nessuna prenotazione trovata</div>
+              <div className="text-center text-gray-500 py-8">
+                Nessuna prenotazione trovata
+              </div>
             ) : (
               filteredBookings.map((booking) => (
-                <Card key={booking.id} className="shadow-sm border p-2 flex flex-col gap-1">
+                <Card
+                  key={booking.id}
+                  className="shadow-sm border p-2 flex flex-col gap-1"
+                >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-base">{booking.guestName}</p>
-                      <p className="text-xs text-gray-500">{booking.guestEmail}</p>
+                      <p className="font-semibold text-base">
+                        {booking.guestName}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {booking.guestEmail}
+                      </p>
                     </div>
                     <div>{renderStatus(booking.status)}</div>
                   </div>
                   <div className="flex flex-wrap gap-2 text-xs mt-1">
-                    <span>Check-in: {format(booking.checkInDate.toDate(), "dd/MM/yy", { locale: it })}</span>
-                    <span>Check-out: {format(booking.checkOutDate.toDate(), "dd/MM/yy", { locale: it })}</span>
+                    <span>
+                      Check-in:{" "}
+                      {format(booking.checkInDate.toDate(), "dd/MM/yy", {
+                        locale: it,
+                      })}
+                    </span>
+                    <span>
+                      Check-out:{" "}
+                      {format(booking.checkOutDate.toDate(), "dd/MM/yy", {
+                        locale: it,
+                      })}
+                    </span>
                   </div>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <span>App: {booking.propertyName}</span>
@@ -322,10 +349,20 @@ const BookingManager: React.FC<BookingManagerProps> = ({
                     {renderTaxStatus(booking)}
                   </div>
                   <div className="flex gap-2 mt-2">
-                    <Button size="sm" variant="outline" className="flex-1" onClick={() => openEditModal(booking)}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => openEditModal(booking)}
+                    >
                       Modifica
                     </Button>
-                    <Button size="sm" variant="destructive" className="flex-1" onClick={() => handleDeleteBooking(booking.id)}>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      className="flex-1"
+                      onClick={() => handleDeleteBooking(booking.id)}
+                    >
                       Elimina
                     </Button>
                   </div>
@@ -455,7 +492,11 @@ const BookingManager: React.FC<BookingManagerProps> = ({
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => openEditModal(booking)}>Modifica</DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => openEditModal(booking)}
+                              >
+                                Modifica
+                              </DropdownMenuItem>
                               <DropdownMenuItem>Visualizza</DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() =>
@@ -484,12 +525,14 @@ const BookingManager: React.FC<BookingManagerProps> = ({
                                     </AlertDialogTitle>
                                     <AlertDialogDescription>
                                       Sei sicuro di voler eliminare la
-                                      prenotazione di {booking.guestName}? Questa
-                                      azione non può essere annullata.
+                                      prenotazione di {booking.guestName}?
+                                      Questa azione non può essere annullata.
                                     </AlertDialogDescription>
                                   </AlertDialogHeader>
                                   <AlertDialogFooter>
-                                    <AlertDialogCancel>Annulla</AlertDialogCancel>
+                                    <AlertDialogCancel>
+                                      Annulla
+                                    </AlertDialogCancel>
                                     <AlertDialogAction
                                       onClick={() =>
                                         handleDeleteBooking(booking.id)

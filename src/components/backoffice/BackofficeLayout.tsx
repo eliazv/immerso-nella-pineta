@@ -121,10 +121,14 @@ const BackofficeLayout: React.FC = () => {
         <div className="container mx-auto px-2 py-2 max-w-5xl flex flex-nowrap justify-between items-center gap-2 md:gap-4">
           {/* Mobile: hamburger + logo + azioni rapide */}
           <div className="flex items-center gap-2 md:gap-4 w-full">
-            <h1 className="text-lg font-serif font-medium hidden md:block">Backoffice</h1>
+            <h1 className="text-lg font-serif font-medium hidden md:block">
+              Backoffice
+            </h1>
             <Select
               value={selectedCalendar}
-              onValueChange={(value) => handleCalendarChange(value as CalendarType)}
+              onValueChange={(value) =>
+                handleCalendarChange(value as CalendarType)
+              }
             >
               <SelectTrigger className="min-w-[80px] border-dashed text-xs md:text-base">
                 <div className="flex items-center gap-2">
@@ -144,15 +148,24 @@ const BackofficeLayout: React.FC = () => {
             <div className="flex items-center gap-2 md:gap-3 ml-auto">
               <Tabs value={activeTab} onValueChange={handleTabChange}>
                 <TabsList className="hidden md:grid grid-cols-3">
-                  <TabsTrigger value="calendar" className="flex items-center gap-1.5 text-xs md:text-base">
+                  <TabsTrigger
+                    value="calendar"
+                    className="flex items-center gap-1.5 text-xs md:text-base"
+                  >
                     <Calendar className="h-4 w-4" />
                     <span className="hidden md:inline">Calendario</span>
                   </TabsTrigger>
-                  <TabsTrigger value="bookings" className="flex items-center gap-1.5 text-xs md:text-base">
+                  <TabsTrigger
+                    value="bookings"
+                    className="flex items-center gap-1.5 text-xs md:text-base"
+                  >
                     <BookOpen className="h-4 w-4" />
                     <span className="hidden md:inline">Prenotazioni</span>
                   </TabsTrigger>
-                  <TabsTrigger value="dashboard" className="flex items-center gap-1.5 text-xs md:text-base">
+                  <TabsTrigger
+                    value="dashboard"
+                    className="flex items-center gap-1.5 text-xs md:text-base"
+                  >
                     <BarChart3 className="h-4 w-4" />
                     <span className="hidden md:inline">Dashboard</span>
                   </TabsTrigger>
@@ -175,21 +188,27 @@ const BackofficeLayout: React.FC = () => {
       {/* Bottom nav solo mobile */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-md flex md:hidden justify-around py-1">
         <button
-          className={`flex flex-col items-center text-xs px-2 py-1 ${activeTab === "calendar" ? "text-primary" : "text-slate-500"}`}
+          className={`flex flex-col items-center text-xs px-2 py-1 ${
+            activeTab === "calendar" ? "text-primary" : "text-slate-500"
+          }`}
           onClick={() => handleTabChange("calendar")}
         >
           <Calendar className="h-5 w-5 mb-0.5" />
           Calendario
         </button>
         <button
-          className={`flex flex-col items-center text-xs px-2 py-1 ${activeTab === "bookings" ? "text-primary" : "text-slate-500"}`}
+          className={`flex flex-col items-center text-xs px-2 py-1 ${
+            activeTab === "bookings" ? "text-primary" : "text-slate-500"
+          }`}
           onClick={() => handleTabChange("bookings")}
         >
           <BookOpen className="h-5 w-5 mb-0.5" />
           Prenotazioni
         </button>
         <button
-          className={`flex flex-col items-center text-xs px-2 py-1 ${activeTab === "dashboard" ? "text-primary" : "text-slate-500"}`}
+          className={`flex flex-col items-center text-xs px-2 py-1 ${
+            activeTab === "dashboard" ? "text-primary" : "text-slate-500"
+          }`}
           onClick={() => handleTabChange("dashboard")}
         >
           <BarChart3 className="h-5 w-5 mb-0.5" />

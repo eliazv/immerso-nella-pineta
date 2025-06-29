@@ -35,7 +35,9 @@ const BookingModal: React.FC<BookingModalProps> = ({
     setForm(initialData);
   }, [initialData, open]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -48,7 +50,11 @@ const BookingModal: React.FC<BookingModalProps> = ({
       toast({ title: "Prenotazione salvata!", variant: "default" });
       onClose();
     } catch (err) {
-      toast({ title: "Errore salvataggio", description: String(err), variant: "destructive" });
+      toast({
+        title: "Errore salvataggio",
+        description: String(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -59,42 +65,102 @@ const BookingModal: React.FC<BookingModalProps> = ({
       <DialogContent className="max-w-md w-full p-0 md:max-w-lg">
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <DialogHeader>
-            <DialogTitle>{form.id ? "Modifica Prenotazione" : "Nuova Prenotazione"}</DialogTitle>
+            <DialogTitle>
+              {form.id ? "Modifica Prenotazione" : "Nuova Prenotazione"}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-2">
             <Label>Ospite *</Label>
-            <Input name="guestName" value={form.guestName || ""} onChange={handleChange} required />
+            <Input
+              name="guestName"
+              value={form.guestName || ""}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label>Email</Label>
-            <Input name="guestEmail" value={form.guestEmail || ""} onChange={handleChange} type="email" />
+            <Input
+              name="guestEmail"
+              value={form.guestEmail || ""}
+              onChange={handleChange}
+              type="email"
+            />
           </div>
           <div className="space-y-2">
             <Label>Appartamento *</Label>
-            <select name="propertyId" value={form.propertyId || ""} onChange={handleChange} required className="w-full border rounded px-2 py-1">
+            <select
+              name="propertyId"
+              value={form.propertyId || ""}
+              onChange={handleChange}
+              required
+              className="w-full border rounded px-2 py-1"
+            >
               <option value="">Seleziona...</option>
               {properties.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
               ))}
             </select>
           </div>
           <div className="flex gap-2">
             <div className="flex-1 space-y-2">
               <Label>Check-in *</Label>
-              <Input name="checkInDate" value={typeof form.checkInDate === 'string' ? form.checkInDate : (form.checkInDate && form.checkInDate.toDate ? form.checkInDate.toDate().toISOString().slice(0,10) : "")} onChange={handleChange} type="date" required />
+              <Input
+                name="checkInDate"
+                value={
+                  typeof form.checkInDate === "string"
+                    ? form.checkInDate
+                    : form.checkInDate && form.checkInDate.toDate
+                    ? form.checkInDate.toDate().toISOString().slice(0, 10)
+                    : ""
+                }
+                onChange={handleChange}
+                type="date"
+                required
+              />
             </div>
             <div className="flex-1 space-y-2">
               <Label>Check-out *</Label>
-              <Input name="checkOutDate" value={typeof form.checkOutDate === 'string' ? form.checkOutDate : (form.checkOutDate && form.checkOutDate.toDate ? form.checkOutDate.toDate().toISOString().slice(0,10) : "")} onChange={handleChange} type="date" required />
+              <Input
+                name="checkOutDate"
+                value={
+                  typeof form.checkOutDate === "string"
+                    ? form.checkOutDate
+                    : form.checkOutDate && form.checkOutDate.toDate
+                    ? form.checkOutDate.toDate().toISOString().slice(0, 10)
+                    : ""
+                }
+                onChange={handleChange}
+                type="date"
+                required
+              />
             </div>
           </div>
           <div className="space-y-2">
             <Label>Totale (€)</Label>
-            <Input name="totalAmount" value={form.totalAmount || ""} onChange={handleChange} type="number" min="0" step="0.01" />
+            <Input
+              name="totalAmount"
+              value={form.totalAmount || ""}
+              onChange={handleChange}
+              type="number"
+              min="0"
+              step="0.01"
+            />
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose} disabled={loading}>Annulla</Button>
-            <Button type="submit" disabled={loading}>{loading ? "Salvataggio..." : "Salva"}</Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={loading}
+            >
+              Annulla
+            </Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Salvataggio..." : "Salva"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
