@@ -51,8 +51,9 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <SEOSchema />
       <MetaTags
-        title="Appartamento a Pinarella di Cervia | Immerso nella Pineta"
-        description="Prenota il tuo soggiorno in un appartamento a Pinarella di Cervia a soli 5 minuti dal mare e 200 metri dalla pineta. Ideale per famiglie e coppie in vacanza."
+        title="Appartamento in Affitto a Pinarella di Cervia | Vacanze Mare 2025"
+        description="Affitto appartamento vacanze a Pinarella di Cervia. A 5 minuti dal mare, posto auto privato, 4 posti letto. Prenotazioni aperte. Ideale famiglie."
+        keywords="appartamento affitto pinarella cervia, casa vacanze pinarella, affitto estivo cervia, appartamento mare cervia, alloggio pinarella di cervia, vacanze cervia appartamento, affitto breve termine pinarella"
         canonicalUrl="/"
       />
 
@@ -63,7 +64,7 @@ const Index = () => {
         <div className="absolute inset-0 z-0">
           <img
             src="https://www.pinarellavillage.com/images/slider/1.jpg"
-            alt="Pineta di Cervia"
+            alt="Appartamento in affitto Pinarella di Cervia - Pineta e mare"
             className="object-cover w-full h-full"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30" />
@@ -74,7 +75,7 @@ const Index = () => {
             Immerso nella Pineta
           </h1>
           <p className="text-white/90 text-lg md:text-xl mb-8 max-w-2xl mx-auto drop-shadow-md">
-            A soli 5 minuti a piedi dal mare di Pinarella
+            Casa vacanze a Cervia - A soli 5 minuti a piedi dal mare
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
@@ -82,7 +83,8 @@ const Index = () => {
               asChild
               className="bg-sea-dark hover:bg-sea-dark/90"
             >
-              <Link to="/rules">Regole e Istruzioni</Link>
+              {/* <Link to="/rules">Regole e Istruzioni</Link> */}
+              <Link to="/book">Prenota ora</Link>
               {/* <Link to="/gallery">Esplora la casa</Link> */}
             </Button>
             <Button
@@ -106,7 +108,7 @@ const Index = () => {
                 <div className="aspect-[4/3] rounded-xl overflow-hidden">
                   <img
                     src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/529559d4-9514-4ece-a94b-38de9fc199ab.jpeg?q=80&w=800&auto=format&fit=crop"
-                    alt="Soggiorno"
+                    alt="Soggiorno appartamento affitto Pinarella di Cervia"
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -121,16 +123,17 @@ const Index = () => {
               </div>
 
               <h2 className="font-serif text-3xl font-medium mb-6">
-                Benvenuti nel nostro accogliente appartamento
+                Appartamento in affitto per le vostre vacanze
               </h2>
 
               <p className="text-muted-foreground mb-6">
-                A soli 200 metri dalla splendida pineta e dalle acque del mare
-                di Pinarella. Situato al piano terra di una graziosa palazzina
-                immersa nel verde, ombreggiata da alti pini, questo è il rifugio
-                perfetto per chi cerca relax e comfort. Godetevi la pace della
-                zona, a due passi dalla spiaggia, e lasciatevi coccolare dalla
-                fresca brezza marina.
+                Affittate il nostro appartamento a Pinarella di Cervia, a soli
+                200 metri dalla splendida pineta e dalle acque del mare. Situato
+                al piano terra di una graziosa palazzina immersa nel verde,
+                ombreggiata da alti pini, questo è il rifugio perfetto per chi
+                cerca relax e comfort durante le vacanze estive. Godetevi la
+                pace della zona, a due passi dalla spiaggia, e lasciatevi
+                coccolare dalla fresca brezza marina.
               </p>
 
               <div className="flex flex-col md:flex-row gap-6 mb-8">
@@ -177,9 +180,11 @@ const Index = () => {
               Tutto ciò di cui avete bisogno
             </h2>
             <p className="text-muted-foreground">
-              L'appartamento è stato pensato per offrirvi il massimo comfort
-              durante il vostro soggiorno, con tutti i servizi essenziali per
-              una vacanza senza pensieri.
+              L'appartamento in affitto a Pinarella di Cervia è stato pensato
+              per offrirvi il massimo comfort durante il vostro soggiorno
+              estivo, con tutti i servizi essenziali per una vacanza senza
+              pensieri. Casa vacanze ideale per famiglie che cercano relax
+              vicino al mare.
             </p>
           </div>
 
@@ -244,8 +249,10 @@ const Index = () => {
               Dai un'occhiata agli spazi
             </h2>
             <p className="text-muted-foreground">
-              Esplora il nostro appartamento attraverso le immagini e immagina
-              la tua prossima vacanza a Cervia.
+              Esplora il nostro appartamento in affitto a Pinarella attraverso
+              le immagini e immagina la tua prossima vacanza a Cervia. Scopri
+              tutti gli spazi della casa vacanze: camera da letto, cucina
+              attrezzata e bagno con lavatrice.
             </p>
           </div>
 
@@ -266,7 +273,9 @@ const Index = () => {
             </h2>
             <p className="text-muted-foreground">
               Alcune informazioni importanti per rendere il vostro soggiorno
-              piacevole e senza sorprese.
+              nell'appartamento in affitto a Pinarella piacevole e senza
+              sorprese. Regole della casa e consigli utili per la vostra vacanza
+              a Cervia.
             </p>
           </div>
 
@@ -300,10 +309,11 @@ const Index = () => {
               </h2>
 
               <p className="text-muted-foreground mb-6">
-                Scopri i migliori ristoranti, gli eventi locali, e i
-                suggerimenti per rendere il tuo soggiorno indimenticabile.
-                Abbiamo raccolto per te tutte le informazioni più utili sulla
-                zona.
+                Scopri i migliori ristoranti di Pinarella, gli eventi locali di
+                Cervia, e i suggerimenti per rendere il tuo soggiorno
+                nell'appartamento in affitto indimenticabile. Abbiamo raccolto
+                per te tutte le informazioni più utili sulla zona di Pinarella
+                di Cervia per le tue vacanze al mare.
               </p>
 
               <div className="flex flex-col md:flex-row gap-6 mb-8">
@@ -340,7 +350,7 @@ const Index = () => {
                 <div className="aspect-[4/3] rounded-xl overflow-hidden">
                   <img
                     src="https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg"
-                    alt="Lungomare di Pinarella"
+                    alt="Lungomare di Pinarella di Cervia - appartamento vicino al mare"
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -356,7 +366,7 @@ const Index = () => {
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1920&auto=format&fit=crop"
-            alt="Mare di Pinarella"
+            alt="Mare di Pinarella - vacanze in appartamento affitto Cervia"
             className="object-cover w-full h-full opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-pine-dark/80 to-sea-dark/80" />
@@ -369,8 +379,9 @@ const Index = () => {
             </h2>
             <p className="text-white/80 mb-8 text-lg">
               Non perdere l'opportunità di soggiornare nel nostro accogliente
-              appartamento, a pochi passi dal mare e immerso nella pineta di
-              Cervia.
+              appartamento in affitto a Pinarella, a pochi passi dal mare e
+              immerso nella pineta di Cervia. Casa vacanze perfetta per le tue
+              vacanze estive in Emilia Romagna.
             </p>
             <Button
               size="lg"

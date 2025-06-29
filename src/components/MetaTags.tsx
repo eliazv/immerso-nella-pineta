@@ -12,7 +12,7 @@ interface MetaTagsProps {
 const MetaTags = ({
   title,
   description,
-  keywords = "appartamento pinarella, alloggio pinarella di cervia, affitto estivo cervia, casa vacanze pinarella",
+  keywords = "appartamento affitto pinarella, casa vacanze pinarella cervia, affitto estivo cervia, appartamento mare cervia, alloggio pinarella di cervia, vacanze cervia appartamento, affitto breve termine pinarella, appartamento 4 posti letto cervia, casa vacanze emilia romagna",
   canonicalUrl = "",
   imageUrl = "https://www.pinarellavillage.com/images/slider/1.jpg",
 }: MetaTagsProps) => {

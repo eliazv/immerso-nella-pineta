@@ -91,9 +91,9 @@ const Header = () => {
             <TreePine className="text-pine-dark h-6 w-6" />
             <Waves className="text-sea-dark h-6 w-6 absolute left-3" />
           </div>
-          <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
+          <span className="font-serif text-pine text-lg font-semibold tracking-tight text-foreground">
             Immerso nella Pineta
-            <span className="block text-xs text-muted-foreground font-normal">
+            <span className="block text-xs text-sea text-muted-foreground font-normal">
               Appartamento a Pinarella di Cervia
             </span>
           </span>
