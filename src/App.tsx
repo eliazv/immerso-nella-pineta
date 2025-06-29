@@ -17,40 +17,52 @@ import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Pagine pubbliche del sito */}
-            <Route path="/" element={<Index />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/attractions" element={<Attractions />} />
-            <Route path="/rules" element={<Rules />} />
-            <Route path="/book" element={<Book />} />
-            <Route path="/rules/pdf" element={<HouseRulesPDF />} />
+import { useEffect } from "react";
+import { isCapacitorApp } from "@/lib/isCapacitor";
 
-            {/* Backoffice con layout condiviso */}
-            <Route path="/" element={<BackofficeLayout />}>
-              <Route path="/calendar" element={<AvailabilityCalendar />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              {/* Reindirizza /admin direttamente alla pagina calendar */}
-              <Route
-                path="/admin"
-                element={<Navigate to="/calendar" replace />}
-              />
-            </Route>
+const App = () => {
+  useEffect(() => {
+    // Se siamo in ambiente Capacitor e NON siamo già su /calendar, redirect automatico
+    if (isCapacitorApp() && window.location.pathname !== "/calendar") {
+      window.location.replace("/calendar");
+    }
+  }, []);
 
-            {/* Pagina 404 */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </HelmetProvider>
-  </QueryClientProvider>
-);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Pagine pubbliche del sito */}
+              <Route path="/" element={<Index />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/attractions" element={<Attractions />} />
+              <Route path="/rules" element={<Rules />} />
+              <Route path="/book" element={<Book />} />
+              <Route path="/rules/pdf" element={<HouseRulesPDF />} />
+
+              {/* Backoffice con layout condiviso */}
+              <Route path="/" element={<BackofficeLayout />}>
+                <Route path="/calendar" element={<AvailabilityCalendar />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                {/* Reindirizza /admin direttamente alla pagina calendar */}
+                <Route
+                  path="/admin"
+                  element={<Navigate to="/calendar" replace />}
+                />
+              </Route>
+
+              {/* Pagina 404 */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

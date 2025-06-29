@@ -282,8 +282,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto bg-white border-slate-200 px-2 sm:px-6 py-0 sm:py-6">
         <div
-          className="sticky top-0 z-30 bg-white border-b  flex items-center justify-between"
-          style={{ minHeight: "56px" }}
+          className="sticky z-30 bg-white border-b flex items-center justify-between"
+          style={{ minHeight: "56px", top: "env(safe-area-inset-top, 0px)" }}
         >
           <div>
             <DialogTitle className="text-lg sm:text-xl font-serif text-slate-800">
