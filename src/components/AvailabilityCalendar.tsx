@@ -135,7 +135,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   return (
     <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-medium">{getCalendarTitle()}</h2>
         <div className="flex items-center gap-2">
           <button
             onClick={handleRefresh}
@@ -206,7 +205,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
             year: "numeric",
             month: "short", // Usa l'abbreviazione del mese per ridurre la lunghezza
           }}
-          viewClassNames="calendar-view"
+          viewClassNames="calendar-view "
           contentHeight="auto"
           eventClassNames="text-sm"
           dayCellClassNames="text-xs"

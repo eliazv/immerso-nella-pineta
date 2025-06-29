@@ -109,7 +109,7 @@ export const BookingsList: React.FC<BookingsListProps> = ({
     if (ota.toLowerCase() === "extra") {
       return (
         <img
-          src="https://cdn-icons-png.freepik.com/512/5361/5361038.png?size=512&id=103424&format=png"
+          src="https://cdn-icons-png.flaticon.com/512/5277/5277971.png"
           alt="Extra"
           className="inline-block h-5 w-auto"
         />
@@ -118,7 +118,7 @@ export const BookingsList: React.FC<BookingsListProps> = ({
     if (ota.toLowerCase() === "agenzia") {
       return (
         <img
-          src="https://cdn-icons-png.freepik.com/256/6522/6522039.png?size=512&id=103424&format=png"
+          src="https://cdn-icons-png.flaticon.com/512/2132/2132930.png"
           alt="Agenzia"
           className="inline-block h-5 w-auto"
         />

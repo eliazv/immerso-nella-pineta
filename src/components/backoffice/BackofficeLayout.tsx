@@ -110,9 +110,7 @@ const BackofficeLayout: React.FC = () => {
       <div className="fixed top-0 left-0 right-0 bg-slate-100 shadow-sm z-50">
         <div className="container mx-auto px-4 py-2 max-w-5xl flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <h1 className="text-lg font-serif font-medium hidden md:block">
-              Backoffice
-            </h1>
+            <h1 className="text-lg font-serif font-medium">Alloggio:</h1>
 
             <Select
               value={selectedCalendar}
@@ -136,7 +134,7 @@ const BackofficeLayout: React.FC = () => {
             </Select>
           </div>
 
-          <div className="flex items-center gap-3 ml-auto">
+          <div className="items-center gap-3 ml-auto hidden md:flex">
             <Tabs value={activeTab} onValueChange={handleTabChange}>
               <TabsList className="grid grid-cols-2">
                 <TabsTrigger
@@ -151,7 +149,7 @@ const BackofficeLayout: React.FC = () => {
                   className="flex items-center gap-1.5"
                 >
                   <BarChart3 className="h-4 w-4" />
-                  <span className="hidden md:inline">Dashboard</span>
+                  <span className="hidden md:inline">Statistiche</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -166,13 +164,48 @@ const BackofficeLayout: React.FC = () => {
               <span className="hidden md:inline">Esci</span>
             </Button>
           </div>
+
+          {/* Footer mobile navigation */}
+          <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-100 border-t shadow md:hidden">
+            <div className="flex justify-around items-center h-14">
+              <button
+                className={`flex flex-col items-center justify-center flex-1 py-2 ${
+                  activeTab === "calendar"
+                    ? "text-primary font-semibold"
+                    : "text-muted-foreground"
+                }`}
+                onClick={() => handleTabChange("calendar")}
+              >
+                <Calendar className="h-5 w-5 mx-auto" />
+                <span className="text-xs mt-1">Calendario</span>
+              </button>
+              <button
+                className={`flex flex-col items-center justify-center flex-1 py-2 ${
+                  activeTab === "dashboard"
+                    ? "text-primary font-semibold"
+                    : "text-muted-foreground"
+                }`}
+                onClick={() => handleTabChange("dashboard")}
+              >
+                <BarChart3 className="h-5 w-5 mx-auto" />
+                <span className="text-xs mt-1">Statistiche</span>
+              </button>
+              {/* <button
+                className="flex flex-col items-center justify-center flex-1 py-2 text-muted-foreground"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-5 w-5 mx-auto" />
+                <span className="text-xs mt-1">Esci</span>
+              </button> */}
+            </div>
+          </nav>
         </div>
       </div>
 
       <div className="mb-8 border-b pb-2"></div>
 
       {/* Passa l'appartamento selezionato alle pagine figlie */}
-      <div className="pt-10 pb-6">
+      <div className="pt-10 pb-16 md:pb-6">
         <Outlet context={{ selectedCalendar }} />
       </div>
     </div>
