@@ -45,7 +45,7 @@ const Book = () => {
                     </h2>
                     <p className="text-green-700 mb-3">
                       Salta le commissioni di Airbnb e Booking.com prenotando
-                      direttamente con noi. Risparmia fino al 15% e ricevi un
+                      direttamente con noi. Risparmia fino al 20% e ricevi un
                       servizio più personalizzato.
                     </p>
                     <p className="text-green-600 font-medium text-sm">

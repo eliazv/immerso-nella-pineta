@@ -103,7 +103,6 @@ const HouseRules = ({ className }: RulesListProps) => {
           </ul>
         </div>
       </div>
-
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4">Regole generali</h3>
         <ul className="space-y-3">
@@ -133,19 +132,31 @@ const HouseRules = ({ className }: RulesListProps) => {
           </li>
           <li>Riponete le chiavi nella cassettina di sicurezza.</li>
         </ul>
-      </div>
-
+      </div>{" "}
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
           <Car className="mr-2 h-5 w-5 text-pine-dark" />
-          Parcheggio
+          Parcheggio e Accesso
         </h3>
-        <p className="text-sm mb-2">
-          Gli ospiti possono parcheggiare unicamente nel parcheggio di fronte
-          all'appartamento, identificato dal numero 3.
-        </p>
+        <div className="space-y-3">
+          <p className="text-sm">
+            🚗 <strong>Parcheggio riservato:</strong> Gli ospiti possono
+            accedere comodamente al cortile interno con l'auto e parcheggiare
+            nel posto riservato, identificato dal numero 3 e situato di fronte
+            all'ingresso.
+          </p>
+          <p className="text-sm">
+            🔑 <strong>Accesso autonomo:</strong> L'appartamento dispone di un
+            sistema di accesso autonomo tramite una cassetta di sicurezza con
+            codice, rendendo l'arrivo e la partenza semplici e flessibili.
+          </p>
+          <p className="text-sm">
+            📳 <strong>Assistenza durante il soggiorno:</strong> Se hai bisogno
+            di supporto o hai domande, non esitare a contattarmi in qualsiasi
+            momento. Sarò disponibile per aiutarti!
+          </p>
+        </div>
       </div>
-
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
           <Sparkles className="mr-2 h-5 w-5 text-pine-dark" />
@@ -202,24 +213,62 @@ const HouseRules = ({ className }: RulesListProps) => {
                 IT92W0357601601010002973340).
               </p>
             </AccordionContent>
-          </AccordionItem>
+          </AccordionItem>{" "}
           <AccordionItem value="item-3" className="border-b">
             <AccordionTrigger className="text-medium font-medium">
               Cosa è incluso nel soggiorno?
             </AccordionTrigger>
             <AccordionContent className="text-sm">
-              <p>
-                Durante il soggiorno verrà fornito un set completo di lenzuola,
-                federe e asciugamani. Inoltre, avrete a disposizione delle
-                stoviglie e tutto il necessario per la pulizia della casa. Non
-                vengono forniti articoli per l'igiene personale, come saponi da
-                bagno, né generi alimentari.
+              <p className="mb-3">
+                🍽️ <strong>Dotazioni e comfort disponibili:</strong>
+              </p>
+              <ul className="list-disc pl-5 space-y-1 mb-3">
+                <li>Set completo di lenzuola, federe e asciugamani</li>
+                <li>Stoviglie e utensili da cucina</li>
+                <li>Prodotti per la pulizia della casa</li>
+                <li>Deumidificatore</li>
+                <li>Seggiolone per bambini (disponibile su richiesta)</li>
+              </ul>
+
+              <p className="mb-3">
+                ❗ <strong>Nota bene:</strong> non vengono forniti articoli per
+                l'igiene personale (es. saponi da bagno) né generi alimentari.
+              </p>
+
+              <p className="mb-3">
+                🛒 <strong>Servizi e negozi vicini:</strong>
+              </p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>
+                  Estate (giugno-settembre): supermercato più vicino a 200 metri
+                </li>
+                <li>Tutto l'anno: Grande supermercato a 2 km</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-4" className="border-b">
+            <AccordionTrigger className="text-medium font-medium">
+              Riscaldamento e climatizzazione
+            </AccordionTrigger>
+            <AccordionContent className="text-sm">
+              <p className="mb-3">
+                🔥 <strong>Riscaldamento:</strong> Nei mesi freddi,
+                l'appartamento è riscaldato da uno split con pompa di calore
+                situato nel soggiorno.
+              </p>
+              <p className="mb-3">
+                In camera da letto è presente una stufetta elettrica portatile,
+                facilmente spostabile anche in bagno.
+              </p>
+              <p className="text-amber-600">
+                ⚡ <strong>Consumo elettrico:</strong> Si raccomanda di non
+                accendere troppi elettrodomestici contemporaneamente, per
+                evitare il sovraccarico dell'impianto elettrico.
               </p>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
-
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
@@ -269,7 +318,6 @@ const HouseRules = ({ className }: RulesListProps) => {
           </CollapsibleContent>
         </Collapsible>
       </div>
-
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
@@ -420,7 +468,6 @@ const HouseRules = ({ className }: RulesListProps) => {
           </CollapsibleContent>
         </Collapsible>
       </div>
-
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left">
@@ -446,7 +493,6 @@ const HouseRules = ({ className }: RulesListProps) => {
           </CollapsibleContent>
         </Collapsible>
       </div>
-
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <Collapsible className="w-full">
           <CollapsibleTrigger className="flex items-center justify-between w-full text-left">

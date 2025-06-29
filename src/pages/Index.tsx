@@ -12,13 +12,14 @@ import {
   Calendar,
   Utensils,
   Aperture,
+  House,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PhotoGallery from "@/components/PhotoGallery";
-import HouseRules from "@/components/HouseRules";
+import EssentialInfo from "@/components/EssentialInfo";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
 
@@ -128,13 +129,13 @@ const Index = () => {
               </h2>
 
               <p className="text-muted-foreground mb-6">
-                Affittate il nostro appartamento a Pinarella di Cervia, a soli
-                200 metri dalla splendida pineta e dalle acque del mare. Situato
-                al piano terra di una graziosa palazzina immersa nel verde,
-                ombreggiata da alti pini, questo è il rifugio perfetto per chi
-                cerca relax e comfort durante le vacanze estive. Godetevi la
-                pace della zona, a due passi dalla spiaggia, e lasciatevi
-                coccolare dalla fresca brezza marina.
+                Benvenuti nel nostro accogliente appartamento, a soli 200 metri
+                dalla splendida pineta e dalle acque del mare di Pinarella.
+                Situato al piano terra di una graziosa palazzina immersa nel
+                verde, ombreggiata da alti pini, questo è il rifugio perfetto
+                per chi cerca relax e comfort durante le vacanze estive.
+                Godetevi la pace della zona, a due passi dalla spiaggia, e
+                lasciatevi coccolare dalla fresca brezza marina.
               </p>
 
               <div className="flex flex-col md:flex-row gap-6 mb-8">
@@ -181,57 +182,57 @@ const Index = () => {
               Tutto ciò di cui avete bisogno
             </h2>
             <p className="text-muted-foreground">
-              L'appartamento in affitto a Pinarella di Cervia è stato pensato
-              per offrirvi il massimo comfort durante il vostro soggiorno
-              estivo, con tutti i servizi essenziali per una vacanza senza
-              pensieri. Casa vacanze ideale per famiglie che cercano relax
-              vicino al mare.
+              Appartamento al piano terra di 35 mq con parcheggio riservato,
+              accesso autonomo e giardino condiviso. Ideale per famiglie che
+              cercano relax vicino al mare in zona tranquilla.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-xl border border-border scroll-reveal">
-              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
-                <Bed className="h-6 w-6 text-sea-dark" />
+              <div className="w-10 h-10 mb-3 rounded-full bg-sea-light flex items-center justify-center">
+                <Bed className="h-5 w-5 text-sea-dark" />
               </div>
-              <h3 className="font-serif text-lg font-medium mb-2">
-                Camera da letto
-              </h3>
+              <h3 className="font-medium text-base mb-2">Camera</h3>
               <p className="text-muted-foreground text-sm">
-                Include un confortevole letto matrimoniale e due letti singoli,
-                forniti di lenzuola e coperte fresche.
+                Letto matrimoniale e due singoli con biancheria inclusa
               </p>
             </div>
-
             <div
               className="bg-white p-6 rounded-xl border border-border scroll-reveal"
               style={{ animationDelay: "0.2s" }}
             >
-              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
-                <ShowerHead className="h-6 w-6 text-sea-dark" />
+              <div className="w-10 h-10 mb-3 rounded-full bg-sea-light flex items-center justify-center">
+                <House className="h-5 w-5 text-sea-dark" />
               </div>
-              <h3 className="font-serif text-lg font-medium mb-2">Bagno</h3>
+              <h3 className="font-medium text-base mb-2">Soggiorno-Cucina</h3>
               <p className="text-muted-foreground text-sm">
-                Dotato di doccia con tenda, bidet e lavatrice a vostra
-                disposizione. Un set completo di asciugamani è fornito per ogni
-                ospite.
+                Ambiente luminoso con AC, TV e cucina completamente attrezzata
+              </p>
+            </div>
+            <div
+              className="bg-white p-6 rounded-xl border border-border scroll-reveal"
+              style={{ animationDelay: "0.1s" }}
+            >
+              <div className="w-10 h-10 mb-3 rounded-full bg-sea-light flex items-center justify-center">
+                <ShowerHead className="h-5 w-5 text-sea-dark" />
+              </div>
+              <h3 className="font-medium text-base mb-2">Bagno</h3>
+              <p className="text-muted-foreground text-sm">
+                Doccia, bidet, lavatrice e set asciugamani per tutti
               </p>
             </div>
 
             <div
               className="bg-white p-6 rounded-xl border border-border scroll-reveal"
-              style={{ animationDelay: "0.4s" }}
+              style={{ animationDelay: "0.3s" }}
             >
-              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
-                <Wifi className="h-6 w-6 text-sea-dark" />
+              <div className="w-10 h-10 mb-3 rounded-full bg-green-100 flex items-center justify-center">
+                <TreePine className="h-5 w-5 text-green-600" />
               </div>
-              <h3 className="font-serif text-lg font-medium mb-2">
-                Soggiorno-Cucina
-              </h3>
+              <h3 className="font-medium text-base mb-2">Esterni</h3>
               <p className="text-muted-foreground text-sm">
-                Uno spazio luminoso e accogliente, dotato di tavolo da pranzo,
-                comodo divano a due posti, aria condizionata e TV. La cucina è
-                pratica e ben attrezzata.
+                🚗 Parcheggio • 🔑 Accesso autonomo • 🌳 Giardino condiviso
               </p>
             </div>
           </div>
@@ -251,9 +252,9 @@ const Index = () => {
             </h2>
             <p className="text-muted-foreground">
               Esplora il nostro appartamento in affitto a Pinarella attraverso
-              le immagini e immagina la tua prossima vacanza a Cervia. Scopri
-              tutti gli spazi della casa vacanze: camera da letto, cucina
-              attrezzata e bagno con lavatrice.
+              le immagini: camera con letti matrimoniale e singoli, cucina
+              attrezzata, bagno con lavatrice e giardino condiviso con area
+              riservata.
             </p>
           </div>
 
@@ -333,15 +334,14 @@ const Index = () => {
               Informazioni utili
             </h2>
             <p className="text-muted-foreground">
-              Alcune informazioni importanti per rendere il vostro soggiorno
-              nell'appartamento in affitto a Pinarella piacevole e senza
-              sorprese. Regole della casa e consigli utili per la vostra vacanza
-              a Cervia.
+              Informazioni essenziali per il vostro soggiorno: orari di check-in
+              e check-out, contatti diretti e dettagli su parcheggio e accesso
+              autonomo al nostro appartamento a Pinarella di Cervia.
             </p>
           </div>
 
           <div className="max-w-3xl mx-auto scroll-reveal">
-            <HouseRules />
+            <EssentialInfo />
 
             <div className="mt-8 text-center">
               <Button variant="outline" asChild>

@@ -56,13 +56,32 @@ const Rules = () => {
               <h2 className="font-serif text-2xl font-medium mb-4">
                 Accessibilità
               </h2>
-              <p className="text-muted-foreground mb-6">
-                Purtroppo, l'alloggio non è completamente accessibile per
-                persone in sedia a rotelle. E' situato interamente al piano
-                terra ma l'ingresso principale ha una larghezza di 81 cm, mentre
-                le porte interne della camera e del bagno misurano
-                rispettivamente 76 cm e 68 cm. Il bagno presenta uno scalino di
-                6 cm.
+              <p className="text-muted-foreground mb-4">
+                ♿ <strong>Informazioni di accessibilità:</strong>
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="bg-white/50 p-4 rounded-lg">
+                  <h3 className="font-medium mb-2">Larghezze porte:</h3>
+                  <ul className="text-sm space-y-1">
+                    <li>• Ingresso principale: 81 cm</li>
+                    <li>• Porta camera: 76 cm</li>
+                    <li>• Porta bagno: 68 cm</li>
+                  </ul>
+                </div>
+                <div className="bg-white/50 p-4 rounded-lg">
+                  <h3 className="font-medium mb-2">Note importanti:</h3>
+                  <ul className="text-sm space-y-1">
+                    <li>
+                      • Presenza di uno scalino di 6 cm all'ingresso del bagno
+                    </li>
+                    <li>• L'appartamento è situato al piano terra</li>
+                  </ul>
+                </div>
+              </div>
+              <p className="text-muted-foreground text-sm italic">
+                L'alloggio non è completamente accessibile per persone in sedia
+                a rotelle a causa delle dimensioni delle porte e dello scalino
+                nel bagno.
               </p>
 
               <div className="mt-8 text-center">

@@ -36,17 +36,17 @@ const SEOSchema = () => {
     amenityFeature: [
       {
         "@type": "LocationFeatureSpecification",
-        name: "Parcheggio privato gratuito",
+        name: "Parcheggio privato riservato #3",
         value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "Wi-Fi gratuito",
+        name: "Accesso autonomo con cassetta sicurezza",
         value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "Aria condizionata",
+        name: "Aria condizionata e riscaldamento",
         value: true,
       },
       {
@@ -56,22 +56,22 @@ const SEOSchema = () => {
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "A 5 minuti dalla spiaggia",
+        name: "A 200m dalla pineta e mare",
         value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "Piano terra",
+        name: "Piano terra accessibile",
         value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "Cucina attrezzata",
+        name: "Cucina completamente attrezzata",
         value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "TV",
+        name: "TV e area giardino riservata",
         value: true,
       },
     ],
