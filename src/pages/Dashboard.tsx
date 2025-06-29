@@ -96,7 +96,7 @@ const Dashboard: React.FC = () => {
         <div>
           <h2 className="text-xl font-medium">Statistiche e Performance</h2>
           <p className="text-muted-foreground">
-            Analisi per {apartmentNames[selectedCalendar]}
+            {apartmentNames[selectedCalendar]}
           </p>
         </div>
         <div className="flex flex-wrap gap-4 items-center">
@@ -145,37 +145,43 @@ const Dashboard: React.FC = () => {
           <SummaryCards stats={stats} />
 
           <Tabs defaultValue="revenue" className="mt-6">
-            <TabsList className="grid grid-cols-4 mb-8 w-full max-w-4xl">
-              <TabsTrigger value="revenue" className="flex items-center gap-1">
-                <TrendingUp className="h-4 w-4" />
-                <span className="hidden sm:inline">Ricavi</span>
+            <TabsList className="grid grid-cols-4 mb-8 w-full gap-2 sm:gap-0 h-16 items-stretch">
+              <TabsTrigger
+                value="revenue"
+                className="flex flex-col items-center h-full py-0 text-base sm:flex-row sm:py-2 sm:text-sm gap-0 sm:gap-1"
+              >
+                <TrendingUp className="h-5 w-5 sm:h-4 sm:w-4 mb-1 sm:mb-0" />
                 <span className="sm:hidden">Ricavi</span>
+                <span className="hidden sm:inline">Ricavi</span>
               </TabsTrigger>
               <TabsTrigger
                 value="occupancy"
-                className="flex items-center gap-1"
+                className="flex flex-col items-center h-full py-0 text-base sm:flex-row sm:py-2 sm:text-sm gap-0 sm:gap-1"
               >
-                <Calendar className="h-4 w-4" />
-                <span className="hidden sm:inline">Occupazione</span>
+                <Calendar className="h-5 w-5 sm:h-4 sm:w-4 mb-1 sm:mb-0" />
                 <span className="sm:hidden">Occup.</span>
+                <span className="hidden sm:inline">Occupazione</span>
               </TabsTrigger>
-              <TabsTrigger value="ota" className="flex items-center gap-1">
-                <PieChart className="h-4 w-4" />
-                <span className="hidden sm:inline">Confronto OTA</span>
+              <TabsTrigger
+                value="ota"
+                className="flex flex-col items-center h-full py-0 text-base sm:flex-row sm:py-2 sm:text-sm gap-0 sm:gap-1"
+              >
+                <PieChart className="h-5 w-5 sm:h-4 sm:w-4 mb-1 sm:mb-0" />
                 <span className="sm:hidden">OTA</span>
+                <span className="hidden sm:inline">Confronto OTA</span>
               </TabsTrigger>
               <TabsTrigger
                 value="seasonality"
-                className="flex items-center gap-1"
+                className="flex flex-col items-center h-full py-0 text-base sm:flex-row sm:py-2 sm:text-sm gap-0 sm:gap-1"
               >
-                <BarChart className="h-4 w-4" />
-                <span className="hidden sm:inline">Stagionalità</span>
+                <BarChart className="h-5 w-5 sm:h-4 sm:w-4 mb-1 sm:mb-0" />
                 <span className="sm:hidden">Stag.</span>
+                <span className="hidden sm:inline">Stagionalità</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="occupancy" className="animate-fade-in">
-              <Card>
+            <TabsContent value="occupancy" className="animate-fade-in w-full">
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle>Tasso di Occupazione</CardTitle>
                   <CardDescription>
@@ -188,8 +194,8 @@ const Dashboard: React.FC = () => {
               </Card>
             </TabsContent>
 
-            <TabsContent value="revenue" className="animate-fade-in">
-              <Card>
+            <TabsContent value="revenue" className="animate-fade-in w-full">
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle>Andamento Ricavi</CardTitle>
                   <CardDescription>
@@ -202,8 +208,8 @@ const Dashboard: React.FC = () => {
               </Card>
             </TabsContent>
 
-            <TabsContent value="ota" className="animate-fade-in">
-              <Card>
+            <TabsContent value="ota" className="animate-fade-in w-full">
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle>Confronto tra Piattaforme (OTA)</CardTitle>
                   <CardDescription>
@@ -216,8 +222,8 @@ const Dashboard: React.FC = () => {
               </Card>
             </TabsContent>
 
-            <TabsContent value="seasonality" className="animate-fade-in">
-              <Card>
+            <TabsContent value="seasonality" className="animate-fade-in w-full">
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle>Stagionalità</CardTitle>
                   <CardDescription>
