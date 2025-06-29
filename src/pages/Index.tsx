@@ -11,6 +11,7 @@ import {
   MapPin,
   Calendar,
   Utensils,
+  Aperture,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -142,7 +143,7 @@ const Index = () => {
                   <div>
                     <h3 className="font-medium">Fino a 4 ospiti</h3>
                     <p className="text-sm text-muted-foreground">
-                      Letto matrimoniale e letto a castello
+                      Letto matrimoniale e due letti singoli
                     </p>
                   </div>
                 </div>
@@ -197,8 +198,8 @@ const Index = () => {
                 Camera da letto
               </h3>
               <p className="text-muted-foreground text-sm">
-                Include un confortevole letto matrimoniale e un letto a
-                castello, entrambi forniti di lenzuola e coperte fresche.
+                Include un confortevole letto matrimoniale e due letti singoli,
+                forniti di lenzuola e coperte fresche.
               </p>
             </div>
 
@@ -242,7 +243,7 @@ const Index = () => {
         <div className="container px-4 mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
             <div className="inline-flex items-center gap-2 bg-sea-light text-sea-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
-              <Waves className="h-4 w-4" />
+              <Aperture className="h-4 w-4" />
               <span>Galleria</span>
             </div>
             <h2 className="font-serif text-3xl font-medium mb-6">
@@ -256,7 +257,67 @@ const Index = () => {
             </p>
           </div>
 
-          <PhotoGallery compact className="scroll-reveal" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 scroll-reveal">
+            {/* Soggiorno */}
+            <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
+              <img
+                src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/70cdc17b-b1f7-462e-9751-c2071478d2ce.jpeg?q=80&w=1200&h=800&auto=format&fit=crop"
+                alt="Soggiorno luminoso appartamento a Pinarella di Cervia"
+                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <div className="text-white">
+                  <h3 className="font-medium text-lg mb-1">Soggiorno</h3>
+                  <p className="text-sm text-white/80">
+                    Spazio luminoso e accogliente
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Camera da letto */}
+            <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
+              <img
+                src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/45d7a05d-bfcb-403b-86cf-5a43aeeead4d.jpeg?q=80&w=1200&h=800&auto=format&fit=crop"
+                alt="Camera da letto appartamento in affitto Pinarella di Cervia"
+                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <div className="text-white">
+                  <h3 className="font-medium text-lg mb-1">Camera da letto</h3>
+                  <p className="text-sm text-white/80">
+                    Letto matrimoniale e letti singoli
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Cortile esterno */}
+            <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
+              <img
+                src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/1fd1ceeb-47d2-4ce1-a166-18c7147b3709.jpeg?q=80&w=1200&h=800&auto=format&fit=crop"
+                alt="Cortile esterno con zona pranzo all'aperto appartamento Pinarella"
+                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <div className="text-white">
+                  <h3 className="font-medium text-lg mb-1">Cortile esterno</h3>
+                  <p className="text-sm text-white/80">
+                    Zona pranzo all'aperto
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center scroll-reveal">
+            <Button variant="outline" asChild>
+              <Link to="/gallery">
+                Vedi tutte le foto
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { MapPin, Waves } from "lucide-react";
+import { Aperture, MapPin, Waves } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PhotoGallery from "@/components/PhotoGallery";
@@ -29,7 +29,7 @@ const Gallery = () => {
           <div className="container px-4 mx-auto">
             <div className="max-w-3xl mx-auto text-center animate-page-in">
               <div className="inline-flex items-center gap-2 bg-sea-light text-sea-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
-                <Waves className="h-4 w-4" />
+                <Aperture className="h-4 w-4" />
                 <span>Galleria</span>
               </div>
               <h1 className="font-serif text-4xl md:text-5xl font-medium mb-6">
