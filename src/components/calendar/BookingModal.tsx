@@ -280,34 +280,63 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto bg-white border-slate-200">
-        <DialogHeader className="border-b pb-2 mb-2">
-          <DialogTitle className="text-xl font-serif text-slate-800">
-            {isEditing ? "Modifica Prenotazione" : "Dettagli Prenotazione"}
-          </DialogTitle>
-          <DialogDescription className="text-slate-600">
-            {isEditing
-              ? "Modifica i dettagli della prenotazione e salva per aggiornare."
-              : `Prenotazione di ${booking.Nome} dal ${booking.CheckIn} al ${booking.CheckOut}`}
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto bg-white border-slate-200 px-2 sm:px-6 py-0 sm:py-6">
+        <div
+          className="sticky top-0 z-30 bg-white border-b  flex items-center justify-between"
+          style={{ minHeight: "56px" }}
+        >
+          <div>
+            <DialogTitle className="text-lg sm:text-xl font-serif text-slate-800">
+              {isEditing
+                ? "Modifica Prenotazione"
+                : "Prenotazione di " + booking.Nome}
+            </DialogTitle>
+            <DialogDescription className="text-slate-600 text-sm">
+              {isEditing
+                ? "Modifica i dettagli della prenotazione e salva per aggiornare."
+                : ` `}
+            </DialogDescription>
+          </div>
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            aria-label="Chiudi"
+            className="ml-2 rounded-full p-2 transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            style={{ lineHeight: 0 }}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-slate-500 hover:text-red-600 transition-colors"
+              aria-hidden="true"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
 
         {/* Vista di sola lettura */}
         {!isEditing ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
-              <div className="space-y-3 bg-slate-50 p-3 rounded-md">
-                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider border-b pb-1 mb-1">
+            <div className="flex flex-col gap-4 py-2">
+              {/* Dati generali */}
+              <div className="bg-slate-50 p-3 rounded-md shadow-sm">
+                <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2">
                   Dati generali
                 </div>
-                <div>
-                  <span className="font-semibold">Nome:</span>{" "}
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-base">
+                  <span className="font-semibold">Nome:</span>
                   <span className="text-slate-800">{booking.Nome || "-"}</span>
-                </div>
-                <div>
-                  <span className="font-semibold">OTA:</span>{" "}
+                  <span className="font-semibold">OTA:</span>
                   <span
-                    className={`px-2 py-0.5 rounded text-white ${
+                    className={`inline-block max-w-[90px] sm:max-w-[120px] px-2 py-0.5 rounded text-white text-base break-words whitespace-pre-line text-center align-middle ${
                       booking.OTA?.toLowerCase().includes("booking")
                         ? "bg-blue-600"
                         : booking.OTA?.toLowerCase().includes("airbnb")
@@ -316,41 +345,34 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         ? "bg-green-600"
                         : "bg-gray-600"
                     }`}
+                    style={{ wordBreak: "break-word", lineHeight: "1.1" }}
                   >
                     {booking.OTA || "-"}
                   </span>
-                </div>
-                <div>
-                  <span className="font-semibold">Check-in:</span>{" "}
+                  <span className="font-semibold">Check-in:</span>
                   <span className="text-slate-800">
                     {booking.CheckIn || "-"}
                   </span>
-                </div>
-                <div>
-                  <span className="font-semibold">Check-out:</span>{" "}
+                  <span className="font-semibold">Check-out:</span>
                   <span className="text-slate-800">
                     {booking.CheckOut || "-"}
                   </span>
-                </div>
-                <div>
-                  <span className="font-semibold">Notti:</span>{" "}
+                  <span className="font-semibold">Notti:</span>
                   <span className="text-slate-800">{booking.Notti || "-"}</span>
-                </div>
-                <div>
-                  <span className="font-semibold">Ospiti:</span>{" "}
-                  <div className="ml-2 flex flex-wrap gap-1 mt-1">
+                  <span className="font-semibold">Ospiti:</span>
+                  <span className="flex flex-wrap gap-2 items-center">
                     {booking.adulti && booking.adulti !== "0" && (
-                      <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-sm">
+                      <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-base">
                         {booking.adulti} adulti
                       </span>
                     )}
                     {booking.bambini && booking.bambini !== "0" && (
-                      <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-sm">
+                      <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-base">
                         {booking.bambini} bambini
                       </span>
                     )}
                     {booking.animali && booking.animali !== "0" && (
-                      <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-sm">
+                      <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-base">
                         {booking.animali} animali
                       </span>
                     )}
@@ -358,155 +380,129 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       (!booking.bambini || booking.bambini === "0") &&
                       (!booking.animali || booking.animali === "0") &&
                       "-"}
+                  </span>
+                </div>
+                {booking.Note && (
+                  <div className="mt-2 pt-2 border-t">
+                    <span className="font-semibold mb-1">! Note: </span>
+                    {booking.Note}
                   </div>
-                </div>
+                )}
               </div>
-              <div className="space-y-3 bg-slate-50 p-3 rounded-md">
-                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider border-b pb-1 mb-1">
-                  Importi
+              {/* Importi, tasse e totale unificati */}
+              <div className="bg-slate-50 p-3 rounded-md shadow-sm">
+                <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2">
+                  Importi e Tasse
                 </div>
-                <div>
-                  <span className="font-semibold">Totale Cliente:</span>{" "}
-                  <span className="text-slate-800 font-mono">
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-base">
+                  <span className="font-semibold">Totale Cliente:</span>
+                  <span className="text-slate-800 font-mono font-bold">
                     {booking.TotaleCliente
                       ? booking.TotaleCliente.includes("€")
                         ? booking.TotaleCliente
                         : `€${booking.TotaleCliente}`
                       : "-"}
                   </span>
-                </div>
-                {booking.FuoriOTA && (
-                  <div>
-                    <span className="font-semibold">Fuori OTA:</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.FuoriOTA.includes("€")
+                  <span className="font-semibold">Fuori OTA:</span>
+                  <span className="text-slate-800 font-mono">
+                    {booking.FuoriOTA
+                      ? booking.FuoriOTA.includes("€")
                         ? booking.FuoriOTA
-                        : `€${booking.FuoriOTA}`}
-                    </span>
-                  </div>
-                )}
-                {booking.CostoNotti && (
-                  <div>
-                    <span className="font-semibold">Costo Notti:</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.CostoNotti.includes("€")
+                        : `€${booking.FuoriOTA}`
+                      : "-"}
+                  </span>
+                  <span className="font-semibold">Costo notti:</span>
+                  <span className="text-slate-800 font-mono">
+                    {booking.CostoNotti
+                      ? booking.CostoNotti.includes("€")
                         ? booking.CostoNotti
-                        : `€${booking.CostoNotti}`}
-                    </span>
-                  </div>
-                )}
-                {booking.MediaANotte && (
-                  <div>
-                    <span className="font-semibold">Media a Notte:</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.MediaANotte.includes("€")
+                        : `€${booking.CostoNotti}`
+                      : "-"}
+                  </span>
+                  <span className="font-semibold">Media a notte:</span>
+                  <span className="text-slate-800 font-mono">
+                    {booking.MediaANotte
+                      ? booking.MediaANotte.includes("€")
                         ? booking.MediaANotte
-                        : `€${booking.MediaANotte}`}
-                    </span>
-                  </div>
-                )}
-                {booking.Pulizia && (
-                  <div>
-                    <span className="font-semibold">Pulizia:</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.Pulizia.includes("€")
+                        : `€${booking.MediaANotte}`
+                      : "-"}
+                  </span>
+                  <span className="font-semibold">Pulizia:</span>
+                  <span className="text-slate-800 font-mono">
+                    {booking.Pulizia
+                      ? booking.Pulizia.includes("€")
                         ? booking.Pulizia
-                        : `€${booking.Pulizia}`}
-                    </span>
-                  </div>
-                )}
-                {booking.Sconti && (
-                  <div>
-                    <span className="font-semibold">Sconti:</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.Sconti.includes("€")
+                        : `€${booking.Pulizia}`
+                      : "-"}
+                  </span>
+                  <span className="font-semibold">Sconti:</span>
+                  <span className="text-slate-800 font-mono">
+                    {booking.Sconti
+                      ? booking.Sconti.includes("€")
                         ? booking.Sconti
-                        : `€${booking.Sconti}`}
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div className="space-y-3 bg-slate-50 p-3 rounded-md">
-                <div className="font-medium text-sm text-slate-500 uppercase tracking-wider border-b pb-1 mb-1">
-                  Tasse e totale
-                </div>
-                {(booking.SoggiornoTax && booking.SoggiornoTax.trim() !== "") ||
-                (booking.adulti &&
-                  booking.adulti !== "0" &&
-                  calculateSoggiornoTax(booking) !== "") ? (
-                  <div>
-                    <span className="font-semibold">Tassa di Soggiorno:</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.SoggiornoTax &&
-                      booking.SoggiornoTax.includes("€")
-                        ? booking.SoggiornoTax
-                        : `€${
-                            booking.SoggiornoTax ||
-                            calculateSoggiornoTax(booking)
-                          }`}
-                    </span>
-                    {booking.SoggiornoTax !== calculateSoggiornoTax(booking) &&
-                      calculateSoggiornoTax(booking) !== "" && (
-                        <span className="text-xs text-slate-500 ml-1">
-                          (calcolato: €{calculateSoggiornoTax(booking)})
-                        </span>
-                      )}
-                  </div>
-                ) : null}
-                {booking.OTATax && (
-                  <div>
-                    <span className="font-semibold">OTA Tax:</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.OTATax.includes("€")
+                        : `€${booking.Sconti}`
+                      : "-"}
+                  </span>
+                  <span className="font-semibold">Tassa di Soggiorno:</span>
+                  <span className="text-slate-800 font-mono">
+                    {(booking.SoggiornoTax &&
+                      booking.SoggiornoTax.trim() !== "") ||
+                    (booking.adulti &&
+                      booking.adulti !== "0" &&
+                      calculateSoggiornoTax(booking) !== "") ? (
+                      <>
+                        {booking.SoggiornoTax &&
+                        booking.SoggiornoTax.includes("€")
+                          ? booking.SoggiornoTax
+                          : `€${
+                              booking.SoggiornoTax ||
+                              calculateSoggiornoTax(booking)
+                            }`}
+                        {booking.SoggiornoTax !==
+                          calculateSoggiornoTax(booking) &&
+                          calculateSoggiornoTax(booking) !== "" && (
+                            <span className="text-xs text-slate-500 ml-1">
+                              (calc €{calculateSoggiornoTax(booking)})
+                            </span>
+                          )}
+                      </>
+                    ) : (
+                      "-"
+                    )}
+                  </span>
+                  <span className="font-semibold">OTA Tax:</span>
+                  <span className="text-slate-800 font-mono">
+                    {booking.OTATax
+                      ? booking.OTATax.includes("€")
                         ? booking.OTATax
-                        : `€${booking.OTATax}`}
-                    </span>
-                  </div>
-                )}
-                {booking.CedolareSecca && (
-                  <div>
-                    <span className="font-semibold">Cedolare Secca (21%):</span>{" "}
-                    <span className="text-slate-800 font-mono">
-                      {booking.CedolareSecca.includes("€")
+                        : `€${booking.OTATax}`
+                      : "-"}
+                  </span>
+                  <span className="font-semibold">Cedolare Secca (21%):</span>
+                  <span className="text-slate-800 font-mono">
+                    {booking.CedolareSecca
+                      ? booking.CedolareSecca.includes("€")
                         ? booking.CedolareSecca
-                        : `€${booking.CedolareSecca}`}
-                    </span>
-                  </div>
-                )}
-                {booking.Totale && (
-                  <div className="mt-2 pt-2 border-t">
-                    <span className="font-semibold">Totale:</span>{" "}
-                    <span className="text-slate-800 font-mono font-bold">
-                      {booking.Totale.includes("€")
+                        : `€${booking.CedolareSecca}`
+                      : "-"}
+                  </span>
+                  <span className="font-semibold text-lg text-blue-900">
+                    Totale:
+                  </span>
+                  <span className="text-slate-800 font-mono font-bold text-lg">
+                    {booking.Totale
+                      ? booking.Totale.includes("€")
                         ? booking.Totale
-                        : `€${booking.Totale}`}
-                    </span>
-                  </div>
-                )}
-                {booking.Note && (
-                  <div className="mt-3 pt-2 border-t">
-                    <span className="font-semibold block mb-1">Note:</span>
-                    <div className="text-slate-800 bg-white p-2 rounded border border-slate-200 text-sm">
-                      {booking.Note}
-                    </div>
-                  </div>
-                )}
+                        : `€${booking.Totale}`
+                      : "-"}
+                  </span>
+                </div>
               </div>
             </div>
 
             <DialogFooter>
               <div className="flex gap-2 justify-end w-full mt-4">
-                <Button
-                  variant="outline"
-                  onClick={() => onOpenChange(false)}
-                  className="bg-white hover:bg-slate-100"
-                >
-                  Chiudi
-                </Button>
                 <AlertDialog open={isDeleting} onOpenChange={setIsDeleting}>
-                  {/* <AlertDialogTrigger asChild>
-                    <Button variant="destructive">Elimina</Button>
-                  </AlertDialogTrigger> */}
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Conferma eliminazione</AlertDialogTitle>
@@ -526,13 +522,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-                {/* <Button
-                  onClick={() => setIsEditing(true)}
-                  variant="default"
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  Modifica
-                </Button> */}
               </div>
             </DialogFooter>
           </>
