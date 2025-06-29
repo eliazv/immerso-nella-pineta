@@ -51,56 +51,14 @@ const BookingForm = ({ className }: BookingFormProps) => {
 
   const totalGuests = adults + children;
 
-  useEffect(() => {
-    // Fetch booking data from the same Google Sheets source
-    const fetchBookingData = async () => {
-      setIsCalendarLoading(true);
-      try {
-        // Utilizza la stessa URL di AvailabilityCalendar per ottenere i dati
-        const url =
-          "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/Affitti3";
-        const response = await axios.get(url);
-        const data = response.data;
-
-        // Filtra le prenotazioni valide
-        const validBookings: Booking[] = data
-          .filter((row: Record<string, string>) => row["Nome"] !== "")
-          .map((row: Record<string, string>) => ({
-            Nome: row["Nome"],
-            OTA: row["OTA"],
-            CheckIn: row["Check-in"],
-            CheckOut: row["Check-out"],
-          }));
-
-        // Converti le date da DD/MM/YYYY a oggetti Date
-        const unavailableDates = validBookings.map((booking) => {
-          const [checkInDay, checkInMonth, checkInYear] =
-            booking.CheckIn.split("/");
-          const [checkOutDay, checkOutMonth, checkOutYear] =
-            booking.CheckOut.split("/");
-
-          return {
-            from: new Date(`${checkInYear}-${checkInMonth}-${checkInDay}`),
-            to: new Date(`${checkOutYear}-${checkOutMonth}-${checkOutDay}`),
-          };
-        });
-
-        setDisabledDates(unavailableDates);
-      } catch (error) {
-        console.error("Error fetching calendar data:", error);
-        toast({
-          title: "Errore nel caricamento del calendario",
-          description:
-            "Non è stato possibile caricare le date di disponibilità.",
-          variant: "destructive",
-        });
-      } finally {
-        setIsCalendarLoading(false);
-      }
-    };
-
-    fetchBookingData();
-  }, [toast]);
+  // TODO: Sostituire la logica di fetch delle date con una query a Firestore
+  // useEffect(() => {
+  //   // Esempio: fetch delle date occupate da Firestore
+  //   // setIsCalendarLoading(true);
+  //   // ...
+  //   // setDisabledDates([...]);
+  //   // setIsCalendarLoading(false);
+  // }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,21 +176,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
         Richiedi prenotazione
       </h3>
 
-      {/* <Alert className="mb-6">
-        <CalendarIcon className="h-4 w-4" />
-        <AlertTitle>Disponibilità</AlertTitle>
-        <AlertDescription className="mt-2">
-          Per vedere la disponibilità aggiornata in tempo reale, consultare il nostro <a 
-            href="https://calendar.google.com/calendar/u/1?cid=MDhjMDg1ZTEyZWVkZTVmNTY4ZWQ4ZmViMDk5ZjlmZjA1NGFiMDc0N2UyYTgyMmZhZjE4ZmI3M2I5MGU0MTgzNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary font-medium hover:underline inline-flex items-center"
-          >
-            Google Calendar
-            <Link className="h-3 w-3 ml-1" />
-          </a>.
-        </AlertDescription>
-      </Alert> */}
+      {/* Alert rimosso: ora la disponibilità è gestita solo tramite Firestore */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="space-y-2">
