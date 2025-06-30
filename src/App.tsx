@@ -18,12 +18,16 @@ import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 const queryClient = new QueryClient();
 
 import { useEffect } from "react";
-import { isCapacitorApp } from "@/lib/isCapacitor";
+import { Capacitor } from "@capacitor/core";
 
 const App = () => {
   useEffect(() => {
-    // Se siamo in ambiente Capacitor e NON siamo già su /calendar, redirect automatico
-    if (isCapacitorApp() && window.location.pathname !== "/calendar") {
+    // Redirect automatico SOLO su Android e SOLO se siamo sulla homepage "/"
+    if (
+      Capacitor.isNativePlatform &&
+      Capacitor.getPlatform() === "android" &&
+      window.location.pathname === "/"
+    ) {
       window.location.replace("/calendar");
     }
   }, []);

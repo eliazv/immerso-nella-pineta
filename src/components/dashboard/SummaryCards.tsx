@@ -25,10 +25,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
   return (
     <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
       <Card>
-        <CardContent className="flex flex-col items-start sm:flex-row sm:items-center p-3 sm:p-6">
-          <div className="flex items-center mb-2 sm:mb-0 sm:mr-4">
-            <div className="bg-green-100 p-1.5 sm:p-2 rounded-full mr-2">
-              <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
+        <CardContent className="flex flex-col items-start p-3">
+          <div className="flex items-center mb-2">
+            <div className="bg-green-100 p-1.5 rounded-full mr-2">
+              <TrendingUp className="h-5 w-5 text-green-600" />
             </div>
             <p className="text-sm font-medium text-muted-foreground">
               Ricavi Totali
@@ -46,10 +46,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
       </Card>
 
       <Card>
-        <CardContent className="flex flex-col items-start sm:flex-row sm:items-center p-3 sm:p-6">
-          <div className="flex items-center mb-2 sm:mb-0 sm:mr-4">
-            <div className="bg-primary/10 p-1.5 sm:p-2 rounded-full mr-2">
-              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+        <CardContent className="flex flex-col items-start p-3">
+          <div className="flex items-center mb-2">
+            <div className="bg-primary/10 p-1.5 rounded-full mr-2">
+              <Calendar className="h-5 w-5 text-primary" />
             </div>
             <p className="text-sm font-medium text-muted-foreground">
               Tasso di Occupazione
@@ -65,10 +65,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
       </Card>
 
       <Card>
-        <CardContent className="flex flex-col items-start sm:flex-row sm:items-center p-3 sm:p-6">
-          <div className="flex items-center mb-2 sm:mb-0 sm:mr-4">
-            <div className="bg-blue-100 p-1.5 sm:p-2 rounded-full mr-2">
-              <Users className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        <CardContent className="flex flex-col items-start p-3">
+          <div className="flex items-center mb-2">
+            <div className="bg-blue-100 p-1.5 rounded-full mr-2">
+              <Users className="h-5 w-5 text-blue-600" />
             </div>
             <p className="text-sm font-medium text-muted-foreground">
               Prenotazioni
@@ -85,10 +85,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
       </Card>
 
       <Card>
-        <CardContent className="flex flex-col items-start sm:flex-row sm:items-center p-3 sm:p-6">
-          <div className="flex items-center mb-2 sm:mb-0 sm:mr-4">
-            <div className="bg-amber-100 p-1.5 sm:p-2 rounded-full mr-2">
-              <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600" />
+        <CardContent className="flex flex-col items-start p-3">
+          <div className="flex items-center mb-2">
+            <div className="bg-amber-100 p-1.5 rounded-full mr-2">
+              <Activity className="h-5 w-5 text-amber-600" />
             </div>
             <p className="text-sm font-medium text-muted-foreground">
               Durata Media

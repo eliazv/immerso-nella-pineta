@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Capacitor } from "@capacitor/core";
+import { StatusBar, StatusBarStyle } from "@capacitor/status-bar";
 import {
   Outlet,
   Navigate,
@@ -30,13 +32,38 @@ import { isAuthenticated, logout } from "@/services/authService";
  * Layout condiviso per le pagine del backoffice (Dashboard e Calendario)
  * Si occupa della gestione dell'autenticazione e della navigazione tra le sezioni
  */
+
 const BackofficeLayout: React.FC = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [statusBarHeight, setStatusBarHeight] = useState<number>(0);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCalendar, setSelectedCalendar] =
     useState<CalendarType>("principale");
+
+  // Gestione status bar su Android
+  useEffect(() => {
+    const setupStatusBar = async () => {
+      if (Capacitor.isNativePlatform && Capacitor.getPlatform() === "android") {
+        try {
+          // Forza overlay mode e calcola l'altezza manualmente
+          await StatusBar.setOverlaysWebView({ overlay: true });
+          await StatusBar.setBackgroundColor({ color: "#00000000" }); // Trasparente
+          await StatusBar.setStyle({ style: StatusBarStyle.Dark });
+
+          // Metodo più affidabile per ottenere l'altezza della status bar
+          const statusBarHeight = window.screen.height - window.innerHeight;
+          console.log("Status bar height detected:", statusBarHeight);
+          setStatusBarHeight(Math.max(statusBarHeight, 32)); // Minimo 32px
+        } catch (e) {
+          console.error("Errore configurazione StatusBar:", e);
+          setStatusBarHeight(32); // Fallback più alto
+        }
+      }
+    };
+    setupStatusBar();
+  }, []);
 
   // Determina la tab attiva in base al percorso corrente
   const currentPath = location.pathname;
@@ -107,10 +134,31 @@ const BackofficeLayout: React.FC = () => {
   }
   return (
     <div className="mx-auto">
-      <div className="fixed top-0 left-0 right-0 bg-slate-100 shadow-sm z-50">
+      {/*
+        L'header usa una combinazione di CSS safe-area e padding calcolato per Android.
+        Su Android forziamo overlay mode e aggiungiamo padding manuale.
+      */}
+      <div
+        className="fixed left-0 right-0 bg-slate-100 shadow-sm z-50"
+        style={
+          Capacitor.isNativePlatform && Capacitor.getPlatform() === "android"
+            ? {
+                top: 0,
+                paddingTop: statusBarHeight,
+                // Assicurati che sia visibile
+                minHeight: statusBarHeight + 50,
+              }
+            : {
+                top: 0,
+                paddingTop: "env(safe-area-inset-top)", // Per iOS
+              }
+        }
+      >
         <div className="container mx-auto px-4 py-2 max-w-5xl flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <h1 className="text-lg font-serif font-medium">Alloggio:</h1>
+            <h1 className="text-lg font-serif font-medium">
+              Alloggio11:{statusBarHeight}
+            </h1>
 
             <Select
               value={selectedCalendar}
@@ -205,7 +253,14 @@ const BackofficeLayout: React.FC = () => {
       <div className="mb-8 border-b pb-2"></div>
 
       {/* Passa l'appartamento selezionato alle pagine figlie */}
-      <div className="pt-10 pb-16 md:pb-6">
+      <div
+        className="pb-16 md:pb-6"
+        style={
+          Capacitor.isNativePlatform && Capacitor.getPlatform() === "android"
+            ? { paddingTop: statusBarHeight + 70 } // Margine maggiore per essere sicuri
+            : { paddingTop: "calc(env(safe-area-inset-top) + 70px)" }
+        }
+      >
         <Outlet context={{ selectedCalendar }} />
       </div>
     </div>

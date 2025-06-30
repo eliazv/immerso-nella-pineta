@@ -180,7 +180,7 @@ export const BookingsList: React.FC<BookingsListProps> = ({
                         notti - {booking.Totale})
                       </span>
                     </div>
-                    <button className="text-primary">Dettagli</button>
+                    {/* <button className="text-primary">Dettagli</button> */}
                   </div>
                 </div>
               ))}
@@ -214,7 +214,7 @@ export const BookingsList: React.FC<BookingsListProps> = ({
                             {booking.Notti} notti - {booking.Totale})
                           </span>
                         </div>
-                        <button className="text-primary">Dettagli</button>
+                        {/* <button className="text-primary">Dettagli</button> */}
                       </div>
                     </div>
                   ))}
