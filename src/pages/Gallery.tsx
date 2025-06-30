@@ -16,9 +16,9 @@ const Gallery = () => {
     <div className="min-h-screen flex flex-col">
       <MetaTags
         title="Galleria Foto Appartamento Pinarella di Cervia | Immerso nella Pineta"
-        description="Scopri il nostro appartamento a Pinarella di Cervia attraverso la galleria fotografica. Esplora gli spazi interni ed esterni vicino alla pineta e al mare."
+        description="Scopri il nostro appartamento immerso nella pineta a Pinarella di Cervia attraverso la galleria fotografica. Esplora gli spazi interni ed esterni vicino alla pineta e al mare. Immerso nella Pineta."
         canonicalUrl="/gallery"
-        keywords="foto appartamento pinarella, foto alloggio cervia, immagini casa vacanze pinarella, galleria appartamento cervia"
+        keywords="immerso nella pineta, foto appartamento pinarella, foto alloggio cervia, immagini casa vacanze pinarella, galleria appartamento cervia"
       />
       <SEOSchema />
       <Header />

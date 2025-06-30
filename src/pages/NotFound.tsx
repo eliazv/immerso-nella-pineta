@@ -17,9 +17,10 @@ const NotFound = () => {
   return (
     <>
       <MetaTags
-        title="Pagina non trovata | Appartamento Pinarella di Cervia"
-        description="La pagina che stai cercando non è disponibile. Torna alla home page per esplorare il nostro appartamento in affitto a Pinarella di Cervia."
+        title="Pagina non trovata | Immerso nella Pineta | Appartamento Pinarella di Cervia"
+        description="La pagina che stai cercando non è disponibile. Torna alla home page per esplorare Immerso nella Pineta, il nostro appartamento in affitto a Pinarella di Cervia. Immerso nella Pineta."
         canonicalUrl="/404"
+        keywords="immerso nella pineta, pagina non trovata, appartamento pinarella di cervia"
       />
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-pine-light/50 to-sea-light/50 p-6">
         <div className="max-w-md w-full bg-white rounded-xl border border-border p-8 text-center shadow-sm">

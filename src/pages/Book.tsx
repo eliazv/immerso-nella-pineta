@@ -16,9 +16,9 @@ const Book = () => {
     <div className="min-h-screen flex flex-col">
       <MetaTags
         title="Prenota Appartamento a Pinarella di Cervia | Immerso nella Pineta"
-        description="Prenota il tuo soggiorno estivo nel nostro appartamento a Pinarella di Cervia. Contattaci per verificare la disponibilità e i prezzi per la tua vacanza al mare."
+        description="Prenota il tuo soggiorno estivo nel nostro appartamento immerso nella pineta a Pinarella di Cervia. Contattaci per verificare la disponibilità e i prezzi per la tua vacanza al mare. Immerso nella Pineta."
         canonicalUrl="/book"
-        keywords="prenotazione appartamento pinarella, affittare casa pinarella cervia, disponibilità alloggio cervia, prenota vacanza pinarella"
+        keywords="immerso nella pineta, prenotazione appartamento pinarella, affittare casa pinarella cervia, disponibilità alloggio cervia, prenota vacanza pinarella"
       />
       <SEOSchema />
       <Header />

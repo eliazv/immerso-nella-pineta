@@ -37,9 +37,9 @@ const Attractions = () => {
     <div className="min-h-screen flex flex-col">
       <MetaTags
         title="Attrazioni e Luoghi da Visitare a Pinarella di Cervia | Immerso nella Pineta"
-        description="Scopri le migliori attrazioni vicino al nostro appartamento a Pinarella di Cervia: spiaggia, parchi tematici, musei e ristoranti a pochi minuti di distanza."
+        description="Scopri le migliori attrazioni vicino al nostro appartamento immerso nella pineta a Pinarella di Cervia: spiaggia, parchi tematici, musei e ristoranti a pochi minuti di distanza. Immerso nella Pineta."
         canonicalUrl="/attractions"
-        keywords="attrazioni pinarella di cervia, cosa fare a cervia, luoghi interesse cervia, parchi divertimento vicino pinarella"
+        keywords="immerso nella pineta, attrazioni pinarella di cervia, cosa fare a cervia, luoghi interesse cervia, parchi divertimento vicino pinarella"
       />
       <SEOSchema />
       <Header />

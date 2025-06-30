@@ -18,9 +18,9 @@ const Rules = () => {
     <div className="min-h-screen flex flex-col">
       <MetaTags
         title="Regolamento Appartamento Pinarella di Cervia | Immerso nella Pineta"
-        description="Informazioni utili e regolamento per il soggiorno nel nostro appartamento a Pinarella di Cervia. Orari, norme sulla raccolta differenziata e indicazioni per gli ospiti."
+        description="Informazioni utili e regolamento per il soggiorno nel nostro appartamento immerso nella pineta a Pinarella di Cervia. Orari, norme sulla raccolta differenziata e indicazioni per gli ospiti. Immerso nella Pineta."
         canonicalUrl="/rules"
-        keywords="regolamento appartamento cervia, norme soggiorno pinarella, orari check-in pinarella, informazioni affitto estivo cervia"
+        keywords="immerso nella pineta, regolamento appartamento cervia, norme soggiorno pinarella, orari check-in pinarella, informazioni affitto estivo cervia"
       />
       <SEOSchema />
       <Header />
