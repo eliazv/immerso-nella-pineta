@@ -1,22 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar, StatusBarStyle } from "@capacitor/status-bar";
-import {
-  Outlet,
-  Navigate,
-  useNavigate,
-  useLocation,
-  Link,
-} from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Calendar,
-  BarChart3,
-  LogOut,
-  Building,
-  ShieldAlert,
-} from "lucide-react";
+import { Calendar, BarChart3, Building, House } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -42,23 +29,16 @@ const BackofficeLayout: React.FC = () => {
   const [selectedCalendar, setSelectedCalendar] =
     useState<CalendarType>("principale");
 
-  // Gestione status bar su Android
+  // Gestione status bar su Android - ora gestita tramite configurazione nativa
   useEffect(() => {
     const setupStatusBar = async () => {
       if (Capacitor.isNativePlatform && Capacitor.getPlatform() === "android") {
         try {
-          // Forza overlay mode e calcola l'altezza manualmente
-          await StatusBar.setOverlaysWebView({ overlay: true });
-          await StatusBar.setBackgroundColor({ color: "#00000000" }); // Trasparente
-          await StatusBar.setStyle({ style: StatusBarStyle.Dark });
-
-          // Metodo più affidabile per ottenere l'altezza della status bar
-          const statusBarHeight = window.screen.height - window.innerHeight;
-          console.log("Status bar height detected:", statusBarHeight);
-          setStatusBarHeight(Math.max(statusBarHeight, 32)); // Minimo 32px
+          // La configurazione è ora gestita tramite capacitor.config.ts e MainActivity.java
+          // Non serve più impostare manualmente overlay mode
+          console.log("Status bar configurata tramite configurazione nativa");
         } catch (e) {
           console.error("Errore configurazione StatusBar:", e);
-          setStatusBarHeight(32); // Fallback più alto
         }
       }
     };
@@ -135,30 +115,13 @@ const BackofficeLayout: React.FC = () => {
   return (
     <div className="mx-auto">
       {/*
-        L'header usa una combinazione di CSS safe-area e padding calcolato per Android.
-        Su Android forziamo overlay mode e aggiungiamo padding manuale.
+        Con la configurazione nativa corretta, la WebView ora inizia automaticamente
+        sotto la status bar su Android, senza bisogno di padding dinamico
       */}
-      <div
-        className="fixed left-0 right-0 bg-slate-100 shadow-sm z-50"
-        style={
-          Capacitor.isNativePlatform && Capacitor.getPlatform() === "android"
-            ? {
-                top: 0,
-                paddingTop: statusBarHeight,
-                // Assicurati che sia visibile
-                minHeight: statusBarHeight + 50,
-              }
-            : {
-                top: 0,
-                paddingTop: "env(safe-area-inset-top)", // Per iOS
-              }
-        }
-      >
+      <div className="fixed left-0 right-0 bg-slate-100 shadow-sm z-50 top-0">
         <div className="container mx-auto px-4 py-2 max-w-5xl flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <h1 className="text-lg font-serif font-medium">
-              Alloggio11:{statusBarHeight}
-            </h1>
+            {/* <h1 className="text-lg font-serif font-medium">Alloggio:</h1> */}
 
             <Select
               value={selectedCalendar}
@@ -166,9 +129,9 @@ const BackofficeLayout: React.FC = () => {
                 handleCalendarChange(value as CalendarType)
               }
             >
-              <SelectTrigger className="min-w-[80px] border-dashed">
+              <SelectTrigger className="min-w-[80px]">
                 <div className="flex items-center gap-2">
-                  <Building className="h-4 w-4" />
+                  <House className="h-4 w-4" />
                   <SelectValue placeholder="Seleziona appartamento" />
                 </div>
               </SelectTrigger>
@@ -202,7 +165,7 @@ const BackofficeLayout: React.FC = () => {
               </TabsList>
             </Tabs>
 
-            <Button
+            {/* <Button
               variant="outline"
               size="sm"
               onClick={handleLogout}
@@ -210,7 +173,7 @@ const BackofficeLayout: React.FC = () => {
             >
               <LogOut className="h-4 w-4" />
               <span className="hidden md:inline">Esci</span>
-            </Button>
+            </Button> */}
           </div>
 
           {/* Footer mobile navigation */}
@@ -253,14 +216,7 @@ const BackofficeLayout: React.FC = () => {
       <div className="mb-8 border-b pb-2"></div>
 
       {/* Passa l'appartamento selezionato alle pagine figlie */}
-      <div
-        className="pb-16 md:pb-6"
-        style={
-          Capacitor.isNativePlatform && Capacitor.getPlatform() === "android"
-            ? { paddingTop: statusBarHeight + 70 } // Margine maggiore per essere sicuri
-            : { paddingTop: "calc(env(safe-area-inset-top) + 70px)" }
-        }
-      >
+      <div className="pt-8 pb-16 md:pb-6">
         <Outlet context={{ selectedCalendar }} />
       </div>
     </div>

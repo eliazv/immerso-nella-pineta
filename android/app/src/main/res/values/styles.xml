@@ -13,6 +13,12 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- Status bar OPACA, non trasparente -->
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!-- IMPORTANTE: Non permettere al contenuto di andare sotto la status bar -->
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
 
