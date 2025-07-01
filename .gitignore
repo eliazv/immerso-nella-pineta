@@ -31,6 +31,3 @@ dist-ssr
 .env.development
 .env.test
 .env.production
-
-# Configurazione privata
-src/lib/config.ts
