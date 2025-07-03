@@ -13,6 +13,13 @@ import {
   Utensils,
   Aperture,
   House,
+  Toilet,
+  Bath,
+  CookingPot,
+  DoorOpen,
+  WashingMachine,
+  Copy,
+  PencilRuler,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -87,7 +94,7 @@ const Index = () => {
                 asChild
                 className="bg-pine-dark/50 backdrop-blur-md border border-pine-light/70 text-white hover:bg-pine-dark/30 hover:text-white"
               >
-                <Link to="/attractions">Scopri la zona</Link>
+                <Link to="/gallery">Scopri l'alloggio</Link>
               </Button>
             </div>
             <div className="relative inline-block">
@@ -184,65 +191,94 @@ const Index = () => {
         <div className="container px-4 mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
             <div className="inline-flex items-center gap-2 bg-white text-pine-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
-              <Waves className="h-4 w-4" />
+              <House className="h-4 w-4" />
               <span>Lo spazio</span>
             </div>
-            <h2 className="font-serif text-3xl font-medium mb-6">
-              Tutto ciò di cui avete bisogno
+            <h2 className="font-serif text-3xl font-medium mb-4">
+              Comfort, privacy e natura
             </h2>
-            <p className="text-muted-foreground">
-              Appartamento al piano terra di 35 mq con parcheggio riservato,
-              accesso autonomo e giardino condiviso. Ideale per famiglie che
-              cercano relax vicino al mare in zona tranquilla.
+            <p className="text-muted-foreground text-base mb-2">
+              Vivi la tua vacanza in un ambiente sereno e a contatto con al
+              natura. L’appartamento è pensato per offrire relax e praticità a
+              famiglie e coppie, con spazi funzionali e dettagli curati.
             </p>
+            {/* Dotazioni principali ora nelle cards */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-xl border border-border scroll-reveal">
-              <div className="w-10 h-10 mb-3 rounded-full bg-sea-light flex items-center justify-center">
-                <Bed className="h-5 w-5 text-sea-dark" />
+            <div className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
+                <Bed className="h-6 w-6 text-sea-dark" />
               </div>
-              <h3 className="font-medium text-base mb-2">Camera</h3>
-              <p className="text-muted-foreground text-sm">
-                Letto matrimoniale e due singoli con biancheria inclusa
-              </p>
+              <h3 className="font-semibold text-lg mb-2">Camera accogliente</h3>
+              <ul className="flex flex-col gap-1 items-center mt-2">
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <Bed className="h-4 w-4" />4 posti letto
+                </li>
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <Copy className="h-4 w-4" />
+                  Biancheria inclusa
+                </li>
+              </ul>
             </div>
             <div
-              className="bg-white p-6 rounded-xl border border-border scroll-reveal"
+              className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
               style={{ animationDelay: "0.2s" }}
             >
-              <div className="w-10 h-10 mb-3 rounded-full bg-sea-light flex items-center justify-center">
-                <House className="h-5 w-5 text-sea-dark" />
+              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
+                <House className="h-6 w-6 text-sea-dark" />
               </div>
-              <h3 className="font-medium text-base mb-2">Soggiorno-Cucina</h3>
-              <p className="text-muted-foreground text-sm">
-                Ambiente luminoso con AC, TV e cucina completamente attrezzata
-              </p>
+              <h3 className="font-semibold text-lg mb-2">
+                Soggiorno &amp; Cucina
+              </h3>
+              <ul className="flex flex-col gap-1 items-center mt-2">
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <CookingPot className="h-4 w-4" />
+                  Cucina attrezzata
+                </li>
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <DoorOpen className="h-4 w-4" />
+                  Accesso autonomo
+                </li>
+              </ul>
             </div>
             <div
-              className="bg-white p-6 rounded-xl border border-border scroll-reveal"
+              className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
               style={{ animationDelay: "0.1s" }}
             >
-              <div className="w-10 h-10 mb-3 rounded-full bg-sea-light flex items-center justify-center">
-                <ShowerHead className="h-5 w-5 text-sea-dark" />
+              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
+                <ShowerHead className="h-6 w-6 text-sea-dark" />
               </div>
-              <h3 className="font-medium text-base mb-2">Bagno</h3>
-              <p className="text-muted-foreground text-sm">
-                Doccia, bidet, lavatrice e set asciugamani per tutti
-              </p>
+              <h3 className="font-semibold text-lg mb-2">Bagno moderno</h3>
+              <ul className="flex flex-col gap-1 items-center mt-2">
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <ShowerHead className="h-4 w-4" />
+                  Bagno completo
+                </li>
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <WashingMachine className="h-4 w-4" />
+                  Lavatrice
+                </li>
+              </ul>
             </div>
-
             <div
-              className="bg-white p-6 rounded-xl border border-border scroll-reveal"
+              className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
               style={{ animationDelay: "0.3s" }}
             >
-              <div className="w-10 h-10 mb-3 rounded-full bg-green-100 flex items-center justify-center">
-                <TreePine className="h-5 w-5 text-green-600" />
+              <div className="w-12 h-12 mb-4 rounded-full bg-green-100 flex items-center justify-center">
+                <TreePine className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="font-medium text-base mb-2">Esterni</h3>
-              <p className="text-muted-foreground text-sm">
-                🚗 Parcheggio • 🔑 Accesso autonomo • 🌳 Giardino condiviso
-              </p>
+              <h3 className="font-semibold text-lg mb-2">Spazi esterni</h3>
+              <ul className="flex flex-col gap-1 items-center mt-2">
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <TreePine className="h-4 w-4" />
+                  Giardino condiviso
+                </li>
+                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
+                  <Car className="h-4 w-4" />
+                  Parcheggio
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -336,7 +372,7 @@ const Index = () => {
         <div className="container px-4 mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
             <div className="inline-flex items-center gap-2 bg-white text-sea-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
-              <TreePine className="h-4 w-4" />
+              <PencilRuler className="h-4 w-4" />
               <span>Regole della casa</span>
             </div>
             <h2 className="font-serif text-3xl font-medium mb-6">
