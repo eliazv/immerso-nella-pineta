@@ -80,23 +80,32 @@ const Index = () => {
             Casa vacanze a Cervia - A soli 5 minuti a piedi dal mare
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              asChild
-              className="bg-sea-dark hover:bg-sea-dark/90"
-            >
-              {/* <Link to="/rules">Regole e Istruzioni</Link> */}
-              <Link to="/book">Prenota ora</Link>
-              {/* <Link to="/gallery">Esplora la casa</Link> */}
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              asChild
-              className="bg-pine-dark/50 backdrop-blur-md border border-pine-light/70 text-white hover:bg-pine-dark/30 hover:text-white"
-            >
-              <Link to="/attractions">Scopri la zona</Link>
-            </Button>
+            <div className="relative inline-block">
+              <Button
+                size="lg"
+                variant="outline"
+                asChild
+                className="bg-pine-dark/50 backdrop-blur-md border border-pine-light/70 text-white hover:bg-pine-dark/30 hover:text-white"
+              >
+                <Link to="/attractions">Scopri la zona</Link>
+              </Button>
+            </div>
+            <div className="relative inline-block">
+              <span className="absolute -top-3 left-1/2 px-2 py-0.5 rounded-full text-xs font-semibold bg-green-500 text-white shadow-lg animate-pulse z-10 whitespace-nowrap">
+                -20% vs Booking/Airbnb
+              </span>
+              <Button
+                size="lg"
+                asChild
+                className="bg-sea-dark hover:bg-sea-dark/90"
+              >
+                {/* <Link to="/rules">Regole e Istruzioni</Link> */}
+                <Link to="/book" className="flex items-center gap-2">
+                  Prenota ora
+                </Link>
+                {/* <Link to="/gallery">Esplora la casa</Link> */}
+              </Button>
+            </div>
           </div>
         </div>
       </section>

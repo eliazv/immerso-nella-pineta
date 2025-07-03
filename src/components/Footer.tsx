@@ -115,7 +115,7 @@ const Footer = ({ className }: { className?: string }) => {
               © {new Date().getFullYear()} Immerso nella Pineta. Sito web
               sviluppato da{" "}
               <a
-                href="https://portfolio-elia.lovable.app/"
+                href="https://eliazavatta.it/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground text-pine-dark transition-colors"

@@ -1,69 +1,44 @@
-# Welcome to your Lovable project
+# Immerso nella Pineta – Backoffice App
 
-## Project info
+Questo progetto è un sito web completo per la gestione e la promozione di una Casa Vacanze in affitto.
 
-**URL**: https://lovable.dev/projects/09f1834c-02e4-4524-84c6-590730fee8c6
+## Descrizione
 
-## How can I edit this code?
+Il sito è suddiviso in due aree principali:
 
-There are several ways of editing your application.
+- **Sezione pubblica**: Presenta la Casa Vacanze con una galleria fotografica, descrizione dettagliata degli ambienti, servizi offerti, regole della casa e un form di contatto per richieste di prenotazione diretta. L'obiettivo è fornire tutte le informazioni utili agli ospiti e facilitare la comunicazione.
 
-**Use Lovable**
+- **Sezione privata (Backoffice)**: Accessibile solo al proprietario o gestore tramite autenticazione, permette di controllare e gestire tutte le prenotazioni ricevute, visualizzare statistiche di occupazione, confrontare i dati con i portali OTA e gestire il calendario delle disponibilità. L'interfaccia è ottimizzata per l'uso sia da desktop che da mobile.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/09f1834c-02e4-4524-84c6-590730fee8c6) and start prompting.
+## Tecnologie principali
 
-Changes made via Lovable will be committed automatically to this repo.
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- Capacitor (Android)
+- shadcn-ui
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Avvio locale
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Build produzione
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+npm run build
+```
 
-**Use GitHub Codespaces**
+## Build APK Android
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+npx cap sync android
+npx cap open android
+# Poi builda l'APK da Android Studio
+```
 
-## What technologies are used for this project?
+---
 
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/09f1834c-02e4-4524-84c6-590730fee8c6) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Sviluppo moderno, UI responsive e ottimizzata per mobile e web. Tutto il codice sorgente si trova nella cartella `src/`.
