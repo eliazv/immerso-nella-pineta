@@ -133,7 +133,62 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   };
 
   return (
-    <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
+    <div className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
+      <style>{`
+        .fc-header-toolbar {
+          padding: 0.1rem 0 !important;
+          min-height: 2rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+        .fc-header-toolbar .fc-toolbar-title {
+          font-size: 1.4rem !important;
+          font-weight: 500 !important;
+          margin: 0 !important;
+          line-height: 1.2 !important;
+        }
+        .fc-header-toolbar .fc-button {
+          font-size: 1rem !important;
+          padding: 0.1rem 0.3rem !important;
+          height: 2.3rem !important;
+          line-height: 1 !important;
+        }
+        .fc-header-toolbar .fc-toolbar-chunk {
+          display: flex !important;
+          align-items: center !important;
+          height: 2.5rem !important;
+        }
+        /* Eventi calendario con bordi arrotondati intelligenti e posizione a metà giornata */
+        .fc-daygrid-event-harness {
+          overflow: visible !important;
+        }
+        .fc-daygrid-event {
+          border-radius: 0 !important;
+        }
+        /* Solo l'inizio della prenotazione ha il bordo sinistro arrotondato e inizia a metà */
+        .fc-daygrid-event.fc-event-start {
+          border-top-left-radius: 8px !important;
+          border-bottom-left-radius: 8px !important;
+          margin-left: 10% !important;
+        }
+        /* Solo la fine della prenotazione ha il bordo destro arrotondato e finisce a metà */
+        .fc-daygrid-event.fc-event-end {
+          border-top-right-radius: 8px !important;
+          border-bottom-right-radius: 8px !important;
+          margin-right: 10% !important;
+        }
+        /* Eventi che continuano da una settimana all'altra (né inizio né fine) */
+        .fc-daygrid-event:not(.fc-event-start):not(.fc-event-end) {
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+        /* Se la prenotazione è di un solo giorno, ha tutti i bordi arrotondati e centrata */
+        .fc-daygrid-event.fc-event-start.fc-event-end {
+          border-radius: 8px !important;
+          margin-left: 3.57% !important;
+          margin-right: 3.57% !important;
+        }
+      `}</style>
+
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-xl font-medium">Calendario e Prenotazioni</h2>
@@ -232,13 +287,13 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         />
       </div>
 
-      <p className="text-xs text-muted-foreground mt-4">
+      {/* <p className="text-xs text-muted-foreground mt-4">
         La data di check-out si riferisce alla mattina della partenza
         dell'ospite. Di conseguenza, nel calendario l'appartamento risulterà
         occupato fino alla notte del giorno precedente. Ad esempio, se il
         check-out è previsto per il 10, l'ultima notte prenotata sarà quella del
         9.
-      </p>
+      </p> */}
 
       <BookingsList
         bookings={bookings}

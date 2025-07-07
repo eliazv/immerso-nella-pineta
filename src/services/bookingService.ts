@@ -404,6 +404,14 @@ const fetchBookingsForCalendar = async (
     return "";
   };
 
+  // Funzione per aggiungere un giorno a una data in formato YYYY-MM-DD
+  const addOneDay = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split("T")[0];
+  };
+
   // Crea eventi per il calendario con colori basati sull'OTA
   const events = validBookings
     .filter((booking) => booking.CheckIn && booking.CheckOut) // Filtra le prenotazioni senza date valide
@@ -418,12 +426,13 @@ const fetchBookingsForCalendar = async (
       return {
         title: booking.Nome,
         start: formatDate(booking.CheckIn),
-        end: formatDate(booking.CheckOut),
+        end: addOneDay(formatDate(booking.CheckOut)), // Aggiungi un giorno per mostrare il check-out corretto
         backgroundColor,
         borderColor: backgroundColor,
         extendedProps: booking,
       };
     });
+  console.log("events :", events);
 
   return { events, bookings: validBookings };
 };
