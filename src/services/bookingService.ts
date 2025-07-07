@@ -412,11 +412,11 @@ const fetchBookingsForCalendar = async (
       const otaLower = booking.OTA.toLowerCase();
 
       if (otaLower.includes("booking")) backgroundColor = "#0000FF"; // Blu
-      if (otaLower.includes("airbnb")) backgroundColor = "#FF0000"; // Rosso
+      if (otaLower.includes("airbnb")) backgroundColor = "#B22222"; // Rosso scuro (FireBrick)
       if (otaLower.includes("extra")) backgroundColor = "#008000"; // Verde
 
       return {
-        title: `${booking.Nome} (${booking.OTA})`,
+        title: booking.Nome,
         start: formatDate(booking.CheckIn),
         end: formatDate(booking.CheckOut),
         backgroundColor,

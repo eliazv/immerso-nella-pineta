@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Booking } from "@/types/calendar";
+import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 
 // Funzione per ordinare le prenotazioni per data di check-in
 const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
@@ -20,7 +21,7 @@ interface BookingsListProps {
   onBookingClick: (booking: Booking) => void;
 }
 
-export const BookingsList: React.FC<BookingsListProps> = ({
+const BookingsList: React.FC<BookingsListProps> = ({
   bookings,
   onBookingClick,
 }) => {
@@ -85,47 +86,6 @@ export const BookingsList: React.FC<BookingsListProps> = ({
       default:
         return "";
     }
-  };
-
-  const getOtaLogo = (ota: string) => {
-    if (ota.toLowerCase() === "booking") {
-      return (
-        <img
-          src="https://cdn.worldvectorlogo.com/logos/bookingcom-1.svg"
-          alt="Booking"
-          className="inline-block h-5 w-auto"
-        />
-      );
-    }
-    if (ota.toLowerCase() === "airbnb") {
-      return (
-        <img
-          src="https://img.icons8.com/?size=512&id=103424&format=png"
-          alt="Airbnb"
-          className="inline-block h-5 w-auto"
-        />
-      );
-    }
-    if (ota.toLowerCase() === "extra") {
-      return (
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/5277/5277971.png"
-          alt="Extra"
-          className="inline-block h-5 w-auto"
-        />
-      );
-    }
-    if (ota.toLowerCase() === "agenzia") {
-      return (
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/2132/2132930.png"
-          alt="Agenzia"
-          className="inline-block h-5 w-auto"
-        />
-      );
-    }
-
-    return <span>{ota}</span>; // Fallback per altri OTA
   };
 
   return (

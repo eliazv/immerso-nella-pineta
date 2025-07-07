@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "react-calendar/dist/Calendar.css";
 import { useOutletContext } from "react-router-dom";
-
 import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
-import { fetchBookings, refreshBookingsCache } from "@/services/bookingService";
+import { fetchBookings } from "@/services/bookingService";
 import BookingsList from "@/components/calendar/BookingsList";
+import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -216,6 +216,19 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           contentHeight="auto"
           eventClassNames="text-sm"
           dayCellClassNames="text-xs"
+          eventContent={(arg) => {
+            // Mostra il logo OTA accanto al titolo della prenotazione, se disponibile
+            const ota =
+              arg.event.extendedProps?.OTA || arg.event.extendedProps?.ota;
+            // Rimuove la dicitura tra parentesi (es. (airbnb), (booking), ecc.) dal titolo
+
+            return (
+              <div className="flex items-center gap-1">
+                {ota && getOtaLogo(ota)}
+                <span>{arg.event.title}</span>
+              </div>
+            );
+          }}
         />
       </div>
 
