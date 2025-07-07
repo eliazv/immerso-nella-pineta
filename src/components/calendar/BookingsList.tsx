@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Booking } from "@/types/calendar";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
+import BookingCard from "@/components/calendar/BookingCard";
 
 // Funzione per ordinare le prenotazioni per data di check-in
 const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
@@ -124,32 +125,18 @@ const BookingsList: React.FC<BookingsListProps> = ({
             // Visualizzazione normale per le prenotazioni future
             <div className="space-y-4">
               {getFilteredBookings().map((booking, index) => (
-                <div
+                <BookingCard
                   key={index}
-                  className="border rounded-lg p-4 shadow-sm bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors"
-                  onClick={() => onBookingClick(booking)}
-                >
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <strong>
-                        {getOtaLogo(booking.OTA)} {booking.Nome}
-                      </strong>{" "}
-                      -{" "}
-                      <span>
-                        {booking.CheckIn} → {booking.CheckOut} ({booking.Notti}{" "}
-                        notti - {booking.Totale})
-                      </span>
-                    </div>
-                    {/* <button className="text-primary">Dettagli</button> */}
-                  </div>
-                </div>
+                  booking={booking}
+                  onClick={onBookingClick}
+                  getApartmentShortName={getApartmentShortName}
+                />
               ))}
             </div>
           ) : (
             // Visualizzazione raggruppata per anno
             Object.entries(getGroupedBookings()).map(([year, yearBookings]) => (
               <div key={year} className="space-y-3">
-                {" "}
                 <h4 className="text-lg font-semibold sticky top-[56px] py-2 z-10 shadow-sm bg-[#fcfaf8] border-b">
                   {year}{" "}
                   <span className="text-sm text-muted-foreground">
@@ -158,25 +145,12 @@ const BookingsList: React.FC<BookingsListProps> = ({
                 </h4>
                 <div className="space-y-4">
                   {yearBookings.map((booking, index) => (
-                    <div
+                    <BookingCard
                       key={`${year}-${index}`}
-                      className="border rounded-lg p-4 shadow-sm bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors"
-                      onClick={() => onBookingClick(booking)}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <strong>
-                            {getOtaLogo(booking.OTA)} {booking.Nome}
-                          </strong>{" "}
-                          -{" "}
-                          <span>
-                            {booking.CheckIn} → {booking.CheckOut} (
-                            {booking.Notti} notti - {booking.Totale})
-                          </span>
-                        </div>
-                        {/* <button className="text-primary">Dettagli</button> */}
-                      </div>
-                    </div>
+                      booking={booking}
+                      onClick={onBookingClick}
+                      getApartmentShortName={getApartmentShortName}
+                    />
                   ))}
                 </div>
               </div>

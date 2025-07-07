@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { User, Coins, BadgeEuro } from "lucide-react";
 import { Booking, CalendarType } from "@/types/calendar";
 import {
   Dialog,
@@ -317,7 +318,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <div className="flex flex-col gap-4 py-2">
               {/* Dati generali */}
               <div className="bg-slate-50 p-3 rounded-md shadow-sm">
-                <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2">
+                <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2 flex items-center gap-2">
+                  <User className="w-5 h-5 text-slate-500 mr-1" />
                   Dati generali
                 </div>
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-base">
@@ -380,7 +382,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
               {/* Importi, tasse e totale unificati */}
               <div className="bg-slate-50 p-3 rounded-md shadow-sm">
-                <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2">
+                <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2 flex items-center gap-2">
+                  <BadgeEuro className="w-5 h-5 mr-1" />
                   Importi e Tasse
                 </div>
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-base">
@@ -447,13 +450,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                               booking.SoggiornoTax ||
                               calculateSoggiornoTax(booking)
                             }`}
-                        {booking.SoggiornoTax !==
+                        {/* {booking.SoggiornoTax !==
                           calculateSoggiornoTax(booking) &&
                           calculateSoggiornoTax(booking) !== "" && (
                             <span className="text-xs text-slate-500 ml-1">
                               (calc €{calculateSoggiornoTax(booking)})
                             </span>
-                          )}
+                          )} */}
                       </>
                     ) : (
                       "-"
@@ -475,10 +478,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         : `€${booking.CedolareSecca}`
                       : "-"}
                   </span>
-                  <span className="font-semibold text-lg text-blue-900">
-                    Totale:
+                  <span className="font-semibold text-lg  text-primary">
+                    Totale Netto:
                   </span>
-                  <span className="text-slate-800 font-mono font-bold text-lg">
+                  <span className=" text-primary font-mono font-bold text-lg">
                     {booking.Totale
                       ? booking.Totale.includes("€")
                         ? booking.Totale
