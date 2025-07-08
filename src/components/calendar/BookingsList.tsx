@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Booking } from "@/types/calendar";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingCard from "@/components/calendar/BookingCard";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search, Plus } from "lucide-react";
 
 // Funzione per ordinare le prenotazioni per data di check-in
 const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
@@ -20,11 +23,17 @@ const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
 interface BookingsListProps {
   bookings: Booking[];
   onBookingClick: (booking: Booking) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+  onNewBookingClick?: () => void;
 }
 
 const BookingsList: React.FC<BookingsListProps> = ({
   bookings,
   onBookingClick,
+  searchQuery = "",
+  onSearchChange,
+  onNewBookingClick,
 }) => {
   const [showOnlyUpcoming, setShowOnlyUpcoming] = useState<boolean>(true);
   // Funzione per filtrare le prenotazioni future
@@ -116,6 +125,37 @@ const BookingsList: React.FC<BookingsListProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Barra di ricerca con pulsante nuova prenotazione */}
+      <div className="flex gap-2 mb-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            placeholder="Cerca per nome ospite..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange?.(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        {onNewBookingClick && (
+          <Button
+            onClick={onNewBookingClick}
+            size="sm"
+            className="flex items-center gap-1 whitespace-nowrap"
+          >
+            <Plus className="h-4 w-4" />
+            Nuova
+          </Button>
+        )}
+      </div>
+
+      {/* Risultati ricerca */}
+      {searchQuery && (
+        <div className="text-sm text-muted-foreground mb-4">
+          {bookings.length} risultat{bookings.length !== 1 ? "i" : "o"} trovat
+          {bookings.length !== 1 ? "i" : "o"}
+        </div>
+      )}
 
       {bookings.length === 0 ? (
         <p className="text-muted-foreground">Nessuna prenotazione trovata.</p>

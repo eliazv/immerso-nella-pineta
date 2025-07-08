@@ -1,95 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-  Legend,
-} from "recharts";
-import { OccupancyStats } from "@/services/dashboardService";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ChevronDown } from "lucide-react";
 
-interface OccupancyChartProps {
-  data: OccupancyStats;
+interface ChartData {
+  month: string;
+  value: number;
 }
 
-const OccupancyChart: React.FC<OccupancyChartProps> = ({ data }) => {
-  // Abbrevia i nomi dei mesi per migliorare la visualizzazione
-  const chartData = data.monthlyOccupancy.map((item) => ({
-    ...item,
-    monthShort: item.month.substring(0, 3), // Prende le prime 3 lettere del nome del mese
-  }));
+interface OccupancyChartProps {
+  data?: ChartData[];
+  title?: string;
+}
 
-  // Calcola la media annuale per mostrare la linea di riferimento
-  const averageRate = data.occupancyRate;
+const OccupancyChart: React.FC<OccupancyChartProps> = ({
+  data = [
+    { month: "Feb", value: 65 },
+    { month: "Mar", value: 80 },
+    { month: "Apr", value: 45 },
+    { month: "Mag", value: 90 },
+    { month: "Giu", value: 75 },
+    { month: "Lug", value: 95 },
+  ],
+  title = "Tasso di Occupazione",
+}) => {
+  const [selectedPeriod, setSelectedPeriod] = useState("monthly");
+
+  // Find the maximum value to normalize the bars
+  const maxValue = Math.max(...data.map((item) => item.value));
 
   return (
-    <div className="w-full">
-      <div className="h-[400px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={chartData}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 20,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis
-              dataKey="monthShort"
-              tick={{ fill: "#555" }}
-              axisLine={{ stroke: "#e0e0e0" }}
-            />
-            <YAxis
-              tickFormatter={(value) => `${value}%`}
-              domain={[0, 100]}
-              tick={{ fill: "#555" }}
-              axisLine={{ stroke: "#e0e0e0" }}
-            />
-            <Tooltip
-              formatter={(value: number) => [
-                `${value.toFixed(1)}%`,
-                "Occupazione",
-              ]}
-              labelFormatter={(label) => {
-                const fullMonth = chartData.find(
-                  (item) => item.monthShort === label
-                )?.month;
-                return fullMonth || label;
-              }}
-            />
-            <Legend />
-            <Bar
-              name="Tasso di Occupazione"
-              dataKey="rate"
-              fill="var(--primary)"
-              radius={[4, 4, 0, 0]}
-              animationDuration={1500}
-            />
-            <ReferenceLine
-              y={averageRate}
-              stroke="#ff7d00"
-              strokeDasharray="3 3"
-              isFront={false}
-              label={{
-                value: `Media: ${averageRate}%`,
-                fill: "#ff7d00",
-                position: "insideTopRight",
-              }}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="text-center text-muted-foreground text-sm mt-2 pb-2">
-        Occupazione media annuale: <strong>{averageRate}%</strong> (
-        {data.occupiedDays} giorni su {data.totalDays})
-      </div>
-    </div>
+    <Card className="bg-white border border-gray-100 shadow-sm">
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-lg font-semibold text-ardesia">
+              {title}
+            </CardTitle>
+            <p className="text-sm text-ardesia/60 mt-1">Mensile</p>
+          </div>
+          <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
+            <SelectTrigger className="w-auto border-none shadow-none text-petrolio font-medium">
+              <SelectValue />
+              <ChevronDown className="h-4 w-4 ml-1" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="monthly">Mensile</SelectItem>
+              <SelectItem value="weekly">Settimanale</SelectItem>
+              <SelectItem value="daily">Giornaliero</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </CardHeader>
+      <CardContent className="pt-0">
+        <div className="flex items-end justify-between gap-2 h-24">
+          {data.map((item, index) => (
+            <div key={index} className="flex flex-col items-center flex-1">
+              <div className="relative w-full flex items-end justify-center h-20 mb-2">
+                <div
+                  className="bg-petrolio/20 rounded-t-lg w-full transition-all duration-300 hover:bg-petrolio/30"
+                  style={{
+                    height: `${(item.value / maxValue) * 100}%`,
+                    minHeight: "8px",
+                  }}
+                >
+                  <div
+                    className="bg-petrolio rounded-t-lg w-full"
+                    style={{
+                      height: `${Math.min(
+                        (item.value / maxValue) * 100,
+                        100
+                      )}%`,
+                      minHeight: "4px",
+                    }}
+                  />
+                </div>
+              </div>
+              <span className="text-xs text-ardesia/60 font-medium">
+                {item.month}
+              </span>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

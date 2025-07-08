@@ -40,6 +40,10 @@ import {
   LogOut,
   Building,
 } from "lucide-react";
+import ProfileHeader from "@/components/dashboard/ProfileHeader";
+import PropertySummaryCards from "@/components/dashboard/PropertySummaryCards";
+import OccupancyChart from "@/components/dashboard/OccupancyChart";
+import RecentActivity from "@/components/dashboard/RecentActivity";
 import { Booking, Apartment } from "@/types/calendar";
 import { localStorageService } from "@/services/localStorageService";
 import {
@@ -276,15 +280,54 @@ const Home: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-6 max-w-6xl">
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">Dashboard</h1>
-          </div>
+        {/* Profile Header */}
+        <ProfileHeader
+          name="Property Manager"
+          subtitle="Gestione Alloggi"
+          onAddClick={() => setIsCreateBookingModalOpen(true)}
+          onNotificationClick={() => {
+            // TODO: Implement notifications
+            toast({
+              title: "Notifiche",
+              description: "Funzionalità in arrivo",
+            });
+          }}
+        />
+
+        {/* Property Summary Cards */}
+        <div>
+          <h2 className="text-xl font-semibold text-ardesia mb-4">
+            Riepilogo Proprietà
+          </h2>
+          <PropertySummaryCards
+            data={{
+              properties: stats?.total || 0,
+              occupied: {
+                current: Math.round((stats?.active || 0) * 0.8), // Mock data
+                total: stats?.active || 0,
+              },
+              rentCollected: {
+                current: Math.round(
+                  localStorageService.getBookings().length * 0.85
+                ), // Mock data
+                total: localStorageService.getBookings().length,
+              },
+              maintenanceRequests: 5, // Mock data
+            }}
+          />
         </div>
 
-        {/* Statistiche rapide */}
-        <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        {/* Charts Section */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <OccupancyChart />
+          <RecentActivity />
+        </div>
+
+        {/* Legacy stats for reference - can be removed later */}
+        <div
+          className="grid gap-4 grid-cols-2 lg:grid-cols-4"
+          style={{ display: "none" }}
+        >
           <Card>
             <CardContent className="flex flex-col items-start p-3">
               <div className="flex items-center mb-2">

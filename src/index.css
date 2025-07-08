@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,35 +6,36 @@
 
 @layer base {
   :root {
-    --background: 35 40% 98%;
-    --foreground: 200 20% 20%;
+    /* New color scheme based on user requirements */
+    --background: 210 20% 98%; /* F7F9FA - Grigio chiaro neutro */
+    --foreground: 200 15% 25%; /* 37474F - Grigio ardesia */
 
     --card: 0 0% 100%;
-    --card-foreground: 200 20% 20%;
+    --card-foreground: 200 15% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 20% 20%;
+    --popover-foreground: 200 15% 25%;
 
-    --primary: 130 30% 45%;
-    --primary-foreground: 130 30% 98%;
+    --primary: 180 50% 45%; /* 3DA9A9 - Petrolio chiaro */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 70% 75%;
-    --secondary-foreground: 200 70% 15%;
+    --secondary: 200 15% 30%; /* 37474F - Grigio ardesia */
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 210 20% 96%;
-    --muted-foreground: 215 12% 45%;
+    --muted-foreground: 200 10% 50%;
 
-    --accent: 130 30% 96%;
-    --accent-foreground: 130 30% 25%;
+    --accent: 150 60% 60%; /* 60D394 - Verde menta / successo */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 70% 70%; /* FF6B6B - Rosso arancio sobrio */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 200 20% 88%;
-    --input: 200 20% 90%;
-    --ring: 130 30% 60%;
+    --border: 200 15% 85%;
+    --input: 200 15% 90%;
+    --ring: 180 50% 45%;
 
-    --radius: 0.75rem;
+    --radius: 1rem; /* Increased for more modern look */
   }
 }
 
@@ -46,9 +46,16 @@
 
   body {
     @apply bg-background font-sans text-foreground antialiased;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-serif font-medium tracking-tight;
   }
 }

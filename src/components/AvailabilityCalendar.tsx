@@ -41,7 +41,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Search, X } from "lucide-react";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -327,18 +326,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   return (
     <div className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
       {/* Header con titolo e bottone */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">{getCalendarTitle()}</h1>
-          <p className="text-muted-foreground">
-            Gestisci le prenotazioni e visualizza la disponibilità
-          </p>
-        </div>
-        <Button size="sm" onClick={() => setIsCreateModalOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Nuova Prenotazione
-        </Button>
-      </div>
+
       <style>{`
         .fc-header-toolbar {
           padding: 0.1rem 0 !important;
@@ -449,40 +437,12 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         9.
       </p> */}
 
-      {/* Ricerca prenotazioni */}
-      <div className="my-6">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Cerca prenotazioni per nome cliente..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-10"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                >
-                  <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                </button>
-              )}
-            </div>
-          </div>
-          {searchQuery && (
-            <div className="text-sm text-muted-foreground flex items-center">
-              {bookings.length} risultat{bookings.length !== 1 ? "i" : "o"}{" "}
-              trovat{bookings.length !== 1 ? "i" : "o"}
-            </div>
-          )}
-        </div>
-      </div>
-
       <BookingsList
         bookings={bookings}
         onBookingClick={(booking) => openBookingDetails(booking)}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onNewBookingClick={() => setIsCreateModalOpen(true)}
       />
 
       {/* Modale per i dettagli della prenotazione */}

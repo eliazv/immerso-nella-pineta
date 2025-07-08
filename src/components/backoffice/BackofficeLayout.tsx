@@ -186,16 +186,16 @@ const BackofficeLayout: React.FC = () => {
         Con la configurazione nativa corretta, la WebView ora inizia automaticamente
         sotto la status bar su Android, senza bisogno di padding dinamico
       */}
-      <div className="fixed left-0 right-0 bg-slate-100 shadow-sm z-50 top-0">
-        <div className="container mx-auto px-4 py-2 max-w-5xl flex flex-wrap justify-between items-center gap-4">
-          <div className="flex items-center gap-4">
-            {/* <h1 className="text-lg font-serif font-medium">Alloggio:</h1> */}
 
+      {/* Header only shows accommodation dropdown on calendar and statistics pages */}
+      {(activeTab === "calendar" || activeTab === "dashboard") && (
+        <div className="fixed left-1/2 transform -translate-x-1/2 top-4 bg-white/90 backdrop-blur-sm shadow-lg rounded-2xl z-40 md:hidden max-w-xs">
+          <div className="px-4 py-3 flex items-center justify-center">
             <Select
               value={getSelectValue()}
               onValueChange={handleCalendarChange}
             >
-              <SelectTrigger className="min-w-[120px]">
+              <SelectTrigger className="min-w-[160px]">
                 <div className="flex items-center gap-2">
                   <House className="h-4 w-4" />
                   <SelectValue placeholder="Seleziona appartamento" />
@@ -231,94 +231,127 @@ const BackofficeLayout: React.FC = () => {
               </SelectContent>
             </Select>
           </div>
-
-          <div className="items-center gap-3 ml-auto hidden md:flex">
-            <Tabs value={activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid grid-cols-3">
-                <TabsTrigger value="home" className="flex items-center gap-1.5">
-                  <Home className="h-4 w-4" />
-                  <span className="hidden lg:inline">Home</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="calendar"
-                  className="flex items-center gap-1.5"
-                >
-                  <Calendar className="h-4 w-4" />
-                  <span className="hidden lg:inline">Calendario</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="dashboard"
-                  className="flex items-center gap-1.5"
-                >
-                  <BarChart3 className="h-4 w-4" />
-                  <span className="hidden lg:inline">Statistiche</span>
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-
-            {/* <Button
-              variant="outline"
-              size="sm"
-              onClick={handleLogout}
-              className="flex items-center gap-1"
-            >
-              <LogOut className="h-4 w-4" />
-              <span className="hidden md:inline">Esci</span>
-            </Button> */}
-          </div>
-
-          {/* Footer mobile navigation */}
-          <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg md:hidden">
-            <div className="flex justify-around items-center h-16">
-              <button
-                className={`flex flex-col items-center justify-center flex-1 py-2 ${
-                  activeTab === "home"
-                    ? "text-primary font-semibold"
-                    : "text-muted-foreground"
-                }`}
-                onClick={() => handleTabChange("home")}
-              >
-                <Home className="h-5 w-5 mx-auto" />
-                <span className="text-xs mt-1">Home</span>
-              </button>
-              <button
-                className={`flex flex-col items-center justify-center flex-1 py-2 ${
-                  activeTab === "calendar"
-                    ? "text-primary font-semibold"
-                    : "text-muted-foreground"
-                }`}
-                onClick={() => handleTabChange("calendar")}
-              >
-                <Calendar className="h-5 w-5 mx-auto" />
-                <span className="text-xs mt-1">Calendario</span>
-              </button>
-              <button
-                className={`flex flex-col items-center justify-center flex-1 py-2 ${
-                  activeTab === "dashboard"
-                    ? "text-primary font-semibold"
-                    : "text-muted-foreground"
-                }`}
-                onClick={() => handleTabChange("dashboard")}
-              >
-                <BarChart3 className="h-5 w-5 mx-auto" />
-                <span className="text-xs mt-1">Statistiche</span>
-              </button>
-              {/* <button
-                className="flex flex-col items-center justify-center flex-1 py-2 text-muted-foreground"
-                onClick={handleLogout}
-              >
-                <LogOut className="h-5 w-5 mx-auto" />
-                <span className="text-xs mt-1">Esci</span>
-              </button> */}
-            </div>
-          </nav>
         </div>
+      )}
+
+      {/* Desktop header with tabs */}
+      <div className="hidden md:block">
+        <div className="fixed left-0 right-0 bg-white shadow-sm z-50 top-0">
+          <div className="container mx-auto px-4 py-2 max-w-5xl flex flex-wrap justify-between items-center gap-4">
+            <div className="flex items-center gap-4">
+              <Select
+                value={getSelectValue()}
+                onValueChange={handleCalendarChange}
+              >
+                <SelectTrigger className="min-w-[120px]">
+                  <div className="flex items-center gap-2">
+                    <House className="h-4 w-4" />
+                    <SelectValue placeholder="Seleziona appartamento" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {apartments.map((apartment) => (
+                    <SelectItem key={apartment.id} value={apartment.id}>
+                      {apartment.name}
+                    </SelectItem>
+                  ))}
+                  {apartments.length > 0 && (
+                    <div className="border-t my-1"></div>
+                  )}
+                  <SelectItem value="all">Tutti gli alloggi</SelectItem>
+                  <div className="border-t my-1"></div>
+                  <SelectItem
+                    value="manage"
+                    onSelect={() => navigate("/apartments")}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Settings className="h-4 w-4" />
+                      Gestisci Alloggi
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="items-center gap-3 ml-auto flex">
+              <Tabs value={activeTab} onValueChange={handleTabChange}>
+                <TabsList className="grid grid-cols-3">
+                  <TabsTrigger
+                    value="home"
+                    className="flex items-center gap-1.5"
+                  >
+                    <Home className="h-4 w-4" />
+                    <span className="hidden lg:inline">Home</span>
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="calendar"
+                    className="flex items-center gap-1.5"
+                  >
+                    <Calendar className="h-4 w-4" />
+                    <span className="hidden lg:inline">Calendario</span>
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="dashboard"
+                    className="flex items-center gap-1.5"
+                  >
+                    <BarChart3 className="h-4 w-4" />
+                    <span className="hidden lg:inline">Statistiche</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+        <div className="mb-8 border-b pb-2"></div>
       </div>
 
-      <div className="mb-8 border-b pb-2"></div>
+      {/* Floating mobile navigation */}
+      <nav className="fixed bottom-4 left-4 right-4 z-50 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-xl rounded-2xl md:hidden">
+        <div className="flex justify-around items-center h-16 px-2">
+          <button
+            className={`flex flex-col items-center justify-center flex-1 py-2 rounded-xl transition-colors ${
+              activeTab === "home"
+                ? "text-petrolio bg-petrolio/10 font-semibold"
+                : "text-ardesia/70"
+            }`}
+            onClick={() => handleTabChange("home")}
+          >
+            <Home className="h-5 w-5 mx-auto" />
+            <span className="text-xs mt-1">Home</span>
+          </button>
+          <button
+            className={`flex flex-col items-center justify-center flex-1 py-2 rounded-xl transition-colors ${
+              activeTab === "calendar"
+                ? "text-petrolio bg-petrolio/10 font-semibold"
+                : "text-ardesia/70"
+            }`}
+            onClick={() => handleTabChange("calendar")}
+          >
+            <Calendar className="h-5 w-5 mx-auto" />
+            <span className="text-xs mt-1">Calendario</span>
+          </button>
+          <button
+            className={`flex flex-col items-center justify-center flex-1 py-2 rounded-xl transition-colors ${
+              activeTab === "dashboard"
+                ? "text-petrolio bg-petrolio/10 font-semibold"
+                : "text-ardesia/70"
+            }`}
+            onClick={() => handleTabChange("dashboard")}
+          >
+            <BarChart3 className="h-5 w-5 mx-auto" />
+            <span className="text-xs mt-1">Statistiche</span>
+          </button>
+        </div>
+      </nav>
 
-      {/* Passa l'appartamento selezionato alle pagine figlie */}
-      <div className="pt-8 pb-16 md:pb-6">
+      {/* Content area with proper padding */}
+      <div
+        className={`pb-24 md:pb-6 ${
+          activeTab === "calendar" || activeTab === "dashboard"
+            ? "pt-20 md:pt-20"
+            : "pt-8"
+        }`}
+      >
         <Outlet context={{ selectedCalendar }} />
       </div>
     </div>
