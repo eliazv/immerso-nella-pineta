@@ -1,5 +1,5 @@
 import { Booking, CalendarType } from "@/types/calendar";
-import { fetchBookings } from "./bookingService";
+import { localStorageService } from "./localStorageService";
 
 // Interfaccia per le statistiche di occupazione
 export interface OccupancyStats {
@@ -363,13 +363,13 @@ export const getDashboardStats = async (
   try {
     // Se si richiede la visualizzazione combinata, otteniamo i dati di tutti gli appartamenti
     if (calendarType === "all") {
-      // Otteniamo i dati di ciascun appartamento separatamente
-      const { bookings: bookingsPrincipale, isCachedData: isCachedPrincipale } =
-        await fetchBookings("principale");
-      const { bookings: bookingsSecondario, isCachedData: isCachedSecondario } =
-        await fetchBookings("secondario");
-      const { bookings: bookingsTerziario, isCachedData: isCachedTerziario } =
-        await fetchBookings("terziario");
+      // Otteniamo i dati di ciascun appartamento separatamente dal store locale
+      const bookingsPrincipale =
+        localStorageService.getBookingsByCalendarType("principale");
+      const bookingsSecondario =
+        localStorageService.getBookingsByCalendarType("secondario");
+      const bookingsTerziario =
+        localStorageService.getBookingsByCalendarType("terziario");
 
       // Calcoliamo le singole statistiche per ogni appartamento
       const occupancyPrincipale = calculateOccupancyStats(
@@ -480,13 +480,13 @@ export const getDashboardStats = async (
 
       return {
         stats,
-        isCachedData:
-          isCachedPrincipale && isCachedSecondario && isCachedTerziario,
+        isCachedData: false, // Con store locale i dati sono sempre freschi
       };
     }
 
     // Gestione normale per la visualizzazione di un singolo appartamento
-    const { bookings, isCachedData } = await fetchBookings(calendarType);
+    const bookings =
+      localStorageService.getBookingsByCalendarType(calendarType);
 
     // Calcola le diverse statistiche
     const occupancy = calculateOccupancyStats(bookings, year);
@@ -527,7 +527,7 @@ export const getDashboardStats = async (
 
     return {
       stats,
-      isCachedData,
+      isCachedData: false, // Con store locale i dati sono sempre freschi
     };
   } catch (error) {
     console.error("Errore durante il recupero delle statistiche:", error);

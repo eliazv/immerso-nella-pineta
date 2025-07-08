@@ -4,15 +4,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import Index from "./pages/Index";
-import Gallery from "./pages/Gallery";
-import Rules from "./pages/Rules";
-import Book from "./pages/Book";
-import Attractions from "./pages/Attractions";
-import HouseRulesPDF from "./pages/HouseRulesPDF";
+
 import NotFound from "./pages/NotFound";
+import Home from "./pages/Home";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import Dashboard from "./pages/Dashboard";
+import Apartments from "./pages/Apartments";
+import Migration from "./pages/Migration";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 
 const queryClient = new QueryClient();
@@ -40,25 +38,19 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <Routes>
-              {/* Pagine pubbliche del sito */}
-              <Route path="/" element={<Index />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/attractions" element={<Attractions />} />
-              <Route path="/rules" element={<Rules />} />
-              <Route path="/book" element={<Book />} />
-              <Route path="/rules/pdf" element={<HouseRulesPDF />} />
-
-              {/* Backoffice con layout condiviso */}
+              {/* La pagina principale ora mostra la Home */}
               <Route path="/" element={<BackofficeLayout />}>
-                <Route path="/calendar" element={<AvailabilityCalendar />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route index element={<Home />} />
+                <Route path="calendar" element={<AvailabilityCalendar />} />
+                <Route path="apartments" element={<Apartments />} />
+                <Route path="migration" element={<Migration />} />
+                <Route path="dashboard" element={<Dashboard />} />
                 {/* Reindirizza /admin direttamente alla pagina calendar */}
                 <Route
-                  path="/admin"
+                  path="admin"
                   element={<Navigate to="/calendar" replace />}
                 />
               </Route>
-
               {/* Pagina 404 */}
               <Route path="*" element={<NotFound />} />
             </Routes>

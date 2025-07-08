@@ -3,7 +3,14 @@ import { Capacitor } from "@capacitor/core";
 import { StatusBar, StatusBarStyle } from "@capacitor/status-bar";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, BarChart3, Building, House } from "lucide-react";
+import {
+  Calendar,
+  BarChart3,
+  Building,
+  House,
+  Home,
+  Settings,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -11,9 +18,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import PinAuth from "@/components/calendar/PinAuth";
-import { CalendarType } from "@/types/calendar";
+import { CalendarType, Apartment } from "@/types/calendar";
 import { isAuthenticated, logout } from "@/services/authService";
+import { localStorageService } from "@/services/localStorageService";
+import { getActiveApartments } from "@/services/apartmentService";
 
 /**
  * Layout condiviso per le pagine del backoffice (Dashboard e Calendario)
@@ -28,6 +36,7 @@ const BackofficeLayout: React.FC = () => {
   const location = useLocation();
   const [selectedCalendar, setSelectedCalendar] =
     useState<CalendarType>("principale");
+  const [apartments, setApartments] = useState<Apartment[]>([]);
 
   // Gestione status bar su Android - ora gestita tramite configurazione nativa
   useEffect(() => {
@@ -47,16 +56,31 @@ const BackofficeLayout: React.FC = () => {
 
   // Determina la tab attiva in base al percorso corrente
   const currentPath = location.pathname;
-  const activeTab = currentPath.includes("/dashboard")
-    ? "dashboard"
-    : currentPath.includes("/calendar")
-    ? "calendar"
-    : "calendar"; // Default
+  let activeTab: string = "home";
+  if (currentPath === "/" || currentPath === "/home") {
+    activeTab = "home";
+  } else if (currentPath.includes("/dashboard")) {
+    activeTab = "dashboard";
+  } else if (currentPath.includes("/calendar")) {
+    activeTab = "calendar";
+  } else if (currentPath.includes("/apartments")) {
+    activeTab = "apartments";
+  } else if (currentPath.includes("/migration")) {
+    activeTab = "migration";
+  }
 
   // Verifica se l'utente è già autenticato al caricamento del componente
   useEffect(() => {
     // Verifica autenticazione utilizzando il servizio di auth sicuro
     setIsAuth(isAuthenticated());
+
+    // Inizializza lo store locale
+    localStorageService.initializeStore();
+
+    // Carica gli appartamenti
+    const apartmentList = getActiveApartments();
+    setApartments(apartmentList);
+
     setIsLoading(false);
   }, []);
 
@@ -68,23 +92,75 @@ const BackofficeLayout: React.FC = () => {
     }
   }, []);
 
-  // Salva la selezione dell'appartamento
-  const handleCalendarChange = (value: CalendarType) => {
-    setSelectedCalendar(value);
-    localStorage.setItem("selectedApartment", value);
+  // Gestisce il cambio di appartamento selezionato
+  const handleCalendarChange = (value: string) => {
+    if (value === "manage") {
+      navigate("/apartments");
+      return;
+    }
+
+    // Converte l'ID appartamento in CalendarType per compatibilità
+    let calendarType: CalendarType;
+    if (value === "all") {
+      calendarType = "all";
+    } else {
+      // Trova l'appartamento e mappa al CalendarType corrispondente
+      const apartment = apartments.find((apt) => apt.id === value);
+      if (apartment) {
+        // Mappa basata sul nome dell'appartamento (per compatibilità)
+        switch (apartment.name) {
+          case "N° 3":
+            calendarType = "principale";
+            break;
+          case "N° 4":
+            calendarType = "secondario";
+            break;
+          case "N° 8":
+            calendarType = "terziario";
+            break;
+          default:
+            calendarType = "principale";
+        }
+      } else {
+        calendarType = "principale";
+      }
+    }
+
+    setSelectedCalendar(calendarType);
   };
 
-  // Mappa tra codici calendario e nomi degli appartamenti
-  const apartmentOptions = [
-    { value: "principale", label: "N° 3" },
-    { value: "secondario", label: "N° 4" },
-    { value: "terziario", label: "N° 8" },
-    { value: "all", label: "Tutti" },
-  ];
+  // Converte CalendarType in ID appartamento per il Select
+  const getSelectValue = (): string => {
+    if (selectedCalendar === "all") return "all";
+
+    // Trova l'appartamento corrispondente al CalendarType
+    const apartment = apartments.find((apt) => {
+      switch (selectedCalendar) {
+        case "principale":
+          return apt.name === "N° 3";
+        case "secondario":
+          return apt.name === "N° 4";
+        case "terziario":
+          return apt.name === "N° 8";
+        default:
+          return false;
+      }
+    });
+
+    return apartment ? apartment.id : apartments[0]?.id || "all";
+  };
 
   // Gestisce il cambio di tab
   const handleTabChange = (value: string) => {
-    navigate(value === "dashboard" ? "/dashboard" : "/calendar");
+    if (value === "home") {
+      navigate("/");
+    } else if (value === "dashboard") {
+      navigate("/dashboard");
+    } else if (value === "calendar") {
+      navigate("/calendar");
+    } else if (value === "apartments") {
+      navigate("/apartments");
+    }
   };
 
   // Gestisce il logout
@@ -104,14 +180,6 @@ const BackofficeLayout: React.FC = () => {
     );
   }
 
-  // Se l'utente non è autenticato, mostra il form di autenticazione
-  if (!isAuth) {
-    return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <PinAuth onAuthenticate={() => setIsAuth(true)} className="mt-16" />
-      </div>
-    );
-  }
   return (
     <div className="mx-auto">
       {/*
@@ -124,43 +192,66 @@ const BackofficeLayout: React.FC = () => {
             {/* <h1 className="text-lg font-serif font-medium">Alloggio:</h1> */}
 
             <Select
-              value={selectedCalendar}
-              onValueChange={(value) =>
-                handleCalendarChange(value as CalendarType)
-              }
+              value={getSelectValue()}
+              onValueChange={handleCalendarChange}
             >
-              <SelectTrigger className="min-w-[80px]">
+              <SelectTrigger className="min-w-[120px]">
                 <div className="flex items-center gap-2">
                   <House className="h-4 w-4" />
                   <SelectValue placeholder="Seleziona appartamento" />
                 </div>
               </SelectTrigger>
               <SelectContent>
-                {apartmentOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
+                {/* Opzioni dinamiche degli appartamenti */}
+                {apartments.map((apartment) => (
+                  <SelectItem key={apartment.id} value={apartment.id}>
+                    {apartment.name}
                   </SelectItem>
                 ))}
+
+                {/* Separatore */}
+                {apartments.length > 0 && <div className="border-t my-1"></div>}
+
+                {/* Opzione per visualizzare tutti */}
+                <SelectItem value="all">Tutti gli alloggi</SelectItem>
+
+                {/* Separatore */}
+                <div className="border-t my-1"></div>
+
+                {/* Opzione per gestire alloggi */}
+                <SelectItem
+                  value="manage"
+                  onSelect={() => navigate("/apartments")}
+                >
+                  <div className="flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    Gestisci Alloggi
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="items-center gap-3 ml-auto hidden md:flex">
             <Tabs value={activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid grid-cols-2">
+              <TabsList className="grid grid-cols-3">
+                <TabsTrigger value="home" className="flex items-center gap-1.5">
+                  <Home className="h-4 w-4" />
+                  <span className="hidden lg:inline">Home</span>
+                </TabsTrigger>
                 <TabsTrigger
                   value="calendar"
                   className="flex items-center gap-1.5"
                 >
                   <Calendar className="h-4 w-4" />
-                  <span className="hidden md:inline">Calendario</span>
+                  <span className="hidden lg:inline">Calendario</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="dashboard"
                   className="flex items-center gap-1.5"
                 >
                   <BarChart3 className="h-4 w-4" />
-                  <span className="hidden md:inline">Statistiche</span>
+                  <span className="hidden lg:inline">Statistiche</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -177,8 +268,19 @@ const BackofficeLayout: React.FC = () => {
           </div>
 
           {/* Footer mobile navigation */}
-          <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-100 border-t shadow md:hidden">
-            <div className="flex justify-around items-center h-14">
+          <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg md:hidden">
+            <div className="flex justify-around items-center h-16">
+              <button
+                className={`flex flex-col items-center justify-center flex-1 py-2 ${
+                  activeTab === "home"
+                    ? "text-primary font-semibold"
+                    : "text-muted-foreground"
+                }`}
+                onClick={() => handleTabChange("home")}
+              >
+                <Home className="h-5 w-5 mx-auto" />
+                <span className="text-xs mt-1">Home</span>
+              </button>
               <button
                 className={`flex flex-col items-center justify-center flex-1 py-2 ${
                   activeTab === "calendar"

@@ -23,14 +23,12 @@ import OtaComparison from "@/components/dashboard/OtaComparison";
 import SeasonalityChart from "@/components/dashboard/SeasonalityChart";
 import SummaryCards from "@/components/dashboard/SummaryCards";
 import {
-  Loader2,
-  RefreshCw,
   Calendar,
   TrendingUp,
   PieChart,
   BarChart,
+  Loader2,
 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 // Interfaccia per il contesto condiviso dal layout
 interface BackofficeContext {
@@ -43,37 +41,26 @@ const Dashboard: React.FC = () => {
     new Date().getFullYear().toString()
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isCached, setIsCached] = useState<boolean>(false);
-  const [lastUpdated, setLastUpdated] = useState<string>("");
   const [stats, setStats] = useState<any>(null);
-  const isMobile = useIsMobile();
 
   // Carica i dati quando il componente viene montato o cambiano i filtri
   useEffect(() => {
     loadStats();
   }, [selectedCalendar, selectedYear]);
 
-  const loadStats = async (forceRefresh = false) => {
+  const loadStats = async () => {
     setIsLoading(true);
     try {
-      // Aggiunge un parametro per forzare il refresh nella funzione fetchBookings
-      const { stats, isCachedData } = await getDashboardStats(
+      const { stats } = await getDashboardStats(
         selectedCalendar,
         parseInt(selectedYear)
       );
       setStats(stats);
-      setIsCached(isCachedData);
-      setLastUpdated(new Date().toLocaleTimeString());
     } catch (error) {
       console.error("Errore nel caricamento delle statistiche:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // Funzione per forzare un aggiornamento fresco dei dati
-  const handleRefresh = () => {
-    loadStats(true);
   };
 
   // Genera array di anni per il filtro (dal 2024 all'anno attuale)
@@ -112,26 +99,6 @@ const Dashboard: React.FC = () => {
               ))}
             </SelectContent>
           </Select>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleRefresh}
-              disabled={isLoading}
-              className="flex items-center gap-1 px-3 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  {!isMobile && <span>Caricamento...</span>}
-                </>
-              ) : (
-                <>
-                  <RefreshCw className="h-4 w-4" />
-                  {!isMobile && <span>Aggiorna dati</span>}
-                </>
-              )}
-            </button>
-          </div>
         </div>
       </div>
 

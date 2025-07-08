@@ -4,12 +4,44 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "react-calendar/dist/Calendar.css";
 import { useOutletContext } from "react-router-dom";
-import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
-import { fetchBookings } from "@/services/bookingService";
+import {
+  Booking,
+  CalendarEvent,
+  CalendarType,
+  Apartment,
+} from "@/types/calendar";
+import {
+  fetchBookings,
+  createBooking,
+  CreateBookingData,
+  searchBookingsByName,
+} from "@/services/localBookingService";
+import { getActiveApartments } from "@/services/apartmentService";
 import BookingsList from "@/components/calendar/BookingsList";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { Plus, Search, X } from "lucide-react";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -22,27 +54,196 @@ interface BackofficeContext {
 
 const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [allBookings, setAllBookings] = useState<Booking[]>([]); // Tutte le prenotazioni per la ricerca
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isCached, setIsCached] = useState<boolean>(false);
-  const [lastUpdated, setLastUpdated] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+  const [apartments, setApartments] = useState<Apartment[]>([]);
   const isMobile = useIsMobile();
+  const { toast } = useToast();
+
+  // Form state per nuova prenotazione
+  const [formData, setFormData] = useState<CreateBookingData>({
+    Nome: "",
+    OTA: "",
+    CheckIn: "",
+    CheckOut: "",
+    Notti: "1",
+    adulti: "2",
+    bambini: "0",
+    animali: "0",
+    TotaleCliente: "0",
+    FuoriOTA: "0",
+    CostoNotti: "0",
+    MediaANotte: "0",
+    Pulizia: "0",
+    Sconti: "0",
+    SoggiornoTax: "0",
+    OTATax: "0",
+    CedolareSecca: "0",
+    Totale: "0",
+    Note: "",
+    apartment: "",
+  });
 
   // Ottiene il calendario selezionato dal contesto del layout
   const { selectedCalendar } = useOutletContext<BackofficeContext>();
 
+  // Carica gli appartamenti all'avvio
+  useEffect(() => {
+    const apartmentList = getActiveApartments();
+    setApartments(apartmentList);
+  }, []);
+
   // Carica i dati quando il componente viene montato o cambia calendario
   useEffect(() => {
-    loadBookings();
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        const { events, bookings } = await fetchBookings(selectedCalendar);
+
+        // Se stiamo visualizzando tutti gli appartamenti, dobbiamo modificare
+        // il titolo degli eventi per includere il nome dell'appartamento
+        const processedEvents =
+          selectedCalendar === "all"
+            ? events.map((event) => ({
+                ...event,
+                title: `${getApartmentShortName(
+                  event.extendedProps.apartment
+                )} - ${event.title}`,
+              }))
+            : events;
+
+        setEvents(processedEvents);
+        setBookings(bookings);
+        setAllBookings(bookings); // Salva tutte le prenotazioni per la ricerca
+      } catch (error) {
+        console.error(
+          "Errore durante il caricamento delle prenotazioni:",
+          error
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
   }, [selectedCalendar]);
+
+  // Gestisce la ricerca
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setBookings(allBookings);
+    } else {
+      const filtered = searchBookingsByName(searchQuery, selectedCalendar);
+      setBookings(filtered);
+    }
+  }, [searchQuery, allBookings, selectedCalendar]);
+
+  // Inizializza il form quando si apre la modale di creazione
+  useEffect(() => {
+    if (isCreateModalOpen) {
+      resetForm();
+    }
+  }, [isCreateModalOpen, selectedCalendar]);
+
+  // Funzione per resettare il form
+  const resetForm = () => {
+    setFormData({
+      Nome: "",
+      OTA: "",
+      CheckIn: "",
+      CheckOut: "",
+      Notti: "1",
+      adulti: "2",
+      bambini: "0",
+      animali: "0",
+      TotaleCliente: "0",
+      FuoriOTA: "0",
+      CostoNotti: "0",
+      MediaANotte: "0",
+      Pulizia: "0",
+      Sconti: "0",
+      SoggiornoTax: "0",
+      OTATax: "0",
+      CedolareSecca: "0",
+      Totale: "0",
+      Note: "",
+      apartment: selectedCalendar !== "all" ? getDefaultApartmentId() : "",
+    });
+  };
+
+  // Ottiene l'ID dell'appartamento di default basato sul calendario selezionato
+  const getDefaultApartmentId = (): string => {
+    if (selectedCalendar === "all") return "";
+
+    const apartment = apartments.find((apt) => {
+      switch (selectedCalendar) {
+        case "principale":
+          return apt.name === "N° 3";
+        case "secondario":
+          return apt.name === "N° 4";
+        case "terziario":
+          return apt.name === "N° 8";
+        default:
+          return false;
+      }
+    });
+
+    return apartment ? apartment.id : apartments[0]?.id || "";
+  };
+
+  // Gestisce la creazione di una nuova prenotazione
+  const handleCreateBooking = async () => {
+    try {
+      setIsLoading(true);
+
+      // Assicurati che l'appartamento sia selezionato
+      if (!formData.apartment) {
+        toast({
+          title: "Errore",
+          description: "Seleziona un appartamento",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      await createBooking(formData);
+
+      toast({
+        title: "Successo",
+        description: "Prenotazione creata con successo",
+      });
+
+      // Ricarica i dati
+      const { events, bookings } = await fetchBookings(selectedCalendar);
+      setEvents(events);
+      setBookings(bookings);
+      setAllBookings(bookings);
+
+      // Chiudi la modale e resetta il form
+      setIsCreateModalOpen(false);
+      resetForm();
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description:
+          error instanceof Error ? error.message : "Errore nella creazione",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Funzione per caricare le prenotazioni
   const loadBookings = async (forceRefresh = false) => {
     try {
       setIsLoading(true);
-      const { events, bookings, isCachedData } = await fetchBookings(
+      const { events, bookings } = await fetchBookings(
         selectedCalendar,
         forceRefresh
       );
@@ -59,22 +260,13 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
             }))
           : events;
 
-      // Controlla se i dati sono stati caricati dalla cache in base al tempo di risposta
-      // e al flag restituito dal servizio
-      setIsCached(isCachedData);
       setEvents(processedEvents);
       setBookings(bookings);
-      setLastUpdated(new Date().toLocaleTimeString());
     } catch (error) {
       console.error("Errore durante il caricamento delle prenotazioni:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // Funzione per forzare un aggiornamento dei dati
-  const handleRefresh = async () => {
-    await loadBookings(true);
   };
 
   // Apre il modale con i dettagli della prenotazione
@@ -134,6 +326,19 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
 
   return (
     <div className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
+      {/* Header con titolo e bottone */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">{getCalendarTitle()}</h1>
+          <p className="text-muted-foreground">
+            Gestisci le prenotazioni e visualizza la disponibilità
+          </p>
+        </div>
+        <Button size="sm" onClick={() => setIsCreateModalOpen(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          Nuova Prenotazione
+        </Button>
+      </div>
       <style>{`
         .fc-header-toolbar {
           padding: 0.1rem 0 !important;
@@ -196,57 +401,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
             {apartmentNames[selectedCalendar]}
           </p>
         </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleRefresh}
-            disabled={isLoading}
-            className="flex items-center gap-1 px-3 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-          >
-            {isLoading ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                {!isMobile && <span>Caricamento...</span>}
-              </>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
-                </svg>
-                {!isMobile && <span>Aggiorna dati</span>}
-              </>
-            )}
-          </button>
-        </div>
       </div>
 
       {renderColorLegend()}
@@ -295,6 +449,37 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         9.
       </p> */}
 
+      {/* Ricerca prenotazioni */}
+      <div className="my-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Cerca prenotazioni per nome cliente..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-10"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                >
+                  <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                </button>
+              )}
+            </div>
+          </div>
+          {searchQuery && (
+            <div className="text-sm text-muted-foreground flex items-center">
+              {bookings.length} risultat{bookings.length !== 1 ? "i" : "o"}{" "}
+              trovat{bookings.length !== 1 ? "i" : "o"}
+            </div>
+          )}
+        </div>
+      </div>
+
       <BookingsList
         bookings={bookings}
         onBookingClick={(booking) => openBookingDetails(booking)}
@@ -312,6 +497,263 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         }
         onUpdate={loadBookings}
       />
+
+      {/* Modale per creare nuova prenotazione */}
+      <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Crea Nuova Prenotazione</DialogTitle>
+            <DialogDescription>
+              Inserisci i dettagli della nuova prenotazione
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="nome">Nome Cliente *</Label>
+                <Input
+                  id="nome"
+                  value={formData.Nome}
+                  onChange={(e) =>
+                    setFormData({ ...formData, Nome: e.target.value })
+                  }
+                  placeholder="Nome del cliente"
+                />
+              </div>
+              <div>
+                <Label htmlFor="ota">OTA/Canale</Label>
+                <Select
+                  value={formData.OTA}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, OTA: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleziona canale" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Airbnb">Airbnb</SelectItem>
+                    <SelectItem value="Booking.com">Booking.com</SelectItem>
+                    <SelectItem value="Diretto">Diretto</SelectItem>
+                    <SelectItem value="Altro">Altro</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="apartment">Appartamento *</Label>
+              <Select
+                value={formData.apartment}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, apartment: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona appartamento" />
+                </SelectTrigger>
+                <SelectContent>
+                  {apartments.map((apartment) => (
+                    <SelectItem key={apartment.id} value={apartment.id}>
+                      {apartment.name} - {apartment.description}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="checkin">Check-in *</Label>
+                <Input
+                  id="checkin"
+                  type="date"
+                  value={formData.CheckIn}
+                  onChange={(e) => {
+                    const newCheckIn = e.target.value;
+                    setFormData({
+                      ...formData,
+                      CheckIn: newCheckIn,
+                      // Se il check-out è prima o uguale al check-in, resettalo
+                      CheckOut:
+                        formData.CheckOut && formData.CheckOut <= newCheckIn
+                          ? ""
+                          : formData.CheckOut,
+                    });
+                  }}
+                />
+              </div>
+              <div>
+                <Label htmlFor="checkout">Check-out *</Label>
+                <Input
+                  id="checkout"
+                  type="date"
+                  value={formData.CheckOut}
+                  min={
+                    formData.CheckIn
+                      ? new Date(
+                          new Date(formData.CheckIn).getTime() +
+                            24 * 60 * 60 * 1000
+                        )
+                          .toISOString()
+                          .split("T")[0]
+                      : undefined
+                  }
+                  onChange={(e) =>
+                    setFormData({ ...formData, CheckOut: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="adulti">Adulti</Label>
+                <Input
+                  id="adulti"
+                  type="number"
+                  min="1"
+                  value={formData.adulti}
+                  onChange={(e) =>
+                    setFormData({ ...formData, adulti: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="bambini">Bambini</Label>
+                <Input
+                  id="bambini"
+                  type="number"
+                  min="0"
+                  value={formData.bambini}
+                  onChange={(e) =>
+                    setFormData({ ...formData, bambini: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="animali">Animali</Label>
+                <Input
+                  id="animali"
+                  type="number"
+                  min="0"
+                  value={formData.animali}
+                  onChange={(e) =>
+                    setFormData({ ...formData, animali: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="totaleCliente">Totale Cliente (€)</Label>
+                <Input
+                  id="totaleCliente"
+                  type="number"
+                  step="0.01"
+                  value={formData.TotaleCliente}
+                  onChange={(e) =>
+                    setFormData({ ...formData, TotaleCliente: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="pulizia">Pulizia (€)</Label>
+                <Input
+                  id="pulizia"
+                  type="number"
+                  step="0.01"
+                  value={formData.Pulizia}
+                  onChange={(e) =>
+                    setFormData({ ...formData, Pulizia: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="soggiornoTax">Tassa di Soggiorno (€)</Label>
+                <Input
+                  id="soggiornoTax"
+                  type="number"
+                  step="0.01"
+                  value={formData.SoggiornoTax}
+                  onChange={(e) =>
+                    setFormData({ ...formData, SoggiornoTax: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="otaTax">OTA Tax (€)</Label>
+                <Input
+                  id="otaTax"
+                  type="number"
+                  step="0.01"
+                  value={formData.OTATax}
+                  onChange={(e) =>
+                    setFormData({ ...formData, OTATax: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="sconti">Sconti (€)</Label>
+                <Input
+                  id="sconti"
+                  type="number"
+                  step="0.01"
+                  value={formData.Sconti}
+                  onChange={(e) =>
+                    setFormData({ ...formData, Sconti: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <Label className="text-lg font-semibold">Totale Netto</Label>
+              <div className="text-2xl font-bold text-green-600">
+                €
+                {(
+                  parseFloat(formData.TotaleCliente || "0") -
+                  parseFloat(formData.SoggiornoTax || "0") -
+                  parseFloat(formData.OTATax || "0") -
+                  parseFloat(formData.Sconti || "0")
+                ).toFixed(2)}
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">
+                Totale Cliente - Tasse - Sconti
+              </p>
+            </div>
+
+            <div>
+              <Label htmlFor="note">Note</Label>
+              <Textarea
+                id="note"
+                value={formData.Note}
+                onChange={(e) =>
+                  setFormData({ ...formData, Note: e.target.value })
+                }
+                placeholder="Note aggiuntive..."
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsCreateModalOpen(false)}
+            >
+              Annulla
+            </Button>
+            <Button onClick={handleCreateBooking} disabled={isLoading}>
+              {isLoading ? "Creazione..." : "Crea Prenotazione"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

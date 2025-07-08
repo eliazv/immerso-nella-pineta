@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateBooking, deleteBooking } from "@/services/bookingService";
+import { updateBooking, deleteBooking } from "@/services/localBookingService";
 import { useForm } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
 
