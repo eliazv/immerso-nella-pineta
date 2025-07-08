@@ -1,13 +1,20 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Plus, Bell } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Plus, Bell, Home, Calendar } from "lucide-react";
 
 interface ProfileHeaderProps {
   name?: string;
   subtitle?: string;
   avatarUrl?: string;
-  onAddClick?: () => void;
+  onNewBookingClick?: () => void;
+  onNewApartmentClick?: () => void;
   onNotificationClick?: () => void;
 }
 
@@ -15,11 +22,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   name = "Property Manager",
   subtitle = "Gestione Alloggi",
   avatarUrl,
-  onAddClick,
+  onNewBookingClick,
+  onNewApartmentClick,
   onNotificationClick,
 }) => {
   return (
-    <div className="flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm border border-gray-100">
+    <div className="flex items-center justify-between p-6">
       <div className="flex items-center gap-3">
         <Avatar className="h-12 w-12">
           <AvatarImage src={avatarUrl} alt={name} />
@@ -37,23 +45,37 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <p className="text-sm text-ardesia/60">{subtitle}</p>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-10 w-10 rounded-full hover:bg-petrolio/10 transition-colors"
+            >
+              <Plus className="h-5 w-5 text-ardesia hover:text-petrolio" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={onNewBookingClick}>
+              <Calendar className="h-4 w-4 mr-2" />
+              Nuova Prenotazione
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onNewApartmentClick}>
+              <Home className="h-4 w-4 mr-2" />
+              Nuovo Alloggio
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <Button
           variant="ghost"
           size="icon"
-          className="h-10 w-10 rounded-full bg-neutro hover:bg-neutro-dark"
-          onClick={onAddClick}
-        >
-          <Plus className="h-5 w-5 text-ardesia" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10 rounded-full bg-neutro hover:bg-neutro-dark"
+          className="h-10 w-10 rounded-full hover:bg-petrolio/10 transition-colors"
           onClick={onNotificationClick}
         >
-          <Bell className="h-5 w-5 text-ardesia" />
+          <Bell className="h-5 w-5 text-ardesia hover:text-petrolio" />
         </Button>
       </div>
     </div>

@@ -148,7 +148,7 @@ const Dashboard: React.FC = () => {
             </TabsList>
 
             <TabsContent value="occupancy" className="animate-fade-in w-full">
-              <Card className="w-full">
+              <Card className="w-full bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
                 <CardHeader>
                   <CardTitle>Tasso di Occupazione</CardTitle>
                   <CardDescription>
@@ -162,7 +162,7 @@ const Dashboard: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="revenue" className="animate-fade-in w-full">
-              <Card className="w-full">
+              <Card className="w-full bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
                 <CardHeader>
                   <CardTitle>Andamento Ricavi</CardTitle>
                   <CardDescription>
@@ -176,7 +176,7 @@ const Dashboard: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="ota" className="animate-fade-in w-full">
-              <Card className="w-full">
+              <Card className="w-full bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
                 <CardHeader>
                   <CardTitle>Confronto tra Piattaforme (OTA)</CardTitle>
                   <CardDescription>
@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="seasonality" className="animate-fade-in w-full">
-              <Card className="w-full">
+              <Card className="w-full bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
                 <CardHeader>
                   <CardTitle>Stagionalità</CardTitle>
                   <CardDescription>
@@ -207,7 +207,7 @@ const Dashboard: React.FC = () => {
 
           {/* Sezione migliori e peggiori mesi */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            <Card>
+            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
               <CardHeader>
                 <CardTitle>Mesi più redditizi</CardTitle>
                 <CardDescription>
@@ -241,7 +241,7 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
               <CardHeader>
                 <CardTitle>Periodi da migliorare</CardTitle>
                 <CardDescription>

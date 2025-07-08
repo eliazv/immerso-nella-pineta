@@ -14,7 +14,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
   getApartmentShortName,
 }) => (
   <div
-    className="border rounded-lg p-4 shadow-sm bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors"
+    className="border border-gray-100 rounded-2xl p-6 shadow-sm bg-white hover:shadow-md cursor-pointer transition-all duration-200"
     onClick={() => onClick(booking)}
   >
     <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">

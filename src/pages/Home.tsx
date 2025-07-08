@@ -41,9 +41,11 @@ import {
   Building,
 } from "lucide-react";
 import ProfileHeader from "@/components/dashboard/ProfileHeader";
-import PropertySummaryCards from "@/components/dashboard/PropertySummaryCards";
+import SummaryCards from "@/components/dashboard/SummaryCards";
 import OccupancyChart from "@/components/dashboard/OccupancyChart";
 import RecentActivity from "@/components/dashboard/RecentActivity";
+import UpcomingTasks from "@/components/dashboard/UpcomingTasks";
+import QuickStats from "@/components/dashboard/QuickStats";
 import { Booking, Apartment } from "@/types/calendar";
 import { localStorageService } from "@/services/localStorageService";
 import {
@@ -58,6 +60,7 @@ import {
 } from "@/services/localBookingService";
 import { format, isToday, isTomorrow, parseISO, addDays } from "date-fns";
 import { it } from "date-fns/locale";
+import { getDashboardStats } from "@/services/dashboardService";
 
 const Home: React.FC = () => {
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
@@ -69,6 +72,8 @@ const Home: React.FC = () => {
     totalCapacity: number;
     averagePrice: number;
   } | null>(null);
+  const [occupancyData, setOccupancyData] = useState<any>(null);
+  const [dashboardStats, setDashboardStats] = useState<any>(null);
   const [isCreateApartmentModalOpen, setIsCreateApartmentModalOpen] =
     useState(false);
   const [isCreateBookingModalOpen, setIsCreateBookingModalOpen] =
@@ -114,7 +119,7 @@ const Home: React.FC = () => {
     apartment: "",
   });
 
-  const loadDashboardData = () => {
+  const loadDashboardData = async () => {
     // Carica appartamenti
     const apartmentList = getActiveApartments();
     setApartments(apartmentList);
@@ -122,6 +127,18 @@ const Home: React.FC = () => {
     // Carica statistiche appartamenti
     const apartmentStats = getApartmentStats();
     setStats(apartmentStats);
+
+    // Carica dati di occupazione reali
+    try {
+      const dashboardStatsData = await getDashboardStats(
+        "all",
+        new Date().getFullYear()
+      );
+      setDashboardStats(dashboardStatsData.stats);
+      setOccupancyData(dashboardStatsData.stats.occupancy);
+    } catch (error) {
+      console.error("Errore nel caricamento dati occupazione:", error);
+    }
 
     // Carica prenotazioni prossime (prossimi 7 giorni)
     const allBookings = localStorageService.getBookings();
@@ -284,7 +301,8 @@ const Home: React.FC = () => {
         <ProfileHeader
           name="Property Manager"
           subtitle="Gestione Alloggi"
-          onAddClick={() => setIsCreateBookingModalOpen(true)}
+          onNewBookingClick={() => setIsCreateBookingModalOpen(true)}
+          onNewApartmentClick={() => setIsCreateApartmentModalOpen(true)}
           onNotificationClick={() => {
             // TODO: Implement notifications
             toast({
@@ -294,33 +312,133 @@ const Home: React.FC = () => {
           }}
         />
 
-        {/* Property Summary Cards */}
+        {/* Quick Stats Overview */}
         <div>
           <h2 className="text-xl font-semibold text-ardesia mb-4">
-            Riepilogo Proprietà
+            Panoramica Rapida
           </h2>
-          <PropertySummaryCards
+          <QuickStats
             data={{
-              properties: stats?.total || 0,
-              occupied: {
-                current: Math.round((stats?.active || 0) * 0.8), // Mock data
-                total: stats?.active || 0,
-              },
-              rentCollected: {
-                current: Math.round(
-                  localStorageService.getBookings().length * 0.85
-                ), // Mock data
-                total: localStorageService.getBookings().length,
-              },
-              maintenanceRequests: 5, // Mock data
+              totalRevenue:
+                dashboardStats?.revenue?.totalRevenue ||
+                Math.round(
+                  localStorageService
+                    .getBookings()
+                    .reduce(
+                      (sum, booking) =>
+                        sum +
+                        (parseFloat(
+                          booking.Totale?.replace("€", "").replace(",", ".")
+                        ) || 0),
+                      0
+                    )
+                ),
+              monthlyRevenue: Math.round(
+                localStorageService
+                  .getBookings()
+                  .filter(
+                    (booking) =>
+                      new Date(booking.CheckIn).getMonth() ===
+                      new Date().getMonth()
+                  )
+                  .reduce(
+                    (sum, booking) =>
+                      sum +
+                      (parseFloat(
+                        booking.Totale?.replace("€", "").replace(",", ".")
+                      ) || 0),
+                    0
+                  )
+              ),
+              totalBookings:
+                dashboardStats?.ota?.bookingCount?.reduce(
+                  (sum: number, item: any) => sum + item.count,
+                  0
+                ) || localStorageService.getBookings().length,
+              occupancyRate: occupancyData?.occupancyRate || 0,
+              averageNightly:
+                dashboardStats?.revenue?.averagePerNight ||
+                Math.round(stats?.averagePrice || 0),
+              activeProperties: stats?.active || 0,
             }}
           />
         </div>
 
-        {/* Charts Section */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <OccupancyChart />
-          <RecentActivity />
+        {/* Main Dashboard Grid */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Left Column - Charts */}
+          <div className="lg:col-span-2 space-y-6">
+            <OccupancyChart
+              data={
+                occupancyData?.monthlyOccupancy?.map((item: any) => ({
+                  month: item.month.substring(0, 3),
+                  value: item.rate,
+                })) || []
+              }
+            />
+
+            {/* Summary Cards */}
+            {dashboardStats && (
+              <div>
+                <h3 className="text-lg font-semibold text-ardesia mb-4">
+                  Statistiche Dettagliate
+                </h3>
+                <SummaryCards stats={dashboardStats} />
+              </div>
+            )}
+          </div>
+
+          {/* Right Column - Tasks and Activity */}
+          <div className="space-y-6">
+            <UpcomingTasks />
+            <RecentActivity />
+          </div>
+        </div>
+
+        {/* Upcoming Bookings Section */}
+        <div>
+          <h2 className="text-xl font-semibold text-ardesia mb-4">
+            Prossimi Check-in/Check-out
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {upcomingBookings.slice(0, 4).map((booking, index) => (
+              <Card
+                key={index}
+                className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl"
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-petrolio/10">
+                        {isToday(parseDate(booking.CheckIn) || new Date()) ? (
+                          <LogIn className="h-4 w-4 text-petrolio" />
+                        ) : (
+                          <LogOut className="h-4 w-4 text-warning" />
+                        )}
+                      </div>
+                      <span className="font-semibold text-ardesia">
+                        {booking.Nome}
+                      </span>
+                    </div>
+                    <Badge variant="outline" className="text-xs">
+                      {booking.apartment || "N/A"}
+                    </Badge>
+                  </div>
+                  <div className="text-sm text-ardesia/60 mb-2">
+                    {isToday(parseDate(booking.CheckIn) || new Date())
+                      ? `Check-in: ${booking.CheckIn}`
+                      : `Check-out: ${booking.CheckOut}`}
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-ardesia/50">
+                    <span>{booking.Notti} notti</span>
+                    <span className="font-semibold text-petrolio">
+                      {booking.Totale}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
         {/* Legacy stats for reference - can be removed later */}
@@ -528,52 +646,6 @@ const Home: React.FC = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Azioni rapide */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Azioni Rapide</CardTitle>
-            <CardDescription>
-              Accesso veloce alle funzioni principali
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-              <Button
-                variant="outline"
-                className="h-16 flex-col gap-1"
-                onClick={() => navigate("/calendar")}
-              >
-                <Calendar className="h-5 w-5" />
-                <span className="text-sm">Calendario</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-16 flex-col gap-1"
-                onClick={() => setIsCreateBookingModalOpen(true)}
-              >
-                <Plus className="h-5 w-5" />
-                <span className="text-sm">Nuova Prenotazione</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-16 flex-col gap-1"
-                onClick={() => setIsCreateApartmentModalOpen(true)}
-              >
-                <HomeIcon className="h-5 w-5" />
-                <span className="text-sm">Nuovo Alloggio</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-16 flex-col gap-1"
-                onClick={() => navigate("/dashboard")}
-              >
-                <TrendingUp className="h-5 w-5" />
-                <span className="text-sm">Statistiche</span>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Modali */}
         {/* Modale per creare nuovo appartamento */}

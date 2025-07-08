@@ -24,59 +24,57 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
 
   return (
     <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardContent className="flex flex-col items-start p-3">
-          <div className="flex items-center mb-2">
-            <div className="bg-green-100 p-1.5 rounded-full mr-2">
-              <TrendingUp className="h-5 w-5 text-green-600" />
+      <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
+        <CardContent className="flex flex-col items-start p-6">
+          <div className="flex items-center mb-3">
+            <div className="bg-menta/10 p-2.5 rounded-xl mr-3">
+              <TrendingUp className="h-5 w-5 text-menta" />
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
-              Ricavi Totali
-            </p>
+            <p className="text-sm font-medium text-ardesia/60">Ricavi Totali</p>
           </div>
           <div>
-            <h3 className="text-2xl font-bold">
+            <h3 className="text-2xl font-bold text-ardesia">
               € {revenue.totalRevenue.toLocaleString("it-IT")}
             </h3>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-ardesia/60 mt-1">
               € {revenue.averagePerNight} media a notte
             </p>
           </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardContent className="flex flex-col items-start p-3">
-          <div className="flex items-center mb-2">
-            <div className="bg-primary/10 p-1.5 rounded-full mr-2">
-              <Calendar className="h-5 w-5 text-primary" />
+      <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
+        <CardContent className="flex flex-col items-start p-6">
+          <div className="flex items-center mb-3">
+            <div className="bg-petrolio/10 p-2.5 rounded-xl mr-3">
+              <Calendar className="h-5 w-5 text-petrolio" />
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p className="text-sm font-medium text-ardesia/60">
               Tasso di Occupazione
             </p>
           </div>
           <div>
-            <h3 className="text-2xl font-bold">{occupancy.occupancyRate}%</h3>
-            <p className="text-xs text-muted-foreground mt-1">
+            <h3 className="text-2xl font-bold text-ardesia">
+              {occupancy.occupancyRate}%
+            </h3>
+            <p className="text-xs text-ardesia/60 mt-1">
               {occupancy.occupiedDays} giorni su {occupancy.totalDays}
             </p>
           </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardContent className="flex flex-col items-start p-3">
-          <div className="flex items-center mb-2">
-            <div className="bg-blue-100 p-1.5 rounded-full mr-2">
-              <Users className="h-5 w-5 text-blue-600" />
+      <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
+        <CardContent className="flex flex-col items-start p-6">
+          <div className="flex items-center mb-3">
+            <div className="bg-petrolio/10 p-2.5 rounded-xl mr-3">
+              <Users className="h-5 w-5 text-petrolio" />
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
-              Prenotazioni
-            </p>
+            <p className="text-sm font-medium text-ardesia/60">Prenotazioni</p>
           </div>
           <div>
-            <h3 className="text-2xl font-bold">{totalBookings}</h3>
-            <p className="text-xs text-muted-foreground mt-1">
+            <h3 className="text-2xl font-bold text-ardesia">{totalBookings}</h3>
+            <p className="text-xs text-ardesia/60 mt-1">
               € {revenue.averagePerBooking.toLocaleString("it-IT")} media per
               prenotazione
             </p>
@@ -84,21 +82,19 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardContent className="flex flex-col items-start p-3">
-          <div className="flex items-center mb-2">
-            <div className="bg-amber-100 p-1.5 rounded-full mr-2">
-              <Activity className="h-5 w-5 text-amber-600" />
+      <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
+        <CardContent className="flex flex-col items-start p-6">
+          <div className="flex items-center mb-3">
+            <div className="bg-warning/10 p-2.5 rounded-xl mr-3">
+              <Activity className="h-5 w-5 text-warning" />
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
-              Durata Media
-            </p>
+            <p className="text-sm font-medium text-ardesia/60">Durata Media</p>
           </div>
           <div>
-            <h3 className="text-2xl font-bold">{averageNights} notti</h3>
-            <p className="text-xs text-muted-foreground mt-1">
-              per prenotazione
-            </p>
+            <h3 className="text-2xl font-bold text-ardesia">
+              {averageNights} notti
+            </h3>
+            <p className="text-xs text-ardesia/60 mt-1">per prenotazione</p>
           </div>
         </CardContent>
       </Card>

@@ -3,6 +3,7 @@ import { Capacitor } from "@capacitor/core";
 import { StatusBar, StatusBarStyle } from "@capacitor/status-bar";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import {
   Calendar,
   BarChart3,
@@ -189,8 +190,8 @@ const BackofficeLayout: React.FC = () => {
 
       {/* Header only shows accommodation dropdown on calendar and statistics pages */}
       {(activeTab === "calendar" || activeTab === "dashboard") && (
-        <div className="fixed left-1/2 transform -translate-x-1/2 top-4 bg-white/90 backdrop-blur-sm shadow-lg rounded-2xl z-40 md:hidden max-w-xs">
-          <div className="px-4 py-3 flex items-center justify-center">
+        <div className="fixed left-4 top-4 bg-white/90 backdrop-blur-sm shadow-lg rounded-2xl z-40 md:hidden max-w-xs">
+          <div className="px-4 py-3 flex items-center gap-3">
             <Select
               value={getSelectValue()}
               onValueChange={handleCalendarChange}
@@ -214,22 +215,18 @@ const BackofficeLayout: React.FC = () => {
 
                 {/* Opzione per visualizzare tutti */}
                 <SelectItem value="all">Tutti gli alloggi</SelectItem>
-
-                {/* Separatore */}
-                <div className="border-t my-1"></div>
-
-                {/* Opzione per gestire alloggi */}
-                <SelectItem
-                  value="manage"
-                  onSelect={() => navigate("/apartments")}
-                >
-                  <div className="flex items-center gap-2">
-                    <Settings className="h-4 w-4" />
-                    Gestisci Alloggi
-                  </div>
-                </SelectItem>
               </SelectContent>
             </Select>
+
+            {/* Settings button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full hover:bg-gray-100"
+              onClick={() => navigate("/apartments")}
+            >
+              <Settings className="h-4 w-4 text-ardesia" />
+            </Button>
           </div>
         </div>
       )}
@@ -349,7 +346,7 @@ const BackofficeLayout: React.FC = () => {
         className={`pb-24 md:pb-6 ${
           activeTab === "calendar" || activeTab === "dashboard"
             ? "pt-20 md:pt-20"
-            : "pt-8"
+            : ""
         }`}
       >
         <Outlet context={{ selectedCalendar }} />

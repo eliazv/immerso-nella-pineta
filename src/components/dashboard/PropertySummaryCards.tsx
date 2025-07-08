@@ -54,11 +54,11 @@ const PropertySummaryCards: React.FC<PropertySummaryCardsProps> = ({
       {summaryData.map((item, index) => (
         <Card
           key={index}
-          className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200"
+          className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl"
         >
-          <CardContent className="p-4 flex flex-col items-start justify-between h-24">
-            <div className="flex items-center justify-between w-full">
-              <div className="p-2 rounded-lg bg-petrolio/10">
+          <CardContent className="p-6 flex flex-col items-start justify-between h-28">
+            <div className="flex items-center justify-between w-full mb-3">
+              <div className="p-2.5 rounded-xl bg-petrolio/10">
                 <item.icon className="h-5 w-5 text-petrolio" />
               </div>
               {item.additionalInfo && (
@@ -67,11 +67,13 @@ const PropertySummaryCards: React.FC<PropertySummaryCardsProps> = ({
                 </span>
               )}
             </div>
-            <div className="mt-2">
-              <div className="text-2xl font-bold text-ardesia mb-1">
+            <div className="w-full">
+              <div className="text-2xl font-bold text-ardesia mb-1 leading-none">
                 {item.value}
               </div>
-              <div className="text-sm text-ardesia/60">{item.label}</div>
+              <div className="text-sm text-ardesia/60 font-medium">
+                {item.label}
+              </div>
             </div>
           </CardContent>
         </Card>

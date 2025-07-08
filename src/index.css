@@ -56,7 +56,14 @@
   h4,
   h5,
   h6 {
-    @apply font-serif font-medium tracking-tight;
+    @apply font-sans font-semibold tracking-tight;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, sans-serif;
+  }
+
+  * {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, sans-serif;
   }
 }
 

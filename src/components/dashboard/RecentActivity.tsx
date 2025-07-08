@@ -34,7 +34,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
   title = "Attività Recenti",
 }) => {
   return (
-    <Card className="bg-white border border-gray-100 shadow-sm">
+    <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold text-ardesia">
           {title}

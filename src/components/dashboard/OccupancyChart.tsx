@@ -32,11 +32,15 @@ const OccupancyChart: React.FC<OccupancyChartProps> = ({
 }) => {
   const [selectedPeriod, setSelectedPeriod] = useState("monthly");
 
-  // Find the maximum value to normalize the bars
-  const maxValue = Math.max(...data.map((item) => item.value));
+  // Ensure data is an array and find the maximum value to normalize the bars
+  const chartData = Array.isArray(data) ? data : [];
+  const maxValue =
+    chartData.length > 0
+      ? Math.max(...chartData.map((item) => item.value))
+      : 100;
 
   return (
-    <Card className="bg-white border border-gray-100 shadow-sm">
+    <Card className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
@@ -60,7 +64,7 @@ const OccupancyChart: React.FC<OccupancyChartProps> = ({
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex items-end justify-between gap-2 h-24">
-          {data.map((item, index) => (
+          {chartData.slice(0, 6).map((item, index) => (
             <div key={index} className="flex flex-col items-center flex-1">
               <div className="relative w-full flex items-end justify-center h-20 mb-2">
                 <div
