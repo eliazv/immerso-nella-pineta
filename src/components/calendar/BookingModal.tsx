@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User, Coins, BadgeEuro } from "lucide-react";
+import { User, BadgeEuro } from "lucide-react";
 import { Booking, CalendarType } from "@/types/calendar";
 import {
   Dialog,
@@ -21,6 +21,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
   Select,
@@ -384,136 +385,166 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="bg-slate-50 p-3 rounded-md shadow-sm">
                 <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2 flex items-center gap-2">
                   <BadgeEuro className="w-5 h-5 mr-1" />
-                  Importi e Tasse
+                  Dettagli Importi
                 </div>
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-base">
-                  <span className="font-semibold">Totale Cliente:</span>
-                  <span className="text-slate-800 font-mono font-bold">
-                    {booking.TotaleCliente
-                      ? booking.TotaleCliente.includes("€")
-                        ? booking.TotaleCliente
-                        : `€${booking.TotaleCliente}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold">Fuori OTA:</span>
-                  <span className="text-slate-800 font-mono">
-                    {booking.FuoriOTA
-                      ? booking.FuoriOTA.includes("€")
-                        ? booking.FuoriOTA
-                        : `€${booking.FuoriOTA}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold">Costo notti:</span>
-                  <span className="text-slate-800 font-mono">
-                    {booking.CostoNotti
-                      ? booking.CostoNotti.includes("€")
-                        ? booking.CostoNotti
-                        : `€${booking.CostoNotti}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold">Media a notte:</span>
-                  <span className="text-slate-800 font-mono">
-                    {booking.MediaANotte
-                      ? booking.MediaANotte.includes("€")
-                        ? booking.MediaANotte
-                        : `€${booking.MediaANotte}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold">Pulizia:</span>
-                  <span className="text-slate-800 font-mono">
-                    {booking.Pulizia
-                      ? booking.Pulizia.includes("€")
-                        ? booking.Pulizia
-                        : `€${booking.Pulizia}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold">Sconti:</span>
-                  <span className="text-slate-800 font-mono">
-                    {booking.Sconti
-                      ? booking.Sconti.includes("€")
-                        ? booking.Sconti
-                        : `€${booking.Sconti}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold">Tassa di Soggiorno:</span>
-                  <span className="text-slate-800 font-mono">
-                    {(booking.SoggiornoTax &&
-                      booking.SoggiornoTax.trim() !== "") ||
-                    (booking.adulti &&
-                      booking.adulti !== "0" &&
-                      calculateSoggiornoTax(booking) !== "") ? (
+                  {/* Mostra solo i campi compilati */}
+                  {booking.TotalePagatoOspite &&
+                    booking.TotalePagatoOspite.trim() !== "" && (
                       <>
-                        {booking.SoggiornoTax &&
-                        booking.SoggiornoTax.includes("€")
-                          ? booking.SoggiornoTax
-                          : `€${
-                              booking.SoggiornoTax ||
-                              calculateSoggiornoTax(booking)
-                            }`}
-                        {/* {booking.SoggiornoTax !==
-                          calculateSoggiornoTax(booking) &&
-                          calculateSoggiornoTax(booking) !== "" && (
-                            <span className="text-xs text-slate-500 ml-1">
-                              (calc €{calculateSoggiornoTax(booking)})
-                            </span>
-                          )} */}
+                        <span className="font-semibold">
+                          Totale Pagato dall'Ospite:
+                        </span>
+                        <span className="text-slate-800 font-mono font-bold">
+                          €{booking.TotalePagatoOspite}
+                        </span>
                       </>
-                    ) : (
-                      "-"
                     )}
-                  </span>
-                  <span className="font-semibold">OTA Tax:</span>
-                  <span className="text-slate-800 font-mono">
-                    {booking.OTATax
-                      ? booking.OTATax.includes("€")
-                        ? booking.OTATax
-                        : `€${booking.OTATax}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold">Cedolare Secca (21%):</span>
-                  <span className="text-slate-800 font-mono">
-                    {booking.CedolareSecca
-                      ? booking.CedolareSecca.includes("€")
-                        ? booking.CedolareSecca
-                        : `€${booking.CedolareSecca}`
-                      : "-"}
-                  </span>
-                  <span className="font-semibold text-lg  text-primary">
-                    Totale Netto:
-                  </span>
-                  <span className=" text-primary font-mono font-bold text-lg">
-                    {booking.Totale
-                      ? booking.Totale.includes("€")
-                        ? booking.Totale
-                        : `€${booking.Totale}`
-                      : "-"}
-                  </span>
+
+                  {booking.CostoPulizia &&
+                    booking.CostoPulizia.trim() !== "" && (
+                      <>
+                        <span className="font-semibold">Costo Pulizia:</span>
+                        <span className="text-slate-800 font-mono">
+                          €{booking.CostoPulizia}
+                        </span>
+                      </>
+                    )}
+
+                  {booking.ScontiApplicati &&
+                    booking.ScontiApplicati.trim() !== "" && (
+                      <>
+                        <span className="font-semibold">Sconti Applicati:</span>
+                        <span className="text-slate-800 font-mono">
+                          €{booking.ScontiApplicati}
+                        </span>
+                      </>
+                    )}
+
+                  {booking.Supplementi && booking.Supplementi.trim() !== "" && (
+                    <>
+                      <span className="font-semibold">Supplementi:</span>
+                      <span className="text-slate-800 font-mono">
+                        €{booking.Supplementi}
+                      </span>
+                    </>
+                  )}
+
+                  {booking.CommissioneOTA &&
+                    booking.CommissioneOTA.trim() !== "" && (
+                      <>
+                        <span className="font-semibold">Commissione OTA:</span>
+                        <span className="text-slate-800 font-mono">
+                          €{booking.CommissioneOTA}
+                        </span>
+                      </>
+                    )}
+
+                  {booking.TassaSoggiorno &&
+                    booking.TassaSoggiorno.trim() !== "" && (
+                      <>
+                        <span className="font-semibold">
+                          Tassa di Soggiorno:
+                        </span>
+                        <span className="text-slate-800 font-mono">
+                          €{booking.TassaSoggiorno}
+                        </span>
+                      </>
+                    )}
+
+                  {booking.CedolareSecca &&
+                    booking.CedolareSecca.trim() !== "" && (
+                      <>
+                        <span className="font-semibold">Cedolare Secca:</span>
+                        <span className="text-slate-800 font-mono">
+                          €{booking.CedolareSecca}
+                        </span>
+                      </>
+                    )}
+
+                  {/* Totale Netto sempre visibile se presente */}
+                  {booking.TotaleNetto && booking.TotaleNetto.trim() !== "" && (
+                    <>
+                      <span className="font-semibold text-lg text-primary">
+                        Totale Netto:
+                      </span>
+                      <span className="text-primary font-mono font-bold text-lg">
+                        €{booking.TotaleNetto}
+                      </span>
+                    </>
+                  )}
+
+                  {/* Fallback ai campi legacy se non ci sono nuovi campi */}
+                  {(!booking.TotaleNetto ||
+                    booking.TotaleNetto.trim() === "") &&
+                    booking.Totale &&
+                    booking.Totale.trim() !== "" && (
+                      <>
+                        <span className="font-semibold text-lg text-primary">
+                          Totale:
+                        </span>
+                        <span className="text-primary font-mono font-bold text-lg">
+                          {booking.Totale.includes("€")
+                            ? booking.Totale
+                            : `€${booking.Totale}`}
+                        </span>
+                      </>
+                    )}
                 </div>
               </div>
             </div>
 
             <DialogFooter>
-              <div className="flex gap-2 justify-end w-full mt-4">
-                <AlertDialog open={isDeleting} onOpenChange={setIsDeleting}>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Conferma eliminazione</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Sei sicuro di voler eliminare questa prenotazione?
-                        L'operazione non può essere annullata.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Annulla</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={handleDelete}
-                        disabled={isLoading}
+              <div className="flex gap-2 justify-between w-full mt-4">
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsEditing(true)}
+                    className="bg-white hover:bg-slate-100"
+                  >
+                    Modifica
+                  </Button>
+                  <AlertDialog open={isDeleting} onOpenChange={setIsDeleting}>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        className="bg-red-500 hover:bg-red-600"
                       >
-                        {isLoading ? "Eliminando..." : "Elimina"}
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                        Elimina
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Conferma eliminazione
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Sei sicuro di voler eliminare questa prenotazione?
+                          L'operazione non può essere annullata.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Annulla</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={handleDelete}
+                          disabled={isLoading}
+                        >
+                          {isLoading ? "Eliminando..." : "Elimina"}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => onOpenChange(false)}
+                  className="bg-white hover:bg-slate-100"
+                >
+                  Chiudi
+                </Button>
               </div>
             </DialogFooter>
           </>
@@ -607,122 +638,128 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               <div className="space-y-4 bg-slate-50/70 p-4 rounded-md">
                 <div className="font-medium text-sm text-slate-500 uppercase tracking-wider mb-3">
-                  Importi
+                  Dettagli Importi
                 </div>
-                <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <Label htmlFor="TotaleCliente">Totale Cliente</Label>
+                    <Label htmlFor="TotalePagatoOspite">
+                      Totale Pagato dall'Ospite (€)
+                    </Label>
                     <Input
-                      id="TotaleCliente"
-                      {...form.register("TotaleCliente")}
+                      id="TotalePagatoOspite"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("TotalePagatoOspite")}
                       className="bg-white"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="FuoriOTA">Fuori OTA</Label>
+                    <Label htmlFor="CostoPulizia">Costo Pulizia (€)</Label>
                     <Input
-                      id="FuoriOTA"
-                      {...form.register("FuoriOTA")}
+                      id="CostoPulizia"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("CostoPulizia")}
                       className="bg-white"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="CostoNotti">Costo Notti</Label>
+                    <Label htmlFor="ScontiApplicati">
+                      Sconti Applicati (€)
+                    </Label>
                     <Input
-                      id="CostoNotti"
-                      {...form.register("CostoNotti")}
+                      id="ScontiApplicati"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("ScontiApplicati")}
                       className="bg-white"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="MediaANotte">Media a Notte</Label>
+                    <Label htmlFor="Supplementi">Supplementi (€)</Label>
                     <Input
-                      id="MediaANotte"
-                      {...form.register("MediaANotte")}
+                      id="Supplementi"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("Supplementi")}
                       className="bg-white"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="Pulizia">Pulizia</Label>
+                    <Label htmlFor="CommissioneOTA">Commissione OTA (€)</Label>
                     <Input
-                      id="Pulizia"
-                      {...form.register("Pulizia")}
+                      id="CommissioneOTA"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("CommissioneOTA")}
                       className="bg-white"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="Sconti">Sconti</Label>
+                    <Label htmlFor="TassaSoggiorno">
+                      Tassa di Soggiorno (€)
+                    </Label>
                     <Input
-                      id="Sconti"
-                      {...form.register("Sconti")}
+                      id="TassaSoggiorno"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("TassaSoggiorno")}
                       className="bg-white"
                     />
+                  </div>
+
+                  <div className="space-y-1">
+                    <Label htmlFor="CedolareSecca">Cedolare Secca (€)</Label>
+                    <Input
+                      id="CedolareSecca"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("CedolareSecca")}
+                      className="bg-white"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <Label htmlFor="TotaleNetto" className="font-semibold">
+                      Totale Netto (€) <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="TotaleNetto"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...form.register("TotaleNetto")}
+                      className="bg-white font-semibold"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Questo importo apparirà nella lista prenotazioni
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-2">
+            <div className="space-y-4">
               <div className="space-y-1">
-                <Label htmlFor="SoggiornoTax">Tassa di Soggiorno</Label>
-                <Input
-                  id="SoggiornoTax"
-                  {...form.register("SoggiornoTax")}
-                  className="bg-white"
+                <Label htmlFor="Note">Note</Label>
+                <Textarea
+                  id="Note"
+                  {...form.register("Note")}
+                  placeholder="Note opzionali sulla prenotazione"
+                  className="bg-white min-h-[80px]"
                 />
-                <p className="text-xs text-muted-foreground">
-                  €1 per adulto per notte, maggio-settembre, max 7 notti.
-                  <br />
-                  <span className="text-amber-600">
-                    Applicabile solo se specificato il numero di adulti.
-                  </span>
-                </p>
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="OTATax">OTA Tax</Label>
-                <Input
-                  id="OTATax"
-                  {...form.register("OTATax")}
-                  className="bg-white"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="CedolareSecca">Cedolare Secca (21%)</Label>
-                <Input
-                  id="CedolareSecca"
-                  {...form.register("CedolareSecca")}
-                  className="bg-white"
-                />
-              </div>
-            </div>
-
-            <div className="py-2 bg-slate-50/70 p-4 rounded-md mt-4">
-              <div className="grid grid-cols-1 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="Totale" className="text-md font-semibold">
-                    Totale
-                  </Label>
-                  <Input
-                    id="Totale"
-                    {...form.register("Totale")}
-                    className="bg-white text-lg font-semibold"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <Label htmlFor="Note">Note</Label>
-                  <Textarea
-                    id="Note"
-                    {...form.register("Note")}
-                    placeholder="Note opzionali sulla prenotazione"
-                    className="bg-white min-h-[80px]"
-                  />
-                </div>
               </div>
             </div>
 

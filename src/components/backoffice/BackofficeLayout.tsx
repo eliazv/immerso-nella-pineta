@@ -11,7 +11,12 @@ import {
   House,
   Home,
   Settings,
+  Plus,
+  Bell,
+  Download,
+  ChevronDown,
 } from "lucide-react";
+import { ApartmentIcon } from "@/utils/apartmentIcons";
 import {
   Select,
   SelectContent,
@@ -19,6 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { CalendarType, Apartment } from "@/types/calendar";
 import { isAuthenticated, logout } from "@/services/authService";
 import { localStorageService } from "@/services/localStorageService";
@@ -188,86 +199,18 @@ const BackofficeLayout: React.FC = () => {
         sotto la status bar su Android, senza bisogno di padding dinamico
       */}
 
-      {/* Header only shows accommodation dropdown on calendar and statistics pages */}
-      {(activeTab === "calendar" || activeTab === "dashboard") && (
-        <div className="fixed left-4 top-4 bg-white/90 backdrop-blur-sm shadow-lg rounded-2xl z-40 md:hidden max-w-xs">
-          <div className="px-4 py-3 flex items-center gap-3">
-            <Select
-              value={getSelectValue()}
-              onValueChange={handleCalendarChange}
-            >
-              <SelectTrigger className="min-w-[160px]">
-                <div className="flex items-center gap-2">
-                  <House className="h-4 w-4" />
-                  <SelectValue placeholder="Seleziona appartamento" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                {/* Opzioni dinamiche degli appartamenti */}
-                {apartments.map((apartment) => (
-                  <SelectItem key={apartment.id} value={apartment.id}>
-                    {apartment.name}
-                  </SelectItem>
-                ))}
-
-                {/* Separatore */}
-                {apartments.length > 0 && <div className="border-t my-1"></div>}
-
-                {/* Opzione per visualizzare tutti */}
-                <SelectItem value="all">Tutti gli alloggi</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Settings button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 rounded-full hover:bg-gray-100"
-              onClick={() => navigate("/apartments")}
-            >
-              <Settings className="h-4 w-4 text-ardesia" />
-            </Button>
-          </div>
-        </div>
-      )}
-
       {/* Desktop header with tabs */}
       <div className="hidden md:block">
         <div className="fixed left-0 right-0 bg-white shadow-sm z-50 top-0">
           <div className="container mx-auto px-4 py-2 max-w-5xl flex flex-wrap justify-between items-center gap-4">
             <div className="flex items-center gap-4">
-              <Select
-                value={getSelectValue()}
-                onValueChange={handleCalendarChange}
-              >
-                <SelectTrigger className="min-w-[120px]">
-                  <div className="flex items-center gap-2">
-                    <House className="h-4 w-4" />
-                    <SelectValue placeholder="Seleziona appartamento" />
-                  </div>
-                </SelectTrigger>
-                <SelectContent>
-                  {apartments.map((apartment) => (
-                    <SelectItem key={apartment.id} value={apartment.id}>
-                      {apartment.name}
-                    </SelectItem>
-                  ))}
-                  {apartments.length > 0 && (
-                    <div className="border-t my-1"></div>
-                  )}
-                  <SelectItem value="all">Tutti gli alloggi</SelectItem>
-                  <div className="border-t my-1"></div>
-                  <SelectItem
-                    value="manage"
-                    onSelect={() => navigate("/apartments")}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Settings className="h-4 w-4" />
-                      Gestisci Alloggi
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              {/* Logo */}
+              <div className="flex items-center gap-2">
+                <img src="/rentpilot.svg" alt="RentPilot" className="h-8 w-8" />
+                <span className="font-bold text-lg text-petrolio">
+                  RentPilot
+                </span>
+              </div>
             </div>
 
             <div className="items-center gap-3 ml-auto flex">
@@ -296,6 +239,156 @@ const BackofficeLayout: React.FC = () => {
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
+
+              {/* Dropdown appartamenti con icona e titolo */}
+              <Select
+                value={getSelectValue()}
+                onValueChange={handleCalendarChange}
+              >
+                <SelectTrigger className="w-[120px] lg:w-[140px] h-9 ml-3">
+                  <div className="flex items-center gap-2">
+                    {(() => {
+                      if (selectedCalendar === "all") {
+                        return (
+                          <>
+                            <Building className="h-4 w-4 flex-shrink-0" />
+                            <span className="truncate text-sm hidden md:inline lg:inline">
+                              Tutti
+                            </span>
+                            <span className="truncate text-sm md:hidden">
+                              Tutti
+                            </span>
+                          </>
+                        );
+                      }
+                      const apartment = apartments.find((apt) => {
+                        switch (selectedCalendar) {
+                          case "principale":
+                            return apt.name === "N° 3";
+                          case "secondario":
+                            return apt.name === "N° 4";
+                          case "terziario":
+                            return apt.name === "N° 8";
+                          default:
+                            return false;
+                        }
+                      });
+                      return apartment ? (
+                        <>
+                          <ApartmentIcon
+                            iconName={apartment.icon}
+                            color={apartment.color}
+                            size={16}
+                            className="flex-shrink-0"
+                          />
+                          <span className="truncate text-sm hidden lg:inline">
+                            {apartment.name}
+                          </span>
+                          <span className="truncate text-sm md:inline lg:hidden">
+                            {apartment.name.replace("N° ", "")}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <House className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate text-sm hidden md:inline">
+                            Alloggio
+                          </span>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </SelectTrigger>
+                <SelectContent className="min-w-[160px]">
+                  {apartments.map((apartment) => (
+                    <SelectItem key={apartment.id} value={apartment.id}>
+                      <div className="flex items-center gap-2">
+                        <ApartmentIcon
+                          iconName={apartment.icon}
+                          color={apartment.color}
+                          size={16}
+                        />
+                        {apartment.name}
+                      </div>
+                    </SelectItem>
+                  ))}
+                  {apartments.length > 0 && (
+                    <div className="border-t my-1"></div>
+                  )}
+                  <SelectItem value="all">
+                    <div className="flex items-center gap-2">
+                      <Building className="h-4 w-4" />
+                      Tutti gli alloggi
+                    </div>
+                  </SelectItem>
+                  <div className="border-t my-1"></div>
+                  <SelectItem
+                    value="manage"
+                    onSelect={() => navigate("/apartments")}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Settings className="h-4 w-4" />
+                      Gestisci Alloggi
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Action buttons */}
+              <div className="flex items-center gap-2">
+                <div className="bg-white rounded-full shadow-sm border border-gray-100">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
+                      >
+                        <Plus className="h-4 w-4 text-ardesia hover:text-petrolio" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          /* TODO: Implement */
+                        }}
+                      >
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Nuova Prenotazione
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          /* TODO: Implement */
+                        }}
+                      >
+                        <House className="h-4 w-4 mr-2" />
+                        Nuovo Alloggio
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          /* TODO: Implement */
+                        }}
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        Importa da iCal
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                <div className="bg-white rounded-full shadow-sm border border-gray-100">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
+                    onClick={() => {
+                      /* TODO: Implement */
+                    }}
+                  >
+                    <Bell className="h-4 w-4 text-ardesia hover:text-petrolio" />
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -338,6 +431,66 @@ const BackofficeLayout: React.FC = () => {
             <BarChart3 className="h-5 w-5 mx-auto" />
             <span className="text-xs mt-1">Statistiche</span>
           </button>
+
+          {/* Dropdown Appartamenti e Impostazioni */}
+          <div className="flex flex-col items-center justify-center flex-1 py-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex flex-col items-center justify-center py-2 rounded-xl transition-colors text-ardesia/70 hover:text-petrolio relative">
+                  <div className="relative">
+                    <Building className="h-5 w-5 mx-auto" />
+                    <ChevronDown className="h-3 w-3 absolute -bottom-1 -right-1 bg-white rounded-full" />
+                  </div>
+                  <span className="text-xs mt-1">Alloggi</span>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 mb-2">
+                <div className="px-2 py-1.5 text-sm font-semibold text-ardesia">
+                  Appartamenti
+                </div>
+                {apartments.map((apartment) => (
+                  <DropdownMenuItem
+                    key={apartment.id}
+                    onClick={() => handleCalendarChange(apartment.id)}
+                    className={`${
+                      getSelectValue() === apartment.id
+                        ? "bg-petrolio/10 text-petrolio"
+                        : ""
+                    }`}
+                  >
+                    <ApartmentIcon
+                      iconName={apartment.icon}
+                      color={apartment.color}
+                      size={16}
+                      className="mr-2"
+                    />
+                    {apartment.name}
+                  </DropdownMenuItem>
+                ))}
+
+                {apartments.length > 0 && (
+                  <DropdownMenuItem
+                    onClick={() => handleCalendarChange("all")}
+                    className={`${
+                      getSelectValue() === "all"
+                        ? "bg-petrolio/10 text-petrolio"
+                        : ""
+                    }`}
+                  >
+                    <Building className="h-4 w-4 mr-2" />
+                    Tutti gli alloggi
+                  </DropdownMenuItem>
+                )}
+
+                <div className="border-t my-1"></div>
+
+                <DropdownMenuItem onClick={() => navigate("/apartments")}>
+                  <Settings className="h-4 w-4 mr-2" />
+                  Impostazioni
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </nav>
 
@@ -345,7 +498,7 @@ const BackofficeLayout: React.FC = () => {
       <div
         className={`pb-24 md:pb-6 ${
           activeTab === "calendar" || activeTab === "dashboard"
-            ? "pt-20 md:pt-20"
+            ? "pt-6 md:pt-10"
             : ""
         }`}
       >

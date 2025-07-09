@@ -20,6 +20,7 @@ import { getActiveApartments } from "@/services/apartmentService";
 import BookingsList from "@/components/calendar/BookingsList";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
+import ICalImporter from "@/components/calendar/ICalImporter";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,6 +61,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+  const [isICalImportOpen, setIsICalImportOpen] = useState<boolean>(false);
   const [apartments, setApartments] = useState<Apartment[]>([]);
   const isMobile = useIsMobile();
   const { toast } = useToast();
@@ -74,6 +76,16 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     adulti: "2",
     bambini: "0",
     animali: "0",
+    // Nuovi campi per importi dettagliati (opzionali)
+    TotalePagatoOspite: "",
+    CostoPulizia: "",
+    ScontiApplicati: "",
+    Supplementi: "",
+    CommissioneOTA: "",
+    TassaSoggiorno: "",
+    CedolareSecca: "",
+    TotaleNetto: "",
+    // Campi legacy (mantenuti per compatibilità)
     TotaleCliente: "0",
     FuoriOTA: "0",
     CostoNotti: "0",
@@ -82,7 +94,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     Sconti: "0",
     SoggiornoTax: "0",
     OTATax: "0",
-    CedolareSecca: "0",
     Totale: "0",
     Note: "",
     apartment: "",
@@ -160,6 +171,16 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
       adulti: "2",
       bambini: "0",
       animali: "0",
+      // Nuovi campi per importi dettagliati (opzionali)
+      TotalePagatoOspite: "",
+      CostoPulizia: "",
+      ScontiApplicati: "",
+      Supplementi: "",
+      CommissioneOTA: "",
+      TassaSoggiorno: "",
+      CedolareSecca: "",
+      TotaleNetto: "",
+      // Campi legacy (mantenuti per compatibilità)
       TotaleCliente: "0",
       FuoriOTA: "0",
       CostoNotti: "0",
@@ -168,7 +189,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
       Sconti: "0",
       SoggiornoTax: "0",
       OTATax: "0",
-      CedolareSecca: "0",
       Totale: "0",
       Note: "",
       apartment: selectedCalendar !== "all" ? getDefaultApartmentId() : "",
@@ -384,7 +404,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
 
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h2 className="text-xl font-medium">Calendario e Prenotazioni</h2>
+          <h2 className="text-xl font-medium">Calendario</h2>
           <p className="text-muted-foreground">
             {apartmentNames[selectedCalendar]}
           </p>
@@ -443,6 +463,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onNewBookingClick={() => setIsCreateModalOpen(true)}
+        onICalImportClick={() => setIsICalImportOpen(true)}
       />
 
       {/* Modale per i dettagli della prenotazione */}
@@ -606,86 +627,154 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="totaleCliente">Totale Cliente (€)</Label>
-                <Input
-                  id="totaleCliente"
-                  type="number"
-                  step="0.01"
-                  value={formData.TotaleCliente}
-                  onChange={(e) =>
-                    setFormData({ ...formData, TotaleCliente: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <Label htmlFor="pulizia">Pulizia (€)</Label>
-                <Input
-                  id="pulizia"
-                  type="number"
-                  step="0.01"
-                  value={formData.Pulizia}
-                  onChange={(e) =>
-                    setFormData({ ...formData, Pulizia: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <Label htmlFor="soggiornoTax">Tassa di Soggiorno (€)</Label>
-                <Input
-                  id="soggiornoTax"
-                  type="number"
-                  step="0.01"
-                  value={formData.SoggiornoTax}
-                  onChange={(e) =>
-                    setFormData({ ...formData, SoggiornoTax: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <Label htmlFor="otaTax">OTA Tax (€)</Label>
-                <Input
-                  id="otaTax"
-                  type="number"
-                  step="0.01"
-                  value={formData.OTATax}
-                  onChange={(e) =>
-                    setFormData({ ...formData, OTATax: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <Label htmlFor="sconti">Sconti (€)</Label>
-                <Input
-                  id="sconti"
-                  type="number"
-                  step="0.01"
-                  value={formData.Sconti}
-                  onChange={(e) =>
-                    setFormData({ ...formData, Sconti: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <Label className="text-lg font-semibold">Totale Netto</Label>
-              <div className="text-2xl font-bold text-green-600">
-                €
-                {(
-                  parseFloat(formData.TotaleCliente || "0") -
-                  parseFloat(formData.SoggiornoTax || "0") -
-                  parseFloat(formData.OTATax || "0") -
-                  parseFloat(formData.Sconti || "0")
-                ).toFixed(2)}
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">
-                Totale Cliente - Tasse - Sconti
+            {/* Sezione Importi Dettagliati */}
+            <div className="space-y-4 border-t pt-4">
+              <h3 className="text-lg font-semibold text-ardesia">
+                Dettagli Importi
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Compila solo i campi necessari. I campi vuoti non verranno
+                salvati.
               </p>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="totalePagatoOspite">
+                    Totale Pagato dall'Ospite (€)
+                  </Label>
+                  <Input
+                    id="totalePagatoOspite"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.TotalePagatoOspite}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        TotalePagatoOspite: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="costoPulizia">Costo Pulizia (€)</Label>
+                  <Input
+                    id="costoPulizia"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.CostoPulizia}
+                    onChange={(e) =>
+                      setFormData({ ...formData, CostoPulizia: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="scontiApplicati">Sconti Applicati (€)</Label>
+                  <Input
+                    id="scontiApplicati"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.ScontiApplicati}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        ScontiApplicati: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="supplementi">Supplementi (€)</Label>
+                  <Input
+                    id="supplementi"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.Supplementi}
+                    onChange={(e) =>
+                      setFormData({ ...formData, Supplementi: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="commissioneOTA">Commissione OTA (€)</Label>
+                  <Input
+                    id="commissioneOTA"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.CommissioneOTA}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        CommissioneOTA: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="tassaSoggiorno">Tassa di Soggiorno (€)</Label>
+                  <Input
+                    id="tassaSoggiorno"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.TassaSoggiorno}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        TassaSoggiorno: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="cedolareSecca">Cedolare Secca (€)</Label>
+                  <Input
+                    id="cedolareSecca"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.CedolareSecca}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        CedolareSecca: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="totaleNetto">
+                    Totale Netto (€) <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="totaleNetto"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={formData.TotaleNetto}
+                    onChange={(e) =>
+                      setFormData({ ...formData, TotaleNetto: e.target.value })
+                    }
+                    className="font-semibold"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Questo importo apparirà nella lista prenotazioni
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -714,6 +803,21 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Importatore iCal */}
+      <ICalImporter
+        isOpen={isICalImportOpen}
+        onClose={() => setIsICalImportOpen(false)}
+        apartments={apartments}
+        onImportComplete={(importedBookings) => {
+          // Ricarica le prenotazioni dopo l'importazione
+          loadBookings();
+          toast({
+            title: "Importazione completata",
+            description: `${importedBookings.length} prenotazioni importate con successo`,
+          });
+        }}
+      />
     </div>
   );
 };

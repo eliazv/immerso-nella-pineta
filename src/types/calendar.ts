@@ -11,6 +11,8 @@ export interface Apartment {
   isActive: boolean; // Se l'appartamento è attivo
   createdAt: string; // Data di creazione
   updatedAt: string; // Data ultimo aggiornamento
+  color?: string; // Colore dell'appartamento (es. "#3DA9A9")
+  icon?: string; // Nome dell'icona Lucide (es. "Home", "Building", "Castle")
 }
 
 export interface Booking {
@@ -22,6 +24,16 @@ export interface Booking {
   adulti: string;
   bambini: string;
   animali: string;
+  // Nuovi campi per importi dettagliati
+  TotalePagatoOspite?: string; // Totale pagato dall'ospite
+  CostoPulizia?: string; // Costo pulizia
+  ScontiApplicati?: string; // Sconti applicati
+  Supplementi?: string; // Supplementi
+  CommissioneOTA?: string; // Commissione OTA
+  TassaSoggiorno?: string; // Tassa di soggiorno
+  CedolareSecca?: string; // Cedolare secca
+  TotaleNetto?: string; // Totale netto (quello che vedo come anteprima)
+  // Campi legacy (mantenuti per compatibilità)
   TotaleCliente: string;
   FuoriOTA: string;
   CostoNotti: string;
@@ -30,7 +42,6 @@ export interface Booking {
   Sconti: string;
   SoggiornoTax: string;
   OTATax: string;
-  CedolareSecca: string;
   Totale: string;
   Note?: string;
   id?: string; // Identificatore univoco per la prenotazione

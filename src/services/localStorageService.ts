@@ -1,10 +1,15 @@
-import { Apartment, Booking, CalendarType, APARTMENT_MAPPING } from "@/types/calendar";
+import {
+  Apartment,
+  Booking,
+  CalendarType,
+  APARTMENT_MAPPING,
+} from "@/types/calendar";
 
 // Chiavi per localStorage
 const STORAGE_KEYS = {
-  APARTMENTS: 'immerso_apartments',
-  BOOKINGS: 'immerso_bookings',
-  INITIALIZED: 'immerso_initialized'
+  APARTMENTS: "immerso_apartments",
+  BOOKINGS: "immerso_bookings",
+  INITIALIZED: "immerso_initialized",
 } as const;
 
 // Interfaccia per i dati dello store
@@ -19,14 +24,13 @@ interface LocalStoreData {
  * Sostituisce Google Sheets con localStorage per funzionamento offline
  */
 class LocalStorageService {
-  
   /**
    * Inizializza lo store con dati di default se non esistono
    */
   public initializeStore(): void {
     if (!this.isInitialized()) {
       this.createDefaultApartments();
-      localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
+      localStorage.setItem(STORAGE_KEYS.INITIALIZED, "true");
     }
   }
 
@@ -34,7 +38,7 @@ class LocalStorageService {
    * Verifica se lo store è già stato inizializzato
    */
   private isInitialized(): boolean {
-    return localStorage.getItem(STORAGE_KEYS.INITIALIZED) === 'true';
+    return localStorage.getItem(STORAGE_KEYS.INITIALIZED) === "true";
   }
 
   /**
@@ -43,42 +47,48 @@ class LocalStorageService {
   private createDefaultApartments(): void {
     const defaultApartments: Apartment[] = [
       {
-        id: 'apt-3',
-        name: 'N° 3',
-        description: 'Appartamento principale',
+        id: "apt-3",
+        name: "N° 3",
+        description: "Appartamento principale",
         maxGuests: 4,
-        basePrice: 80,
-        cleaningFee: 30,
+        basePrice: 0,
+        cleaningFee: 0,
         isActive: true,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
+        color: "#3DA9A9", // Petrolio
+        icon: "Home",
       },
       {
-        id: 'apt-4',
-        name: 'N° 4', 
-        description: 'Appartamento secondario',
+        id: "apt-4",
+        name: "N° 4",
+        description: "Appartamento secondario",
         maxGuests: 4,
-        basePrice: 75,
-        cleaningFee: 30,
+        basePrice: 0,
+        cleaningFee: 0,
         isActive: true,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
+        color: "#60D394", // Accent verde
+        icon: "Building",
       },
       {
-        id: 'apt-8',
-        name: 'N° 8',
-        description: 'Appartamento terziario', 
+        id: "apt-8",
+        name: "N° 8",
+        description: "Appartamento terziario",
         maxGuests: 4,
-        basePrice: 70,
-        cleaningFee: 30,
+        basePrice: 0,
+        cleaningFee: 0,
         isActive: true,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      }
+        updatedAt: new Date().toISOString(),
+        color: "#FF6B6B", // Coral red
+        icon: "Castle",
+      },
     ];
 
     this.saveApartments(defaultApartments);
-    
+
     // Inizializza anche un array vuoto per le prenotazioni
     this.saveBookings([]);
   }
@@ -98,14 +108,16 @@ class LocalStorageService {
    */
   public getApartmentById(id: string): Apartment | null {
     const apartments = this.getApartments();
-    return apartments.find(apt => apt.id === id) || null;
+    return apartments.find((apt) => apt.id === id) || null;
   }
 
   /**
    * Recupera un appartamento per CalendarType (compatibilità)
    */
-  public getApartmentByCalendarType(calendarType: CalendarType): Apartment | null {
-    if (calendarType === 'all') return null;
+  public getApartmentByCalendarType(
+    calendarType: CalendarType
+  ): Apartment | null {
+    if (calendarType === "all") return null;
     const apartmentId = APARTMENT_MAPPING[calendarType];
     return this.getApartmentById(apartmentId);
   }
@@ -113,15 +125,17 @@ class LocalStorageService {
   /**
    * Salva un nuovo appartamento
    */
-  public addApartment(apartment: Omit<Apartment, 'id' | 'createdAt' | 'updatedAt'>): Apartment {
+  public addApartment(
+    apartment: Omit<Apartment, "id" | "createdAt" | "updatedAt">
+  ): Apartment {
     const apartments = this.getApartments();
     const newApartment: Apartment = {
       ...apartment,
       id: this.generateId(),
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     };
-    
+
     apartments.push(newApartment);
     this.saveApartments(apartments);
     return newApartment;
@@ -130,18 +144,21 @@ class LocalStorageService {
   /**
    * Aggiorna un appartamento esistente
    */
-  public updateApartment(id: string, updates: Partial<Omit<Apartment, 'id' | 'createdAt'>>): boolean {
+  public updateApartment(
+    id: string,
+    updates: Partial<Omit<Apartment, "id" | "createdAt">>
+  ): boolean {
     const apartments = this.getApartments();
-    const index = apartments.findIndex(apt => apt.id === id);
-    
+    const index = apartments.findIndex((apt) => apt.id === id);
+
     if (index === -1) return false;
-    
+
     apartments[index] = {
       ...apartments[index],
       ...updates,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     };
-    
+
     this.saveApartments(apartments);
     return true;
   }
@@ -151,15 +168,17 @@ class LocalStorageService {
    */
   public deleteApartment(id: string): boolean {
     const apartments = this.getApartments();
-    const filteredApartments = apartments.filter(apt => apt.id !== id);
-    
+    const filteredApartments = apartments.filter((apt) => apt.id !== id);
+
     if (filteredApartments.length === apartments.length) return false;
-    
+
     // Elimina anche tutte le prenotazioni associate
     const bookings = this.getBookings();
-    const filteredBookings = bookings.filter(booking => booking.apartment !== id);
+    const filteredBookings = bookings.filter(
+      (booking) => booking.apartment !== id
+    );
     this.saveBookings(filteredBookings);
-    
+
     this.saveApartments(filteredApartments);
     return true;
   }
@@ -186,14 +205,14 @@ class LocalStorageService {
    */
   public getBookingsByApartment(apartmentId: string): Booking[] {
     const bookings = this.getBookings();
-    return bookings.filter(booking => booking.apartment === apartmentId);
+    return bookings.filter((booking) => booking.apartment === apartmentId);
   }
 
   /**
    * Recupera prenotazioni per CalendarType (compatibilità)
    */
   public getBookingsByCalendarType(calendarType: CalendarType): Booking[] {
-    if (calendarType === 'all') {
+    if (calendarType === "all") {
       return this.getBookings();
     }
     const apartmentId = APARTMENT_MAPPING[calendarType];
@@ -205,19 +224,19 @@ class LocalStorageService {
    */
   public getBookingById(id: string): Booking | null {
     const bookings = this.getBookings();
-    return bookings.find(booking => booking.id === id) || null;
+    return bookings.find((booking) => booking.id === id) || null;
   }
 
   /**
    * Salva una nuova prenotazione
    */
-  public addBooking(booking: Omit<Booking, 'id'>): Booking {
+  public addBooking(booking: Omit<Booking, "id">): Booking {
     const bookings = this.getBookings();
     const newBooking: Booking = {
       ...booking,
-      id: this.generateId()
+      id: this.generateId(),
     };
-    
+
     bookings.push(newBooking);
     this.saveBookings(bookings);
     return newBooking;
@@ -226,17 +245,20 @@ class LocalStorageService {
   /**
    * Aggiorna una prenotazione esistente
    */
-  public updateBooking(id: string, updates: Partial<Omit<Booking, 'id'>>): boolean {
+  public updateBooking(
+    id: string,
+    updates: Partial<Omit<Booking, "id">>
+  ): boolean {
     const bookings = this.getBookings();
-    const index = bookings.findIndex(booking => booking.id === id);
-    
+    const index = bookings.findIndex((booking) => booking.id === id);
+
     if (index === -1) return false;
-    
+
     bookings[index] = {
       ...bookings[index],
-      ...updates
+      ...updates,
     };
-    
+
     this.saveBookings(bookings);
     return true;
   }
@@ -246,10 +268,10 @@ class LocalStorageService {
    */
   public deleteBooking(id: string): boolean {
     const bookings = this.getBookings();
-    const filteredBookings = bookings.filter(booking => booking.id !== id);
-    
+    const filteredBookings = bookings.filter((booking) => booking.id !== id);
+
     if (filteredBookings.length === bookings.length) return false;
-    
+
     this.saveBookings(filteredBookings);
     return true;
   }
@@ -274,7 +296,7 @@ class LocalStorageService {
    * Pulisce completamente lo store (per debug/reset)
    */
   public clearStore(): void {
-    Object.values(STORAGE_KEYS).forEach(key => {
+    Object.values(STORAGE_KEYS).forEach((key) => {
       localStorage.removeItem(key);
     });
   }
@@ -286,7 +308,7 @@ class LocalStorageService {
     return {
       apartments: this.getApartments(),
       bookings: this.getBookings(),
-      lastUpdated: new Date().toISOString()
+      lastUpdated: new Date().toISOString(),
     };
   }
 

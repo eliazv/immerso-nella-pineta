@@ -39,9 +39,16 @@ import {
   LogIn,
   LogOut,
   Building,
+  Bell,
+  Download,
 } from "lucide-react";
-import ProfileHeader from "@/components/dashboard/ProfileHeader";
-import SummaryCards from "@/components/dashboard/SummaryCards";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import OccupancyChart from "@/components/dashboard/OccupancyChart";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import UpcomingTasks from "@/components/dashboard/UpcomingTasks";
@@ -61,6 +68,8 @@ import {
 import { format, isToday, isTomorrow, parseISO, addDays } from "date-fns";
 import { it } from "date-fns/locale";
 import { getDashboardStats } from "@/services/dashboardService";
+import NotificationPermission from "@/components/notifications/NotificationPermission";
+import ICalImporter from "@/components/calendar/ICalImporter";
 
 const Home: React.FC = () => {
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
@@ -78,6 +87,7 @@ const Home: React.FC = () => {
     useState(false);
   const [isCreateBookingModalOpen, setIsCreateBookingModalOpen] =
     useState(false);
+  const [isICalImportOpen, setIsICalImportOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -297,21 +307,67 @@ const Home: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-6 max-w-6xl">
       <div className="space-y-6">
-        {/* Profile Header */}
-        <ProfileHeader
-          name="Property Manager"
-          subtitle="Gestione Alloggi"
-          onNewBookingClick={() => setIsCreateBookingModalOpen(true)}
-          onNewApartmentClick={() => setIsCreateApartmentModalOpen(true)}
-          onNotificationClick={() => {
-            // TODO: Implement notifications
-            toast({
-              title: "Notifiche",
-              description: "Funzionalità in arrivo",
-            });
-          }}
-        />
+        {/* Mobile Header Section */}
+        <div className="md:hidden bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+          <div className="flex items-center justify-between">
+            {/* Logo e Nome */}
+            <div className="flex items-center gap-2">
+              <img src="/rentpilot.svg" alt="RentPilot" className="h-8 w-8" />
+              <span className="font-bold text-lg text-petrolio">RentPilot</span>
+            </div>
 
+            {/* Pulsanti Azione */}
+            <div className="flex items-center gap-2">
+              <div className="bg-white rounded-full shadow-sm border border-gray-100">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
+                    >
+                      <Plus className="h-4 w-4 text-ardesia hover:text-petrolio" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem
+                      onClick={() => setIsCreateBookingModalOpen(true)}
+                    >
+                      <Calendar className="h-4 w-4 mr-2" />
+                      Nuova Prenotazione
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setIsCreateApartmentModalOpen(true)}
+                    >
+                      <HomeIcon className="h-4 w-4 mr-2" />
+                      Nuovo Alloggio
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setIsICalImportOpen(true)}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Importa da iCal
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+
+              <div className="bg-white rounded-full shadow-sm border border-gray-100">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
+                  onClick={() => {
+                    toast({
+                      title: "Notifiche",
+                      description: "Funzionalità in arrivo",
+                    });
+                  }}
+                >
+                  <Bell className="h-4 w-4 text-ardesia hover:text-petrolio" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* Quick Stats Overview */}
         <div>
           <h2 className="text-xl font-semibold text-ardesia mb-4">
@@ -376,20 +432,11 @@ const Home: React.FC = () => {
                 })) || []
               }
             />
-
-            {/* Summary Cards */}
-            {dashboardStats && (
-              <div>
-                <h3 className="text-lg font-semibold text-ardesia mb-4">
-                  Statistiche Dettagliate
-                </h3>
-                <SummaryCards stats={dashboardStats} />
-              </div>
-            )}
           </div>
 
           {/* Right Column - Tasks and Activity */}
           <div className="space-y-6">
+            <NotificationPermission />
             <UpcomingTasks />
             <RecentActivity />
           </div>
@@ -432,7 +479,9 @@ const Home: React.FC = () => {
                   <div className="flex items-center justify-between text-xs text-ardesia/50">
                     <span>{booking.Notti} notti</span>
                     <span className="font-semibold text-petrolio">
-                      {booking.Totale}
+                      {booking.TotaleNetto && booking.TotaleNetto !== ""
+                        ? `€${booking.TotaleNetto}`
+                        : booking.Totale}
                     </span>
                   </div>
                 </CardContent>
@@ -1008,6 +1057,21 @@ const Home: React.FC = () => {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        {/* Importatore iCal */}
+        <ICalImporter
+          isOpen={isICalImportOpen}
+          onClose={() => setIsICalImportOpen(false)}
+          apartments={apartments}
+          onImportComplete={(importedBookings) => {
+            // Ricarica i dati dopo l'importazione
+            loadDashboardData();
+            toast({
+              title: "Importazione completata",
+              description: `${importedBookings.length} prenotazioni importate con successo`,
+            });
+          }}
+        />
       </div>
     </div>
   );

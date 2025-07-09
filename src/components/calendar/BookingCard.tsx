@@ -44,7 +44,9 @@ const BookingCard: React.FC<BookingCardProps> = ({
       {/* Destra: Totale */}
       <div className="flex items-center gap-2">
         <span className="text-base font-bold text-primary">
-          {booking.Totale}
+          {booking.TotaleNetto && booking.TotaleNetto !== ""
+            ? `€${booking.TotaleNetto}`
+            : booking.Totale}
         </span>
       </div>
     </div>

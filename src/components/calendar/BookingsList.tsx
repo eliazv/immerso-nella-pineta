@@ -4,7 +4,7 @@ import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingCard from "@/components/calendar/BookingCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, Calendar } from "lucide-react";
 
 // Funzione per ordinare le prenotazioni per data di check-in
 const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
@@ -26,6 +26,7 @@ interface BookingsListProps {
   searchQuery?: string;
   onSearchChange?: (query: string) => void;
   onNewBookingClick?: () => void;
+  onICalImportClick?: () => void;
 }
 
 const BookingsList: React.FC<BookingsListProps> = ({
@@ -34,6 +35,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
   searchQuery = "",
   onSearchChange,
   onNewBookingClick,
+  onICalImportClick,
 }) => {
   const [showOnlyUpcoming, setShowOnlyUpcoming] = useState<boolean>(true);
   // Funzione per filtrare le prenotazioni future
@@ -101,7 +103,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
   return (
     <div>
       <div className="flex justify-between items-center my-6">
-        <h3 className="font-serif text-lg font-medium">Lista Prenotazioni</h3>
+        <h2 className="text-xl font-medium">Prenotazioni</h2>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setShowOnlyUpcoming(true)}
@@ -126,7 +128,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
         </div>
       </div>
 
-      {/* Barra di ricerca con pulsante nuova prenotazione */}
+      {/* Barra di ricerca con pulsanti azioni */}
       <div className="flex gap-2 mb-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -137,16 +139,29 @@ const BookingsList: React.FC<BookingsListProps> = ({
             className="pl-10"
           />
         </div>
-        {onNewBookingClick && (
-          <Button
-            onClick={onNewBookingClick}
-            size="sm"
-            className="flex items-center gap-1 whitespace-nowrap"
-          >
-            <Plus className="h-4 w-4" />
-            Nuova
-          </Button>
-        )}
+        <div className="flex gap-2">
+          {onICalImportClick && (
+            <Button
+              onClick={onICalImportClick}
+              size="sm"
+              variant="outline"
+              className="flex items-center gap-1 whitespace-nowrap"
+            >
+              <Calendar className="h-4 w-4" />
+              iCal
+            </Button>
+          )}
+          {onNewBookingClick && (
+            <Button
+              onClick={onNewBookingClick}
+              size="sm"
+              className="flex items-center gap-1 whitespace-nowrap"
+            >
+              <Plus className="h-4 w-4" />
+              Nuova
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Risultati ricerca */}
