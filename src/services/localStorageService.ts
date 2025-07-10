@@ -45,47 +45,8 @@ class LocalStorageService {
    * Crea gli appartamenti di default basati sulla configurazione esistente
    */
   private createDefaultApartments(): void {
-    const defaultApartments: Apartment[] = [
-      {
-        id: "apt-3",
-        name: "N° 3",
-        description: "Appartamento principale",
-        maxGuests: 4,
-        basePrice: 0,
-        cleaningFee: 0,
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        color: "#3DA9A9", // Petrolio
-        icon: "Home",
-      },
-      {
-        id: "apt-4",
-        name: "N° 4",
-        description: "Appartamento secondario",
-        maxGuests: 4,
-        basePrice: 0,
-        cleaningFee: 0,
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        color: "#60D394", // Accent verde
-        icon: "Building",
-      },
-      {
-        id: "apt-8",
-        name: "N° 8",
-        description: "Appartamento terziario",
-        maxGuests: 4,
-        basePrice: 0,
-        cleaningFee: 0,
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        color: "#FF6B6B", // Coral red
-        icon: "Castle",
-      },
-    ];
+    // Non creare appartamenti di default - l'utente li creerà manualmente
+    const defaultApartments: Apartment[] = [];
 
     this.saveApartments(defaultApartments);
 

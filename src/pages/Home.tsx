@@ -34,13 +34,15 @@ import {
   Plus,
   Home as HomeIcon,
   Users,
-  TrendingUp,
-  Clock,
-  LogIn,
-  LogOut,
-  Building,
   Bell,
   Download,
+  AlertCircle,
+  Upload,
+  FileDown,
+  Settings,
+  LogIn,
+  LogOut,
+  TrendingUp,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -50,8 +52,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import OccupancyChart from "@/components/dashboard/OccupancyChart";
-import RecentActivity from "@/components/dashboard/RecentActivity";
-import UpcomingTasks from "@/components/dashboard/UpcomingTasks";
+import Activities from "@/components/dashboard/Activities";
 import QuickStats from "@/components/dashboard/QuickStats";
 import { Booking, Apartment } from "@/types/calendar";
 import { localStorageService } from "@/services/localStorageService";
@@ -65,11 +66,10 @@ import {
   createBooking,
   CreateBookingData,
 } from "@/services/localBookingService";
-import { format, isToday, isTomorrow, parseISO, addDays } from "date-fns";
-import { it } from "date-fns/locale";
+import { isToday, parseISO, addDays } from "date-fns";
 import { getDashboardStats } from "@/services/dashboardService";
-import NotificationPermission from "@/components/notifications/NotificationPermission";
 import ICalImporter from "@/components/calendar/ICalImporter";
+import { ApartmentIcon } from "@/utils/apartmentIcons";
 
 const Home: React.FC = () => {
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
@@ -103,6 +103,8 @@ const Home: React.FC = () => {
       basePrice: 0,
       cleaningFee: 0,
       isActive: true,
+      color: "#3DA9A9",
+      icon: "Home",
     });
 
   // Form data per nuova prenotazione
@@ -189,6 +191,8 @@ const Home: React.FC = () => {
       basePrice: 0,
       cleaningFee: 0,
       isActive: true,
+      color: "#3DA9A9",
+      icon: "Home",
     });
   };
 
@@ -280,99 +284,218 @@ const Home: React.FC = () => {
     return null;
   };
 
-  const formatDate = (dateString: string): string => {
-    const date = parseDate(dateString);
-    if (!date) return dateString;
+  // Funzioni per export/import dati
+  const handleExportData = () => {
+    try {
+      const data = localStorageService.exportData();
+      const dataStr = JSON.stringify(data, null, 2);
+      const dataBlob = new Blob([dataStr], { type: "application/json" });
 
-    if (isToday(date)) return "Oggi";
-    if (isTomorrow(date)) return "Domani";
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `rentpilot-backup-${
+        new Date().toISOString().split("T")[0]
+      }.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
 
-    return format(date, "dd MMM", { locale: it });
+      toast({
+        title: "Export completato",
+        description: "I dati sono stati esportati con successo",
+      });
+    } catch (error) {
+      toast({
+        title: "Errore export",
+        description: "Errore durante l'esportazione dei dati",
+        variant: "destructive",
+      });
+    }
   };
 
-  const getDateBadgeVariant = (dateString: string) => {
-    const date = parseDate(dateString);
-    if (!date) return "outline";
+  const handleImportData = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-    if (isToday(date)) return "default";
-    if (isTomorrow(date)) return "secondary";
-    return "outline";
-  };
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target?.result as string);
+        localStorageService.importData(data);
+        loadDashboardData(); // Ricarica i dati
 
-  const getApartmentName = (apartmentId: string) => {
-    const apartment = apartments.find((apt) => apt.id === apartmentId);
-    return apartment ? apartment.name : apartmentId;
+        toast({
+          title: "Import completato",
+          description: "I dati sono stati importati con successo",
+        });
+      } catch (error) {
+        toast({
+          title: "Errore import",
+          description: "File non valido o corrotto",
+          variant: "destructive",
+        });
+      }
+    };
+    reader.readAsText(file);
+
+    // Reset input
+    event.target.value = "";
   };
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-6xl">
       <div className="space-y-6">
         {/* Mobile Header Section */}
-        <div className="md:hidden bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-          <div className="flex items-center justify-between">
-            {/* Logo e Nome */}
-            <div className="flex items-center gap-2">
-              <img src="/rentpilot.svg" alt="RentPilot" className="h-8 w-8" />
+        <div className="flex items-center justify-between">
+          {/* Logo e Nome */}
+          <div className="flex items-center gap-3">
+            <img
+              src="/rentpilot.svg"
+              alt="RentPilot"
+              className="h-10 w-10 mr-2"
+            />
+            <div className="flex flex-col leading-tight">
               <span className="font-bold text-lg text-petrolio">RentPilot</span>
+              <span className="font-bold text-lg text-ardesia">Dashboard</span>
+            </div>
+          </div>
+
+          {/* Pulsanti Azione */}
+          <div className="flex items-center gap-2">
+            <div className="bg-white rounded-full shadow-sm border border-gray-100">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
+                  >
+                    <Plus className="h-4 w-4 text-ardesia hover:text-petrolio" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem
+                    onClick={() => setIsCreateBookingModalOpen(true)}
+                  >
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Nuova Prenotazione
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => setIsCreateApartmentModalOpen(true)}
+                  >
+                    <HomeIcon className="h-4 w-4 mr-2" />
+                    Nuovo Alloggio
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setIsICalImportOpen(true)}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Importa da iCal
+                  </DropdownMenuItem>
+                  <div className="border-t my-1"></div>
+                  <DropdownMenuItem onClick={handleExportData}>
+                    <FileDown className="h-4 w-4 mr-2" />
+                    Esporta Dati
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <label className="cursor-pointer">
+                      <Upload className="h-4 w-4 mr-2" />
+                      Importa Dati
+                      <input
+                        type="file"
+                        accept=".json"
+                        onChange={handleImportData}
+                        className="hidden"
+                      />
+                    </label>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
-            {/* Pulsanti Azione */}
-            <div className="flex items-center gap-2">
-              <div className="bg-white rounded-full shadow-sm border border-gray-100">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
-                    >
-                      <Plus className="h-4 w-4 text-ardesia hover:text-petrolio" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem
-                      onClick={() => setIsCreateBookingModalOpen(true)}
-                    >
-                      <Calendar className="h-4 w-4 mr-2" />
-                      Nuova Prenotazione
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => setIsCreateApartmentModalOpen(true)}
-                    >
-                      <HomeIcon className="h-4 w-4 mr-2" />
-                      Nuovo Alloggio
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsICalImportOpen(true)}>
-                      <Download className="h-4 w-4 mr-2" />
-                      Importa da iCal
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              <div className="bg-white rounded-full shadow-sm border border-gray-100">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
-                  onClick={() => {
-                    toast({
-                      title: "Notifiche",
-                      description: "Funzionalità in arrivo",
-                    });
-                  }}
-                >
-                  <Bell className="h-4 w-4 text-ardesia hover:text-petrolio" />
-                </Button>
-              </div>
+            <div className="bg-white rounded-full shadow-sm border border-gray-100">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 rounded-full hover:bg-petrolio/10 transition-colors"
+                  >
+                    <Bell className="h-4 w-4 text-ardesia hover:text-petrolio" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                  <div className="p-4">
+                    <h3 className="font-semibold text-ardesia mb-3">
+                      Notifiche
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="text-center py-4 text-muted-foreground">
+                        <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                        <p className="text-sm">Nessuna notifica</p>
+                      </div>
+                      <div className="border-t pt-3">
+                        <div className="flex items-center gap-2 text-sm text-ardesia/60 mb-2">
+                          <AlertCircle className="h-4 w-4" />
+                          <span>
+                            Attiva le notifiche per check-in/check-out
+                          </span>
+                        </div>
+                        <Button
+                          size="sm"
+                          className="w-full"
+                          onClick={() => {
+                            // Trigger notification permission request
+                            if (
+                              "Notification" in window &&
+                              Notification.permission === "default"
+                            ) {
+                              Notification.requestPermission().then(
+                                (permission) => {
+                                  if (permission === "granted") {
+                                    toast({
+                                      title: "Notifiche attivate",
+                                      description:
+                                        "Riceverai notifiche per check-in e check-out",
+                                    });
+                                  }
+                                }
+                              );
+                            } else if (Notification.permission === "granted") {
+                              toast({
+                                title: "Notifiche già attive",
+                                description: "Le notifiche sono già abilitate",
+                              });
+                            } else {
+                              toast({
+                                title: "Notifiche bloccate",
+                                description:
+                                  "Abilita le notifiche nelle impostazioni del browser",
+                                variant: "destructive",
+                              });
+                            }
+                          }}
+                        >
+                          <Bell className="h-4 w-4 mr-2" />
+                          Attiva Notifiche
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
         {/* Quick Stats Overview */}
         <div>
-          <h2 className="text-xl font-semibold text-ardesia mb-4">
-            Panoramica Rapida
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            {apartments.length === 0 && (
+              <div className="text-sm text-ardesia/60">
+                Benvenuto! Inizia creando il tuo primo alloggio
+              </div>
+            )}
+          </div>
           <QuickStats
             data={{
               totalRevenue:
@@ -434,11 +557,9 @@ const Home: React.FC = () => {
             />
           </div>
 
-          {/* Right Column - Tasks and Activity */}
+          {/* Right Column - Activities */}
           <div className="space-y-6">
-            <NotificationPermission />
-            <UpcomingTasks />
-            <RecentActivity />
+            <Activities upcomingBookings={upcomingBookings} />
           </div>
         </div>
 
@@ -562,82 +683,8 @@ const Home: React.FC = () => {
           </Card>
         </div>
 
-        {/* Prossimi Check-in e Check-out */}
+        {/* I Tuoi Alloggi */}
         <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                Prossimi Movimenti
-              </CardTitle>
-              <CardDescription>
-                Check-in e check-out dei prossimi 7 giorni
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {upcomingBookings.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>Nessun movimento previsto nei prossimi giorni</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {upcomingBookings.map((booking) => (
-                    <div
-                      key={booking.id}
-                      className="flex items-center justify-between p-3 border rounded-lg"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="flex flex-col items-center gap-1">
-                          <LogIn className="h-4 w-4 text-green-600" />
-                          <Badge
-                            variant={getDateBadgeVariant(booking.CheckIn)}
-                            className="text-xs"
-                          >
-                            {formatDate(booking.CheckIn)}
-                          </Badge>
-                        </div>
-                        <div className="flex flex-col items-center gap-1">
-                          <LogOut className="h-4 w-4 text-red-600" />
-                          <Badge
-                            variant={getDateBadgeVariant(booking.CheckOut)}
-                            className="text-xs"
-                          >
-                            {formatDate(booking.CheckOut)}
-                          </Badge>
-                        </div>
-                      </div>
-
-                      <div className="flex-1 mx-4">
-                        <div className="font-medium">{booking.Nome}</div>
-                        <div className="text-sm text-muted-foreground flex items-center gap-2">
-                          <Building className="h-3 w-3" />
-                          {getApartmentName(booking.apartment || "")}
-                          {booking.OTA && (
-                            <Badge variant="outline" className="text-xs">
-                              {booking.OTA}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="text-right">
-                        <div className="text-sm font-medium">
-                          {booking.adulti} adulti
-                          {booking.bambini !== "0" &&
-                            `, ${booking.bambini} bambini`}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {booking.Notti} notti
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
           {/* Alloggi Overview */}
           <Card>
             <CardHeader>
@@ -668,28 +715,81 @@ const Home: React.FC = () => {
                       localStorageService.getBookingsByApartment(
                         apartment.id
                       ).length;
+                    const totalRevenue = localStorageService
+                      .getBookingsByApartment(apartment.id)
+                      .reduce((sum, booking) => {
+                        const amount = parseFloat(
+                          (booking.TotaleNetto || booking.Totale || "0")
+                            .replace("€", "")
+                            .replace(",", ".")
+                        );
+                        return sum + (isNaN(amount) ? 0 : amount);
+                      }, 0);
+
                     return (
                       <div
                         key={apartment.id}
-                        className="flex items-center justify-between p-3 border rounded-lg"
+                        className="flex items-center justify-between p-4 border rounded-xl hover:shadow-md transition-all duration-200 cursor-pointer"
+                        onClick={() => navigate("/apartments")}
                       >
-                        <div>
-                          <div className="font-medium">{apartment.name}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {apartment.description}
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="p-2 rounded-lg"
+                            style={{ backgroundColor: `${apartment.color}20` }}
+                          >
+                            <ApartmentIcon
+                              iconName={apartment.icon}
+                              color={apartment.color}
+                              size={20}
+                            />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-ardesia">
+                              {apartment.name}
+                            </div>
+                            <div className="text-sm text-ardesia/60">
+                              {apartment.description || "Nessuna descrizione"}
+                            </div>
+                            <div className="flex items-center gap-3 mt-1">
+                              <span className="text-xs text-ardesia/50 flex items-center gap-1">
+                                <Users className="h-3 w-3" />
+                                Max {apartment.maxGuests} ospiti
+                              </span>
+                              {apartment.basePrice &&
+                                apartment.basePrice > 0 && (
+                                  <span className="text-xs text-ardesia/50">
+                                    €{apartment.basePrice}/notte
+                                  </span>
+                                )}
+                            </div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm font-medium">
+                          <div className="text-sm font-semibold text-ardesia">
                             {bookingsCount} prenotazioni
                           </div>
-                          <div className="text-xs text-muted-foreground">
-                            Max {apartment.maxGuests} ospiti
+                          {totalRevenue > 0 && (
+                            <div className="text-sm text-menta font-medium">
+                              €{totalRevenue.toFixed(0)}
+                            </div>
+                          )}
+                          <div className="text-xs text-ardesia/50 mt-1">
+                            {apartment.isActive ? "Attivo" : "Inattivo"}
                           </div>
                         </div>
                       </div>
                     );
                   })}
+                  <div className="pt-2 border-t">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => navigate("/apartments")}
+                    >
+                      <Settings className="h-4 w-4 mr-2" />
+                      Gestisci Tutti gli Alloggi
+                    </Button>
+                  </div>
                 </div>
               )}
             </CardContent>
@@ -757,6 +857,87 @@ const Home: React.FC = () => {
                   }
                   placeholder="Descrizione dell'alloggio..."
                 />
+              </div>
+
+              {/* Icon and Color Selection */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="icon">Icona</Label>
+                  <Select
+                    value={apartmentFormData.icon}
+                    onValueChange={(value) =>
+                      setApartmentFormData({
+                        ...apartmentFormData,
+                        icon: value,
+                      })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue>
+                        <div className="flex items-center gap-2">
+                          <ApartmentIcon
+                            iconName={apartmentFormData.icon}
+                            color={apartmentFormData.color}
+                          />
+                          <span>{apartmentFormData.icon}</span>
+                        </div>
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[
+                        "Home",
+                        "Building",
+                        "Castle",
+                        "House",
+                        "Building2",
+                        "TreePine",
+                        "Waves",
+                        "Mountain",
+                        "Sun",
+                        "Star",
+                      ].map((iconName) => (
+                        <SelectItem key={iconName} value={iconName}>
+                          <div className="flex items-center gap-2">
+                            <ApartmentIcon
+                              iconName={iconName}
+                              color={apartmentFormData.color}
+                            />
+                            <span>{iconName}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="color">Colore</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="color"
+                      type="color"
+                      value={apartmentFormData.color}
+                      onChange={(e) =>
+                        setApartmentFormData({
+                          ...apartmentFormData,
+                          color: e.target.value,
+                        })
+                      }
+                      className="w-16 h-10 p-1 border rounded"
+                    />
+                    <Input
+                      type="text"
+                      value={apartmentFormData.color}
+                      onChange={(e) =>
+                        setApartmentFormData({
+                          ...apartmentFormData,
+                          color: e.target.value,
+                        })
+                      }
+                      placeholder="#3DA9A9"
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

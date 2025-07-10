@@ -14,23 +14,7 @@ interface RecentActivityProps {
 }
 
 const RecentActivity: React.FC<RecentActivityProps> = ({
-  activities = [
-    {
-      text: "Nuova prenotazione da Mario Rossi per App.3",
-      timestamp: "2 Nov 2023, 10:00 AM",
-      icon: Activity,
-    },
-    {
-      text: "Check-out completato per Giulia Bianchi",
-      timestamp: "1 Nov 2023, 11:30 AM",
-      icon: Activity,
-    },
-    {
-      text: "Pagamento ricevuto per prenotazione #1234",
-      timestamp: "31 Ott 2023, 14:15 PM",
-      icon: Activity,
-    },
-  ],
+  activities = [],
   title = "Attività Recenti",
 }) => {
   return (
@@ -41,31 +25,38 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="space-y-4">
-          {activities.map((activity, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-3 rounded-lg hover:bg-neutro/50 transition-colors cursor-pointer"
-            >
-              <div className="flex items-center gap-3 flex-1">
-                {activity.icon && (
-                  <div className="p-2 rounded-lg bg-petrolio/10">
-                    <activity.icon className="h-4 w-4 text-petrolio" />
+        {activities.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <p>Nessuna attività recente</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {activities.map((activity, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between p-3 rounded-lg hover:bg-neutro/50 transition-colors cursor-pointer"
+              >
+                <div className="flex items-center gap-3 flex-1">
+                  {activity.icon && (
+                    <div className="p-2 rounded-lg bg-petrolio/10">
+                      <activity.icon className="h-4 w-4 text-petrolio" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-ardesia leading-5">
+                      {activity.text}
+                    </p>
+                    <p className="text-xs text-ardesia/60 mt-1">
+                      {activity.timestamp}
+                    </p>
                   </div>
-                )}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-ardesia leading-5">
-                    {activity.text}
-                  </p>
-                  <p className="text-xs text-ardesia/60 mt-1">
-                    {activity.timestamp}
-                  </p>
                 </div>
+                <ChevronRight className="h-4 w-4 text-ardesia/40 flex-shrink-0" />
               </div>
-              <ChevronRight className="h-4 w-4 text-ardesia/40 flex-shrink-0" />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

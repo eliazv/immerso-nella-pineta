@@ -436,12 +436,50 @@ const BackofficeLayout: React.FC = () => {
           <div className="flex flex-col items-center justify-center flex-1 py-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex flex-col items-center justify-center py-2 rounded-xl transition-colors text-ardesia/70 hover:text-petrolio relative">
-                  <div className="relative">
-                    <Building className="h-5 w-5 mx-auto" />
-                    <ChevronDown className="h-3 w-3 absolute -bottom-1 -right-1 bg-white rounded-full" />
+                <button className="flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-colors text-ardesia/70 hover:text-petrolio relative bg-gray-100/50 border border-gray-200/50">
+                  <div className="relative flex items-center gap-1">
+                    {(() => {
+                      const currentApartment = apartments.find(
+                        (apt) => getSelectValue() === apt.id
+                      );
+                      if (currentApartment) {
+                        return (
+                          <>
+                            <ApartmentIcon
+                              iconName={currentApartment.icon}
+                              color={currentApartment.color}
+                              size={16}
+                              className="flex-shrink-0"
+                            />
+                            <ChevronDown className="h-3 w-3 bg-white rounded-full" />
+                          </>
+                        );
+                      } else {
+                        return (
+                          <>
+                            <Building className="h-5 w-5 mx-auto" />
+                            <ChevronDown className="h-3 w-3 absolute -bottom-1 -right-1 bg-white rounded-full" />
+                          </>
+                        );
+                      }
+                    })()}
                   </div>
-                  <span className="text-xs mt-1">Alloggi</span>
+                  <span className="text-xs mt-1 truncate max-w-[60px]">
+                    {(() => {
+                      const currentApartment = apartments.find(
+                        (apt) => getSelectValue() === apt.id
+                      );
+                      if (currentApartment) {
+                        return currentApartment.name.length > 8
+                          ? currentApartment.name.substring(0, 8) + "..."
+                          : currentApartment.name;
+                      } else if (getSelectValue() === "all") {
+                        return "Tutti";
+                      } else {
+                        return "Alloggi";
+                      }
+                    })()}
+                  </span>
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 mb-2">

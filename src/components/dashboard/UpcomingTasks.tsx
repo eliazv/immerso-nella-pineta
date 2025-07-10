@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Calendar, 
-  Clock, 
-  AlertCircle, 
+import {
+  Calendar,
+  Clock,
+  AlertCircle,
   CheckCircle2,
   User,
-  Home
+  Home,
 } from "lucide-react";
 
 interface Task {
@@ -27,38 +27,8 @@ interface UpcomingTasksProps {
 }
 
 const UpcomingTasks: React.FC<UpcomingTasksProps> = ({
-  tasks = [
-    {
-      id: "1",
-      title: "Check-in Mario Rossi",
-      description: "Arrivo previsto alle 15:00",
-      type: "checkin",
-      priority: "high",
-      dueDate: "Oggi, 15:00",
-      apartment: "App. 3",
-      guest: "Mario Rossi"
-    },
-    {
-      id: "2", 
-      title: "Check-out Giulia Bianchi",
-      description: "Partenza entro le 11:00",
-      type: "checkout",
-      priority: "medium",
-      dueDate: "Domani, 11:00",
-      apartment: "App. 1",
-      guest: "Giulia Bianchi"
-    },
-    {
-      id: "3",
-      title: "Manutenzione climatizzatore",
-      description: "Controllo programmato",
-      type: "maintenance",
-      priority: "low",
-      dueDate: "15 Nov, 10:00",
-      apartment: "App. 2"
-    }
-  ],
-  title = "Prossime Attività"
+  tasks = [],
+  title = "Prossime Attività",
 }) => {
   const getTaskIcon = (type: Task["type"]) => {
     switch (type) {
@@ -97,44 +67,59 @@ const UpcomingTasks: React.FC<UpcomingTasksProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="space-y-4">
-          {tasks.map((task) => (
-            <div
-              key={task.id}
-              className="flex items-start gap-3 p-3 rounded-xl hover:bg-neutro/30 transition-colors cursor-pointer"
-            >
-              <div className="p-2 rounded-lg bg-petrolio/10 flex-shrink-0">
-                {getTaskIcon(task.type)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2 mb-1">
-                  <h4 className="font-medium text-ardesia text-sm leading-5">
-                    {task.title}
-                  </h4>
-                  <Badge 
-                    variant="outline" 
-                    className={`text-xs ${getPriorityColor(task.priority)} flex-shrink-0`}
-                  >
-                    {task.priority === "high" ? "Alta" : task.priority === "medium" ? "Media" : "Bassa"}
-                  </Badge>
+        {tasks.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            <Clock className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <p>Nessuna attività programmata</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {tasks.map((task) => (
+              <div
+                key={task.id}
+                className="flex items-start gap-3 p-3 rounded-xl hover:bg-neutro/30 transition-colors cursor-pointer"
+              >
+                <div className="p-2 rounded-lg bg-petrolio/10 flex-shrink-0">
+                  {getTaskIcon(task.type)}
                 </div>
-                <p className="text-xs text-ardesia/60 mb-2">{task.description}</p>
-                <div className="flex items-center gap-3 text-xs text-ardesia/50">
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {task.dueDate}
-                  </span>
-                  {task.apartment && (
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <h4 className="font-medium text-ardesia text-sm leading-5">
+                      {task.title}
+                    </h4>
+                    <Badge
+                      variant="outline"
+                      className={`text-xs ${getPriorityColor(
+                        task.priority
+                      )} flex-shrink-0`}
+                    >
+                      {task.priority === "high"
+                        ? "Alta"
+                        : task.priority === "medium"
+                        ? "Media"
+                        : "Bassa"}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-ardesia/60 mb-2">
+                    {task.description}
+                  </p>
+                  <div className="flex items-center gap-3 text-xs text-ardesia/50">
                     <span className="flex items-center gap-1">
-                      <Home className="h-3 w-3" />
-                      {task.apartment}
+                      <Clock className="h-3 w-3" />
+                      {task.dueDate}
                     </span>
-                  )}
+                    {task.apartment && (
+                      <span className="flex items-center gap-1">
+                        <Home className="h-3 w-3" />
+                        {task.apartment}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
