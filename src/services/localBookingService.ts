@@ -1,11 +1,13 @@
-import {
-  Booking,
-  CalendarType,
-  CalendarEvent,
-  APARTMENT_MAPPING,
-} from "@/types/calendar";
+import { Booking, CalendarType, CalendarEvent } from "@/types/calendar";
 import { localStorageService } from "./localStorageService";
 import { notificationService } from "./notificationService";
+
+/**
+ * Emette un evento personalizzato per notificare l'aggiornamento delle prenotazioni
+ */
+const notifyBookingsUpdate = () => {
+  window.dispatchEvent(new CustomEvent("bookingsUpdated"));
+};
 
 /**
  * Servizio per la gestione delle prenotazioni utilizzando lo store locale
@@ -98,7 +100,7 @@ const createCalendarEvents = (
   return bookings
     .filter((booking) => booking.CheckIn && booking.CheckOut)
     .map((booking) => {
-      // Determina il colore in base all'OTA
+      // Determina il colore in base all'OTA per default
       let backgroundColor = "#808080"; // Default: grigio
       const otaLower = booking.OTA.toLowerCase();
 
@@ -106,18 +108,13 @@ const createCalendarEvents = (
       if (otaLower.includes("airbnb")) backgroundColor = "#B22222"; // Rosso scuro
       if (otaLower.includes("extra")) backgroundColor = "#008000"; // Verde
 
-      // Se stiamo visualizzando tutti gli appartamenti, usa colori diversi per appartamento
+      // Se stiamo visualizzando tutti gli appartamenti, usa i colori degli appartamenti
       if (calendarType === "all" && booking.apartment) {
-        switch (booking.apartment) {
-          case "apt-3":
-            backgroundColor = "#3498db"; // Blu per appartamento 3
-            break;
-          case "apt-4":
-            backgroundColor = "#e74c3c"; // Rosso per appartamento 4
-            break;
-          case "apt-8":
-            backgroundColor = "#2ecc71"; // Verde per appartamento 8
-            break;
+        const apartment = localStorageService.getApartmentById(
+          booking.apartment
+        );
+        if (apartment && apartment.color) {
+          backgroundColor = apartment.color;
         }
       }
 
@@ -199,6 +196,9 @@ export const createBooking = async (
       "Appartamento";
     notificationService.scheduleBookingNotifications(newBooking, apartmentName);
 
+    // Notifica l'aggiornamento
+    notifyBookingsUpdate();
+
     return newBooking;
   } catch (error) {
     console.error("Errore nella creazione della prenotazione:", error);
@@ -250,6 +250,9 @@ export const updateBooking = async (
         localStorageService.getApartmentById(booking.apartment || "")?.name ||
         "Appartamento";
       notificationService.scheduleBookingNotifications(booking, apartmentName);
+
+      // Notifica l'aggiornamento
+      notifyBookingsUpdate();
     }
 
     return success;
@@ -276,6 +279,9 @@ export const deleteBooking = async (
     if (success) {
       // Cancel notifications for deleted booking
       notificationService.cancelBookingNotifications(booking.id);
+
+      // Notifica l'aggiornamento
+      notifyBookingsUpdate();
     }
 
     return success;

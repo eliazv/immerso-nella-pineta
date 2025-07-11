@@ -46,8 +46,7 @@ const BackofficeLayout: React.FC = () => {
   const [statusBarHeight, setStatusBarHeight] = useState<number>(0);
   const navigate = useNavigate();
   const location = useLocation();
-  const [selectedCalendar, setSelectedCalendar] =
-    useState<CalendarType>("principale");
+  const [selectedCalendar, setSelectedCalendar] = useState<CalendarType>("all");
   const [apartments, setApartments] = useState<Apartment[]>([]);
 
   // Gestione status bar su Android - ora gestita tramite configurazione nativa
@@ -71,8 +70,8 @@ const BackofficeLayout: React.FC = () => {
   let activeTab: string = "home";
   if (currentPath === "/" || currentPath === "/home") {
     activeTab = "home";
-  } else if (currentPath.includes("/dashboard")) {
-    activeTab = "dashboard";
+  } else if (currentPath.includes("/statistics")) {
+    activeTab = "statistics";
   } else if (currentPath.includes("/calendar")) {
     activeTab = "calendar";
   } else if (currentPath.includes("/apartments")) {
@@ -100,9 +99,12 @@ const BackofficeLayout: React.FC = () => {
   useEffect(() => {
     const savedCalendar = localStorage.getItem("selectedApartment");
     if (savedCalendar) {
-      setSelectedCalendar(savedCalendar as CalendarType);
+      setSelectedCalendar(savedCalendar);
+    } else if (apartments.length > 0) {
+      // Se non c'è una selezione salvata, usa il primo appartamento
+      setSelectedCalendar(apartments[0].id);
     }
-  }, []);
+  }, [apartments]);
 
   // Gestisce il cambio di appartamento selezionato
   const handleCalendarChange = (value: string) => {
@@ -111,63 +113,21 @@ const BackofficeLayout: React.FC = () => {
       return;
     }
 
-    // Converte l'ID appartamento in CalendarType per compatibilità
-    let calendarType: CalendarType;
-    if (value === "all") {
-      calendarType = "all";
-    } else {
-      // Trova l'appartamento e mappa al CalendarType corrispondente
-      const apartment = apartments.find((apt) => apt.id === value);
-      if (apartment) {
-        // Mappa basata sul nome dell'appartamento (per compatibilità)
-        switch (apartment.name) {
-          case "N° 3":
-            calendarType = "principale";
-            break;
-          case "N° 4":
-            calendarType = "secondario";
-            break;
-          case "N° 8":
-            calendarType = "terziario";
-            break;
-          default:
-            calendarType = "principale";
-        }
-      } else {
-        calendarType = "principale";
-      }
-    }
-
-    setSelectedCalendar(calendarType);
+    setSelectedCalendar(value);
+    localStorage.setItem("selectedApartment", value);
   };
 
-  // Converte CalendarType in ID appartamento per il Select
+  // Ottiene il valore corrente per il Select (ora molto più semplice)
   const getSelectValue = (): string => {
-    if (selectedCalendar === "all") return "all";
-
-    // Trova l'appartamento corrispondente al CalendarType
-    const apartment = apartments.find((apt) => {
-      switch (selectedCalendar) {
-        case "principale":
-          return apt.name === "N° 3";
-        case "secondario":
-          return apt.name === "N° 4";
-        case "terziario":
-          return apt.name === "N° 8";
-        default:
-          return false;
-      }
-    });
-
-    return apartment ? apartment.id : apartments[0]?.id || "all";
+    return selectedCalendar;
   };
 
   // Gestisce il cambio di tab
   const handleTabChange = (value: string) => {
     if (value === "home") {
       navigate("/");
-    } else if (value === "dashboard") {
-      navigate("/dashboard");
+    } else if (value === "statistics") {
+      navigate("/statistics");
     } else if (value === "calendar") {
       navigate("/calendar");
     } else if (value === "apartments") {
@@ -231,7 +191,7 @@ const BackofficeLayout: React.FC = () => {
                     <span className="hidden lg:inline">Calendario</span>
                   </TabsTrigger>
                   <TabsTrigger
-                    value="dashboard"
+                    value="statistics"
                     className="flex items-center gap-1.5"
                   >
                     <BarChart3 className="h-4 w-4" />
@@ -261,18 +221,9 @@ const BackofficeLayout: React.FC = () => {
                           </>
                         );
                       }
-                      const apartment = apartments.find((apt) => {
-                        switch (selectedCalendar) {
-                          case "principale":
-                            return apt.name === "N° 3";
-                          case "secondario":
-                            return apt.name === "N° 4";
-                          case "terziario":
-                            return apt.name === "N° 8";
-                          default:
-                            return false;
-                        }
-                      });
+                      const apartment = apartments.find(
+                        (apt) => apt.id === selectedCalendar
+                      );
                       return apartment ? (
                         <>
                           <ApartmentIcon
@@ -285,7 +236,9 @@ const BackofficeLayout: React.FC = () => {
                             {apartment.name}
                           </span>
                           <span className="truncate text-sm md:inline lg:hidden">
-                            {apartment.name.replace("N° ", "")}
+                            {apartment.name.length > 8
+                              ? apartment.name.substring(0, 8) + "..."
+                              : apartment.name}
                           </span>
                         </>
                       ) : (
@@ -395,8 +348,8 @@ const BackofficeLayout: React.FC = () => {
         <div className="mb-8 border-b pb-2"></div>
       </div>
 
-      {/* Floating mobile navigation */}
-      <nav className="fixed bottom-4 left-4 right-4 z-50 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-xl rounded-2xl md:hidden">
+      {/* Floating navigation - now for all devices */}
+      <nav className="fixed bottom-4 left-4 right-4 z-50 bg-white/90 backdrop-blur-sm border border-gray-200 shadow-xl rounded-2xl">
         <div className="flex justify-around items-center h-16 px-2">
           <button
             className={`flex flex-col items-center justify-center flex-1 py-2 rounded-xl transition-colors ${
@@ -422,11 +375,11 @@ const BackofficeLayout: React.FC = () => {
           </button>
           <button
             className={`flex flex-col items-center justify-center flex-1 py-2 rounded-xl transition-colors ${
-              activeTab === "dashboard"
+              activeTab === "statistics"
                 ? "text-petrolio bg-petrolio/10 font-semibold"
                 : "text-ardesia/70"
             }`}
-            onClick={() => handleTabChange("dashboard")}
+            onClick={() => handleTabChange("statistics")}
           >
             <BarChart3 className="h-5 w-5 mx-auto" />
             <span className="text-xs mt-1">Statistiche</span>
@@ -440,7 +393,7 @@ const BackofficeLayout: React.FC = () => {
                   <div className="relative flex items-center gap-1">
                     {(() => {
                       const currentApartment = apartments.find(
-                        (apt) => getSelectValue() === apt.id
+                        (apt) => selectedCalendar === apt.id
                       );
                       if (currentApartment) {
                         return (
@@ -467,13 +420,13 @@ const BackofficeLayout: React.FC = () => {
                   <span className="text-xs mt-1 truncate max-w-[60px]">
                     {(() => {
                       const currentApartment = apartments.find(
-                        (apt) => getSelectValue() === apt.id
+                        (apt) => selectedCalendar === apt.id
                       );
                       if (currentApartment) {
                         return currentApartment.name.length > 8
                           ? currentApartment.name.substring(0, 8) + "..."
                           : currentApartment.name;
-                      } else if (getSelectValue() === "all") {
+                      } else if (selectedCalendar === "all") {
                         return "Tutti";
                       } else {
                         return "Alloggi";
@@ -491,7 +444,7 @@ const BackofficeLayout: React.FC = () => {
                     key={apartment.id}
                     onClick={() => handleCalendarChange(apartment.id)}
                     className={`${
-                      getSelectValue() === apartment.id
+                      selectedCalendar === apartment.id
                         ? "bg-petrolio/10 text-petrolio"
                         : ""
                     }`}
@@ -510,7 +463,7 @@ const BackofficeLayout: React.FC = () => {
                   <DropdownMenuItem
                     onClick={() => handleCalendarChange("all")}
                     className={`${
-                      getSelectValue() === "all"
+                      selectedCalendar === "all"
                         ? "bg-petrolio/10 text-petrolio"
                         : ""
                     }`}
@@ -534,10 +487,8 @@ const BackofficeLayout: React.FC = () => {
 
       {/* Content area with proper padding */}
       <div
-        className={`pb-24 md:pb-6 ${
-          activeTab === "calendar" || activeTab === "dashboard"
-            ? "pt-6 md:pt-10"
-            : ""
+        className={`pb-24 ${
+          activeTab === "calendar" || activeTab === "statistics" ? "pt-6" : ""
         }`}
       >
         <Outlet context={{ selectedCalendar }} />

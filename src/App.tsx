@@ -8,7 +8,7 @@ import { HelmetProvider } from "react-helmet-async";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
-import Dashboard from "./pages/Dashboard";
+import Statistics from "./pages/Statistics";
 import Apartments from "./pages/Apartments";
 import Migration from "./pages/Migration";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
@@ -44,7 +44,7 @@ const App = () => {
                 <Route path="calendar" element={<AvailabilityCalendar />} />
                 <Route path="apartments" element={<Apartments />} />
                 <Route path="migration" element={<Migration />} />
-                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="statistics" element={<Statistics />} />
                 {/* Reindirizza /admin direttamente alla pagina calendar */}
                 <Route
                   path="admin"

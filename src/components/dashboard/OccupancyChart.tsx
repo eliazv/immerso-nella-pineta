@@ -19,8 +19,12 @@ import {
   endOfWeek,
   startOfMonth,
   endOfMonth,
+  eachDayOfInterval,
+  parseISO,
+  isWithinInterval,
 } from "date-fns";
 import { it } from "date-fns/locale";
+import { localStorageService } from "@/services/localStorageService";
 
 interface ChartData {
   period: string;
@@ -30,44 +34,120 @@ interface ChartData {
 interface OccupancyChartProps {
   data?: ChartData[];
   title?: string;
+  selectedCalendar?: string;
 }
 
 const OccupancyChart: React.FC<OccupancyChartProps> = ({
   data = [],
   title = "Tasso di Occupazione",
+  selectedCalendar = "all",
 }) => {
   const [viewType, setViewType] = useState<"weekly" | "monthly">("monthly");
   const [currentDate, setCurrentDate] = useState(new Date());
 
+  // Funzione per calcolare l'occupazione reale basata sui dati delle prenotazioni
+  const calculateRealOccupancy = (startDate: Date, endDate: Date): number => {
+    let bookings = localStorageService.getBookings();
+
+    // Filtra per appartamento se non è "all"
+    if (selectedCalendar !== "all") {
+      bookings = bookings.filter(
+        (booking) => booking.apartment === selectedCalendar
+      );
+    }
+
+    const totalDays = eachDayOfInterval({
+      start: startDate,
+      end: endDate,
+    }).length;
+
+    if (totalDays === 0) return 0;
+
+    let occupiedDays = 0;
+
+    // Per ogni giorno nel periodo, controlla se c'è una prenotazione
+    eachDayOfInterval({ start: startDate, end: endDate }).forEach((day) => {
+      const isOccupied = bookings.some((booking) => {
+        if (!booking.CheckIn || !booking.CheckOut) return false;
+
+        try {
+          // Parse delle date nel formato DD/MM/YYYY
+          const [checkInDay, checkInMonth, checkInYear] =
+            booking.CheckIn.split("/");
+          const [checkOutDay, checkOutMonth, checkOutYear] =
+            booking.CheckOut.split("/");
+
+          const checkInDate = new Date(
+            parseInt(checkInYear),
+            parseInt(checkInMonth) - 1,
+            parseInt(checkInDay)
+          );
+          const checkOutDate = new Date(
+            parseInt(checkOutYear),
+            parseInt(checkOutMonth) - 1,
+            parseInt(checkOutDay)
+          );
+
+          // Verifica se il giorno è nell'intervallo della prenotazione
+          return isWithinInterval(day, {
+            start: checkInDate,
+            end: checkOutDate,
+          });
+        } catch (error) {
+          return false;
+        }
+      });
+
+      if (isOccupied) occupiedDays++;
+    });
+
+    return Math.round((occupiedDays / totalDays) * 100);
+  };
+
   // Generate chart data based on view type and current date
   const chartData = useMemo(() => {
+    // Se ci sono dati passati come prop, usali ma limitali a 6 voci
+    if (data && data.length > 0) {
+      const mappedData = data.map((item) => ({
+        period: item.month || item.period,
+        value: item.value || item.rate || 0,
+      }));
+      // Limita sempre a 6 voci (prendi le ultime 6)
+      return mappedData.slice(-6);
+    }
+
+    // Altrimenti calcola i dati reali dalle prenotazioni
     if (viewType === "weekly") {
-      // Generate 6 weeks of data
+      // Generate 6 weeks of real data
       const weeks = [];
       for (let i = 5; i >= 0; i--) {
         const weekStart = startOfWeek(subWeeks(currentDate, i), {
           weekStartsOn: 1,
         });
         const weekEnd = endOfWeek(weekStart, { weekStartsOn: 1 });
+        const occupancyRate = calculateRealOccupancy(weekStart, weekEnd);
         weeks.push({
           period: `${format(weekStart, "dd/MM", { locale: it })}`,
-          value: Math.floor(Math.random() * 80) + 10, // More realistic occupancy range
+          value: occupancyRate,
         });
       }
       return weeks;
     } else {
-      // Generate 6 months of data
+      // Generate 6 months of real data
       const months = [];
       for (let i = 5; i >= 0; i--) {
         const monthDate = subMonths(currentDate, i);
+        const monthStart = startOfMonth(monthDate);
+        const monthEnd = endOfMonth(monthDate);
+        const occupancyRate = calculateRealOccupancy(monthStart, monthEnd);
         months.push({
           period: format(monthDate, "MMM", { locale: it }),
-          value: Math.floor(Math.random() * 70) + 20, // More realistic monthly occupancy
+          value: occupancyRate,
         });
       }
       return months;
     }
-  }, [viewType, currentDate]);
+  }, [viewType, currentDate, data, selectedCalendar]);
 
   const maxValue =
     chartData.length > 0

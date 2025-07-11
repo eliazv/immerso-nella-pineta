@@ -16,6 +16,17 @@ interface RevenueChartProps {
 }
 
 const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
+  // Controllo di sicurezza per evitare errori se i dati non sono disponibili
+  if (!data || !data.monthlyRevenue || !Array.isArray(data.monthlyRevenue)) {
+    return (
+      <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+        <div className="text-center">
+          <p>Nessun dato disponibile per i ricavi</p>
+        </div>
+      </div>
+    );
+  }
+
   // Organizziamo i dati per il grafico
   // Estraiamo il mese e l'anno separatamente per un migliore ordinamento
   const processedData = data.monthlyRevenue

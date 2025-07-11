@@ -1,9 +1,4 @@
-import {
-  Apartment,
-  Booking,
-  CalendarType,
-  APARTMENT_MAPPING,
-} from "@/types/calendar";
+import { Apartment, Booking, CalendarType } from "@/types/calendar";
 
 // Chiavi per localStorage
 const STORAGE_KEYS = {
@@ -32,6 +27,8 @@ class LocalStorageService {
       this.createDefaultApartments();
       localStorage.setItem(STORAGE_KEYS.INITIALIZED, "true");
     }
+    // Rimuovi sempre gli appartamenti di default se esistono
+    this.removeDefaultApartments();
   }
 
   /**
@@ -54,6 +51,16 @@ class LocalStorageService {
     this.saveBookings([]);
   }
 
+  /**
+   * Rimuove gli appartamenti di default se esistono (ora non più necessario)
+   */
+  public removeDefaultApartments(): void {
+    // Non più necessario - gli appartamenti sono ora gestiti dinamicamente
+    console.log(
+      "Metodo removeDefaultApartments deprecato - appartamenti gestiti dinamicamente"
+    );
+  }
+
   // ==================== GESTIONE APPARTAMENTI ====================
 
   /**
@@ -73,14 +80,13 @@ class LocalStorageService {
   }
 
   /**
-   * Recupera un appartamento per CalendarType (compatibilità)
+   * Recupera un appartamento per CalendarType (ora supporta ID dinamici)
    */
   public getApartmentByCalendarType(
     calendarType: CalendarType
   ): Apartment | null {
     if (calendarType === "all") return null;
-    const apartmentId = APARTMENT_MAPPING[calendarType];
-    return this.getApartmentById(apartmentId);
+    return this.getApartmentById(calendarType);
   }
 
   /**
@@ -170,14 +176,13 @@ class LocalStorageService {
   }
 
   /**
-   * Recupera prenotazioni per CalendarType (compatibilità)
+   * Recupera prenotazioni per CalendarType (ora supporta ID dinamici)
    */
   public getBookingsByCalendarType(calendarType: CalendarType): Booking[] {
     if (calendarType === "all") {
       return this.getBookings();
     }
-    const apartmentId = APARTMENT_MAPPING[calendarType];
-    return this.getBookingsByApartment(apartmentId);
+    return this.getBookingsByApartment(calendarType);
   }
 
   /**

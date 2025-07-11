@@ -42,6 +42,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import MobileHeader from "@/components/MobileHeader";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -199,20 +200,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const getDefaultApartmentId = (): string => {
     if (selectedCalendar === "all") return "";
 
-    const apartment = apartments.find((apt) => {
-      switch (selectedCalendar) {
-        case "principale":
-          return apt.name === "N° 3";
-        case "secondario":
-          return apt.name === "N° 4";
-        case "terziario":
-          return apt.name === "N° 8";
-        default:
-          return false;
-      }
-    });
-
-    return apartment ? apartment.id : apartments[0]?.id || "";
+    // Restituisce il primo appartamento disponibile
+    return apartments[0]?.id || "";
   };
 
   // Gestisce la creazione di una nuova prenotazione
@@ -281,6 +270,16 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
 
       setEvents(processedEvents);
       setBookings(bookings);
+
+      // Se c'è una prenotazione selezionata, aggiornala con i dati più recenti
+      if (selectedBooking && selectedBooking.id) {
+        const updatedBooking = bookings.find(
+          (b) => b.id === selectedBooking.id
+        );
+        if (updatedBooking) {
+          setSelectedBooking(updatedBooking);
+        }
+      }
     } catch (error) {
       console.error("Errore durante il caricamento delle prenotazioni:", error);
     } finally {
@@ -294,31 +293,29 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     setIsModalOpen(true);
   };
 
-  // Mappa tra codici calendario e nomi degli appartamenti
-  const apartmentNames = {
-    principale: "Appartamento 3",
-    secondario: "Appartamento 4",
-    terziario: "Appartamento 8",
-    all: "Tutti gli appartamenti",
-  };
-
   // Versione abbreviata dei nomi degli appartamenti per i titoli degli eventi
-  const getApartmentShortName = (apartment?: string) => {
-    switch (apartment) {
-      case "principale":
-        return "App.3";
-      case "secondario":
-        return "App.4";
-      case "terziario":
-        return "App.8";
-      default:
-        return "";
-    }
+  const getApartmentShortName = (apartmentId?: string) => {
+    if (!apartmentId) return "";
+
+    // Cerca l'appartamento per ID
+    const apartment = apartments.find((apt) => apt.id === apartmentId);
+    if (!apartment) return "";
+
+    // Restituisce il nome abbreviato (primi 8 caratteri + ...)
+    return apartment.name.length > 8
+      ? apartment.name.substring(0, 8) + "..."
+      : apartment.name;
   };
 
   // Funzione per ottenere il titolo del calendario in base al tipo selezionato
   const getCalendarTitle = () => {
-    return apartmentNames[selectedCalendar] || "Calendario Disponibilità";
+    if (selectedCalendar === "all") {
+      return "Tutti gli appartamenti";
+    }
+
+    // Cerca l'appartamento per ID
+    const apartment = apartments.find((apt) => apt.id === selectedCalendar);
+    return apartment ? apartment.name : "Calendario Disponibilità";
   };
 
   // Legenda dei colori per la vista "all"
@@ -326,25 +323,32 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     if (selectedCalendar !== "all") return null;
 
     return (
-      <div className="flex items-center gap-4 text-sm mt-2 justify-end">
-        <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#3498db]"></div>
-          <span>App. 3</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#e74c3c]"></div>
-          <span>App. 4</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#2ecc71]"></div>
-          <span>App. 8</span>
-        </div>
+      <div className="flex items-center gap-4 text-sm mt-2 justify-end flex-wrap">
+        {apartments.map((apartment) => (
+          <div key={apartment.id} className="flex items-center gap-1">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: apartment.color }}
+            ></div>
+            <span>{apartment.name}</span>
+          </div>
+        ))}
       </div>
     );
   };
 
   return (
     <div className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
+      {/* Mobile Header */}
+      <MobileHeader
+        pageTitle="Calendario"
+        onNewBookingClick={() => setIsCreateModalOpen(true)}
+        onICalImportClick={() => setIsICalImportOpen(true)}
+        onNotificationClick={() => console.log("Notifiche")}
+        showCreateActions={true}
+        showNotifications={true}
+      />
+
       {/* Header con titolo e bottone */}
 
       <style>{`
@@ -401,15 +405,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           margin-right: 3.57% !important;
         }
       `}</style>
-
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h2 className="text-xl font-medium">Calendario</h2>
-          <p className="text-muted-foreground">
-            {apartmentNames[selectedCalendar]}
-          </p>
-        </div>
-      </div>
 
       {renderColorLegend()}
 

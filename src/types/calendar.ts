@@ -1,7 +1,7 @@
 // Interfaccia per gli alloggi/appartamenti
 export interface Apartment {
   id: string; // Identificatore univoco
-  name: string; // Nome dell'appartamento (es. "N° 3", "N° 4", "N° 8")
+  name: string; // Nome dell'appartamento (es. "Casa Vacanze", "Appartamento Centro", "Villa Mare")
   description?: string; // Descrizione dell'appartamento
   maxGuests: number; // Numero massimo di ospiti
   address?: string; // Indirizzo
@@ -49,16 +49,8 @@ export interface Booking {
   apartment?: string; // Identificatore dell'appartamento
 }
 
-// Tipo di calendario selezionabile (mantenuto per compatibilità)
-export type CalendarType = "principale" | "secondario" | "terziario" | "all";
-
-// Mapping tra CalendarType e ID appartamenti per compatibilità
-export const APARTMENT_MAPPING: Record<CalendarType, string> = {
-  principale: "apt-3",
-  secondario: "apt-4",
-  terziario: "apt-8",
-  all: "all",
-};
+// Tipo di calendario selezionabile - ora supporta ID dinamici degli appartamenti
+export type CalendarType = string; // Può essere un ID appartamento o "all"
 
 // Evento per FullCalendar
 export interface CalendarEvent {

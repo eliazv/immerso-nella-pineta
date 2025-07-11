@@ -29,6 +29,23 @@ const COLORS = [
 ];
 
 const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
+  // Controllo di sicurezza per evitare errori se i dati non sono disponibili
+  if (
+    !data ||
+    !data.bookingCount ||
+    !data.revenue ||
+    !Array.isArray(data.bookingCount) ||
+    !Array.isArray(data.revenue)
+  ) {
+    return (
+      <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+        <div className="text-center">
+          <p>Nessun dato disponibile per il confronto OTA</p>
+        </div>
+      </div>
+    );
+  }
+
   // Ordina i dati per numero di prenotazioni (dal più grande al più piccolo)
   const sortedBookingData = [...data.bookingCount].sort(
     (a, b) => b.count - a.count

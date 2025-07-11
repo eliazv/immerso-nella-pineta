@@ -34,10 +34,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
           </div>
           <div>
             <h3 className="text-2xl font-bold text-ardesia">
-              € {revenue.totalRevenue.toLocaleString("it-IT")}
+              € {(revenue.totalRevenue || 0).toLocaleString("it-IT")}
             </h3>
             <p className="text-xs text-ardesia/60 mt-1">
-              € {revenue.averagePerNight} media a notte
+              € {revenue.averagePerNight || 0} media a notte
             </p>
           </div>
         </CardContent>
@@ -75,8 +75,8 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
           <div>
             <h3 className="text-2xl font-bold text-ardesia">{totalBookings}</h3>
             <p className="text-xs text-ardesia/60 mt-1">
-              € {revenue.averagePerBooking.toLocaleString("it-IT")} media per
-              prenotazione
+              € {(revenue.averagePerBooking || 0).toLocaleString("it-IT")} media
+              per prenotazione
             </p>
           </div>
         </CardContent>

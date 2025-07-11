@@ -58,9 +58,9 @@ const Header = () => {
     { name: "Prenota", href: "/book", icon: Calendar },
   ];
 
-  // Aggiungi il link alla dashboard solo per gli utenti autenticati
+  // Aggiungi il link alle statistiche solo per gli utenti autenticati
   const adminNavigation = isAuthenticated
-    ? [{ name: "Dashboard", href: "/dashboard", icon: BarChart3 }]
+    ? [{ name: "Statistiche", href: "/statistics", icon: BarChart3 }]
     : [];
 
   // Combina la navigazione normale con quella admin

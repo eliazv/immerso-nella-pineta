@@ -148,9 +148,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   // Per gestire il form di modifica
   const form = useForm<Booking>({
     defaultValues: booking || {},
-  }); // Aggiorna il form quando cambia la prenotazione
+  });
+
+  // Aggiorna il form quando cambia la prenotazione
   useEffect(() => {
     if (booking) {
+      // Reset completo del form con i nuovi dati
+      form.reset(booking);
+
+      // Assicurati che tutti i campi siano aggiornati
       Object.keys(booking).forEach((key) => {
         form.setValue(key as keyof Booking, booking[key as keyof Booking]);
       });
@@ -159,6 +165,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       // Questo impedisce di avere valori casuali quando non ci sono dati
     }
   }, [booking, form]);
+
+  // Reset edit mode when modal opens/closes or booking changes
+  useEffect(() => {
+    setIsEditing(false);
+
+    // Se la modale si chiude, pulisci il form per evitare dati residui
+    if (!open) {
+      form.reset({});
+    }
+  }, [open, booking, form]);
   // Calcola automaticamente la tassa di soggiorno quando cambiano i dati rilevanti
   const watchedBookingValues = form.watch([
     "CheckIn",
@@ -266,6 +282,27 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   // Constante per riconoscere le piattaforme di prenotazione (OTA) disponibili
   const availableOTAs = ["Booking", "Airbnb", "Extra", "Agenzia", "Diretta"];
+
+  // Funzione per verificare se ci sono dettagli importi da mostrare
+  const hasFinancialDetails = (booking: Booking) => {
+    const financialFields = [
+      "TotalePagatoOspite",
+      "CostoPulizia",
+      "ScontiApplicati",
+      "Supplementi",
+      "CommissioneOTA",
+      "TassaSoggiorno",
+      "CedolareSecca",
+      "TotaleNetto",
+      "Totale",
+    ];
+
+    return financialFields.some(
+      (field) =>
+        booking[field as keyof Booking] &&
+        String(booking[field as keyof Booking]).trim() !== ""
+    );
+  };
 
   if (!booking) return null;
 
@@ -377,121 +414,131 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 {booking.Note && (
                   <div className="mt-2 pt-2 border-t">
                     <span className="font-semibold mb-1">! Note: </span>
-                    {booking.Note}
+                    <div className="break-words whitespace-pre-wrap overflow-wrap-anywhere">
+                      {booking.Note}
+                    </div>
                   </div>
                 )}
               </div>
-              {/* Importi, tasse e totale unificati */}
-              <div className="bg-slate-50 p-3 rounded-md shadow-sm">
-                <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2 flex items-center gap-2">
-                  <BadgeEuro className="w-5 h-5 mr-1" />
-                  Dettagli Importi
+              {/* Importi, tasse e totale unificati - mostra solo se ci sono dati */}
+              {hasFinancialDetails(booking) && (
+                <div className="bg-slate-50 p-3 rounded-md shadow-sm">
+                  <div className="font-semibold text-base text-slate-600 uppercase tracking-wider border-b pb-1 mb-2 flex items-center gap-2">
+                    <BadgeEuro className="w-5 h-5 mr-1" />
+                    Dettagli Importi
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-base">
+                    {/* Mostra solo i campi compilati */}
+                    {booking.TotalePagatoOspite &&
+                      booking.TotalePagatoOspite.trim() !== "" && (
+                        <>
+                          <span className="font-semibold">
+                            Totale Pagato dall'Ospite:
+                          </span>
+                          <span className="text-slate-800 font-mono font-bold">
+                            €{booking.TotalePagatoOspite}
+                          </span>
+                        </>
+                      )}
+
+                    {booking.CostoPulizia &&
+                      booking.CostoPulizia.trim() !== "" && (
+                        <>
+                          <span className="font-semibold">Costo Pulizia:</span>
+                          <span className="text-slate-800 font-mono">
+                            €{booking.CostoPulizia}
+                          </span>
+                        </>
+                      )}
+
+                    {booking.ScontiApplicati &&
+                      booking.ScontiApplicati.trim() !== "" && (
+                        <>
+                          <span className="font-semibold">
+                            Sconti Applicati:
+                          </span>
+                          <span className="text-slate-800 font-mono">
+                            €{booking.ScontiApplicati}
+                          </span>
+                        </>
+                      )}
+
+                    {booking.Supplementi &&
+                      booking.Supplementi.trim() !== "" && (
+                        <>
+                          <span className="font-semibold">Supplementi:</span>
+                          <span className="text-slate-800 font-mono">
+                            €{booking.Supplementi}
+                          </span>
+                        </>
+                      )}
+
+                    {booking.CommissioneOTA &&
+                      booking.CommissioneOTA.trim() !== "" && (
+                        <>
+                          <span className="font-semibold">
+                            Commissione OTA:
+                          </span>
+                          <span className="text-slate-800 font-mono">
+                            €{booking.CommissioneOTA}
+                          </span>
+                        </>
+                      )}
+
+                    {booking.TassaSoggiorno &&
+                      booking.TassaSoggiorno.trim() !== "" && (
+                        <>
+                          <span className="font-semibold">
+                            Tassa di Soggiorno:
+                          </span>
+                          <span className="text-slate-800 font-mono">
+                            €{booking.TassaSoggiorno}
+                          </span>
+                        </>
+                      )}
+
+                    {booking.CedolareSecca &&
+                      booking.CedolareSecca.trim() !== "" && (
+                        <>
+                          <span className="font-semibold">Cedolare Secca:</span>
+                          <span className="text-slate-800 font-mono">
+                            €{booking.CedolareSecca}
+                          </span>
+                        </>
+                      )}
+
+                    {/* Totale Netto sempre visibile se presente */}
+                    {booking.TotaleNetto &&
+                      booking.TotaleNetto.trim() !== "" && (
+                        <>
+                          <span className="font-semibold text-lg text-primary">
+                            Totale Netto:
+                          </span>
+                          <span className="text-primary font-mono font-bold text-lg">
+                            €{booking.TotaleNetto}
+                          </span>
+                        </>
+                      )}
+
+                    {/* Fallback ai campi legacy se non ci sono nuovi campi */}
+                    {(!booking.TotaleNetto ||
+                      booking.TotaleNetto.trim() === "") &&
+                      booking.Totale &&
+                      booking.Totale.trim() !== "" && (
+                        <>
+                          <span className="font-semibold text-lg text-primary">
+                            Totale:
+                          </span>
+                          <span className="text-primary font-mono font-bold text-lg">
+                            {booking.Totale.includes("€")
+                              ? booking.Totale
+                              : `€${booking.Totale}`}
+                          </span>
+                        </>
+                      )}
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-base">
-                  {/* Mostra solo i campi compilati */}
-                  {booking.TotalePagatoOspite &&
-                    booking.TotalePagatoOspite.trim() !== "" && (
-                      <>
-                        <span className="font-semibold">
-                          Totale Pagato dall'Ospite:
-                        </span>
-                        <span className="text-slate-800 font-mono font-bold">
-                          €{booking.TotalePagatoOspite}
-                        </span>
-                      </>
-                    )}
-
-                  {booking.CostoPulizia &&
-                    booking.CostoPulizia.trim() !== "" && (
-                      <>
-                        <span className="font-semibold">Costo Pulizia:</span>
-                        <span className="text-slate-800 font-mono">
-                          €{booking.CostoPulizia}
-                        </span>
-                      </>
-                    )}
-
-                  {booking.ScontiApplicati &&
-                    booking.ScontiApplicati.trim() !== "" && (
-                      <>
-                        <span className="font-semibold">Sconti Applicati:</span>
-                        <span className="text-slate-800 font-mono">
-                          €{booking.ScontiApplicati}
-                        </span>
-                      </>
-                    )}
-
-                  {booking.Supplementi && booking.Supplementi.trim() !== "" && (
-                    <>
-                      <span className="font-semibold">Supplementi:</span>
-                      <span className="text-slate-800 font-mono">
-                        €{booking.Supplementi}
-                      </span>
-                    </>
-                  )}
-
-                  {booking.CommissioneOTA &&
-                    booking.CommissioneOTA.trim() !== "" && (
-                      <>
-                        <span className="font-semibold">Commissione OTA:</span>
-                        <span className="text-slate-800 font-mono">
-                          €{booking.CommissioneOTA}
-                        </span>
-                      </>
-                    )}
-
-                  {booking.TassaSoggiorno &&
-                    booking.TassaSoggiorno.trim() !== "" && (
-                      <>
-                        <span className="font-semibold">
-                          Tassa di Soggiorno:
-                        </span>
-                        <span className="text-slate-800 font-mono">
-                          €{booking.TassaSoggiorno}
-                        </span>
-                      </>
-                    )}
-
-                  {booking.CedolareSecca &&
-                    booking.CedolareSecca.trim() !== "" && (
-                      <>
-                        <span className="font-semibold">Cedolare Secca:</span>
-                        <span className="text-slate-800 font-mono">
-                          €{booking.CedolareSecca}
-                        </span>
-                      </>
-                    )}
-
-                  {/* Totale Netto sempre visibile se presente */}
-                  {booking.TotaleNetto && booking.TotaleNetto.trim() !== "" && (
-                    <>
-                      <span className="font-semibold text-lg text-primary">
-                        Totale Netto:
-                      </span>
-                      <span className="text-primary font-mono font-bold text-lg">
-                        €{booking.TotaleNetto}
-                      </span>
-                    </>
-                  )}
-
-                  {/* Fallback ai campi legacy se non ci sono nuovi campi */}
-                  {(!booking.TotaleNetto ||
-                    booking.TotaleNetto.trim() === "") &&
-                    booking.Totale &&
-                    booking.Totale.trim() !== "" && (
-                      <>
-                        <span className="font-semibold text-lg text-primary">
-                          Totale:
-                        </span>
-                        <span className="text-primary font-mono font-bold text-lg">
-                          {booking.Totale.includes("€")
-                            ? booking.Totale
-                            : `€${booking.Totale}`}
-                        </span>
-                      </>
-                    )}
-                </div>
-              </div>
+              )}
             </div>
 
             <DialogFooter>
@@ -584,19 +631,47 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </Select>
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="CheckIn">Check-in (DD/MM/YYYY)</Label>
+                    <Label htmlFor="CheckIn">Check-in</Label>
                     <Input
                       id="CheckIn"
+                      type="date"
                       {...form.register("CheckIn")}
                       className="bg-white"
+                      onChange={(e) => {
+                        const newCheckIn = e.target.value;
+                        form.setValue("CheckIn", newCheckIn);
+                        // Se il check-out è prima o uguale al check-in, resettalo
+                        const currentCheckOut = form.getValues("CheckOut");
+                        if (currentCheckOut && currentCheckOut <= newCheckIn) {
+                          form.setValue("CheckOut", "");
+                        }
+                      }}
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="CheckOut">Check-out (DD/MM/YYYY)</Label>
+                    <Label htmlFor="CheckOut">Check-out</Label>
                     <Input
                       id="CheckOut"
+                      type="date"
                       {...form.register("CheckOut")}
                       className="bg-white"
+                      min={
+                        form.watch("CheckIn")
+                          ? (() => {
+                              const checkInDate = new Date(
+                                form.watch("CheckIn")
+                              );
+                              // Verifica che la data sia valida
+                              if (isNaN(checkInDate.getTime())) {
+                                return undefined;
+                              }
+                              const minDate = new Date(
+                                checkInDate.getTime() + 24 * 60 * 60 * 1000
+                              );
+                              return minDate.toISOString().split("T")[0];
+                            })()
+                          : undefined
+                      }
                     />
                   </div>
                   <div className="space-y-1">
@@ -758,7 +833,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   id="Note"
                   {...form.register("Note")}
                   placeholder="Note opzionali sulla prenotazione"
-                  className="bg-white min-h-[80px]"
+                  className="bg-white min-h-[80px] break-words resize-none"
                 />
               </div>
             </div>

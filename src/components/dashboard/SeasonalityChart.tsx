@@ -35,6 +35,23 @@ const monthOrder = [
 ];
 
 const SeasonalityChart: React.FC<SeasonalityChartProps> = ({ data }) => {
+  // Controllo di sicurezza per evitare errori se i dati non sono disponibili
+  if (
+    !data ||
+    !data.monthlyBookings ||
+    !data.monthlyAvgPrice ||
+    !Array.isArray(data.monthlyBookings) ||
+    !Array.isArray(data.monthlyAvgPrice)
+  ) {
+    return (
+      <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+        <div className="text-center">
+          <p>Nessun dato disponibile per l'analisi stagionalità</p>
+        </div>
+      </div>
+    );
+  }
+
   // Combina i dati di prenotazioni e prezzi medi
   const chartData = monthOrder.map((month) => {
     const bookingsData = data.monthlyBookings.find(

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Booking } from "@/types/calendar";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingCard from "@/components/calendar/BookingCard";
+import { localStorageService } from "@/services/localStorageService";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Plus, Calendar } from "lucide-react";
@@ -87,17 +88,17 @@ const BookingsList: React.FC<BookingsListProps> = ({
   };
 
   // Versione abbreviata dei nomi degli appartamenti
-  const getApartmentShortName = (apartment?: string) => {
-    switch (apartment) {
-      case "principale":
-        return "App.3";
-      case "secondario":
-        return "App.4";
-      case "terziario":
-        return "App.8";
-      default:
-        return "";
-    }
+  const getApartmentShortName = (apartmentId?: string) => {
+    if (!apartmentId) return "";
+
+    // Cerca l'appartamento per ID
+    const apartment = localStorageService.getApartmentById(apartmentId);
+    if (!apartment) return "";
+
+    // Restituisce il nome abbreviato (primi 8 caratteri + ...)
+    return apartment.name.length > 8
+      ? apartment.name.substring(0, 8) + "..."
+      : apartment.name;
   };
 
   return (
@@ -139,7 +140,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
             className="pl-10"
           />
         </div>
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           {onICalImportClick && (
             <Button
               onClick={onICalImportClick}
@@ -161,7 +162,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
               Nuova
             </Button>
           )}
-        </div>
+        </div> */}
       </div>
 
       {/* Risultati ricerca */}

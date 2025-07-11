@@ -6,6 +6,13 @@ import { localStorageService } from "./localStorageService";
  * Fornisce un'interfaccia semplificata per le operazioni CRUD sugli appartamenti
  */
 
+/**
+ * Emette un evento personalizzato per notificare l'aggiornamento degli appartamenti
+ */
+const notifyApartmentsUpdate = () => {
+  window.dispatchEvent(new CustomEvent("apartmentsUpdated"));
+};
+
 // Interfaccia per i dati di creazione appartamento
 export interface CreateApartmentData {
   name: string;
@@ -100,7 +107,12 @@ export const createApartment = (data: CreateApartmentData): Apartment => {
     icon: data.icon || "Home",
   };
 
-  return localStorageService.addApartment(apartmentData);
+  const result = localStorageService.addApartment(apartmentData);
+
+  // Notifica l'aggiornamento
+  notifyApartmentsUpdate();
+
+  return result;
 };
 
 /**
@@ -150,8 +162,15 @@ export const updateApartment = (
   if (data.basePrice !== undefined) updateData.basePrice = data.basePrice;
   if (data.cleaningFee !== undefined) updateData.cleaningFee = data.cleaningFee;
   if (data.isActive !== undefined) updateData.isActive = data.isActive;
+  if (data.color !== undefined) updateData.color = data.color;
+  if (data.icon !== undefined) updateData.icon = data.icon;
 
-  return localStorageService.updateApartment(id, updateData);
+  const result = localStorageService.updateApartment(id, updateData);
+
+  // Notifica l'aggiornamento
+  notifyApartmentsUpdate();
+
+  return result;
 };
 
 /**
@@ -175,7 +194,12 @@ export const deleteApartment = (id: string): boolean => {
     );
   }
 
-  return localStorageService.deleteApartment(id);
+  const result = localStorageService.deleteApartment(id);
+
+  // Notifica l'aggiornamento
+  notifyApartmentsUpdate();
+
+  return result;
 };
 
 /**
