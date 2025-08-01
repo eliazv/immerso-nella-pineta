@@ -13,6 +13,7 @@ import HouseRulesPDF from "./pages/HouseRulesPDF";
 import NotFound from "./pages/NotFound";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import Dashboard from "./pages/Dashboard";
+import AlloggiatiWeb from "./pages/AlloggiatiWeb";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,9 @@ const App = () => {
               <Route path="/rules" element={<Rules />} />
               <Route path="/book" element={<Book />} />
               <Route path="/rules/pdf" element={<HouseRulesPDF />} />
+
+              {/* Sistema Alloggiati Web */}
+              <Route path="/alloggiati" element={<AlloggiatiWeb />} />
 
               {/* Backoffice con layout condiviso */}
               <Route path="/" element={<BackofficeLayout />}>
