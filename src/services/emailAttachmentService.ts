@@ -19,6 +19,13 @@ export interface EmailAttachmentConfig {
 }
 
 export class EmailAttachmentService {
+  private static isDev = import.meta.env.DEV;
+  
+  private static log(message: string, data?: unknown) {
+    if (this.isDev) {
+      console.log(message, data);
+    }
+  }
   /**
    * Invia email con file - SEMPRE con contenuto inline + link opzionale
    */
@@ -36,13 +43,13 @@ export class EmailAttachmentService {
         throw new Error('EmailJS non disponibile');
       }
 
-      console.log('Tentativo caricamento file per link download...', {
+      this.log('Tentativo caricamento file per link download...', {
         fileName: fileName,
         contentSize: fileContent.length
       });
 
-      // Prova GitHub Gist prima, poi Catbox come backup
-      let backupResult = await this.createGitHubGistBackup(
+      // Prova solo GitHub Gist (no Catbox per evitare CORS)
+      const backupResult = await this.createGitHubGistBackup(
         fileName,
         fileContent,
         subject
@@ -62,7 +69,7 @@ export class EmailAttachmentService {
         throw new Error(`Errore invio email: ${emailResult.error}`);
       }
 
-      console.log('Email con contenuto inline inviata con successo');
+      this.log('Email con contenuto inline inviata con successo');
       
       return {
         success: true,
@@ -88,12 +95,15 @@ export class EmailAttachmentService {
     description: string
   ): Promise<{ success: boolean; url?: string; error?: string }> {
     try {
-      console.log('Tentativo caricamento su GitHub Gist...', { fileName, contentSize: content.length });
+      this.log('Tentativo caricamento su GitHub Gist...', { fileName, contentSize: content.length });
 
       const githubToken = import.meta.env.VITE_GITHUB_TOKEN;
       if (!githubToken) {
-        console.log('Token GitHub non configurato, provo Catbox...');
-        return await this.createCatboxBackup(fileName, content, description);
+        this.log('Token GitHub non configurato, procedo solo con email inline');
+        return {
+          success: false,
+          error: 'Token GitHub non configurato'
+        };
       }
 
       const gistData = {
@@ -117,71 +127,31 @@ export class EmailAttachmentService {
       });
 
       if (!response.ok) {
-        console.log('GitHub Gist fallito, provo Catbox...');
-        return await this.createCatboxBackup(fileName, content, description);
+        this.log('GitHub Gist fallito, procedo solo con email inline');
+        return {
+          success: false,
+          error: `GitHub API error: ${response.status}`
+        };
       }
 
       const result = await response.json();
       const fileUrl = result.files[fileName].raw_url;
 
-      console.log('File caricato su GitHub Gist:', fileUrl);
+      this.log('File caricato su GitHub Gist:', fileUrl);
       
       return {
         success: true,
         url: fileUrl
       };
     } catch (error) {
-      console.log('GitHub Gist fallito, provo Catbox...', error);
-      return await this.createCatboxBackup(fileName, content, description);
-    }
-  }
-
-  /**
-   * Carica su Catbox.moe (backup)
-   */
-  private static async createCatboxBackup(
-    fileName: string,
-    content: string,
-    description: string
-  ): Promise<{ success: boolean; url?: string; error?: string }> {
-    try {
-      console.log('Tentativo caricamento su Catbox.moe...', { fileName, contentSize: content.length });
-
-      const formData = new FormData();
-      const blob = new Blob([content], { type: 'text/plain' });
-      formData.append('reqtype', 'fileupload');
-      formData.append('fileToUpload', blob, fileName);
-
-      const response = await fetch('https://catbox.moe/user/api.php', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error(`Catbox API error: ${response.status}`);
-      }
-
-      const fileUrl = await response.text();
-      
-      if (!fileUrl || fileUrl.includes('error')) {
-        throw new Error('Upload fallito');
-      }
-
-      console.log('File caricato su Catbox:', fileUrl);
-      
-      return {
-        success: true,
-        url: fileUrl.trim()
-      };
-    } catch (error) {
-      console.log('Catbox fallito, procedo solo con email inline:', error);
-      
+      this.log('GitHub Gist fallito, procedo solo con email inline:', error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Errore sconosciuto'
+        error: error instanceof Error ? error.message : 'Errore GitHub Gist'
       };
     }
   }
+
 
   /**
    * Invia email con contenuto inline (sempre) + link opzionale
@@ -222,7 +192,7 @@ NOTA: ${downloadUrl ? 'Usa il link sopra per scaricare direttamente il file, opp
         config.publicKey
       );
 
-      console.log('Email con contenuto inline inviata:', response);
+      this.log('Email con contenuto inline inviata:', response);
       return { success: true };
     } catch (error) {
       console.error('Errore invio email:', error);

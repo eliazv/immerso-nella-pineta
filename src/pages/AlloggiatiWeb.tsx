@@ -89,9 +89,17 @@ ISTRUZIONI:
 1. Scarica il file allegato a questa email
 2. Carica il file sul Portale Alloggiati Web
 3. Il file è in formato corretto per l'importazione
+
+=== CONTENUTO FILE TXT ===
+${fileContent}
+
+=== DATI OSPITI IN FORMATO JSON ===
+${JSON.stringify(formData, null, 2)}
       `;
 
-      console.log("Invio email con allegato ottimizzato...");
+      if (import.meta.env.DEV) {
+        console.log("Invio email con allegato ottimizzato...");
+      }
       
       const result = await EmailAttachmentService.sendEmailWithAttachment(
         config,
@@ -103,9 +111,11 @@ ISTRUZIONI:
       );
 
       if (result.success) {
-        console.log("Email inviata con successo");
-        if (result.backupUrl) {
-          console.log("File backup disponibile su:", result.backupUrl);
+        if (import.meta.env.DEV) {
+          console.log("Email inviata con successo");
+          if (result.backupUrl) {
+            console.log("File backup disponibile su:", result.backupUrl);
+          }
         }
       } else {
         console.error("Errore invio email:", result.error);
@@ -141,7 +151,9 @@ ISTRUZIONI:
       );
 
       // Il caricamento del file viene gestito direttamente nel servizio email
-      console.log("Preparazione invio email con file...");
+      if (import.meta.env.DEV) {
+        console.log("Preparazione invio email con file...");
+      }
 
       // Invia email di notifica con allegato
       await sendEmailNotification(formData, fileName, content);
