@@ -75,7 +75,6 @@ const calculateSoggiornoTax = (booking: Partial<Booking>): string => {
   }
 };
 
-
 export const AddBookingModal: React.FC<AddBookingModalProps> = ({
   calendarType,
   onAdd,
@@ -168,9 +167,9 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-green-600 hover:bg-green-700">
-          <Plus className="w-4 h-4 mr-2" />
-          Aggiungi Prenotazione
+        <Button>
+          <Plus className="w-4 h-4" />
+          Nuova Prenotazione
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto bg-white border-slate-200 px-2 sm:px-6 py-0">
@@ -374,7 +373,12 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
             <div className="space-y-1">
               <Label htmlFor="SoggiornoTaxRiscossa">Tassa Riscossa</Label>
               <Select
-                onValueChange={(value) => form.setValue("SoggiornoTaxRiscossa", value === "undefined" ? "" : value)}
+                onValueChange={(value) =>
+                  form.setValue(
+                    "SoggiornoTaxRiscossa",
+                    value === "undefined" ? "" : value
+                  )
+                }
               >
                 <SelectTrigger className="bg-white">
                   <SelectValue placeholder="Seleziona stato" />

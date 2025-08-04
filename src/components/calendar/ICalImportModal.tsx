@@ -31,13 +31,21 @@ import { AccommodationService } from '@/services/accommodationService';
 interface ICalImportModalProps {
   calendarType: CalendarType;
   onImportComplete: () => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export const ICalImportModal: React.FC<ICalImportModalProps> = ({
   calendarType,
   onImportComplete,
+  open,
+  onOpenChange,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  // Use external control if provided, otherwise use internal state
+  const isOpen = open !== undefined ? open : internalOpen;
+  const setIsOpen = onOpenChange || setInternalOpen;
   const [isLoading, setIsLoading] = useState(false);
   const [importUrl, setImportUrl] = useState('');
   const [fileContent, setFileContent] = useState('');

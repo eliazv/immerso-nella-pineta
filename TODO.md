@@ -1,5 +1,4 @@
-- la tendina di selezione dlel'appartamento deve essere non nell'header ma nelle sigole pagine , penso sia la cosa migliore o no? metterlo in alto enlle pagine calendario e statistiche
-- tasto di ricarica delle pagine calendario e statistiche serve ancora ?
-- impostazioni appartamenti deve essere così: non piu due tab distinte ma una sola pagina con sopra seizone alloggiati , di alloggiati tutto quello che c'è è inutile e toglilo a parte la sezione Azioni Rapide, sotto gestione appartamenti
-- migliora visualizzazione mobile soprattutto nelle intestazioni con i bottoni di fianco (impostazioni, calendario e statistiche). i bottoni nuovo X deve solo avere icona + in mobile senza scritta
-- nuova prenotazione in pagina calendar deve essere solo un piu e se cliccato apre una piccola tendina con 2 opzioni nuova prenotazione o importa da ical
+- in modalità tablet le voci dell'header devono essere estese come in modalità desktop, in modalità mobile fai scomparire header e vari padding top per gestione header
+- il titolo della pagina va prima dei selettori e bottoni vari della pagina
+- selettori e bottoni tutti su una rica anche in modalità mobile
+- calendario: fai scomparire importa ical da bottone separato, deve essere all'interno di tendina che si apre con bottone +

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -24,21 +23,17 @@ import SeasonalityChart from "@/components/dashboard/SeasonalityChart";
 import SummaryCards from "@/components/dashboard/SummaryCards";
 import {
   Loader2,
-  RefreshCw,
   Calendar,
   TrendingUp,
   PieChart,
   BarChart,
+  House,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-// Interfaccia per il contesto condiviso dal layout
-interface BackofficeContext {
-  selectedCalendar: CalendarType;
-}
+import { AccommodationService } from "@/services/accommodationService";
 
 const Dashboard: React.FC = () => {
-  const { selectedCalendar } = useOutletContext<BackofficeContext>();
+  const [selectedCalendar, setSelectedCalendar] = useState<CalendarType>("principale");
   const [selectedYear, setSelectedYear] = useState<string>(
     new Date().getFullYear().toString()
   );
@@ -47,6 +42,20 @@ const Dashboard: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<string>("");
   const [stats, setStats] = useState<any>(null);
   const isMobile = useIsMobile();
+
+  // Load saved apartment selection
+  useEffect(() => {
+    const savedCalendar = localStorage.getItem("selectedApartment");
+    if (savedCalendar) {
+      setSelectedCalendar(savedCalendar as CalendarType);
+    }
+  }, []);
+
+  // Save apartment selection
+  const handleCalendarChange = (value: CalendarType) => {
+    setSelectedCalendar(value);
+    localStorage.setItem("selectedApartment", value);
+  };
 
   // Carica i dati quando il componente viene montato o cambiano i filtri
   useEffect(() => {
@@ -71,11 +80,6 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Funzione per forzare un aggiornamento fresco dei dati
-  const handleRefresh = () => {
-    loadStats(true);
-  };
-
   // Genera array di anni per il filtro (dal 2024 all'anno attuale)
   const currentYear = new Date().getFullYear();
   const availableYears = Array.from(
@@ -83,55 +87,68 @@ const Dashboard: React.FC = () => {
     (_, i) => (2024 + i).toString()
   );
 
-  // Mappa tra codici calendario e nomi degli appartamenti
-  const apartmentNames = {
-    principale: "Appartamento 3",
-    secondario: "Appartamento 4",
-    terziario: "Appartamento 8",
-  };
+  // Get dynamic apartment mappings from AccommodationService
+  const apartmentNames = AccommodationService.getCalendarTypeMapping();
+
+  // Get apartment options for selector
+  const accommodations = AccommodationService.getActiveAccommodations();
+  const apartmentOptions = [
+    ...accommodations.map(acc => ({
+      value: acc.id,
+      label: acc.name,
+      shortLabel: acc.shortName
+    })),
+    { value: "all", label: "Tutti gli appartamenti", shortLabel: "Tutti" }
+  ];
 
   return (
     <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
-      <div className="flex flex-wrap justify-between items-center gap-4">
+      {/* Header with apartment selector */}
+      <div className="mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div className="flex items-center gap-4">
+            <Select
+              value={selectedCalendar}
+              onValueChange={handleCalendarChange}
+            >
+              <SelectTrigger className="w-[200px] sm:w-[240px]">
+                <div className="flex items-center gap-2">
+                  <House className="h-4 w-4" />
+                  <SelectValue placeholder="Seleziona appartamento" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {apartmentOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    <span className="hidden sm:inline">{option.label}</span>
+                    <span className="sm:hidden">{option.shortLabel}</span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Select value={selectedYear} onValueChange={setSelectedYear}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Anno" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableYears.map((year) => (
+                  <SelectItem key={year} value={year}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
         <div>
           <h2 className="text-xl font-medium">Statistiche e Performance</h2>
           <p className="text-muted-foreground">
             {apartmentNames[selectedCalendar]}
           </p>
-        </div>
-        <div className="flex flex-wrap gap-4 items-center">
-          <Select value={selectedYear} onValueChange={setSelectedYear}>
-            <SelectTrigger className="w-[120px]">
-              <SelectValue placeholder="Anno" />
-            </SelectTrigger>
-            <SelectContent>
-              {availableYears.map((year) => (
-                <SelectItem key={year} value={year}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleRefresh}
-              disabled={isLoading}
-              className="flex items-center gap-1 px-3 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  {!isMobile && <span>Caricamento...</span>}
-                </>
-              ) : (
-                <>
-                  <RefreshCw className="h-4 w-4" />
-                  {!isMobile && <span>Aggiorna dati</span>}
-                </>
-              )}
-            </button>
-          </div>
         </div>
       </div>
 

@@ -3,25 +3,26 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "react-calendar/dist/Calendar.css";
-import { useOutletContext } from "react-router-dom";
 import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
 import { fetchBookings } from "@/services/newBookingService";
 import BookingsList from "@/components/calendar/BookingsList";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
-import AddBookingModal from "@/components/calendar/AddBookingModal";
-import { ICalImportModal } from "@/components/calendar/ICalImportModal";
+import { NewBookingDropdown } from "@/components/calendar/NewBookingDropdown";
 import { MigrationButton } from "@/components/calendar/MigrationButton";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { AccommodationService } from "@/services/accommodationService";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { House } from "lucide-react";
 
 interface AvailabilityCalendarProps {
   className?: string;
-}
-
-// Interfaccia per il contesto condiviso dal layout
-interface BackofficeContext {
-  selectedCalendar: CalendarType;
 }
 
 const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
@@ -32,10 +33,22 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isCached, setIsCached] = useState<boolean>(false);
   const [lastUpdated, setLastUpdated] = useState<string>("");
+  const [selectedCalendar, setSelectedCalendar] = useState<CalendarType>("principale");
   const isMobile = useIsMobile();
 
-  // Ottiene il calendario selezionato dal contesto del layout
-  const { selectedCalendar } = useOutletContext<BackofficeContext>();
+  // Load saved apartment selection
+  useEffect(() => {
+    const savedCalendar = localStorage.getItem("selectedApartment");
+    if (savedCalendar) {
+      setSelectedCalendar(savedCalendar as CalendarType);
+    }
+  }, []);
+
+  // Save apartment selection
+  const handleCalendarChange = (value: CalendarType) => {
+    setSelectedCalendar(value);
+    localStorage.setItem("selectedApartment", value);
+  };
 
   // Carica i dati quando il componente viene montato o cambia calendario
   useEffect(() => {
@@ -76,10 +89,6 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     }
   };
 
-  // Funzione per forzare un aggiornamento dei dati
-  const handleRefresh = async () => {
-    await loadBookings(true);
-  };
 
   // Apre il modale con i dettagli della prenotazione
   const openBookingDetails = (booking: Booking) => {
@@ -123,6 +132,17 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
       </div>
     );
   };
+
+  // Get apartment options for selector
+  const accommodations = AccommodationService.getActiveAccommodations();
+  const apartmentOptions = [
+    ...accommodations.map(acc => ({
+      value: acc.id,
+      label: acc.name,
+      shortLabel: acc.shortName
+    })),
+    { value: "all", label: "Tutti gli appartamenti", shortLabel: "Tutti" }
+  ];
 
   return (
     <div className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
@@ -181,76 +201,47 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         }
       `}</style>
 
-      <div className="flex justify-between items-center mb-4">
+      {/* Header with apartment selector */}
+      <div className="mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div className="flex items-center gap-4">
+            <Select
+              value={selectedCalendar}
+              onValueChange={handleCalendarChange}
+            >
+              <SelectTrigger className="w-[200px] sm:w-[240px]">
+                <div className="flex items-center gap-2">
+                  <House className="h-4 w-4" />
+                  <SelectValue placeholder="Seleziona appartamento" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {apartmentOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    <span className="hidden sm:inline">{option.label}</span>
+                    <span className="sm:hidden">{option.shortLabel}</span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {selectedCalendar !== "all" && (
+              <NewBookingDropdown
+                calendarType={selectedCalendar}
+                onAdd={loadBookings}
+                isMobile={isMobile}
+              />
+            )}
+          </div>
+        </div>
+
         <div>
           <h2 className="text-xl font-medium">Calendario e Prenotazioni</h2>
           <p className="text-muted-foreground">
             {apartmentNames[selectedCalendar]}
           </p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {selectedCalendar !== "all" && (
-            <>
-              <AddBookingModal
-                calendarType={selectedCalendar}
-                onAdd={loadBookings}
-              />
-              <ICalImportModal
-                calendarType={selectedCalendar}
-                onImportComplete={loadBookings}
-              />
-            </>
-          )}
-          {/* <MigrationButton /> */}
-          <button
-            onClick={handleRefresh}
-            disabled={isLoading}
-            className="flex items-center gap-1 px-3 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-          >
-            {isLoading ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                {!isMobile && <span>Caricamento...</span>}
-              </>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
-                </svg>
-                {!isMobile && <span>Aggiorna dati</span>}
-              </>
-            )}
-          </button>
         </div>
       </div>
 
