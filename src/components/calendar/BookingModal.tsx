@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateBooking, deleteBooking } from "@/services/bookingService";
+import { updateBooking, deleteBooking } from "@/services/newBookingService";
 import { useForm } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
 
@@ -450,13 +450,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                               booking.SoggiornoTax ||
                               calculateSoggiornoTax(booking)
                             }`}
-                        {/* {booking.SoggiornoTax !==
-                          calculateSoggiornoTax(booking) &&
-                          calculateSoggiornoTax(booking) !== "" && (
-                            <span className="text-xs text-slate-500 ml-1">
-                              (calc €{calculateSoggiornoTax(booking)})
-                            </span>
-                          )} */}
+                        {booking.SoggiornoTaxRiscossa && (
+                          <span className={`ml-2 px-2 py-0.5 rounded text-xs font-semibold ${
+                            booking.SoggiornoTaxRiscossa.toLowerCase() === 'sì' || booking.SoggiornoTaxRiscossa.toLowerCase() === 'si' 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {booking.SoggiornoTaxRiscossa.toLowerCase() === 'sì' || booking.SoggiornoTaxRiscossa.toLowerCase() === 'si' ? 'Riscossa' : 'Non riscossa'}
+                          </span>
+                        )}
                       </>
                     ) : (
                       "-"
@@ -494,6 +496,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
             <DialogFooter>
               <div className="flex gap-2 justify-end w-full mt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsEditing(true)}
+                  className="bg-white hover:bg-blue-50 border-blue-200 text-blue-600"
+                >
+                  Modifica
+                </Button>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => setIsDeleting(true)}
+                  className="bg-red-600 hover:bg-red-700"
+                >
+                  Elimina
+                </Button>
+                
                 <AlertDialog open={isDeleting} onOpenChange={setIsDeleting}>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -684,6 +703,22 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </p>
               </div>
               <div className="space-y-1">
+                <Label htmlFor="SoggiornoTaxRiscossa">Tassa Riscossa</Label>
+                <Select
+                  defaultValue={booking.SoggiornoTaxRiscossa || "undefined"}
+                  onValueChange={(value) => form.setValue("SoggiornoTaxRiscossa", value === "undefined" ? "" : value)}
+                >
+                  <SelectTrigger className="bg-white">
+                    <SelectValue placeholder="Seleziona stato" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="undefined">Non specificato</SelectItem>
+                    <SelectItem value="Sì">Sì - Riscossa</SelectItem>
+                    <SelectItem value="No">No - Non riscossa</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
                 <Label htmlFor="OTATax">OTA Tax</Label>
                 <Input
                   id="OTATax"
@@ -691,6 +726,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   className="bg-white"
                 />
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2">
               <div className="space-y-1">
                 <Label htmlFor="CedolareSecca">Cedolare Secca (21%)</Label>
                 <Input

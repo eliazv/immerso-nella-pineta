@@ -14,6 +14,7 @@ export interface Booking {
   Pulizia: string;
   Sconti: string;
   SoggiornoTax: string;
+  SoggiornoTaxRiscossa?: string; // "Sì" o "No" per tracciare se la tassa è stata riscossa
   OTATax: string;
   CedolareSecca: string;
   Totale: string;

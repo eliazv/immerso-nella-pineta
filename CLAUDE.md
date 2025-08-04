@@ -10,10 +10,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Lint code**: `npm run lint` (runs ESLint)
 - **Preview build**: `npm run preview` (serves built files locally)
 
-### Android Development
-- **Sync with Capacitor**: `npx cap sync android`
-- **Open Android Studio**: `npx cap open android`
-- **Build APK**: Run `build-apk.bat` or use Android Studio
 
 ## Project Architecture
 
@@ -21,24 +17,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a **dual-purpose vacation rental application** built with React + TypeScript + Vite:
 
 1. **Public Website** (`/`, `/gallery`, `/attractions`, `/rules`, `/book`) - Marketing site for "Immerso nella Pineta" vacation rental in Pinarella di Cervia
-2. **Backoffice System** (`/calendar`, `/dashboard`) - Private management interface for bookings and analytics 
+2. **Backoffice System** (`/calendar`, `/dashboard`) - Private management interface for bookings and analytics with full CRUD operations
 3. **Alloggiati Web Integration** (`/alloggiati`) - Guest registration system for Italian police reporting requirements
 
 ### Key Technologies
 - **Frontend**: React 18 + TypeScript + Vite
 - **UI**: shadcn/ui + Tailwind CSS + Radix UI components
-- **Mobile**: Capacitor for Android app generation
 - **State Management**: React Query (@tanstack/react-query)
 - **Routing**: React Router DOM
 - **Forms**: React Hook Form + Zod validation
 - **Email**: EmailJS for contact forms and notifications
+- **Data Storage**: Google Sheets integration with caching
 
 ### Architecture Patterns
 
 **Routing Structure**: App.tsx defines clear route separation:
 - Public routes render directly 
 - Backoffice routes use `BackofficeLayout` wrapper with authentication
-- Android app auto-redirects to `/calendar` on startup
 
 **Service Layer**: Organized services in `src/services/`:
 - `alloggiatiService.ts` - Italian police reporting integration
@@ -67,9 +62,11 @@ This is a **dual-purpose vacation rental application** built with React + TypeSc
 - Email notifications with file attachments
 - URL-based data sharing between devices
 
-**Booking Calendar**: Full-featured booking management:
+**Booking Calendar**: Full-featured booking management with CRUD operations:
 - OTA integration display (Booking.com, Airbnb, etc.)
 - Color-coded booking status
+- Full booking modification and deletion capabilities
+- Tourist tax (tassa di soggiorno) tracking with collection status
 - PIN-protected access
 - Mobile-optimized interface
 
@@ -87,10 +84,11 @@ This is a **dual-purpose vacation rental application** built with React + TypeSc
 - Follow patterns in `src/components/alloggiati/GuestForm.tsx`
 - Persist form state in localStorage for user experience
 
-### Mobile Considerations
-- Capacitor configuration in `capacitor.config.ts`
-- Android-specific routing logic in App.tsx
-- StatusBar configuration for native app
+### Booking Management
+- Complete CRUD operations for bookings in `bookingService.ts`
+- Tourist tax tracking with collection status (`SoggiornoTaxRiscossa` field)
+- Google Sheets integration with local caching for performance
+- Real-time updates through cache invalidation
 
 ### File Organization
 - Follow existing service/component separation

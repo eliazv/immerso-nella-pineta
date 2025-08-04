@@ -18,21 +18,7 @@ import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 
 const queryClient = new QueryClient();
 
-import { useEffect } from "react";
-import { Capacitor } from "@capacitor/core";
-
 const App = () => {
-  useEffect(() => {
-    // Redirect automatico SOLO su Android e SOLO se siamo sulla homepage "/"
-    if (
-      Capacitor.isNativePlatform &&
-      Capacitor.getPlatform() === "android" &&
-      window.location.pathname === "/"
-    ) {
-      window.location.replace("/calendar");
-    }
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>

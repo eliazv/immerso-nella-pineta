@@ -335,6 +335,14 @@ const fetchBookingsForCalendar = async (
           "city tax",
           "Tassa di soggiorno",
         ]),
+        SoggiornoTaxRiscossa: findFieldValue(row, [
+          "Soggiorno Tax Riscossa",
+          "soggiorno tax riscossa",
+          "Tassa Riscossa",
+          "tassa riscossa",
+          "Tax Collected",
+          "tax collected",
+        ]),
         OTATax: findFieldValue(row, ["OTA Tax", "ota tax", "Service Fee"]),
         CedolareSecca: findFieldValue(row, [
           "Cedolare secca",
@@ -438,55 +446,70 @@ const fetchBookingsForCalendar = async (
 };
 
 /**
- * Implementazione diretta che aggira CORS in modo solido
- * Usare window.open per aprire una nuova finestra con i parametri per aggiornarla
+ * Implementazione diretta per aggiornamenti su Google Sheets
+ * Utilizza POST request per inviare i dati direttamente
  */
-function submitViaDirectAccess(
+async function submitViaDirectAccess(
   action: string,
   data: Record<string, unknown>
 ): Promise<boolean> {
-  return new Promise((resolve) => {
-    // Converti l'oggetto in un parametro URL
-    const params = encodeURIComponent(JSON.stringify({ action, ...data }));
-    // URL dell'endpoint con parametri inclusi
-    const url = `${API_ENDPOINT}?data=${params}`;
+  try {
+    // Crea il payload per la richiesta
+    const payload = {
+      action,
+      ...data,
+    };
 
-    // Apre in una nuova finestra
-    const newWindow = window.open(url, "_blank");
+    // Prova prima con una richiesta POST diretta
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        mode: 'no-cors', // Necessario per aggirare CORS
+      });
+      
+      // Con no-cors non possiamo leggere la risposta, ma assumiamo successo
+      // se non ci sono errori di rete
+      return true;
+    } catch (fetchError) {
+      console.warn('POST request failed, fallback to GET with window.open:', fetchError);
+      
+      // Fallback al metodo precedente se POST non funziona
+      return new Promise((resolve) => {
+        const params = encodeURIComponent(JSON.stringify(payload));
+        const url = `${API_ENDPOINT}?data=${params}`;
+        const newWindow = window.open(url, "_blank");
 
-    // Controlla periodicamente se la finestra è stata chiusa
-    const checkClosed = setInterval(() => {
-      if (newWindow?.closed) {
-        clearInterval(checkClosed);
-        // Quando la finestra viene chiusa, consideriamo l'operazione completata
-        // Invalidiamo la cache per forzare un aggiornamento al prossimo caricamento
-        const cacheKey = `bookings_${
-          data.sheet === "Affitti3"
-            ? "principale"
-            : data.sheet === "Affitti4"
-            ? "secondario"
-            : "terziario"
-        }`;
-        localStorage.removeItem(cacheKey);
-        resolve(true);
-      }
-    }, 1000);
+        const checkClosed = setInterval(() => {
+          if (newWindow?.closed) {
+            clearInterval(checkClosed);
+            resolve(true);
+          }
+        }, 1000);
 
-    // Dopo 30 secondi, consideriamo completata l'operazione anche se la finestra è ancora aperta
-    setTimeout(() => {
-      clearInterval(checkClosed);
-      // Invalidiamo la cache per forzare un aggiornamento al prossimo caricamento
-      const cacheKey = `bookings_${
-        data.sheet === "Affitti3"
-          ? "principale"
-          : data.sheet === "Affitti4"
-          ? "secondario"
-          : "terziario"
-      }`;
-      localStorage.removeItem(cacheKey);
-      resolve(true);
-    }, 30000);
-  });
+        setTimeout(() => {
+          clearInterval(checkClosed);
+          resolve(true);
+        }, 30000);
+      });
+    }
+  } catch (error) {
+    console.error('Error in submitViaDirectAccess:', error);
+    return false;
+  } finally {
+    // Invalida sempre la cache per forzare un refresh
+    const cacheKey = `bookings_${
+      data.sheet === "Affitti3"
+        ? "principale"
+        : data.sheet === "Affitti4"
+        ? "secondario"
+        : "terziario"
+    }`;
+    localStorage.removeItem(cacheKey);
+  }
 }
 
 // Funzione per aggiornare una prenotazione esistente
@@ -575,6 +598,51 @@ export const deleteBooking = async (
     return result;
   } catch (error) {
     console.error("Errore durante la cancellazione della prenotazione:", error);
+    return false;
+  }
+};
+
+// Funzione per aggiungere una nuova prenotazione
+export const addBooking = async (
+  booking: Partial<Booking>,
+  calendarType: CalendarType
+): Promise<boolean> => {
+  try {
+    // Otteniamo il foglio corretto in base al calendario selezionato
+    let sheet = "";
+    switch (calendarType) {
+      case "principale":
+        sheet = "Affitti3";
+        break;
+      case "secondario":
+        sheet = "Affitti4";
+        break;
+      case "terziario":
+        sheet = "Affitti8";
+        break;
+      default:
+        sheet = "Affitti3";
+    }
+
+    // Creiamo il payload da inviare
+    const payload = {
+      booking,
+      sheet,
+      spreadsheetId: SPREADSHEET_ID,
+    };
+
+    // Utilizziamo l'accesso diretto per aggiungere
+    const result = await submitViaDirectAccess("add", payload);
+
+    // Dopo un'aggiunta, rimuoviamo la cache per forzare un refresh al prossimo caricamento
+    if (result) {
+      const cacheKey = `bookings_${calendarType}`;
+      localStorage.removeItem(cacheKey);
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Errore durante l'aggiunta della prenotazione:", error);
     return false;
   }
 };

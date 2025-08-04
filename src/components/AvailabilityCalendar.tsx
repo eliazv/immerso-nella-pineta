@@ -5,10 +5,12 @@ import interactionPlugin from "@fullcalendar/interaction";
 import "react-calendar/dist/Calendar.css";
 import { useOutletContext } from "react-router-dom";
 import { Booking, CalendarEvent, CalendarType } from "@/types/calendar";
-import { fetchBookings } from "@/services/bookingService";
+import { fetchBookings } from "@/services/newBookingService";
 import BookingsList from "@/components/calendar/BookingsList";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
+import AddBookingModal from "@/components/calendar/AddBookingModal";
+import { MigrationButton } from "@/components/calendar/MigrationButton";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface AvailabilityCalendarProps {
@@ -198,6 +200,13 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         </div>
 
         <div className="flex items-center gap-2">
+          {selectedCalendar !== "all" && (
+            <AddBookingModal
+              calendarType={selectedCalendar}
+              onAdd={loadBookings}
+            />
+          )}
+          <MigrationButton />
           <button
             onClick={handleRefresh}
             disabled={isLoading}
