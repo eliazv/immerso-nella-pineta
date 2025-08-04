@@ -451,12 +451,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                               calculateSoggiornoTax(booking)
                             }`}
                         {booking.SoggiornoTaxRiscossa && (
-                          <span className={`ml-2 px-2 py-0.5 rounded text-xs font-semibold ${
-                            booking.SoggiornoTaxRiscossa.toLowerCase() === 'sì' || booking.SoggiornoTaxRiscossa.toLowerCase() === 'si' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-red-100 text-red-800'
-                          }`}>
-                            {booking.SoggiornoTaxRiscossa.toLowerCase() === 'sì' || booking.SoggiornoTaxRiscossa.toLowerCase() === 'si' ? 'Riscossa' : 'Non riscossa'}
+                          <span
+                            className={`ml-2 px-2 py-0.5 rounded text-xs font-semibold ${
+                              booking.SoggiornoTaxRiscossa.toLowerCase() ===
+                                "sì" ||
+                              booking.SoggiornoTaxRiscossa.toLowerCase() ===
+                                "si"
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {booking.SoggiornoTaxRiscossa.toLowerCase() ===
+                              "sì" ||
+                            booking.SoggiornoTaxRiscossa.toLowerCase() === "si"
+                              ? "Riscossa"
+                              : "Non riscossa"}
                           </span>
                         )}
                       </>
@@ -495,7 +504,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             <DialogFooter>
-              <div className="flex gap-2 justify-end w-full mt-4">
+              <div className="flex gap-2 justify-end w-full pb-4">
                 <Button
                   type="button"
                   variant="outline"
@@ -512,7 +521,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 >
                   Elimina
                 </Button>
-                
+
                 <AlertDialog open={isDeleting} onOpenChange={setIsDeleting}>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -706,7 +715,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <Label htmlFor="SoggiornoTaxRiscossa">Tassa Riscossa</Label>
                 <Select
                   defaultValue={booking.SoggiornoTaxRiscossa || "undefined"}
-                  onValueChange={(value) => form.setValue("SoggiornoTaxRiscossa", value === "undefined" ? "" : value)}
+                  onValueChange={(value) =>
+                    form.setValue(
+                      "SoggiornoTaxRiscossa",
+                      value === "undefined" ? "" : value
+                    )
+                  }
                 >
                   <SelectTrigger className="bg-white">
                     <SelectValue placeholder="Seleziona stato" />
