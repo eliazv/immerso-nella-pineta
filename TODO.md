@@ -1,4 +1,1 @@
-- in modalità tablet le voci dell'header devono essere estese come in modalità desktop, in modalità mobile fai scomparire header e vari padding top per gestione header
-- il titolo della pagina va prima dei selettori e bottoni vari della pagina
-- selettori e bottoni tutti su una rica anche in modalità mobile
 - calendario: fai scomparire importa ical da bottone separato, deve essere all'interno di tendina che si apre con bottone +

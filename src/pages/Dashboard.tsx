@@ -33,7 +33,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { AccommodationService } from "@/services/accommodationService";
 
 const Dashboard: React.FC = () => {
-  const [selectedCalendar, setSelectedCalendar] = useState<CalendarType>("principale");
+  const [selectedCalendar, setSelectedCalendar] =
+    useState<CalendarType>("principale");
   const [selectedYear, setSelectedYear] = useState<string>(
     new Date().getFullYear().toString()
   );
@@ -93,62 +94,52 @@ const Dashboard: React.FC = () => {
   // Get apartment options for selector
   const accommodations = AccommodationService.getActiveAccommodations();
   const apartmentOptions = [
-    ...accommodations.map(acc => ({
+    ...accommodations.map((acc) => ({
       value: acc.id,
       label: acc.name,
-      shortLabel: acc.shortName
+      shortLabel: acc.shortName,
     })),
-    { value: "all", label: "Tutti gli appartamenti", shortLabel: "Tutti" }
+    { value: "all", label: "Tutti gli appartamenti", shortLabel: "Tutti" },
   ];
 
   return (
     <div className="space-y-6 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
-      {/* Header with apartment selector */}
+      {/* Page Header */}
       <div className="mb-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-          <div className="flex items-center gap-4">
-            <Select
-              value={selectedCalendar}
-              onValueChange={handleCalendarChange}
-            >
-              <SelectTrigger className="w-[200px] sm:w-[240px]">
-                <div className="flex items-center gap-2">
-                  <House className="h-4 w-4" />
-                  <SelectValue placeholder="Seleziona appartamento" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                {apartmentOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    <span className="hidden sm:inline">{option.label}</span>
-                    <span className="sm:hidden">{option.shortLabel}</span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger className="w-[120px]">
-                <SelectValue placeholder="Anno" />
-              </SelectTrigger>
-              <SelectContent>
-                {availableYears.map((year) => (
-                  <SelectItem key={year} value={year}>
-                    {year}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="mb-4">
+          <h2 className="text-xl font-medium">Statistiche e Performance</h2>
         </div>
 
-        <div>
-          <h2 className="text-xl font-medium">Statistiche e Performance</h2>
-          <p className="text-muted-foreground">
-            {apartmentNames[selectedCalendar]}
-          </p>
+        <div className="flex items-center justify-between gap-4">
+          <Select value={selectedCalendar} onValueChange={handleCalendarChange}>
+            <SelectTrigger className="w-[180px] sm:w-[220px]">
+              <div className="flex items-center gap-2">
+                <House className="h-4 w-4" />
+                <SelectValue placeholder="Seleziona appartamento" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {apartmentOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  <span className="hidden sm:inline">{option.label}</span>
+                  <span className="sm:hidden">{option.shortLabel}</span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={selectedYear} onValueChange={setSelectedYear}>
+            <SelectTrigger className="w-[100px] sm:w-[120px]">
+              <SelectValue placeholder="Anno" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableYears.map((year) => (
+                <SelectItem key={year} value={year}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 

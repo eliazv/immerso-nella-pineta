@@ -72,42 +72,41 @@ const BackofficeLayout: React.FC = () => {
   }
   return (
     <div className="mx-auto">
-      <div className="fixed left-0 right-0 bg-slate-200 shadow-sm z-50 top-0">
+      {/* Desktop/Tablet Header */}
+      <div className="hidden sm:block fixed left-0 right-0 bg-slate-200 shadow-sm z-50 top-0">
         <div className="container mx-auto px-4 py-2 max-w-6xl">
           <div className="flex justify-center">
-            <div className="hidden md:flex">
-              <Tabs value={activeTab} onValueChange={handleTabChange}>
-                <TabsList className="grid grid-cols-3">
-                  <TabsTrigger
-                    value="calendar"
-                    className="flex items-center gap-1.5 px-4"
-                  >
-                    <Calendar className="h-4 w-4" />
-                    <span className="hidden lg:inline">Calendario</span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="dashboard"
-                    className="flex items-center gap-1.5 px-4"
-                  >
-                    <BarChart3 className="h-4 w-4" />
-                    <span className="hidden lg:inline">Statistiche</span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="accommodations"
-                    className="flex items-center gap-1.5 px-4"
-                  >
-                    <Settings className="h-4 w-4" />
-                    <span className="hidden lg:inline">Impostazioni</span>
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
+            <Tabs value={activeTab} onValueChange={handleTabChange}>
+              <TabsList className="grid grid-cols-3">
+                <TabsTrigger
+                  value="calendar"
+                  className="flex items-center gap-1.5 px-4"
+                >
+                  <Calendar className="h-4 w-4" />
+                  <span>Calendario</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="dashboard"
+                  className="flex items-center gap-1.5 px-4"
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  <span>Statistiche</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="accommodations"
+                  className="flex items-center gap-1.5 px-4"
+                >
+                  <Settings className="h-4 w-4" />
+                  <span>Impostazioni</span>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
         </div>
       </div>
 
-      {/* Footer mobile navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-100 border-t shadow md:hidden">
+      {/* Mobile Footer Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-100 border-t shadow sm:hidden">
         <div className="flex justify-around items-center h-14">
           <button
             className={`flex flex-col items-center justify-center flex-1 py-2 ${
@@ -145,8 +144,8 @@ const BackofficeLayout: React.FC = () => {
         </div>
       </nav>
 
-      {/* Pages content without apartment selector context */}
-      <div className="pt-16 pb-16 md:pb-6">
+      {/* Pages content - different padding for mobile vs desktop */}
+      <div className="pt-4 pb-16 sm:pt-16 sm:pb-6">
         <Outlet />
       </div>
     </div>

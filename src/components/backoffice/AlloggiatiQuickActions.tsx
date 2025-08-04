@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { Copy, Link, ExternalLink, Eye } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import React, { useState } from "react";
+import { Copy, Link, ExternalLink, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { toast } from '@/components/ui/use-toast';
+} from "@/components/ui/card";
+import { toast } from "@/components/ui/use-toast";
 
 export const AlloggiatiQuickActions: React.FC = () => {
-  const [customLink, setCustomLink] = useState('');
+  const [customLink, setCustomLink] = useState("");
 
   const generateAlloggiatiLink = (withData?: boolean) => {
     const baseUrl = window.location.origin;
     let url = `${baseUrl}/alloggiati`;
-    
+
     if (withData && customLink) {
       url += `?data=${encodeURIComponent(customLink)}`;
     }
-    
+
     return url;
   };
 
@@ -30,20 +30,20 @@ export const AlloggiatiQuickActions: React.FC = () => {
     try {
       await navigator.clipboard.writeText(text);
       toast({
-        title: 'Copiato!',
+        title: "Copiato!",
         description: `${label} copiato negli appunti.`,
       });
     } catch (error) {
       toast({
-        title: 'Errore',
-        description: 'Impossibile copiare negli appunti.',
-        variant: 'destructive',
+        title: "Errore",
+        description: "Impossibile copiare negli appunti.",
+        variant: "destructive",
       });
     }
   };
 
   const openInNewTab = (url: string) => {
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
 
   return (
@@ -69,7 +69,9 @@ export const AlloggiatiQuickActions: React.FC = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => copyToClipboard(generateAlloggiatiLink(), 'Link base')}
+              onClick={() =>
+                copyToClipboard(generateAlloggiatiLink(), "Link base")
+              }
             >
               <Copy className="w-4 h-4" />
             </Button>
@@ -82,7 +84,7 @@ export const AlloggiatiQuickActions: React.FC = () => {
             </Button>
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="customLink">Link con dati condivisi (opzionale)</Label>
             <div className="flex gap-2">
               <Input
@@ -103,29 +105,33 @@ export const AlloggiatiQuickActions: React.FC = () => {
             <p className="text-xs text-muted-foreground">
               Inserisci l'ID di dati precedentemente condivisi per pre-compilare il form.
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Quick Actions */}
         <div className="pt-4 border-t">
           <div className="flex flex-wrap gap-2">
-            <Button
+            {/* <Button
               variant="outline"
-              onClick={() => openInNewTab('/alloggiati')}
+              onClick={() => openInNewTab("/alloggiati")}
             >
               <Eye className="w-4 h-4 mr-2" />
               Visualizza Pagina
             </Button>
             <Button
               variant="outline"
-              onClick={() => copyToClipboard(generateAlloggiatiLink(), 'Link alloggiati')}
+              onClick={() =>
+                copyToClipboard(generateAlloggiatiLink(), "Link alloggiati")
+              }
             >
               <Copy className="w-4 h-4 mr-2" />
               Copia Link
-            </Button>
+            </Button> */}
             <Button
               variant="outline"
-              onClick={() => window.open('https://alloggiatiweb.poliziadistato.it', '_blank')}
+              onClick={() =>
+                window.open("https://alloggiatiweb.poliziadistato.it", "_blank")
+              }
             >
               <ExternalLink className="w-4 h-4 mr-2" />
               Polizia di Stato

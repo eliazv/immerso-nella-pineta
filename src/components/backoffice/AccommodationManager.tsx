@@ -215,7 +215,7 @@ export const AccommodationManager: React.FC = () => {
           className="flex items-center gap-2"
         >
           <Plus className="w-4 h-4" />
-          Nuovo Appartamento
+          <span className="hidden sm:inline">Nuovo Appartamento</span>
         </Button>
       </div>
 
