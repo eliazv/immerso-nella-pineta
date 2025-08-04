@@ -10,8 +10,10 @@ import BookingsList from "@/components/calendar/BookingsList";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
 import AddBookingModal from "@/components/calendar/AddBookingModal";
+import { ICalImportModal } from "@/components/calendar/ICalImportModal";
 import { MigrationButton } from "@/components/calendar/MigrationButton";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { AccommodationService } from "@/services/accommodationService";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -85,26 +87,15 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     setIsModalOpen(true);
   };
 
-  // Mappa tra codici calendario e nomi degli appartamenti
-  const apartmentNames = {
-    principale: "Appartamento 3",
-    secondario: "Appartamento 4",
-    terziario: "Appartamento 8",
-    all: "Tutti gli appartamenti",
-  };
+  // Get dynamic apartment mappings from AccommodationService
+  const apartmentNames = AccommodationService.getCalendarTypeMapping();
+  const shortNameMapping = AccommodationService.getShortNameMapping();
+  const colorMapping = AccommodationService.getColorMapping();
 
   // Versione abbreviata dei nomi degli appartamenti per i titoli degli eventi
   const getApartmentShortName = (apartment?: string) => {
-    switch (apartment) {
-      case "principale":
-        return "App.3";
-      case "secondario":
-        return "App.4";
-      case "terziario":
-        return "App.8";
-      default:
-        return "";
-    }
+    if (!apartment) return "";
+    return shortNameMapping[apartment] || "";
   };
 
   // Funzione per ottenere il titolo del calendario in base al tipo selezionato
@@ -116,20 +107,19 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const renderColorLegend = () => {
     if (selectedCalendar !== "all") return null;
 
+    const activeAccommodations = AccommodationService.getActiveAccommodations();
+
     return (
-      <div className="flex items-center gap-4 text-sm mt-2 justify-end">
-        <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#3498db]"></div>
-          <span>App. 3</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#e74c3c]"></div>
-          <span>App. 4</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-[#2ecc71]"></div>
-          <span>App. 8</span>
-        </div>
+      <div className="flex items-center gap-4 text-sm mt-2 justify-end flex-wrap">
+        {activeAccommodations.map((acc) => (
+          <div key={acc.id} className="flex items-center gap-1">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: acc.color }}
+            ></div>
+            <span>{acc.shortName}</span>
+          </div>
+        ))}
       </div>
     );
   };
@@ -201,12 +191,18 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
 
         <div className="flex items-center gap-2">
           {selectedCalendar !== "all" && (
-            <AddBookingModal
-              calendarType={selectedCalendar}
-              onAdd={loadBookings}
-            />
+            <>
+              <AddBookingModal
+                calendarType={selectedCalendar}
+                onAdd={loadBookings}
+              />
+              <ICalImportModal
+                calendarType={selectedCalendar}
+                onImportComplete={loadBookings}
+              />
+            </>
           )}
-          <MigrationButton />
+          {/* <MigrationButton /> */}
           <button
             onClick={handleRefresh}
             disabled={isLoading}

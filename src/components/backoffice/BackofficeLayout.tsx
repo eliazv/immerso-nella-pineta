@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, BarChart3, Building, House } from "lucide-react";
+import { Calendar, BarChart3, Building, House, Settings } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -12,6 +12,7 @@ import {
 import PinAuth from "@/components/calendar/PinAuth";
 import { CalendarType } from "@/types/calendar";
 import { isAuthenticated, logout } from "@/services/authService";
+import { AccommodationService } from "@/services/accommodationService";
 
 /**
  * Layout condiviso per le pagine del backoffice (Dashboard e Calendario)
@@ -32,6 +33,8 @@ const BackofficeLayout: React.FC = () => {
     ? "dashboard"
     : currentPath.includes("/calendar")
     ? "calendar"
+    : currentPath.includes("/accommodations")
+    ? "accommodations"
     : "calendar"; // Default
 
   // Verifica se l'utente è già autenticato al caricamento del componente
@@ -55,17 +58,25 @@ const BackofficeLayout: React.FC = () => {
     localStorage.setItem("selectedApartment", value);
   };
 
-  // Mappa tra codici calendario e nomi degli appartamenti
+  // Get dynamic accommodations from service
+  const accommodations = AccommodationService.getActiveAccommodations();
   const apartmentOptions = [
-    { value: "principale", label: "N° 3" },
-    { value: "secondario", label: "N° 4" },
-    { value: "terziario", label: "N° 8" },
-    { value: "all", label: "Tutti" },
+    ...accommodations.map(acc => ({
+      value: acc.id,
+      label: acc.shortName
+    })),
+    { value: "all", label: "Tutti" }
   ];
 
   // Gestisce il cambio di tab
   const handleTabChange = (value: string) => {
-    navigate(value === "dashboard" ? "/dashboard" : "/calendar");
+    if (value === "dashboard") {
+      navigate("/dashboard");
+    } else if (value === "accommodations") {
+      navigate("/accommodations");
+    } else {
+      navigate("/calendar");
+    }
   };
 
   // Gestisce il logout
@@ -124,20 +135,27 @@ const BackofficeLayout: React.FC = () => {
 
           <div className="items-center gap-3 ml-auto hidden md:flex">
             <Tabs value={activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid grid-cols-2">
+              <TabsList className="grid grid-cols-3">
                 <TabsTrigger
                   value="calendar"
                   className="flex items-center gap-1.5"
                 >
                   <Calendar className="h-4 w-4" />
-                  <span className="hidden md:inline">Calendario</span>
+                  <span className="hidden lg:inline">Calendario</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="dashboard"
                   className="flex items-center gap-1.5"
                 >
                   <BarChart3 className="h-4 w-4" />
-                  <span className="hidden md:inline">Statistiche</span>
+                  <span className="hidden lg:inline">Statistiche</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="accommodations"
+                  className="flex items-center gap-1.5"
+                >
+                  <Settings className="h-4 w-4" />
+                  <span className="hidden lg:inline">Appartamenti</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -178,13 +196,17 @@ const BackofficeLayout: React.FC = () => {
                 <BarChart3 className="h-5 w-5 mx-auto" />
                 <span className="text-xs mt-1">Statistiche</span>
               </button>
-              {/* <button
-                className="flex flex-col items-center justify-center flex-1 py-2 text-muted-foreground"
-                onClick={handleLogout}
+              <button
+                className={`flex flex-col items-center justify-center flex-1 py-2 ${
+                  activeTab === "accommodations"
+                    ? "text-primary font-semibold"
+                    : "text-muted-foreground"
+                }`}
+                onClick={() => handleTabChange("accommodations")}
               >
-                <LogOut className="h-5 w-5 mx-auto" />
-                <span className="text-xs mt-1">Esci</span>
-              </button> */}
+                <Settings className="h-5 w-5 mx-auto" />
+                <span className="text-xs mt-1">Appartamenti</span>
+              </button>
             </div>
           </nav>
         </div>

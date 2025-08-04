@@ -37,10 +37,11 @@ import { toast } from "@/components/ui/use-toast";
 const calculateSoggiornoTax = (booking: Booking): string => {
   try {
     // Se non c'è il campo adulti esplicitamente compilato, non calcoliamo la tassa
+    const adultiValue = typeof booking.adulti === 'string' ? booking.adulti : String(booking.adulti || '');
     if (
       !booking.adulti ||
-      booking.adulti.trim() === "" ||
-      booking.adulti === "0"
+      adultiValue.trim() === "" ||
+      adultiValue === "0"
     ) {
       return "";
     }
@@ -169,10 +170,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   useEffect(() => {
     const formData = form.getValues();
     // Calcola la tassa di soggiorno solo se ci sono adulti specificati
+    const adultiValue = typeof formData.adulti === 'string' ? formData.adulti : String(formData.adulti || '');
     if (
       formData.adulti &&
-      formData.adulti.trim() !== "" &&
-      formData.adulti !== "0" &&
+      adultiValue.trim() !== "" &&
+      adultiValue !== "0" &&
       formData.CheckIn &&
       formData.Notti
     ) {

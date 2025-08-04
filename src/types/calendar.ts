@@ -24,8 +24,8 @@ export interface Booking {
   apartment?: string; // Identificatore dell'appartamento (solo nella vista 'all')
 }
 
-// Tipo di calendario selezionabile
-export type CalendarType = "principale" | "secondario" | "terziario" | "all";
+// Tipo di calendario selezionabile - now dynamic based on accommodations
+export type CalendarType = string; // Can be any accommodation ID or "all"
 
 // Evento per FullCalendar
 export interface CalendarEvent {

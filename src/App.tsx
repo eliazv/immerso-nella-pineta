@@ -13,6 +13,7 @@ import HouseRulesPDF from "./pages/HouseRulesPDF";
 import NotFound from "./pages/NotFound";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import Dashboard from "./pages/Dashboard";
+import Accommodations from "./pages/Accommodations";
 import AlloggiatiWeb from "./pages/AlloggiatiWeb";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 
@@ -42,6 +43,7 @@ const App = () => {
               <Route path="/" element={<BackofficeLayout />}>
                 <Route path="/calendar" element={<AvailabilityCalendar />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/accommodations" element={<Accommodations />} />
                 {/* Reindirizza /admin direttamente alla pagina calendar */}
                 <Route
                   path="/admin"
