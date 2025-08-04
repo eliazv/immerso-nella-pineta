@@ -1,1 +1,5 @@
-- calendario: fai scomparire importa ical da bottone separato, deve essere all'interno di tendina che si apre con bottone +
+- vorrei separare il backoffice dal sito immerso, clona quest aparte in un'altra cartella portando tutto quello che serve per riprodurre il rpogetto . togli controllo con pin e implementa un accesso con google
+- l'app si deve chiamre rentpilot, passa l'icona
+- per chiudere le modali ci sono 2 x, lasciane solo una
+- landing page per illustrare funzionalità dell'app per venderla
+- scrivi un documento per illustrare che piani di pagaento faresti per questo picoclo strumento, come monetizzeresti. valuta molte alternative e trova la piu giusta per questa app. nel documento scrivi anche la descrizione dell'app

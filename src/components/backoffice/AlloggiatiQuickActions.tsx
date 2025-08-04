@@ -51,10 +51,12 @@ export const AlloggiatiQuickActions: React.FC = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Link className="w-5 h-5" />
-          Sistema Alloggiati
+          Raccolta Documenti
         </CardTitle>
         <CardDescription>
-          Gestisci link e azioni rapide per la registrazione ospiti.
+          Invia questo link agli ospiti per la raccolta dei loro documenti per
+          la comunicazione alla questura. I dati sno salvati conformi al formato
+          AlloggiatiWeb.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

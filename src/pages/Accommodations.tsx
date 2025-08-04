@@ -6,7 +6,7 @@ const Accommodations: React.FC = () => {
   return (
     <div className="container mx-auto px-4  max-w-6xl ">
       <div>
-        <h1 className="text-2xl font-bold mb-2">Altri strumenti</h1>
+        <h1 className="text-2xl font-bold mb-2">Strumenti Utili</h1>
       </div>
 
       {/* Alloggiati Section */}

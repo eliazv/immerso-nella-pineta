@@ -63,10 +63,10 @@ const AlloggiatiWeb: React.FC = () => {
     try {
       const config = {
         serviceId: "service_8vct8zl",
-        templateId: "template_8zgge3d", 
+        templateId: "template_8zgge3d",
         publicKey: "cL0t8BEEWVW6SEE86",
         toEmail: "zavattaelia@gmail.com",
-        fromEmail: "zavattaelia@gmail.com"
+        fromEmail: "zavattaelia@gmail.com",
       };
 
       const subject = `Nuova registrazione ospiti - ${fileName}`;
@@ -100,7 +100,7 @@ ${JSON.stringify(formData, null, 2)}
       if (import.meta.env.DEV) {
         console.log("Invio email con allegato ottimizzato...");
       }
-      
+
       const result = await EmailAttachmentService.sendEmailWithAttachment(
         config,
         fileName,
@@ -206,26 +206,11 @@ ${JSON.stringify(formData, null, 2)}
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Raccolta Documenti - Immerso nella pineta
+            Raccolta Documenti
           </h1>
           <p className="text-lg text-gray-600 mb-6">
             Sistema per la raccolta dati ospiti e comunicazione alla Questura
           </p>
-
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <Shield className="h-3 w-3" />
-              GDPR Compliant
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <FileText className="h-3 w-3" />
-              Formato Ufficiale
-            </Badge>
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <Users className="h-3 w-3" />
-              Multi-ospite
-            </Badge>
-          </div>
         </div>
 
         {/* Guida per l'ospite - nascosta dopo invio riuscito */}
@@ -233,7 +218,9 @@ ${JSON.stringify(formData, null, 2)}
           <Alert className="mb-6 border-blue-200 bg-blue-50">
             <Info className="h-4 w-4 text-blue-600" />
             <AlertDescription>
-              <strong className="text-blue-800">Informazioni importanti:</strong>
+              <strong className="text-blue-800">
+                Informazioni importanti:
+              </strong>
               <ol className="list-decimal list-inside mt-2 space-y-1 text-blue-700">
                 <li>
                   <strong>Inserisci tutti gli ospiti</strong> che alloggeranno
@@ -400,7 +387,21 @@ ${JSON.stringify(formData, null, 2)}
         </Card> */}
 
         {/* Footer */}
-        <div className="text-center mt-8 text-sm text-gray-500">
+        <div className="flex flex-wrap justify-center gap-2  mt-8">
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <Shield className="h-3 w-3" />
+            GDPR Compliant
+          </Badge>
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <FileText className="h-3 w-3" />
+            Formato Ufficiale
+          </Badge>
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <Users className="h-3 w-3" />
+            Multi-ospite
+          </Badge>
+        </div>
+        <div className="text-center mt-2 text-sm text-gray-500">
           <p>
             Sistema conforme alle specifiche tecniche del Portale Alloggiati Web
           </p>
