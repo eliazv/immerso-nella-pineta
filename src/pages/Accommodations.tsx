@@ -4,7 +4,7 @@ import { AlloggiatiQuickActions } from "@/components/backoffice/AlloggiatiQuickA
 
 const Accommodations: React.FC = () => {
   return (
-    <div className="container mx-auto px-4 py-6 max-w-6xl space-y-8">
+    <div className="container mx-auto px-4  max-w-6xl ">
       <div>
         <h1 className="text-2xl font-bold mb-2">Altri strumenti</h1>
       </div>

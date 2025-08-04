@@ -107,7 +107,7 @@ const Dashboard: React.FC = () => {
       {/* Page Header */}
       <div className="mb-6">
         <div className="mb-4">
-          <h2 className="text-xl font-medium">Statistiche e Performance</h2>
+          <h1 className="text-2xl font-bold mb-2">Statistiche e Performance</h1>
         </div>
 
         <div className="flex items-center justify-between gap-4">

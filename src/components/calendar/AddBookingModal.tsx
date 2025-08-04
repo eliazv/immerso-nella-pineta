@@ -167,7 +167,7 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="p-2 ml-1">
           <Plus className="w-4 h-4" />
           Nuova Prenotazione
         </Button>

@@ -37,12 +37,11 @@ import { toast } from "@/components/ui/use-toast";
 const calculateSoggiornoTax = (booking: Booking): string => {
   try {
     // Se non c'è il campo adulti esplicitamente compilato, non calcoliamo la tassa
-    const adultiValue = typeof booking.adulti === 'string' ? booking.adulti : String(booking.adulti || '');
-    if (
-      !booking.adulti ||
-      adultiValue.trim() === "" ||
-      adultiValue === "0"
-    ) {
+    const adultiValue =
+      typeof booking.adulti === "string"
+        ? booking.adulti
+        : String(booking.adulti || "");
+    if (!booking.adulti || adultiValue.trim() === "" || adultiValue === "0") {
       return "";
     }
 
@@ -170,7 +169,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   useEffect(() => {
     const formData = form.getValues();
     // Calcola la tassa di soggiorno solo se ci sono adulti specificati
-    const adultiValue = typeof formData.adulti === 'string' ? formData.adulti : String(formData.adulti || '');
+    const adultiValue =
+      typeof formData.adulti === "string"
+        ? formData.adulti
+        : String(formData.adulti || "");
     if (
       formData.adulti &&
       adultiValue.trim() !== "" &&
@@ -781,7 +783,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             <DialogFooter>
-              <div className="flex gap-2 justify-end w-full mt-4">
+              <div className="flex gap-2 justify-end w-full mt-2 mb-4">
                 <Button
                   type="button"
                   variant="outline"

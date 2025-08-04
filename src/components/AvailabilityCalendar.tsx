@@ -204,7 +204,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
       {/* Page Header */}
       <div className="mb-6">
         <div className="mb-4">
-          <h2 className="text-xl font-medium">Calendario e Prenotazioni</h2>
+          <h1 className="text-2xl font-bold mb-2">Calendario e Prenotazioni</h1>
         </div>
 
         <div className="flex items-center justify-between gap-4">

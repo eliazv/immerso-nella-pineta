@@ -202,7 +202,7 @@ export const AccommodationManager: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-8">
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold">Gestione Appartamenti</h2>
