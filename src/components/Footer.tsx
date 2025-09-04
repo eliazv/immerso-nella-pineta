@@ -1,9 +1,21 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Mail, Phone, MapPin, TreePine, Waves } from "lucide-react";
+import { useAccommodation } from "@/contexts/AccommodationContext";
 
 const Footer = ({ className }: { className?: string }) => {
+  const location = useLocation();
+  const { accommodation } = useAccommodation();
+  
+  const getBasePath = () => {
+    if (location.pathname.startsWith('/pineta8')) return '/pineta8';
+    if (location.pathname.startsWith('/pineta3')) return '/pineta3';
+    return '/';
+  };
+  
+  const basePath = getBasePath();
+  
   return (
     <footer className={cn("border-t border-border mt-16", className)}>
       <div className="container px-4 py-12 mx-auto">
@@ -48,7 +60,7 @@ const Footer = ({ className }: { className?: string }) => {
               </a>
             </div>
             <p className="text-xs text-muted-foreground mt-4">
-              CIN: IT039007C2RWYMLE52
+              CIN: {accommodation.cin}
             </p>
           </div>
 
@@ -59,7 +71,7 @@ const Footer = ({ className }: { className?: string }) => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  to="/"
+                  to={basePath || "/"}
                   className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
                 >
                   Home
@@ -67,7 +79,7 @@ const Footer = ({ className }: { className?: string }) => {
               </li>
               <li>
                 <Link
-                  to="/gallery"
+                  to={`${basePath}/gallery`}
                   className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
                 >
                   Galleria foto
@@ -75,7 +87,7 @@ const Footer = ({ className }: { className?: string }) => {
               </li>
               <li>
                 <Link
-                  to="/attractions"
+                  to={`${basePath}/attractions`}
                   className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
                 >
                   Attrazioni
@@ -83,7 +95,7 @@ const Footer = ({ className }: { className?: string }) => {
               </li>
               <li>
                 <Link
-                  to="/rules"
+                  to={`${basePath}/rules`}
                   className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
                 >
                   Regole della casa
@@ -91,7 +103,7 @@ const Footer = ({ className }: { className?: string }) => {
               </li>
               <li>
                 <Link
-                  to="/book"
+                  to={`${basePath}/book`}
                   className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
                 >
                   Prenota ora

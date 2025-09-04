@@ -26,15 +26,16 @@ const AccommodationSelector = () => {
               Immerso nella Pineta
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-              Scegli il tuo appartamento ideale per le vacanze a Pinarella di Cervia.
-              Due accoglienti alloggi immersi nella pineta, a soli 5 minuti a piedi dal mare.
+              Scegli il tuo appartamento ideale per le vacanze a Pinarella di
+              Cervia. Due accoglienti alloggi immersi nella pineta, a soli 5
+              minuti a piedi dal mare.
             </p>
           </div>
 
           {/* Accommodation Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Pineta 3 */}
-            <div className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <Link to="/pineta3" className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block">
               <div className="aspect-[4/3] rounded-xl overflow-hidden mb-6">
                 <img
                   src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/529559d4-9514-4ece-a94b-38de9fc199ab.jpeg?q=80&w=800&auto=format&fit=crop"
@@ -42,7 +43,7 @@ const AccommodationSelector = () => {
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              
+
               <div className="mb-6">
                 <h2 className="font-serif text-2xl font-medium text-pine-dark mb-2">
                   Immerso nella Pineta 3
@@ -52,40 +53,50 @@ const AccommodationSelector = () => {
                   <span className="text-sm">Pinarella di Cervia</span>
                 </div>
                 <p className="text-muted-foreground text-sm mb-4">
-                  Appartamento accogliente al piano terra, perfetto per famiglie. 
-                  Immerso nel verde della pineta con accesso diretto al giardino condiviso.
+                  Appartamento accogliente al piano terra, perfetto per
+                  famiglie. Immerso nel verde della pineta con accesso diretto
+                  al giardino condiviso.
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="flex items-center gap-2 text-sm">
                   <Bed className="h-4 w-4 text-pine-dark" />
                   <span>4 posti letto</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Car className="h-4 w-4 text-pine-dark" />
-                  <span>Posto auto #3</span>
+                  <span>Posto auto </span>
                 </div>
               </div>
 
-              <Button asChild className="w-full bg-pine-dark hover:bg-pine-dark/90">
-                <Link to="/pineta3" className="flex items-center justify-center gap-2">
-                  Scopri Pineta 3
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+              <div className="mb-6">
+                <div className="text-center bg-green-50 border border-green-200 rounded-lg p-3">
+                  <div className="text-lg font-semibold text-green-700">
+                    A partire da 52€ a notte
+                  </div>
+                  <div className="text-sm text-green-600">
+                    Prezzi variabili per stagione
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full bg-pine-dark hover:bg-pine-dark/90 text-white rounded-lg py-3 px-4 text-center font-medium transition-colors flex items-center justify-center gap-2">
+                Scopri
+                <ChevronRight className="h-4 w-4" />
+              </div>
+            </Link>
 
             {/* Pineta 8 */}
-            <div className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <Link to="/pineta8" className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block">
               <div className="aspect-[4/3] rounded-xl overflow-hidden mb-6">
                 <img
-                  src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/529559d4-9514-4ece-a94b-38de9fc199ab.jpeg?q=80&w=800&auto=format&fit=crop"
+                  src="https://a0.muscache.com/im/pictures/hosting/Hosting-1496353845267245023/original/b4103f6e-2051-49cb-8453-ccfbb53b3df2.jpeg?im_w=480"
                   alt="Immerso nella Pineta 8 - Appartamento Pinarella"
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              
+
               <div className="mb-6">
                 <h2 className="font-serif text-2xl font-medium text-sea-dark mb-2">
                   Immerso nella Pineta 8
@@ -95,29 +106,39 @@ const AccommodationSelector = () => {
                   <span className="text-sm">Pinarella di Cervia</span>
                 </div>
                 <p className="text-muted-foreground text-sm mb-4">
-                  Appartamento accogliente al piano terra, perfetto per famiglie. 
-                  Immerso nel verde della pineta con accesso diretto al giardino condiviso.
+                  Appartamento accogliente al secondo piano, perfetto per
+                  famiglie numerose. Con 3 balconi e vista sulla pineta
+                  circostante.
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="flex items-center gap-2 text-sm">
                   <Bed className="h-4 w-4 text-sea-dark" />
-                  <span>4 posti letto</span>
+                  <span>6 posti letto</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Car className="h-4 w-4 text-sea-dark" />
-                  <span>Posto auto #8</span>
+                  <span>Posto auto</span>
                 </div>
               </div>
 
-              <Button asChild className="w-full bg-sea-dark hover:bg-sea-dark/90">
-                <Link to="/pineta8" className="flex items-center justify-center gap-2">
-                  Scopri Pineta 8
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+              <div className="mb-6">
+                <div className="text-center bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="text-lg font-semibold text-blue-700">
+                    A partire da 68€ a notte
+                  </div>
+                  <div className="text-sm text-blue-600">
+                    Prezzi variabili per stagione
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full bg-sea-dark hover:bg-sea-dark/90 text-white rounded-lg py-3 px-4 text-center font-medium transition-colors flex items-center justify-center gap-2">
+                Scopri
+                <ChevronRight className="h-4 w-4" />
+              </div>
+            </Link>
           </div>
 
           {/* Info Section */}
@@ -127,11 +148,12 @@ const AccommodationSelector = () => {
                 Due appartamenti, un'unica esperienza
               </h3>
               <p className="text-muted-foreground mb-8">
-                Entrambi gli appartamenti offrono lo stesso livello di comfort e servizi. 
-                La scelta dipende solo dalla vostra preferenza per il posto auto e dalla disponibilità.
-                Immersi nella tranquilla pineta di Pinarella, a soli 200 metri dal mare.
+                Entrambi gli appartamenti offrono lo stesso livello di comfort e
+                servizi. La scelta dipende solo dalla vostra preferenza per il
+                posto auto e dalla disponibilità. Immersi nella tranquilla
+                pineta di Pinarella, a soli 200 metri dal mare.
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 <div className="p-4">
                   <div className="w-12 h-12 rounded-full bg-pine-light/50 flex items-center justify-center mx-auto mb-3">
@@ -142,7 +164,7 @@ const AccommodationSelector = () => {
                     Tranquillità e ombra degli alti pini
                   </p>
                 </div>
-                
+
                 <div className="p-4">
                   <div className="w-12 h-12 rounded-full bg-sea-light/50 flex items-center justify-center mx-auto mb-3">
                     <MapPin className="h-6 w-6 text-sea-dark" />
@@ -152,7 +174,7 @@ const AccommodationSelector = () => {
                     5 minuti a piedi dalla spiaggia
                   </p>
                 </div>
-                
+
                 <div className="p-4">
                   <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
                     <Car className="h-6 w-6 text-green-600" />

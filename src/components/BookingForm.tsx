@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useAccommodation } from "@/contexts/AccommodationContext";
 import axios from "axios";
 
 // emailjs.init("cL0t8BEEWVW6SEE86");
@@ -31,6 +32,7 @@ interface Booking {
 }
 
 const BookingForm = ({ className }: BookingFormProps) => {
+  const { accommodation } = useAccommodation();
   const [checkIn, setCheckIn] = useState<Date | undefined>(undefined);
   const [checkOut, setCheckOut] = useState<Date | undefined>(undefined);
   const [adults, setAdults] = useState<number>(2);
@@ -50,6 +52,8 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const totalGuests = adults + children;
+  const maxGuests = accommodation.id === 'pineta3' ? 4 : 6;
+  const sheetName = accommodation.id === 'pineta3' ? 'Affitti3' : 'Affitti8';
 
   useEffect(() => {
     // Fetch booking data from the same Google Sheets source
@@ -58,7 +62,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
       try {
         // Utilizza la stessa URL di AvailabilityCalendar per ottenere i dati
         const url =
-          "https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/Affitti3";
+          `https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/${sheetName}`;
         const response = await axios.get(url);
         const data = response.data;
 
@@ -115,17 +119,17 @@ const BookingForm = ({ className }: BookingFormProps) => {
       return;
     }
 
-    if (totalGuests > 4) {
+    if (totalGuests > maxGuests) {
       toast({
         title: "Numero di ospiti eccessivo",
         description:
-          "Il numero massimo di ospiti (adulti + bambini) consentito è 4.",
+          `Il numero massimo di ospiti (adulti + bambini) consentito è ${maxGuests}.`,
         variant: "destructive",
       });
       return;
     }
 
-    const whatsappMessage = `Ciao, vorrei richiedere una prenotazione per l'appartamento Immerso nella Pineta 3 con i seguenti dettagli:
+    const whatsappMessage = `Ciao, vorrei richiedere una prenotazione per l'appartamento ${accommodation.name} con i seguenti dettagli:
 - Nome: ${name}
 - Check-in: ${
       checkIn
@@ -355,7 +359,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
             id="adults"
             type="number"
             min={1}
-            max={4}
+            max={maxGuests}
             value={adults}
             onChange={(e) => setAdults(parseInt(e.target.value))}
           />
@@ -367,7 +371,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
             id="children"
             type="number"
             min={0}
-            max={3}
+            max={maxGuests - 1}
             value={children}
             onChange={(e) => setChildren(parseInt(e.target.value))}
           />
@@ -387,7 +391,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
       </div>
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div className="space-y-2 text-right">
-          <Label htmlFor="name">Massimo 4 ospiti (animali esclusi)</Label>
+          <Label htmlFor="name">Massimo {maxGuests} ospiti (animali esclusi)</Label>
         </div>
       </div>
 
@@ -434,16 +438,16 @@ const BookingForm = ({ className }: BookingFormProps) => {
         </div>
       </div>
 
-      {totalGuests > 4 && (
+      {totalGuests > maxGuests && (
         <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded-md text-sm">
-          Il numero massimo di ospiti consentito è 4 (adulti + bambini).
+          Il numero massimo di ospiti consentito è {maxGuests} (adulti + bambini).
         </div>
       )}
 
       <Button
         type="submit"
         className="w-full"
-        disabled={isSubmitting || totalGuests > 4}
+        disabled={isSubmitting || totalGuests > maxGuests}
       >
         {isSubmitting ? (
           <>

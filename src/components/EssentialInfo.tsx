@@ -1,12 +1,16 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Clock, Contact, Mail, Phone, Car } from "lucide-react";
+import { useAccommodation } from "@/contexts/AccommodationContext";
 
 interface EssentialInfoProps {
   className?: string;
 }
 
 const EssentialInfo = ({ className }: EssentialInfoProps) => {
+  const { accommodation } = useAccommodation();
+  const parkingNumber = accommodation.features.parkingNumber.split('#')[1]; // Estrae solo il numero
+  
   return (
     <div className={cn("space-y-6", className)}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -66,8 +70,7 @@ const EssentialInfo = ({ className }: EssentialInfoProps) => {
           <p className="text-sm">
             🚗 <strong>Parcheggio riservato:</strong> Gli ospiti possono
             accedere comodamente al cortile interno con l'auto e parcheggiare
-            nel posto riservato, identificato dal numero 3 e situato di fronte
-            all'ingresso.
+            nel posto riservato, identificato dal numero {parkingNumber} e situato {parkingNumber === '3' ? 'di fronte all\'ingresso' : 'a destra del cancello del cortile interno'}.
           </p>
           <p className="text-sm">
             🔑 <strong>Accesso autonomo:</strong> L'appartamento dispone di un
