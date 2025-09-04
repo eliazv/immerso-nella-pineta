@@ -11,12 +11,20 @@ import {
   BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAccommodation } from "@/contexts/AccommodationContext";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const location = useLocation();
+  const { accommodation } = useAccommodation();
+  
+  const getBasePath = () => {
+    if (location.pathname.startsWith('/pineta8')) return '/pineta8';
+    if (location.pathname.startsWith('/pineta3')) return '/pineta3';
+    return '/';
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,12 +58,13 @@ const Header = () => {
     return () => window.removeEventListener("storage", checkAuth);
   }, []);
 
+  const basePath = getBasePath();
   const navigation = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "Galleria", href: "/gallery", icon: Image },
-    { name: "Attrazioni", href: "/attractions", icon: MapPin },
-    { name: "Regole", href: "/rules", icon: ScrollText },
-    { name: "Prenota", href: "/book", icon: Calendar },
+    { name: "Home", href: basePath || "/", icon: Home },
+    { name: "Galleria", href: `${basePath}/gallery`, icon: Image },
+    { name: "Attrazioni", href: `${basePath}/attractions`, icon: MapPin },
+    { name: "Regole", href: `${basePath}/rules`, icon: ScrollText },
+    { name: "Prenota", href: `${basePath}/book`, icon: Calendar },
   ];
 
   // Aggiungi il link alla dashboard solo per gli utenti autenticati
@@ -92,7 +101,7 @@ const Header = () => {
             <Waves className="text-sea-dark h-6 w-6 absolute left-3" />
           </div>
           <span className="font-serif text-pine text-lg font-semibold tracking-tight text-foreground">
-            Immerso nella Pineta
+            {accommodation.shortName}
             <span className="block text-xs text-sea text-muted-foreground font-normal">
               Appartamento a Pinarella di Cervia
             </span>

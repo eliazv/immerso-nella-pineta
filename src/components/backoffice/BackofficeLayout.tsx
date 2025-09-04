@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Capacitor } from "@capacitor/core";
-import { StatusBar, StatusBarStyle } from "@capacitor/status-bar";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, BarChart3, Building, House } from "lucide-react";
@@ -23,27 +21,11 @@ import { isAuthenticated, logout } from "@/services/authService";
 const BackofficeLayout: React.FC = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [statusBarHeight, setStatusBarHeight] = useState<number>(0);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCalendar, setSelectedCalendar] =
     useState<CalendarType>("principale");
 
-  // Gestione status bar su Android - ora gestita tramite configurazione nativa
-  useEffect(() => {
-    const setupStatusBar = async () => {
-      if (Capacitor.isNativePlatform && Capacitor.getPlatform() === "android") {
-        try {
-          // La configurazione è ora gestita tramite capacitor.config.ts e MainActivity.java
-          // Non serve più impostare manualmente overlay mode
-          console.log("Status bar configurata tramite configurazione nativa");
-        } catch (e) {
-          console.error("Errore configurazione StatusBar:", e);
-        }
-      }
-    };
-    setupStatusBar();
-  }, []);
 
   // Determina la tab attiva in base al percorso corrente
   const currentPath = location.pathname;
@@ -114,10 +96,6 @@ const BackofficeLayout: React.FC = () => {
   }
   return (
     <div className="mx-auto">
-      {/*
-        Con la configurazione nativa corretta, la WebView ora inizia automaticamente
-        sotto la status bar su Android, senza bisogno di padding dinamico
-      */}
       <div className="fixed left-0 right-0 bg-slate-200 shadow-sm z-50 top-0">
         <div className="container mx-auto px-4 py-2 max-w-5xl flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center gap-4">

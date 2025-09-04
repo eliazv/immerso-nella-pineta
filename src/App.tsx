@@ -15,23 +15,13 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import Dashboard from "./pages/Dashboard";
 import AlloggiatiWeb from "./pages/AlloggiatiWeb";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
+import { AccommodationProvider } from "@/contexts/AccommodationContext";
+import AccommodationSelector from "./pages/AccommodationSelector";
 
 const queryClient = new QueryClient();
 
-import { useEffect } from "react";
-import { Capacitor } from "@capacitor/core";
 
 const App = () => {
-  useEffect(() => {
-    // Redirect automatico SOLO su Android e SOLO se siamo sulla homepage "/"
-    if (
-      Capacitor.isNativePlatform &&
-      Capacitor.getPlatform() === "android" &&
-      window.location.pathname === "/"
-    ) {
-      window.location.replace("/calendar");
-    }
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -40,32 +30,52 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              {/* Pagine pubbliche del sito */}
-              <Route path="/" element={<Index />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/attractions" element={<Attractions />} />
-              <Route path="/rules" element={<Rules />} />
-              <Route path="/book" element={<Book />} />
-              <Route path="/rules/pdf" element={<HouseRulesPDF />} />
+            <AccommodationProvider>
+              <Routes>
+                {/* Homepage - Selettore alloggi */}
+                <Route path="/" element={<AccommodationSelector />} />
 
-              {/* Sistema Alloggiati Web */}
-              <Route path="/alloggiati" element={<AlloggiatiWeb />} />
+                {/* Pagine per Pineta 3 */}
+                <Route path="/pineta3" element={<Index />} />
+                <Route path="/pineta3/gallery" element={<Gallery />} />
+                <Route path="/pineta3/attractions" element={<Attractions />} />
+                <Route path="/pineta3/rules" element={<Rules />} />
+                <Route path="/pineta3/book" element={<Book />} />
+                <Route path="/pineta3/rules/pdf" element={<HouseRulesPDF />} />
 
-              {/* Backoffice con layout condiviso */}
-              <Route path="/" element={<BackofficeLayout />}>
-                <Route path="/calendar" element={<AvailabilityCalendar />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                {/* Reindirizza /admin direttamente alla pagina calendar */}
-                <Route
-                  path="/admin"
-                  element={<Navigate to="/calendar" replace />}
-                />
-              </Route>
+                {/* Pagine per Pineta 8 */}
+                <Route path="/pineta8" element={<Index />} />
+                <Route path="/pineta8/gallery" element={<Gallery />} />
+                <Route path="/pineta8/attractions" element={<Attractions />} />
+                <Route path="/pineta8/rules" element={<Rules />} />
+                <Route path="/pineta8/book" element={<Book />} />
+                <Route path="/pineta8/rules/pdf" element={<HouseRulesPDF />} />
 
-              {/* Pagina 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+                {/* Sistema Alloggiati Web */}
+                <Route path="/alloggiati" element={<AlloggiatiWeb />} />
+
+                {/* Backoffice con layout condiviso */}
+                <Route path="/" element={<BackofficeLayout />}>
+                  <Route path="/calendar" element={<AvailabilityCalendar />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  {/* Reindirizza /admin direttamente alla pagina calendar */}
+                  <Route
+                    path="/admin"
+                    element={<Navigate to="/calendar" replace />}
+                  />
+                </Route>
+
+                {/* Backward compatibility - redirect old routes to pineta3 */}
+                <Route path="/gallery" element={<Navigate to="/pineta3/gallery" replace />} />
+                <Route path="/attractions" element={<Navigate to="/pineta3/attractions" replace />} />
+                <Route path="/rules" element={<Navigate to="/pineta3/rules" replace />} />
+                <Route path="/book" element={<Navigate to="/pineta3/book" replace />} />
+                <Route path="/rules/pdf" element={<Navigate to="/pineta3/rules/pdf" replace />} />
+
+                {/* Pagina 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AccommodationProvider>
           </BrowserRouter>
         </TooltipProvider>
       </HelmetProvider>

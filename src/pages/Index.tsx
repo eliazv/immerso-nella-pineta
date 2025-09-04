@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   TreePine,
   Waves,
@@ -29,8 +29,16 @@ import PhotoGallery from "@/components/PhotoGallery";
 import EssentialInfo from "@/components/EssentialInfo";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
+import { useAccommodation } from "@/contexts/AccommodationContext";
 
 const Index = () => {
+  const { accommodation } = useAccommodation();
+  const location = useLocation();
+  
+  const getBasePath = () => {
+    return location.pathname.split('/')[1] === 'pineta8' ? '/pineta8' : '/pineta3';
+  };
+
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
@@ -60,10 +68,10 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <SEOSchema />
       <MetaTags
-        title="Appartamento in Affitto a Pinarella di Cervia | Vacanze Mare 2025"
-        description="Affitto appartamento vacanze a Pinarella di Cervia. A 5 minuti dal mare, posto auto privato, 4 posti letto. Prenotazioni aperte. Ideale famiglie."
-        keywords="appartamento affitto pinarella cervia, casa vacanze pinarella, affitto estivo cervia, appartamento mare cervia, alloggio pinarella di cervia, vacanze cervia appartamento, affitto breve termine pinarella"
-        canonicalUrl="/"
+        title={accommodation.metaTags.title}
+        description={accommodation.metaTags.description}
+        keywords={accommodation.metaTags.keywords}
+        canonicalUrl={getBasePath()}
       />
 
       <Header />
@@ -72,7 +80,7 @@ const Index = () => {
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://www.pinarellavillage.com/images/slider/1.jpg"
+            src={accommodation.heroImage}
             alt="Appartamento in affitto Pinarella di Cervia - Pineta e mare"
             className="object-cover w-full h-full"
           />
@@ -81,10 +89,10 @@ const Index = () => {
 
         <div className="container px-4 mx-auto relative z-10 text-center">
           <h1 className="font-serif text-4xl md:text-6xl font-medium text-white mb-4 drop-shadow-md">
-            Immerso nella Pineta
+            {accommodation.heroTitle}
           </h1>
           <p className="text-white/90 text-lg md:text-xl mb-8 max-w-2xl mx-auto drop-shadow-md">
-            Casa vacanze a Cervia - A soli 5 minuti a piedi dal mare
+            {accommodation.heroSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <div className="relative inline-block">
@@ -94,7 +102,7 @@ const Index = () => {
                 asChild
                 className="bg-pine-dark/50 backdrop-blur-md border border-pine-light/70 text-white hover:bg-pine-dark/30 hover:text-white"
               >
-                <Link to="/gallery">Scopri l'alloggio</Link>
+                <Link to={`${getBasePath()}/gallery`}>Scopri l'alloggio</Link>
               </Button>
             </div>
             <div className="relative inline-block">
@@ -107,7 +115,7 @@ const Index = () => {
                 className="bg-sea-dark hover:bg-sea-dark/90"
               >
                 {/* <Link to="/rules">Regole e Istruzioni</Link> */}
-                <Link to="/book" className="flex items-center gap-2">
+                <Link to={`${getBasePath()}/book`} className="flex items-center gap-2">
                   Prenota ora
                 </Link>
                 {/* <Link to="/gallery">Esplora la casa</Link> */}
@@ -125,7 +133,7 @@ const Index = () => {
               <div className="relative">
                 <div className="aspect-[4/3] rounded-xl overflow-hidden">
                   <img
-                    src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/529559d4-9514-4ece-a94b-38de9fc199ab.jpeg?q=80&w=800&auto=format&fit=crop"
+                    src={accommodation.welcomeImage}
                     alt="Soggiorno appartamento affitto Pinarella di Cervia"
                     className="object-cover w-full h-full"
                   />
@@ -141,42 +149,36 @@ const Index = () => {
               </div>
 
               <h2 className="font-serif text-3xl font-medium mb-6">
-                Appartamento in affitto per le vostre vacanze
+                {accommodation.welcomeTitle}
               </h2>
 
               <p className="text-muted-foreground mb-6">
-                Benvenuti nel nostro accogliente appartamento, a soli 200 metri
-                dalla splendida pineta e dalle acque del mare di Pinarella.
-                Situato al piano terra di una graziosa palazzina immersa nel
-                verde, ombreggiata da alti pini, questo è il rifugio perfetto
-                per chi cerca relax e comfort durante le vacanze estive.
-                Godetevi la pace della zona, a due passi dalla spiaggia, e
-                lasciatevi coccolare dalla fresca brezza marina.
+                {accommodation.welcomeDescription}
               </p>
 
               <div className="flex flex-col md:flex-row gap-6 mb-8">
                 <div className="flex items-start">
                   <Bed className="text-pine-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
                   <div>
-                    <h3 className="font-medium">Fino a 4 ospiti</h3>
+                    <h3 className="font-medium">{accommodation.features.guests}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Letto matrimoniale e due letti singoli
+                      {accommodation.features.beds}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <Car className="text-pine-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
                   <div>
-                    <h3 className="font-medium">Parcheggio privato</h3>
+                    <h3 className="font-medium">{accommodation.features.parking}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Posto auto riservato #3
+                      {accommodation.features.parkingNumber}
                     </p>
                   </div>
                 </div>
               </div>
 
               <Button asChild>
-                <Link to="/book">
+                <Link to={`${getBasePath()}/book`}>
                   Controlla disponibilità
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -307,7 +309,7 @@ const Index = () => {
             {/* Soggiorno */}
             <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
               <img
-                src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/70cdc17b-b1f7-462e-9751-c2071478d2ce.jpeg?q=80&w=1200&h=800&auto=format&fit=crop"
+                src={accommodation.galleryImages.soggiorno}
                 alt="Soggiorno luminoso appartamento a Pinarella di Cervia"
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               />
@@ -324,7 +326,7 @@ const Index = () => {
             {/* Camera da letto */}
             <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
               <img
-                src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/45d7a05d-bfcb-403b-86cf-5a43aeeead4d.jpeg?q=80&w=1200&h=800&auto=format&fit=crop"
+                src={accommodation.galleryImages.camera}
                 alt="Camera da letto appartamento in affitto Pinarella di Cervia"
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               />
@@ -341,7 +343,7 @@ const Index = () => {
             {/* Cortile esterno */}
             <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
               <img
-                src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/1fd1ceeb-47d2-4ce1-a166-18c7147b3709.jpeg?q=80&w=1200&h=800&auto=format&fit=crop"
+                src={accommodation.galleryImages.esterno}
                 alt="Cortile esterno con zona pranzo all'aperto appartamento Pinarella"
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               />
@@ -358,7 +360,7 @@ const Index = () => {
 
           <div className="mt-8 text-center scroll-reveal">
             <Button variant="outline" asChild>
-              <Link to="/gallery">
+              <Link to={`${getBasePath()}/gallery`}>
                 Vedi tutte le foto
                 <ChevronRight className="ml-1 h-4 w-4" />
               </Link>
@@ -390,7 +392,7 @@ const Index = () => {
 
             <div className="mt-8 text-center">
               <Button variant="outline" asChild>
-                <Link to="/rules">
+                <Link to={`${getBasePath()}/rules`}>
                   Vedi tutte le informazioni
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -444,7 +446,7 @@ const Index = () => {
               </div>
 
               <Button asChild>
-                <Link to="/attractions">
+                <Link to={`${getBasePath()}/attractions`}>
                   Scopri di più
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -494,7 +496,7 @@ const Index = () => {
               asChild
               className="bg-white text-pine-dark hover:bg-white/90"
             >
-              <Link to="/book">Verifica disponibilità</Link>
+              <Link to={`${getBasePath()}/book`}>Verifica disponibilità</Link>
             </Button>
           </div>
         </div>
