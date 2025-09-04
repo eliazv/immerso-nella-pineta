@@ -17,6 +17,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const location = useLocation();
   const { accommodation } = useAccommodation();
   
@@ -58,6 +59,16 @@ const Header = () => {
     return () => window.removeEventListener("storage", checkAuth);
   }, []);
 
+  // Cleanup body scroll on component unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const basePath = getBasePath();
   const navigation = [
     { name: "Home", href: basePath || "/", icon: Home },
@@ -76,11 +87,33 @@ const Header = () => {
   const fullNavigation = [...navigation, ...adminNavigation];
 
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
+    const newState = !mobileMenuOpen;
+    setMobileMenuOpen(newState);
+    
+    // Prevent body scroll when mobile menu is open
+    if (newState) {
+      // Save current scroll position
+      setScrollPosition(window.scrollY);
+      // Prevent scrolling
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${window.scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Restore scrolling
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollPosition);
+    }
   };
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+    // Restore scrolling
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollPosition);
   };
 
   return (
@@ -129,10 +162,10 @@ const Header = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMobileMenu}
-          className="md:hidden flex items-center p-2"
+          className="md:hidden flex items-center p-2 relative z-50"
           aria-label="Toggle mobile menu"
         >
-          <div className="space-y-1.5 relative z-20 transition-all">
+          <div className="space-y-1.5 relative transition-all">
             <span
               className={cn(
                 "block h-0.5 w-6 bg-foreground rounded-full transition-all",
@@ -157,11 +190,12 @@ const Header = () => {
         {/* Mobile Navigation */}
         <div
           className={cn(
-            "fixed inset-0 z-10 glass transition-all duration-300 md:hidden",
+            "fixed top-0 left-0 w-screen h-screen z-40 glass transition-all duration-300 md:hidden",
             mobileMenuOpen
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
           )}
+          style={{ height: '100vh', width: '100vw' }}
         >
           <nav className="flex flex-col items-center justify-center h-full">
             {fullNavigation.map((item) => (

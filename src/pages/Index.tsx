@@ -29,6 +29,9 @@ import PhotoGallery from "@/components/PhotoGallery";
 import EssentialInfo from "@/components/EssentialInfo";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
+import AdvancedSEOSchema from "@/components/AdvancedSEOSchema";
+import BreadcrumbSEO from "@/components/BreadcrumbSEO";
+import FAQ from "@/components/FAQ";
 import { useAccommodation } from "@/contexts/AccommodationContext";
 
 const Index = () => {
@@ -67,6 +70,7 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <SEOSchema />
+      <AdvancedSEOSchema accommodationType={location.pathname.includes('pineta8') ? 'pineta8' : 'pineta3'} />
       <MetaTags
         title={accommodation.metaTags.title}
         description={accommodation.metaTags.description}
@@ -75,13 +79,17 @@ const Index = () => {
       />
 
       <Header />
+      
+      <div className="container px-4 mx-auto">
+        <BreadcrumbSEO />
+      </div>
 
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src={accommodation.heroImage}
-            alt="Appartamento in affitto Pinarella di Cervia - Pineta e mare"
+            alt="Appartamento prenotazione diretta Pinarella di Cervia - affitto senza intermediari vicino al mare e pineta"
             className="object-cover w-full h-full"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30" />
@@ -134,7 +142,7 @@ const Index = () => {
                 <div className="aspect-[4/3] rounded-xl overflow-hidden">
                   <img
                     src={accommodation.welcomeImage}
-                    alt="Soggiorno appartamento affitto Pinarella di Cervia"
+                    alt="Soggiorno appartamento prenotazione diretta Pinarella di Cervia - casa vacanze senza commissioni"
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -153,7 +161,14 @@ const Index = () => {
               </h2>
 
               <p className="text-muted-foreground mb-6">
-                {accommodation.welcomeDescription}
+                {accommodation.welcomeDescription}{' '}
+                <Link 
+                  to="/pinarella-guida" 
+                  className="text-pine-dark underline hover:text-pine-dark/80 transition-colors"
+                >
+                  Scopri tutto su Pinarella di Cervia
+                </Link>{' '}
+                nella nostra guida completa.
               </p>
 
               <div className="flex flex-col md:flex-row gap-6 mb-8">
@@ -310,7 +325,7 @@ const Index = () => {
             <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
               <img
                 src={accommodation.galleryImages.soggiorno}
-                alt="Soggiorno luminoso appartamento a Pinarella di Cervia"
+                alt="Soggiorno luminoso appartamento prenotazione diretta Pinarella di Cervia - affitto senza intermediari"
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
@@ -327,7 +342,7 @@ const Index = () => {
             <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
               <img
                 src={accommodation.galleryImages.camera}
-                alt="Camera da letto appartamento in affitto Pinarella di Cervia"
+                alt="Camera da letto appartamento 4 posti letto Pinarella di Cervia - prenotazione diretta contatta proprietario"
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
@@ -344,7 +359,7 @@ const Index = () => {
             <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
               <img
                 src={accommodation.galleryImages.esterno}
-                alt="Cortile esterno con zona pranzo all'aperto appartamento Pinarella"
+                alt="Cortile esterno con zona pranzo appartamento Pinarella - casa vacanze prenotazione diretta Cervia"
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
@@ -458,7 +473,7 @@ const Index = () => {
                 <div className="aspect-[4/3] rounded-xl overflow-hidden">
                   <img
                     src="https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg"
-                    alt="Lungomare di Pinarella di Cervia - appartamento vicino al mare"
+                    alt="Lungomare Pinarella di Cervia - appartamento 200m dal mare prenotazione diretta senza commissioni"
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -469,12 +484,21 @@ const Index = () => {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="scroll-reveal">
+            <FAQ />
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1920&auto=format&fit=crop"
-            alt="Mare di Pinarella - vacanze in appartamento affitto Cervia"
+            alt="Mare di Pinarella - vacanze appartamento prenotazione diretta Cervia senza intermediari"
             className="object-cover w-full h-full opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-pine-dark/80 to-sea-dark/80" />

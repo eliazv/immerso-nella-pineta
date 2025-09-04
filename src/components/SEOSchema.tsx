@@ -4,9 +4,9 @@ const SEOSchema = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
-    name: "Immerso nella Pineta - Appartamento in Affitto Pinarella di Cervia",
+    name: "Appartamento Pinarella Prenotazione Diretta - Casa Vacanze Cervia",
     description:
-      "Appartamento in affitto per vacanze a Pinarella di Cervia. A 5 minuti dal mare, posto auto privato, 4 posti letto. Casa vacanze ideale per famiglie nella pineta di Cervia.",
+      "Appartamento in affitto a Pinarella di Cervia con prenotazione diretta senza intermediari. 4 posti letto, parcheggio privato, 200m dal mare. Contatta il proprietario per risparmiare sulle commissioni. Casa vacanze ideale per famiglie nella pineta di Cervia.",
     url: "https://immersonellapineta.it",
     telephone: "+393938932793",
     email: "zavattaelia@gmail.com",
@@ -36,7 +36,7 @@ const SEOSchema = () => {
     amenityFeature: [
       {
         "@type": "LocationFeatureSpecification",
-        name: "Parcheggio privato riservato #3",
+        name: "Parcheggio privato incluso - posto auto riservato",
         value: true,
       },
       {
@@ -56,7 +56,7 @@ const SEOSchema = () => {
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "A 200m dalla pineta e mare",
+        name: "Vicinanza al mare - 200m dalla spiaggia e pineta",
         value: true,
       },
       {
@@ -107,9 +107,14 @@ const SEOSchema = () => {
       },
       result: {
         "@type": "LodgingReservation",
-        name: "Prenotazione appartamento in affitto a Pinarella di Cervia",
+        name: "Prenotazione diretta appartamento Pinarella Cervia senza intermediari",
       },
     },
+    sameAs: [
+      "https://www.facebook.com/immersonellapineta",
+      "https://www.instagram.com/immersonellapineta"
+    ],
+    keywords: "appartamento Pinarella prenotazione diretta, affitto appartamento Pinarella senza intermediari, casa vacanze Pinarella Cervia, alloggio Pinarella fronte mare, appartamento 4 persone Pinarella contatta proprietario, vacanze famiglia Pinarella senza commissioni",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",

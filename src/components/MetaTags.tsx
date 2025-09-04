@@ -12,7 +12,7 @@ interface MetaTagsProps {
 const MetaTags = ({
   title,
   description,
-  keywords = "appartamento affitto pinarella, casa vacanze pinarella cervia, affitto estivo cervia, appartamento mare cervia, alloggio pinarella di cervia, vacanze cervia appartamento, affitto breve termine pinarella, appartamento 4 posti letto cervia, casa vacanze emilia romagna",
+  keywords = "appartamento Pinarella prenotazione diretta, affitto appartamento Pinarella senza intermediari, casa vacanze Pinarella Cervia, alloggio Pinarella fronte mare, appartamento 4 persone Pinarella contatta proprietario, vacanze famiglia Pinarella senza commissioni, affitto settimanale Pinarella prenotazione diretta, appartamento vicino mare Cervia, casa vacanze Emilia Romagna prenotazione diretta, appartamento affitto pinarella, appartamento mare cervia, alloggio pinarella di cervia, vacanze cervia appartamento, affitto breve termine pinarella",
   canonicalUrl = "",
   imageUrl = "https://www.pinarellavillage.com/images/slider/1.jpg",
 }: MetaTagsProps) => {

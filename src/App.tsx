@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import Dashboard from "./pages/Dashboard";
 import AlloggiatiWeb from "./pages/AlloggiatiWeb";
+import PinarellaGuide from "./pages/PinarellaGuide";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 import { AccommodationProvider } from "@/contexts/AccommodationContext";
 import AccommodationSelector from "./pages/AccommodationSelector";
@@ -53,6 +54,9 @@ const App = () => {
 
                 {/* Sistema Alloggiati Web */}
                 <Route path="/alloggiati" element={<AlloggiatiWeb />} />
+                
+                {/* SEO Content Pages */}
+                <Route path="/pinarella-guida" element={<PinarellaGuide />} />
 
                 {/* Backoffice con layout condiviso */}
                 <Route path="/" element={<BackofficeLayout />}>

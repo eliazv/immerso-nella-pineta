@@ -10,3 +10,12 @@
 
 - attualmente il sito è di di presentazione di un alloggio, vorrei aggiungere un altro alloggio usando lo stesso sito ma solo cambiando i contenuti. in piu vorrei che la home fosse una pagina dove puoi scegliere se visualizzare uno o l'altro alloggio. l'allogigo attuale si chiamerà immerso nella pineta 3 mentre il nuovo immerso nella pinete 8. predisponi quindi il sito a supportare 2 alloggi uguali che hanno pero dati e foto diversi. non duplicare i file ma fai in modo che in base all'url che sto visitando cambi i contenuti della pagine (ignora backoffice, quello lascialo cosi com'è). che ti sembra questo approccio? potremmo fare di meglio? consigli di duplicare il codice o usare questo approccio? consigliami senza fare modifiche al momento
 - adatta queste stringhe anche al nuovo allogigo: 4 posti letto, identificato dal numero 3, Massimo 4 ospiti. il cin dell'appartmento 8 è IT039007C2UTCCNWG5. in galleria foto del numero 8 ci sono ancora foto del numero 3 adatta poi al momento per appartmaento 8 togli card Accessibilità
+- migliora seo
+- pagina prenota togli modulo e lascia solo miei contatti email e cellulare
+- cambia aseconda di queale appartmaento stiamo visualizzanado: {
+  question: "Quante persone può ospitare l'appartamento?",
+  answer:
+  "L'appartamento può ospitare fino a 4 persone con 1 letto matrimoniale e 2 letti singoli. È perfetto per famiglie o gruppi di amici che visitano Pinarella di Cervia.",
+  },
+- scrivi anche che accetta animali domestici
+- includi recensini airbnb in sito
