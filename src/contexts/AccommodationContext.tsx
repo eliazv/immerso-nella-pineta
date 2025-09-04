@@ -22,6 +22,10 @@ export interface AccommodationData {
     beds: string;
     parking: string;
     parkingNumber: string;
+    petsAllowed: string;
+  };
+  rating: {
+    airbnb: string;
   };
   metaTags: {
     title: string;
@@ -52,7 +56,11 @@ const accommodationsData: Record<string, AccommodationData> = {
       guests: 'Fino a 4 ospiti',
       beds: 'Letto matrimoniale e due letti singoli',
       parking: 'Parcheggio privato',
-      parkingNumber: 'Posto auto riservato #3'
+      parkingNumber: 'Posto auto riservato #3',
+      petsAllowed: 'Animali domestici accettati'
+    },
+    rating: {
+      airbnb: '4,5 stelle su Airbnb'
     },
     metaTags: {
       title: 'Appartamento in Affitto a Pinarella di Cervia | Vacanze Mare 2025',
@@ -81,7 +89,11 @@ const accommodationsData: Record<string, AccommodationData> = {
       guests: 'Fino a 6 ospiti',
       beds: '2 letti matrimoniali e 2 letti singoli in 2 camere',
       parking: 'Parcheggio privato',
-      parkingNumber: 'Posto auto riservato #8'
+      parkingNumber: 'Posto auto riservato #8',
+      petsAllowed: 'Animali domestici accettati'
+    },
+    rating: {
+      airbnb: '4,5 stelle su Airbnb'
     },
     metaTags: {
       title: 'Appartamento 6 posti letto a Pinarella di Cervia | Vacanze Mare 2025',

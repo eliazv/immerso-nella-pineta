@@ -20,6 +20,8 @@ import {
   WashingMachine,
   Copy,
   PencilRuler,
+  Heart,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -30,16 +32,17 @@ import EssentialInfo from "@/components/EssentialInfo";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
 import AdvancedSEOSchema from "@/components/AdvancedSEOSchema";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import FAQ from "@/components/FAQ";
 import { useAccommodation } from "@/contexts/AccommodationContext";
 
 const Index = () => {
   const { accommodation } = useAccommodation();
   const location = useLocation();
-  
+
   const getBasePath = () => {
-    return location.pathname.split('/')[1] === 'pineta8' ? '/pineta8' : '/pineta3';
+    return location.pathname.split("/")[1] === "pineta8"
+      ? "/pineta8"
+      : "/pineta3";
   };
 
   useEffect(() => {
@@ -70,7 +73,11 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <SEOSchema />
-      <AdvancedSEOSchema accommodationType={location.pathname.includes('pineta8') ? 'pineta8' : 'pineta3'} />
+      <AdvancedSEOSchema
+        accommodationType={
+          location.pathname.includes("pineta8") ? "pineta8" : "pineta3"
+        }
+      />
       <MetaTags
         title={accommodation.metaTags.title}
         description={accommodation.metaTags.description}
@@ -79,10 +86,6 @@ const Index = () => {
       />
 
       <Header />
-      
-      <div className="container px-4 mx-auto">
-        <BreadcrumbSEO />
-      </div>
 
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
@@ -93,6 +96,32 @@ const Index = () => {
             className="object-cover w-full h-full"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30" />
+        </div>
+
+        {/* Rating in bottom right */}
+        <div className="absolute bottom-4 right-4 z-10 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-2">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              {[...Array(4)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="h-4 w-4 text-yellow-400 fill-current"
+                />
+              ))}
+              <div className="relative">
+                <Star className="h-4 w-4 text-gray-300 fill-current" />
+                <Star 
+                  className="h-4 w-4 text-yellow-400 fill-current absolute top-0 left-0"
+                  style={{
+                    clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)'
+                  }}
+                />
+              </div>
+            </div>
+            <span className="text-white text-sm font-medium">
+              {accommodation.rating.airbnb}
+            </span>
+          </div>
         </div>
 
         <div className="container px-4 mx-auto relative z-10 text-center">
@@ -123,7 +152,10 @@ const Index = () => {
                 className="bg-sea-dark hover:bg-sea-dark/90"
               >
                 {/* <Link to="/rules">Regole e Istruzioni</Link> */}
-                <Link to={`${getBasePath()}/book`} className="flex items-center gap-2">
+                <Link
+                  to={`${getBasePath()}/book`}
+                  className="flex items-center gap-2"
+                >
                   Prenota ora
                 </Link>
                 {/* <Link to="/gallery">Esplora la casa</Link> */}
@@ -161,21 +193,23 @@ const Index = () => {
               </h2>
 
               <p className="text-muted-foreground mb-6">
-                {accommodation.welcomeDescription}{' '}
-                <Link 
-                  to="/pinarella-guida" 
+                {accommodation.welcomeDescription}{" "}
+                <Link
+                  to="/pinarella-guida"
                   className="text-pine-dark underline hover:text-pine-dark/80 transition-colors"
                 >
                   Scopri tutto su Pinarella di Cervia
-                </Link>{' '}
+                </Link>{" "}
                 nella nostra guida completa.
               </p>
 
-              <div className="flex flex-col md:flex-row gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <div className="flex items-start">
                   <Bed className="text-pine-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
                   <div>
-                    <h3 className="font-medium">{accommodation.features.guests}</h3>
+                    <h3 className="font-medium">
+                      {accommodation.features.guests}
+                    </h3>
                     <p className="text-sm text-muted-foreground">
                       {accommodation.features.beds}
                     </p>
@@ -184,10 +218,20 @@ const Index = () => {
                 <div className="flex items-start">
                   <Car className="text-pine-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
                   <div>
-                    <h3 className="font-medium">{accommodation.features.parking}</h3>
+                    <h3 className="font-medium">
+                      {accommodation.features.parking}
+                    </h3>
                     <p className="text-sm text-muted-foreground">
                       {accommodation.features.parkingNumber}
                     </p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <Heart className="text-pink-600 h-6 w-6 mt-0.5 mr-3 shrink-0" />
+                  <div>
+                    <h3 className="font-medium">
+                      {accommodation.features.petsAllowed}
+                    </h3>
                   </div>
                 </div>
               </div>

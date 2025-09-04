@@ -12,10 +12,12 @@
 - adatta queste stringhe anche al nuovo allogigo: 4 posti letto, identificato dal numero 3, Massimo 4 ospiti. il cin dell'appartmento 8 è IT039007C2UTCCNWG5. in galleria foto del numero 8 ci sono ancora foto del numero 3 adatta poi al momento per appartmaento 8 togli card Accessibilità
 - migliora seo
 - pagina prenota togli modulo e lascia solo miei contatti email e cellulare
-- cambia aseconda di queale appartmaento stiamo visualizzanado: {
+- cambia questa faq seconda di queale appartmaento stiamo visualizzanado: {
   question: "Quante persone può ospitare l'appartamento?",
   answer:
   "L'appartamento può ospitare fino a 4 persone con 1 letto matrimoniale e 2 letti singoli. È perfetto per famiglie o gruppi di amici che visitano Pinarella di Cervia.",
   },
-- scrivi anche che accetta animali domestici
-- includi recensini airbnb in sito
+- scrivi anche in entrambi gli appartmanti che accettano animali domestici , mettilo nel punto piu appropriato
+- scrivi che hanno 4,5 stelle su airbnb
+- vedo nell'header Home > Appartamento Pineta 8 di src\pages\Index.tsx:83:6 toglilo
+- vdo in console erore: main.js:313 GET https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true net::ERR_BLOCKED_BY_CLIENT come mai?

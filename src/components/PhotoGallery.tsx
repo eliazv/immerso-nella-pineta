@@ -138,7 +138,7 @@ const galleryImagesData = {
       src: "https://www.discovercervia.com/cervia/territorio-localita/pinarella/568/image-thumb__568__thumb800/PINETA%20AEREA%20GRANDE_slide_pinarella-di-cervia-Mattia%20Lumini.a288ca8a.jpg?q=80&w=1200&h=800&auto=format&fit=crop",
       alt: "Spiaggia di Pinarella di Cervia vicino all'appartamento",
     },
-  ]
+  ],
 };
 
 interface PhotoGalleryProps {
@@ -151,14 +151,16 @@ const PhotoGallery = ({ compact = false, className }: PhotoGalleryProps) => {
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
-  
-  const galleryImages = galleryImagesData[accommodation.id as keyof typeof galleryImagesData] || galleryImagesData.pineta3;
+
+  const galleryImages =
+    galleryImagesData[accommodation.id as keyof typeof galleryImagesData] ||
+    galleryImagesData.pineta3;
   const displayImages = compact ? galleryImages.slice(0, 3) : galleryImages;
-  
+
   const getBasePath = () => {
-    if (location.pathname.startsWith('/pineta8')) return '/pineta8';
-    if (location.pathname.startsWith('/pineta3')) return '/pineta3';
-    return '/';
+    if (location.pathname.startsWith("/pineta8")) return "/pineta8";
+    if (location.pathname.startsWith("/pineta3")) return "/pineta3";
+    return "/";
   };
 
   const openLightbox = (image: Image) => {
