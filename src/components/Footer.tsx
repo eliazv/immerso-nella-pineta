@@ -95,10 +95,18 @@ const Footer = ({ className }: { className?: string }) => {
               </li>
               <li>
                 <Link
-                  to={`${basePath}/rules`}
+                  to="/blog"
                   className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
                 >
-                  Regole della casa
+                  Blog e Guide
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/faq"
+                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                >
+                  Domande Frequenti
                 </Link>
               </li>
               <li>

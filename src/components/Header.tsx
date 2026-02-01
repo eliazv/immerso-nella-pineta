@@ -9,6 +9,8 @@ import {
   Calendar,
   MapPin,
   BarChart3,
+  BookOpen,
+  MessageCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAccommodation } from "@/contexts/AccommodationContext";
@@ -74,7 +76,8 @@ const Header = () => {
     { name: "Home", href: basePath || "/", icon: Home },
     { name: "Galleria", href: `${basePath}/gallery`, icon: Image },
     { name: "Attrazioni", href: `${basePath}/attractions`, icon: MapPin },
-    { name: "Regole", href: `${basePath}/rules`, icon: ScrollText },
+    { name: "Blog", href: "/blog", icon: BookOpen },
+    { name: "FAQ", href: "/faq", icon: MessageCircle },
     { name: "Prenota", href: `${basePath}/book`, icon: Calendar },
   ];
 

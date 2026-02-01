@@ -79,9 +79,51 @@
   </url>
   <url>
     <loc>https://immersonellapineta.it/pinarella-guida</loc>
-    <lastmod>2025-01-04</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="it" href="https://immersonellapineta.it/pinarella-guida" />
+  </url>
+  <url>
+    <loc>https://immersonellapineta.it/faq</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://immersonellapineta.it/faq" />
+  </url>
+  <url>
+    <loc>https://immersonellapineta.it/blog</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://immersonellapineta.it/blog" />
+  </url>
+  <url>
+    <loc>https://immersonellapineta.it/blog/cosa-fare-pinarella-cervia</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://immersonellapineta.it/blog/cosa-fare-pinarella-cervia" />
+  </url>
+  <url>
+    <loc>https://immersonellapineta.it/blog/migliori-ristoranti-pinarella-cervia</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://immersonellapineta.it/blog/migliori-ristoranti-pinarella-cervia" />
+  </url>
+  <url>
+    <loc>https://immersonellapineta.it/blog/come-arrivare-pinarella</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://immersonellapineta.it/blog/come-arrivare-pinarella" />
+  </url>
+  <url>
+    <loc>https://immersonellapineta.it/blog/eventi-pinarella-cervia</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://immersonellapineta.it/blog/eventi-pinarella-cervia" />
   </url>
 </urlset>

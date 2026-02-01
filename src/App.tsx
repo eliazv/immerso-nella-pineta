@@ -15,6 +15,12 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import Dashboard from "./pages/Dashboard";
 import AlloggiatiWeb from "./pages/AlloggiatiWeb";
 import PinarellaGuide from "./pages/PinarellaGuide";
+import Blog from "./pages/Blog";
+import FAQ from "./pages/FAQ";
+import CosaFarePinarella from "./pages/blog/CosaFarePinarella";
+import RistorantiPinarella from "./pages/blog/RistorantiPinarella";
+import ComeArrivarePinarella from "./pages/blog/ComeArrivarePinarella";
+import EventiPinarella from "./pages/blog/EventiPinarella";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 import { AccommodationProvider } from "@/contexts/AccommodationContext";
 import AccommodationSelector from "./pages/AccommodationSelector";
@@ -57,6 +63,12 @@ const App = () => {
                 
                 {/* SEO Content Pages */}
                 <Route path="/pinarella-guida" element={<PinarellaGuide />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/cosa-fare-pinarella-cervia" element={<CosaFarePinarella />} />
+                <Route path="/blog/migliori-ristoranti-pinarella-cervia" element={<RistorantiPinarella />} />
+                <Route path="/blog/come-arrivare-pinarella" element={<ComeArrivarePinarella />} />
+                <Route path="/blog/eventi-pinarella-cervia" element={<EventiPinarella />} />
 
                 {/* Backoffice con layout condiviso */}
                 <Route path="/" element={<BackofficeLayout />}>
