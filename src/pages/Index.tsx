@@ -100,73 +100,103 @@ const Index = () => {
             src={accommodation.heroImage}
             alt="Appartamento prenotazione diretta Pinarella di Cervia - affitto senza intermediari vicino al mare e pineta"
             className="object-cover w-full h-full"
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
         </div>
 
-        {/* Rating in bottom right */}
-        <div className="absolute bottom-4 right-4 z-10 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-2">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
-              {[...Array(4)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="h-4 w-4 text-yellow-400 fill-current"
-                />
-              ))}
-              <div className="relative">
-                <Star className="h-4 w-4 text-gray-300 fill-current" />
-                <Star
-                  className="h-4 w-4 text-yellow-400 fill-current absolute top-0 left-0"
-                  style={{
-                    clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
-                  }}
-                />
-              </div>
+        {/* Rating Badge - Minimal Bottom Right (filled stars) */}
+        <div className="absolute bottom-6 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm flex items-center gap-2">
+          <div className="flex items-center gap-0.5">
+            {[...Array(4)].map((_, i) => (
+              <Star
+                key={i}
+                className="h-3 w-3 text-yellow-400"
+                fill="currentColor"
+                stroke="none"
+              />
+            ))}
+            <div className="relative">
+              <Star
+                className="h-3 w-3 text-gray-300"
+                fill="currentColor"
+                stroke="none"
+              />
+              <Star
+                className="h-3 w-3 text-yellow-400 absolute top-0 left-0"
+                style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}
+                fill="currentColor"
+                stroke="none"
+              />
             </div>
-            <span className="text-white text-sm font-medium">
-              {accommodation.rating.airbnb}
-            </span>
           </div>
+          <span className="text-gray-900 text-xs font-medium">
+            {accommodation.rating.airbnb}
+          </span>
         </div>
 
         <div className="container px-4 mx-auto relative z-10 text-center">
-          <h1 className="font-serif text-4xl md:text-6xl font-medium text-white mb-4 drop-shadow-md">
-            {accommodation.heroTitle}
+          {/* Badge località */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <MapPin className="h-4 w-4" />
+            <span>Pinarella di Cervia, Riviera Romagnola</span>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-2xl tracking-tight">
+            {accommodation.name}
           </h1>
-          <p className="text-white/90 text-lg md:text-xl mb-8 max-w-2xl mx-auto drop-shadow-md">
-            {accommodation.heroSubtitle}
+
+          <p className="text-white text-xl md:text-2xl mb-3 max-w-3xl mx-auto drop-shadow-lg font-light">
+            Vacanze al mare in affitto diretto
           </p>
+
+          <p className="text-white/90 text-base md:text-lg mb-10 max-w-2xl mx-auto drop-shadow-md">
+            Nessuna commissione • Contatto diretto con i proprietari
+          </p>
+
+          {/* Info Cards */}
+          <div className="flex flex-wrap gap-3 justify-center mb-10">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2.5 text-white">
+              <div className="flex items-center gap-2">
+                <Bed className="h-5 w-5" />
+                <span className="font-medium">
+                  {accommodation.features.guests}
+                </span>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2.5 text-white">
+              <div className="flex items-center gap-2">
+                <TreePine className="h-5 w-5" />
+                <span className="font-medium">Nella pineta</span>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2.5 text-white">
+              <div className="flex items-center gap-2">
+                <Waves className="h-5 w-5" />
+                <span className="font-medium">5 min dal mare</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="relative inline-block">
-              <Button
-                size="lg"
-                variant="outline"
-                asChild
-                className="bg-pine-dark/50 backdrop-blur-md border border-pine-light/70 text-white hover:bg-pine-dark/30 hover:text-white"
-              >
-                <Link to={`${getBasePath()}/gallery`}>Scopri l'alloggio</Link>
-              </Button>
-            </div>
-            <div className="relative inline-block">
-              <span className="absolute -top-3 left-1/2 px-2 py-0.5 rounded-full text-xs font-semibold bg-green-500 text-white shadow-lg animate-pulse z-10 whitespace-nowrap">
-                -20% vs Booking/Airbnb
-              </span>
-              <Button
-                size="lg"
-                asChild
-                className="bg-sea-dark hover:bg-sea-dark/90"
-              >
-                {/* <Link to="/rules">Regole e Istruzioni</Link> */}
-                <Link
-                  to={`${getBasePath()}/book`}
-                  className="flex items-center gap-2"
-                >
-                  Prenota ora
-                </Link>
-                {/* <Link to="/gallery">Esplora la casa</Link> */}
-              </Button>
-            </div>
+            <Button
+              size="lg"
+              asChild
+              className="bg-white text-pine-dark hover:bg-white/90 font-semibold shadow-xl"
+            >
+              <Link to={`${getBasePath()}/book`}>
+                Prenota ora - Risparmia 20%
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
+              className="bg-transparent backdrop-blur-md border-2 border-white text-white hover:bg-white/10"
+            >
+              <Link to={`${getBasePath()}/gallery`}>Guarda la galleria</Link>
+            </Button>
           </div>
         </div>
       </section>

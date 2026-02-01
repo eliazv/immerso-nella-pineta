@@ -70,14 +70,20 @@ const Header = () => {
   }, []);
 
   const basePath = getBasePath();
+  // Normalize basePath so that when it's root ("/") we don't produce "//route" links
+  const basePathNormalized = basePath === "/" ? "" : basePath;
   const navigation = [
-    { name: "Home", href: basePath || "/", icon: Home },
+    { name: "Home", href: basePathNormalized || "/", icon: Home },
     { name: "Chi Siamo", href: "/chi-siamo", icon: Users },
-    { name: "Galleria", href: `${basePath}/gallery`, icon: Image },
-    { name: "Attrazioni", href: `${basePath}/attractions`, icon: MapPin },
+    { name: "Galleria", href: `${basePathNormalized}/gallery`, icon: Image },
+    {
+      name: "Attrazioni",
+      href: `${basePathNormalized}/attractions`,
+      icon: MapPin,
+    },
     { name: "Blog", href: "/blog", icon: BookOpen },
     { name: "FAQ", href: "/faq", icon: MessageCircle },
-    { name: "Prenota", href: `${basePath}/book`, icon: Calendar },
+    { name: "Prenota", href: `${basePathNormalized}/book`, icon: Calendar },
   ];
 
   // Aggiungi il link alla dashboard solo per gli utenti autenticati

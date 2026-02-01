@@ -42,7 +42,7 @@ const accommodationsData: Record<string, AccommodationData> = {
     shortName: "Pineta 3",
     description: "Alloggio a Pinarella - Affitto Diretto dai Proprietari",
     heroImage: "https://www.pinarellavillage.com/images/slider/1.jpg",
-    heroTitle: "Alloggio a Pinarella - Affitto Diretto dai Proprietari",
+    heroTitle: "Immerso 3",
     heroSubtitle:
       "Niente commissioni, nessun intermediario. Contatto diretto con Elia e famiglia per la tua vacanza in Romagna.",
     welcomeImage:
@@ -85,7 +85,7 @@ const accommodationsData: Record<string, AccommodationData> = {
     description: "Alloggio 6 posti a Pinarella - Affitto Diretto Proprietario",
     heroImage:
       "https://a0.muscache.com/im/pictures/hosting/Hosting-1496353845267245023/original/b4103f6e-2051-49cb-8453-ccfbb53b3df2.jpeg?im_w=480",
-    heroTitle: "Alloggio a Pinarella - Affitto Diretto dai Proprietari",
+    heroTitle: "Immerso 8",
     heroSubtitle:
       "Appartamento 6 posti letto. Nessun intermediario, gestione diretta con Elia e famiglia. Risparmia vs Booking/Airbnb.",
     welcomeImage:
