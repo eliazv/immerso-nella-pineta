@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
 import PhotoGallery from "@/components/PhotoGallery";
 import EssentialInfo from "@/components/EssentialInfo";
 import MetaTags from "@/components/MetaTags";
@@ -34,6 +35,7 @@ import SEOSchema from "@/components/SEOSchema";
 import AdvancedSEOSchema from "@/components/AdvancedSEOSchema";
 import FAQ from "@/components/FAQ";
 import { useAccommodation } from "@/contexts/AccommodationContext";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 
 const Index = () => {
   const { accommodation } = useAccommodation();
@@ -86,6 +88,10 @@ const Index = () => {
       />
 
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
@@ -110,10 +116,10 @@ const Index = () => {
               ))}
               <div className="relative">
                 <Star className="h-4 w-4 text-gray-300 fill-current" />
-                <Star 
+                <Star
                   className="h-4 w-4 text-yellow-400 fill-current absolute top-0 left-0"
                   style={{
-                    clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)'
+                    clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
                   }}
                 />
               </div>

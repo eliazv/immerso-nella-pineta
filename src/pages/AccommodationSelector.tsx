@@ -18,14 +18,21 @@ const AccommodationSelector = () => {
         <div className="max-w-6xl mx-auto w-full">
           {/* Header */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-pine-light/50 text-pine-dark px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <TreePine className="h-4 w-4" />
-              <span>Cervia, Italia</span>
+            <div className="mb-8 flex justify-center">
+              <img
+                src="/images/logo.nobg.png"
+                alt="Immerso nella Pineta"
+                className="h-32 md:h-40 w-auto"
+              />
             </div>
-            <h1 className="font-serif text-4xl md:text-6xl font-medium text-pine-dark mb-4">
+            <div className="inline-flex items-center gap-2 bg-pine-dark/10 text-pine-dark px-6 py-2.5 rounded-full text-sm font-medium mb-6 border border-pine-light">
+              <MapPin className="h-4 w-4" />
+              <span>Pinarella di Cervia, Italia</span>
+            </div>
+            <h1 className="font-serif text-4xl md:text-6xl font-bold text-pine-dark mb-6 tracking-tight">
               Immerso nella Pineta
             </h1>
-            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
+            <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               Scegli il tuo appartamento ideale per le vacanze a Pinarella di
               Cervia. Due accoglienti alloggi immersi nella pineta, a soli 5
               minuti a piedi dal mare.
@@ -35,7 +42,10 @@ const AccommodationSelector = () => {
           {/* Accommodation Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Pineta 3 */}
-            <Link to="/pineta3" className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block">
+            <Link
+              to="/pineta3"
+              className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block"
+            >
               <div className="aspect-[4/3] rounded-xl overflow-hidden mb-6">
                 <img
                   src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/529559d4-9514-4ece-a94b-38de9fc199ab.jpeg?q=80&w=800&auto=format&fit=crop"
@@ -88,7 +98,10 @@ const AccommodationSelector = () => {
             </Link>
 
             {/* Pineta 8 */}
-            <Link to="/pineta8" className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block">
+            <Link
+              to="/pineta8"
+              className="group bg-white rounded-2xl p-8 border border-border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block"
+            >
               <div className="aspect-[4/3] rounded-xl overflow-hidden mb-6">
                 <img
                   src="https://a0.muscache.com/im/pictures/hosting/Hosting-1496353845267245023/original/b4103f6e-2051-49cb-8453-ccfbb53b3df2.jpeg?im_w=480"

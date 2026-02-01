@@ -21,15 +21,14 @@ import CosaFarePinarella from "./pages/blog/CosaFarePinarella";
 import RistorantiPinarella from "./pages/blog/RistorantiPinarella";
 import ComeArrivarePinarella from "./pages/blog/ComeArrivarePinarella";
 import EventiPinarella from "./pages/blog/EventiPinarella";
+import ChiSiamo from "./pages/ChiSiamo";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 import { AccommodationProvider } from "@/contexts/AccommodationContext";
 import AccommodationSelector from "./pages/AccommodationSelector";
 
 const queryClient = new QueryClient();
 
-
 const App = () => {
-
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
@@ -60,15 +59,28 @@ const App = () => {
 
                 {/* Sistema Alloggiati Web */}
                 <Route path="/alloggiati" element={<AlloggiatiWeb />} />
-                
+
                 {/* SEO Content Pages */}
                 <Route path="/pinarella-guida" element={<PinarellaGuide />} />
+                <Route path="/chi-siamo" element={<ChiSiamo />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/cosa-fare-pinarella-cervia" element={<CosaFarePinarella />} />
-                <Route path="/blog/migliori-ristoranti-pinarella-cervia" element={<RistorantiPinarella />} />
-                <Route path="/blog/come-arrivare-pinarella" element={<ComeArrivarePinarella />} />
-                <Route path="/blog/eventi-pinarella-cervia" element={<EventiPinarella />} />
+                <Route
+                  path="/blog/cosa-fare-pinarella-cervia"
+                  element={<CosaFarePinarella />}
+                />
+                <Route
+                  path="/blog/migliori-ristoranti-pinarella-cervia"
+                  element={<RistorantiPinarella />}
+                />
+                <Route
+                  path="/blog/come-arrivare-pinarella"
+                  element={<ComeArrivarePinarella />}
+                />
+                <Route
+                  path="/blog/eventi-pinarella-cervia"
+                  element={<EventiPinarella />}
+                />
 
                 {/* Backoffice con layout condiviso */}
                 <Route path="/" element={<BackofficeLayout />}>
@@ -82,11 +94,26 @@ const App = () => {
                 </Route>
 
                 {/* Backward compatibility - redirect old routes to pineta3 */}
-                <Route path="/gallery" element={<Navigate to="/pineta3/gallery" replace />} />
-                <Route path="/attractions" element={<Navigate to="/pineta3/attractions" replace />} />
-                <Route path="/rules" element={<Navigate to="/pineta3/rules" replace />} />
-                <Route path="/book" element={<Navigate to="/pineta3/book" replace />} />
-                <Route path="/rules/pdf" element={<Navigate to="/pineta3/rules/pdf" replace />} />
+                <Route
+                  path="/gallery"
+                  element={<Navigate to="/pineta3/gallery" replace />}
+                />
+                <Route
+                  path="/attractions"
+                  element={<Navigate to="/pineta3/attractions" replace />}
+                />
+                <Route
+                  path="/rules"
+                  element={<Navigate to="/pineta3/rules" replace />}
+                />
+                <Route
+                  path="/book"
+                  element={<Navigate to="/pineta3/book" replace />}
+                />
+                <Route
+                  path="/rules/pdf"
+                  element={<Navigate to="/pineta3/rules/pdf" replace />}
+                />
 
                 {/* Pagina 404 */}
                 <Route path="*" element={<NotFound />} />

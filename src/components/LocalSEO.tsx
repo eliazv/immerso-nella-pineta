@@ -9,193 +9,206 @@ const LocalSEO = ({ pageName = "Homepage" }: LocalSEOProps) => {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "TouristAccommodation",
-    "@id": "https://immersonellapineta.it/#localbusiness",
-    "name": "Immerso nella Pineta - Appartamenti Vacanze Pinarella",
-    "description": "Appartamenti in affitto per vacanze a Pinarella di Cervia. Prenotazione diretta senza intermediari, parcheggio privato incluso, 200m dal mare.",
-    "url": "https://immersonellapineta.it",
-    "telephone": "+393938932793",
-    "email": "zavattaelia@gmail.com",
-    "image": [
+    "@id": "https://immerso-nella-pineta.vercel.app/#localbusiness",
+    name: "Immerso nella Pineta - Appartamenti Vacanze Pinarella",
+    description:
+      "Appartamenti in affitto per vacanze a Pinarella di Cervia. Prenotazione diretta senza intermediari, parcheggio privato incluso, 200m dal mare.",
+    url: "https://immersonellapineta.it",
+    telephone: "+393938932793",
+    email: "zavattaelia@gmail.com",
+    image: [
       "https://www.pinarellavillage.com/images/slider/1.jpg",
-      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/529559d4-9514-4ece-a94b-38de9fc199ab.jpeg"
+      "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTE3MDMyNTgyNDcwNjQwMzA1OQ==/original/529559d4-9514-4ece-a94b-38de9fc199ab.jpeg",
     ],
-    "address": {
+    address: {
       "@type": "PostalAddress",
-      "streetAddress": "Via Vallombrosa 10",
-      "addressLocality": "Pinarella di Cervia",
-      "addressRegion": "Emilia-Romagna",
-      "postalCode": "48015",
-      "addressCountry": "IT"
+      streetAddress: "Via Vallombrosa 10",
+      addressLocality: "Pinarella di Cervia",
+      addressRegion: "Emilia-Romagna",
+      postalCode: "48015",
+      addressCountry: "IT",
     },
-    "geo": {
+    geo: {
       "@type": "GeoCoordinates",
-      "latitude": 44.261434,
-      "longitude": 12.339165
+      latitude: 44.261434,
+      longitude: 12.339165,
     },
-    "openingHoursSpecification": [
+    openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
         ],
-        "opens": "09:00",
-        "closes": "20:00"
-      }
+        opens: "09:00",
+        closes: "20:00",
+      },
     ],
-    "priceRange": "€€",
-    "paymentAccepted": "Cash, Credit Card, Bank Transfer",
-    "currenciesAccepted": "EUR",
-    "areaServed": {
+    priceRange: "€€",
+    paymentAccepted: "Cash, Credit Card, Bank Transfer",
+    currenciesAccepted: "EUR",
+    areaServed: {
       "@type": "City",
-      "name": "Pinarella di Cervia",
-      "containedInPlace": {
+      name: "Pinarella di Cervia",
+      containedInPlace: {
         "@type": "AdministrativeArea",
-        "name": "Emilia-Romagna"
-      }
+        name: "Emilia-Romagna",
+      },
     },
-    "availableLanguage": ["Italian", "English"],
-    "amenityFeature": [
+    availableLanguage: ["Italian", "English"],
+    amenityFeature: [
       {
         "@type": "LocationFeatureSpecification",
-        "name": "Private Parking",
-        "value": true
-      },
-      {
-        "@type": "LocationFeatureSpecification", 
-        "name": "Air Conditioning",
-        "value": true
+        name: "Private Parking",
+        value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        "name": "Kitchen",
-        "value": true
+        name: "Air Conditioning",
+        value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        "name": "Washing Machine",
-        "value": true
+        name: "Kitchen",
+        value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        "name": "Beach Access",
-        "value": true
-      }
+        name: "Washing Machine",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Beach Access",
+        value: true,
+      },
     ],
-    "checkinTime": "16:00",
-    "checkoutTime": "10:00",
-    "petsAllowed": true,
-    "smokingAllowed": false,
-    "aggregateRating": {
+    checkinTime: "16:00",
+    checkoutTime: "10:00",
+    petsAllowed: true,
+    smokingAllowed: false,
+    aggregateRating: {
       "@type": "AggregateRating",
-      "ratingValue": 4.8,
-      "reviewCount": 15,
-      "bestRating": 5
+      ratingValue: 4.8,
+      reviewCount: 15,
+      bestRating: 5,
     },
-    "review": [
+    review: [
       {
         "@type": "Review",
-        "author": {
+        author: {
           "@type": "Person",
-          "name": "Marco Rossi"
+          name: "Marco Rossi",
         },
-        "datePublished": "2024-08-15",
-        "reviewBody": "Appartamento fantastico a Pinarella! Prenotazione diretta conveniente, parcheggio incluso e vicinissimo al mare. Proprietario molto disponibile.",
-        "reviewRating": {
+        datePublished: "2024-08-15",
+        reviewBody:
+          "Appartamento fantastico a Pinarella! Prenotazione diretta conveniente, parcheggio incluso e vicinissimo al mare. Proprietario molto disponibile.",
+        reviewRating: {
           "@type": "Rating",
-          "ratingValue": 5,
-          "bestRating": 5
-        }
-      },
-      {
-        "@type": "Review", 
-        "author": {
-          "@type": "Person",
-          "name": "Sofia Martini"
+          ratingValue: 5,
+          bestRating: 5,
         },
-        "datePublished": "2024-07-22",
-        "reviewBody": "Prenotando direttamente abbiamo risparmiato tanto! Appartamento pulito, ben attrezzato e in posizione perfetta per le vacanze a Cervia.",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": 5,
-          "bestRating": 5
-        }
       },
       {
         "@type": "Review",
-        "author": {
-          "@type": "Person", 
-          "name": "Luca Bianchi"
+        author: {
+          "@type": "Person",
+          name: "Sofia Martini",
         },
-        "datePublished": "2024-06-10",
-        "reviewBody": "Casa vacanze ideale per famiglie. Bambini felici, genitori rilassati. Prenotazione diretta senza commissioni è un grande vantaggio!",
-        "reviewRating": {
+        datePublished: "2024-07-22",
+        reviewBody:
+          "Prenotando direttamente abbiamo risparmiato tanto! Appartamento pulito, ben attrezzato e in posizione perfetta per le vacanze a Cervia.",
+        reviewRating: {
           "@type": "Rating",
-          "ratingValue": 5,
-          "bestRating": 5
-        }
-      }
+          ratingValue: 5,
+          bestRating: 5,
+        },
+      },
+      {
+        "@type": "Review",
+        author: {
+          "@type": "Person",
+          name: "Luca Bianchi",
+        },
+        datePublished: "2024-06-10",
+        reviewBody:
+          "Casa vacanze ideale per famiglie. Bambini felici, genitori rilassati. Prenotazione diretta senza commissioni è un grande vantaggio!",
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: 5,
+          bestRating: 5,
+        },
+      },
     ],
-    "sameAs": [
+    sameAs: [
       "https://www.facebook.com/immersonellapineta",
-      "https://www.instagram.com/immersonellapineta"
+      "https://www.instagram.com/immersonellapineta",
     ],
-    "hasMap": "https://maps.google.com/?q=44.261434,12.339165",
-    "isAccessibleForFree": false,
-    "maximumAttendeeCapacity": 4,
-    "tourBookingPage": "https://immersonellapineta.it/book"
+    hasMap: "https://maps.google.com/?q=44.261434,12.339165",
+    isAccessibleForFree: false,
+    maximumAttendeeCapacity: 4,
+    tourBookingPage: "https://immerso-nella-pineta.vercel.app/book",
   };
 
   // WebPage Schema for better page understanding
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": `https://immersonellapineta.it${window.location.pathname}#webpage`,
-    "url": `https://immersonellapineta.it${window.location.pathname}`,
-    "name": `${pageName} - Appartamenti Vacanze Pinarella di Cervia`,
-    "description": "Appartamenti in affitto per vacanze a Pinarella di Cervia con prenotazione diretta. Parcheggio privato, 200m dal mare, senza commissioni intermediari.",
-    "inLanguage": "it-IT",
-    "isPartOf": {
+    "@id": `https://immerso-nella-pineta.vercel.app${window.location.pathname}#webpage`,
+    url: `https://immerso-nella-pineta.vercel.app${window.location.pathname}`,
+    name: `${pageName} - Appartamenti Vacanze Pinarella di Cervia`,
+    description:
+      "Appartamenti in affitto per vacanze a Pinarella di Cervia con prenotazione diretta. Parcheggio privato, 200m dal mare, senza commissioni intermediari.",
+    inLanguage: "it-IT",
+    isPartOf: {
       "@type": "WebSite",
-      "@id": "https://immersonellapineta.it#website",
-      "url": "https://immersonellapineta.it",
-      "name": "Immerso nella Pineta",
-      "description": "Appartamenti vacanze Pinarella di Cervia - Prenotazione diretta",
-      "publisher": {
+      "@id": "https://immerso-nella-pineta.vercel.app#website",
+      url: "https://immerso-nella-pineta.vercel.app",
+      name: "Immerso nella Pineta",
+      description:
+        "Appartamenti vacanze Pinarella di Cervia - Prenotazione diretta",
+      publisher: {
         "@type": "Person",
-        "name": "Elia Zavatta",
-        "@id": "https://immersonellapineta.it#owner"
+        name: "Elia Zavatta",
+        "@id": "https://immerso-nella-pineta.vercel.app#owner",
       },
-      "potentialAction": {
+      potentialAction: {
         "@type": "SearchAction",
-        "target": {
+        target: {
           "@type": "EntryPoint",
-          "urlTemplate": "https://immersonellapineta.it/search?q={search_term_string}"
+          urlTemplate:
+            "https://immerso-nella-pineta.vercel.app/search?q={search_term_string}",
         },
-        "query-input": "required name=search_term_string"
-      }
+        "query-input": "required name=search_term_string",
+      },
     },
-    "about": {
+    about: {
       "@type": "Thing",
-      "name": "Appartamenti vacanze Pinarella di Cervia"
+      name: "Appartamenti vacanze Pinarella di Cervia",
     },
-    "mentions": [
+    mentions: [
       {
         "@type": "Place",
-        "name": "Pinarella di Cervia"
+        name: "Pinarella di Cervia",
       },
       {
-        "@type": "Place", 
-        "name": "Pineta di Cervia"
-      },
-      {
-        "@type": "Thing",
-        "name": "Prenotazione diretta"
+        "@type": "Place",
+        name: "Pineta di Cervia",
       },
       {
         "@type": "Thing",
-        "name": "Casa vacanze"
-      }
-    ]
+        name: "Prenotazione diretta",
+      },
+      {
+        "@type": "Thing",
+        name: "Casa vacanze",
+      },
+    ],
   };
 
   return (
@@ -203,9 +216,11 @@ const LocalSEO = ({ pageName = "Homepage" }: LocalSEOProps) => {
       {/* Local Business Schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(localBusinessSchema),
+        }}
       />
-      
+
       {/* WebPage Schema */}
       <script
         type="application/ld+json"

@@ -17,7 +17,7 @@ const MetaTags = ({
   imageUrl = "https://www.pinarellavillage.com/images/slider/1.jpg",
 }: MetaTagsProps) => {
   const siteName = "Immerso nella Pineta - Appartamento a Pinarella di Cervia";
-  const fullUrl = `https://immersonellapineta.it${canonicalUrl}`;
+  const fullUrl = `https://immerso-nella-pineta.vercel.app${canonicalUrl}`;
 
   return (
     <Helmet>

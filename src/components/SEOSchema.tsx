@@ -7,7 +7,7 @@ const SEOSchema = () => {
     name: "Appartamento Pinarella Prenotazione Diretta - Casa Vacanze Cervia",
     description:
       "Appartamento in affitto a Pinarella di Cervia con prenotazione diretta senza intermediari. 4 posti letto, parcheggio privato, 200m dal mare. Contatta il proprietario per risparmiare sulle commissioni. Casa vacanze ideale per famiglie nella pineta di Cervia.",
-    url: "https://immersonellapineta.it",
+    url: "https://immerso-nella-pineta.vercel.app",
     telephone: "+393938932793",
     email: "zavattaelia@gmail.com",
     address: {
@@ -98,7 +98,7 @@ const SEOSchema = () => {
       "@type": "ReserveAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://immersonellapineta.it/book",
+        urlTemplate: "https://immerso-nella-pineta.vercel.app/book",
         inLanguage: "it",
         actionPlatform: [
           "http://schema.org/DesktopWebPlatform",
@@ -112,9 +112,10 @@ const SEOSchema = () => {
     },
     sameAs: [
       "https://www.facebook.com/immersonellapineta",
-      "https://www.instagram.com/immersonellapineta"
+      "https://www.instagram.com/immersonellapineta",
     ],
-    keywords: "appartamento Pinarella prenotazione diretta, affitto appartamento Pinarella senza intermediari, casa vacanze Pinarella Cervia, alloggio Pinarella fronte mare, appartamento 4 persone Pinarella contatta proprietario, vacanze famiglia Pinarella senza commissioni",
+    keywords:
+      "appartamento Pinarella prenotazione diretta, affitto appartamento Pinarella senza intermediari, casa vacanze Pinarella Cervia, alloggio Pinarella fronte mare, appartamento 4 persone Pinarella contatta proprietario, vacanze famiglia Pinarella senza commissioni",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",

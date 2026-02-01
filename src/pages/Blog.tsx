@@ -5,7 +5,13 @@ import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
 import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import { Calendar, MapPin, Utensils, ArrowRight, Palmtree } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const Blog = () => {
@@ -13,7 +19,8 @@ const Blog = () => {
     {
       title: "Cosa Fare a Pinarella di Cervia: Guida Completa 2026",
       slug: "cosa-fare-pinarella-cervia",
-      excerpt: "Scopri le migliori attività, attrazioni e esperienze da vivere durante la tua vacanza a Pinarella: spiagge, escursioni, eventi e molto altro.",
+      excerpt:
+        "Scopri le migliori attività, attrazioni e esperienze da vivere durante la tua vacanza a Pinarella: spiagge, escursioni, eventi e molto altro.",
       date: "2026-02-01",
       icon: Palmtree,
       image: "/placeholder.svg",
@@ -21,7 +28,8 @@ const Blog = () => {
     {
       title: "I Migliori Ristoranti a Pinarella e Cervia: Dove Mangiare",
       slug: "migliori-ristoranti-pinarella-cervia",
-      excerpt: "Guida gastronomica completa ai ristoranti, trattorie e pizzerie di Pinarella e Cervia. Dalla cucina romagnola ai piatti di pesce fresco.",
+      excerpt:
+        "Guida gastronomica completa ai ristoranti, trattorie e pizzerie di Pinarella e Cervia. Dalla cucina romagnola ai piatti di pesce fresco.",
       date: "2026-02-01",
       icon: Utensils,
       image: "/placeholder.svg",
@@ -29,7 +37,8 @@ const Blog = () => {
     {
       title: "Come Arrivare a Pinarella: Auto, Treno e Aereo",
       slug: "come-arrivare-pinarella",
-      excerpt: "Tutte le informazioni su come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali, stazioni e aeroporti più vicini.",
+      excerpt:
+        "Tutte le informazioni su come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali, stazioni e aeroporti più vicini.",
       date: "2026-02-01",
       icon: MapPin,
       image: "/placeholder.svg",
@@ -37,7 +46,8 @@ const Blog = () => {
     {
       title: "Eventi e Manifestazioni a Pinarella e Cervia: Calendario 2026",
       slug: "eventi-pinarella-cervia",
-      excerpt: "Scopri tutti gli eventi, le sagre, i concerti e le manifestazioni culturali da non perdere durante la tua vacanza in Romagna.",
+      excerpt:
+        "Scopri tutti gli eventi, le sagre, i concerti e le manifestazioni culturali da non perdere durante la tua vacanza in Romagna.",
       date: "2026-02-01",
       icon: Calendar,
       image: "/placeholder.svg",
@@ -48,14 +58,15 @@ const Blog = () => {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "Blog Pinarella - Guida Vacanze Cervia",
-    description: "Guide, consigli e informazioni utili per le tue vacanze a Pinarella di Cervia: attrazioni, ristoranti, eventi e molto altro.",
-    url: "https://immersonellapineta.it/blog",
+    description:
+      "Guide, consigli e informazioni utili per le tue vacanze a Pinarella di Cervia: attrazioni, ristoranti, eventi e molto altro.",
+    url: "https://immerso-nella-pineta.vercel.app/blog",
     blogPost: blogPosts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
       description: post.excerpt,
       datePublished: post.date,
-      url: `https://immersonellapineta.it/blog/${post.slug}`,
+      url: `https://immerso-nella-pineta.vercel.app/blog/${post.slug}`,
     })),
   };
 
@@ -65,12 +76,12 @@ const Blog = () => {
         title="Blog Pinarella | Guide e Consigli per Vacanze a Cervia"
         description="Scopri guide, consigli e informazioni utili per le tue vacanze a Pinarella di Cervia: cosa fare, dove mangiare, come arrivare e eventi da non perdere."
         keywords="blog pinarella, guida pinarella cervia, cosa fare pinarella, ristoranti pinarella, eventi cervia, vacanze romagna"
-        canonical="https://immersonellapineta.it/blog"
+        canonical="https://immerso-nella-pineta.vercel.app/blog"
       />
       <BreadcrumbSEO
         items={[
-          { name: "Home", url: "https://immersonellapineta.it" },
-          { name: "Blog", url: "https://immersonellapineta.it/blog" },
+          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
+          { name: "Blog", url: "https://immerso-nella-pineta.vercel.app/blog" },
         ]}
       />
       <script
@@ -93,7 +104,10 @@ const Blog = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {blogPosts.map((post, index) => (
-            <Card key={index} className="hover:shadow-xl transition-shadow duration-300">
+            <Card
+              key={index}
+              className="hover:shadow-xl transition-shadow duration-300"
+            >
               <CardHeader>
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-3 bg-pine-100 rounded-full">
