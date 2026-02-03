@@ -44,7 +44,6 @@ const App = () => {
                 {/* Pagine per Pineta 3 */}
                 <Route path="/pineta3" element={<Index />} />
                 <Route path="/pineta3/gallery" element={<Gallery />} />
-                <Route path="/pineta3/attractions" element={<Attractions />} />
                 <Route path="/pineta3/rules" element={<Rules />} />
                 <Route path="/pineta3/book" element={<Book />} />
                 <Route path="/pineta3/rules/pdf" element={<HouseRulesPDF />} />
@@ -52,10 +51,12 @@ const App = () => {
                 {/* Pagine per Pineta 8 */}
                 <Route path="/pineta8" element={<Index />} />
                 <Route path="/pineta8/gallery" element={<Gallery />} />
-                <Route path="/pineta8/attractions" element={<Attractions />} />
                 <Route path="/pineta8/rules" element={<Rules />} />
                 <Route path="/pineta8/book" element={<Book />} />
                 <Route path="/pineta8/rules/pdf" element={<HouseRulesPDF />} />
+
+                {/* Pagina Attrazioni unificata */}
+                <Route path="/attractions" element={<Attractions />} />
 
                 {/* Sistema Alloggiati Web */}
                 <Route path="/alloggiati" element={<AlloggiatiWeb />} />
@@ -93,14 +94,18 @@ const App = () => {
                   />
                 </Route>
 
-                {/* Backward compatibility - redirect old routes to pineta3 */}
+                {/* Backward compatibility - redirect old routes to new unified routes */}
                 <Route
                   path="/gallery"
                   element={<Navigate to="/pineta3/gallery" replace />}
                 />
                 <Route
-                  path="/attractions"
-                  element={<Navigate to="/pineta3/attractions" replace />}
+                  path="/pineta3/attractions"
+                  element={<Navigate to="/attractions" replace />}
+                />
+                <Route
+                  path="/pineta8/attractions"
+                  element={<Navigate to="/attractions" replace />}
                 />
                 <Route
                   path="/rules"

@@ -260,7 +260,7 @@ const ChiSiamo = () => {
             </Card>
           </div>
 
-          <p className="text-center text-gray-600 mt-6">
+          {/* <p className="text-center text-gray-600 mt-6">
             <a
               href="[LINK GOOGLE BUSINESS PROFILE]"
               target="_blank"
@@ -269,7 +269,7 @@ const ChiSiamo = () => {
             >
               Leggi tutte le recensioni su Google →
             </a>
-          </p>
+          </p> */}
         </div>
 
         {/* CTA Contatto */}

@@ -94,7 +94,7 @@ const Index = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[92vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src={accommodation.heroImage}
@@ -102,182 +102,219 @@ const Index = () => {
             className="object-cover w-full h-full"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
 
-        {/* Rating Badge - Minimal Bottom Right (filled stars) */}
-        <div className="absolute bottom-6 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm flex items-center gap-2">
-          <div className="flex items-center gap-0.5">
-            {[...Array(4)].map((_, i) => (
-              <Star
-                key={i}
-                className="h-3 w-3 text-yellow-400"
-                fill="currentColor"
-                stroke="none"
-              />
-            ))}
-            <div className="relative">
-              <Star
-                className="h-3 w-3 text-gray-300"
-                fill="currentColor"
-                stroke="none"
-              />
-              <Star
-                className="h-3 w-3 text-yellow-400 absolute top-0 left-0"
-                style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}
-                fill="currentColor"
-                stroke="none"
-              />
-            </div>
+        {/* Badge località e rating - in alto a destra */}
+        <div className="absolute top-20 md:top-24 right-4 md:right-8 z-20 flex flex-col items-end gap-3">
+          {/* Badge località */}
+          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-lg border border-white/25 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-xl">
+            <MapPin className="h-4 w-4" />
+            <span>Pinarella di Cervia</span>
           </div>
-          <span className="text-gray-900 text-xs font-medium">
-            {accommodation.rating.airbnb}
-          </span>
+
+          {/* Badge rating */}
+          <div className="inline-flex items-center gap-2.5 bg-gradient-to-r from-amber-500/90 to-amber-600/90 backdrop-blur-lg border border-amber-400/30 px-4 py-2.5 rounded-full shadow-xl">
+            <div className="flex items-center gap-0.5">
+              {[...Array(4)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="h-3.5 w-3.5 text-white"
+                  fill="currentColor"
+                  stroke="none"
+                />
+              ))}
+              <div className="relative">
+                <Star
+                  className="h-3.5 w-3.5 text-white/40"
+                  fill="currentColor"
+                  stroke="none"
+                />
+                <Star
+                  className="h-3.5 w-3.5 text-white absolute top-0 left-0"
+                  style={{
+                    clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
+                  }}
+                  fill="currentColor"
+                  stroke="none"
+                />
+              </div>
+            </div>
+            <span className="text-white text-sm font-bold">
+              {accommodation.rating.airbnb}
+            </span>
+          </div>
         </div>
 
         <div className="container px-4 mx-auto relative z-10 text-center">
-          {/* Badge località */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <MapPin className="h-4 w-4" />
-            <span>Pinarella di Cervia, Riviera Romagnola</span>
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-2xl tracking-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 drop-shadow-2xl tracking-tight leading-tight">
             {accommodation.name}
           </h1>
 
-          <p className="text-white text-xl md:text-2xl mb-3 max-w-3xl mx-auto drop-shadow-lg font-light">
-            Vacanze al mare in affitto diretto
-          </p>
+          <div className="max-w-4xl mx-auto mb-12">
+            <p className="text-white text-2xl md:text-3xl mb-4 drop-shadow-xl font-light">
+              Vacanze al mare in affitto diretto
+            </p>
+            <p className="text-white/95 text-lg md:text-xl drop-shadow-lg font-medium">
+              Nessuna commissione • Contatto diretto • Risparmia il 20%
+            </p>
+          </div>
 
-          <p className="text-white/90 text-base md:text-lg mb-10 max-w-2xl mx-auto drop-shadow-md">
-            Nessuna commissione • Contatto diretto con i proprietari
-          </p>
-
-          {/* Info Cards */}
-          <div className="flex flex-wrap gap-3 justify-center mb-10">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2.5 text-white">
-              <div className="flex items-center gap-2">
-                <Bed className="h-5 w-5" />
-                <span className="font-medium">
+          {/* Info Cards - Più belle e moderne */}
+          <div className="flex flex-wrap gap-4 justify-center mb-12">
+            <div className="group bg-white/15 backdrop-blur-lg border-2 border-white/25 rounded-2xl px-6 py-4 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
+              <div className="flex items-center gap-3">
+                <div className="bg-white/20 p-2 rounded-full group-hover:scale-110 transition-transform">
+                  <Bed className="h-6 w-6" />
+                </div>
+                <span className="font-semibold text-lg">
                   {accommodation.features.guests}
                 </span>
               </div>
             </div>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2.5 text-white">
-              <div className="flex items-center gap-2">
-                <TreePine className="h-5 w-5" />
-                <span className="font-medium">Nella pineta</span>
+            <div className="group bg-white/15 backdrop-blur-lg border-2 border-white/25 rounded-2xl px-6 py-4 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
+              <div className="flex items-center gap-3">
+                <div className="bg-white/20 p-2 rounded-full group-hover:scale-110 transition-transform">
+                  <TreePine className="h-6 w-6" />
+                </div>
+                <span className="font-semibold text-lg">Nella pineta</span>
               </div>
             </div>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-2.5 text-white">
-              <div className="flex items-center gap-2">
-                <Waves className="h-5 w-5" />
-                <span className="font-medium">5 min dal mare</span>
+            <div className="group bg-white/15 backdrop-blur-lg border-2 border-white/25 rounded-2xl px-6 py-4 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
+              <div className="flex items-center gap-3">
+                <div className="bg-white/20 p-2 rounded-full group-hover:scale-110 transition-transform">
+                  <Waves className="h-6 w-6" />
+                </div>
+                <span className="font-semibold text-lg">5 min dal mare</span>
               </div>
             </div>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* CTA Buttons - Più evidenti */}
+          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
             <Button
               size="lg"
               asChild
-              className="bg-white text-pine-dark hover:bg-white/90 font-semibold shadow-xl"
+              className="bg-gradient-to-r from-white to-gray-100 text-pine-dark hover:from-gray-100 hover:to-white font-bold shadow-2xl text-lg px-10 py-7 rounded-full border-2 border-white/50 hover:scale-105 transition-transform"
             >
               <Link to={`${getBasePath()}/book`}>
-                Prenota ora - Risparmia 20%
+                <span className="flex items-center gap-2">
+                  Prenota ora - Risparmia 20%
+                  <ChevronRight className="h-5 w-5" />
+                </span>
               </Link>
             </Button>
             <Button
               size="lg"
               variant="outline"
               asChild
-              className="bg-transparent backdrop-blur-md border-2 border-white text-white hover:bg-white/10"
+              className="bg-transparent backdrop-blur-lg border-3 border-white/40 text-white hover:bg-white/15 font-semibold text-lg px-10 py-7 rounded-full shadow-xl hover:scale-105 transition-transform"
             >
-              <Link to={`${getBasePath()}/gallery`}>Guarda la galleria</Link>
+              <Link to={`${getBasePath()}/gallery`}>
+                <span className="flex items-center gap-2">
+                  <Aperture className="h-5 w-5" />
+                  Galleria foto
+                </span>
+              </Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Welcome Section */}
-      <section className="py-20 overflow-x-hidden">
+      {/* Welcome Section - Più pulita */}
+      <section className="py-24 overflow-x-hidden bg-gradient-to-b from-white to-pine-light/20">
         <div className="container px-4 mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="scroll-reveal">
-              <div className="relative">
-                <div className="aspect-[4/3] rounded-xl overflow-hidden">
-                  <img
-                    src={accommodation.welcomeImage}
-                    alt="Soggiorno appartamento prenotazione diretta Pinarella di Cervia - casa vacanze senza commissioni"
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <div className="absolute -bottom-6 -right-6 -z-10 w-full h-full bg-pine-light rounded-xl" />
-              </div>
-            </div>
-
-            <div className="scroll-reveal">
-              <div className="inline-flex items-center gap-2 bg-pine-light/50 text-pine-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+            <div className="scroll-reveal order-2 lg:order-1">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pine-light to-sea-light/50 text-pine-dark px-4 py-2 rounded-full text-sm font-semibold mb-8 shadow-sm">
                 <TreePine className="h-4 w-4" />
-                <span>Cervia, Italia</span>
+                <span>Pinarella, Cervia</span>
               </div>
 
-              <h2 className="font-serif text-3xl font-medium mb-6">
+              <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900 leading-tight">
                 {accommodation.welcomeTitle}
               </h2>
 
-              <p className="text-muted-foreground mb-6">
-                {accommodation.welcomeDescription}{" "}
-                <Link
-                  to="/pinarella-guida"
-                  className="text-pine-dark underline hover:text-pine-dark/80 transition-colors"
-                >
-                  Scopri tutto su Pinarella di Cervia
-                </Link>{" "}
-                nella nostra guida completa.
+              <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+                {accommodation.welcomeDescription}
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <div className="flex items-start">
-                  <Bed className="text-pine-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
+              {/* Features compatte */}
+              <div className="grid grid-cols-2 gap-6 mb-10">
+                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                  <div className="bg-pine-light/50 p-3 rounded-lg">
+                    <Bed className="text-pine-dark h-6 w-6" />
+                  </div>
                   <div>
-                    <h3 className="font-medium">
+                    <h3 className="font-semibold text-sm text-gray-900">
                       {accommodation.features.guests}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs text-gray-500">
                       {accommodation.features.beds}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <Car className="text-pine-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
+                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                  <div className="bg-sea-light/50 p-3 rounded-lg">
+                    <Car className="text-sea-dark h-6 w-6" />
+                  </div>
                   <div>
-                    <h3 className="font-medium">
+                    <h3 className="font-semibold text-sm text-gray-900">
                       {accommodation.features.parking}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {accommodation.features.parkingNumber}
-                    </p>
+                    <p className="text-xs text-gray-500">Incluso</p>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <Heart className="text-pink-600 h-6 w-6 mt-0.5 mr-3 shrink-0" />
+                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                  <div className="bg-pink-100 p-3 rounded-lg">
+                    <Heart className="text-pink-600 h-6 w-6" />
+                  </div>
                   <div>
-                    <h3 className="font-medium">
+                    <h3 className="font-semibold text-sm text-gray-900">
                       {accommodation.features.petsAllowed}
                     </h3>
                   </div>
                 </div>
+                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                  <div className="bg-green-100 p-3 rounded-lg">
+                    <TreePine className="text-green-600 h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-sm text-gray-900">
+                      Giardino
+                    </h3>
+                    <p className="text-xs text-gray-500">Privato</p>
+                  </div>
+                </div>
               </div>
 
-              <Button asChild>
-                <Link to={`${getBasePath()}/book`}>
-                  Controlla disponibilità
-                  <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button asChild size="lg" className="shadow-lg">
+                  <Link to={`${getBasePath()}/book`}>
+                    Prenota ora
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link to="/pinarella-guida">
+                    Scopri Pinarella
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="scroll-reveal order-1 lg:order-2">
+              <div className="relative">
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                  <img
+                    src={accommodation.welcomeImage}
+                    alt="Soggiorno appartamento prenotazione diretta Pinarella di Cervia"
+                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+                <div className="absolute -bottom-8 -right-8 -z-10 w-full h-full bg-gradient-to-br from-pine-light to-sea-light rounded-2xl opacity-30" />
+              </div>
             </div>
           </div>
         </div>

@@ -1,148 +1,235 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import { Mail, Phone, MapPin, TreePine, Waves } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  TreePine,
+  Waves,
+  Instagram,
+  Facebook,
+  ChevronRight,
+} from "lucide-react";
 import { useAccommodation } from "@/contexts/AccommodationContext";
 
 const Footer = ({ className }: { className?: string }) => {
   const location = useLocation();
   const { accommodation } = useAccommodation();
-  
+
   const getBasePath = () => {
-    if (location.pathname.startsWith('/pineta8')) return '/pineta8';
-    if (location.pathname.startsWith('/pineta3')) return '/pineta3';
-    return '/';
+    if (location.pathname.startsWith("/pineta8")) return "/pineta8";
+    if (location.pathname.startsWith("/pineta3")) return "/pineta3";
+    return "/pineta3";
   };
-  
+
   const basePath = getBasePath();
-  
+
   return (
-    <footer className={cn("border-t border-border mt-16", className)}>
+    <footer
+      className={cn(
+        "bg-gradient-to-br from-pine-dark via-pine-dark to-sea-dark text-white mt-auto",
+        className,
+      )}
+    >
       <div className="container px-4 py-12 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-6 bg-gray-50 rounded-lg shadow-md">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          {/* Colonna 1: Brand e Contatti */}
+          <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="relative flex items-center">
-                <TreePine className="text-pine-dark h-6 w-6" />
-                <Waves className="text-sea-dark h-6 w-6 absolute left-3" />
+                <TreePine className="text-pine-light h-6 w-6" />
+                <Waves className="text-sea-light h-6 w-6 absolute left-3" />
               </div>
               <span className="font-serif text-lg font-semibold tracking-tight">
                 Immerso nella Pineta
               </span>
             </div>
-            <p className="text-muted-foreground mb-4 text-sm">
-              Appartamento a Pinarella di Cervia, Italia.
-              <br />A 5 minuti a piedi dal mare e 200 metri dalla pineta.
+            <p className="text-white/80 mb-4 text-sm leading-relaxed">
+              Appartamenti a Pinarella di Cervia, a 5 minuti dal mare e immersi
+              nella pineta.
             </p>
-            <div className="flex space-x-4">
+
+            {/* Contatti */}
+            <div className="space-y-2 mb-4">
+              <a
+                href="tel:+393938932793"
+                className="flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm group"
+              >
+                <Phone className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                <span>+39 393 893 2793</span>
+              </a>
+              <a
+                href="mailto:zavattaelia@gmail.com"
+                className="flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm group"
+              >
+                <Mail className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                <span>zavattaelia@gmail.com</span>
+              </a>
               <a
                 href="https://maps.app.goo.gl/GjWrURBihH8ktaN77"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-pine-dark transition-colors"
-                aria-label="Visualizza su Google Maps"
+                className="flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm group"
               >
-                <MapPin className="h-5 w-5" />
-              </a>
-              <a
-                href="tel:+393938932793"
-                className="text-muted-foreground hover:text-pine-dark transition-colors"
-                aria-label="Chiama"
-              >
-                <Phone className="h-5 w-5" />
-              </a>
-              <a
-                href="mailto:zavattaelia@gmail.com"
-                className="text-muted-foreground hover:text-pine-dark transition-colors"
-                aria-label="Invia email"
-              >
-                <Mail className="h-5 w-5" />
+                <MapPin className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                <span>Viale dei Mille 3, Pinarella</span>
               </a>
             </div>
-            <p className="text-xs text-muted-foreground mt-4">
+
+            <p className="text-xs text-white/60 mt-4">
               CIN: {accommodation.cin}
             </p>
           </div>
 
-          <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-            <h3 className="font-serif font-medium text-base mb-4">
-              Collegamenti rapidi
+          {/* Colonna 2: I Nostri Alloggi */}
+          <div className="md:col-span-1">
+            <h3 className="font-serif font-semibold text-base mb-4 text-white">
+              I Nostri Alloggi
             </h3>
             <ul className="space-y-2">
               <li>
                 <Link
-                  to={basePath || "/"}
-                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                  to="/pineta3"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
                 >
-                  Home
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                  Pineta 3 - Piano Terra
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/pineta8"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
+                >
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                  Pineta 8 - Secondo Piano
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
+                >
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                  Confronta gli alloggi
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Colonna 3: Collegamenti Utili */}
+          <div className="md:col-span-1">
+            <h3 className="font-serif font-semibold text-base mb-4 text-white">
+              Collegamenti Utili
+            </h3>
+            <ul className="space-y-2">
               <li>
                 <Link
                   to={`${basePath}/gallery`}
-                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
                 >
-                  Galleria foto
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                  Galleria Foto
                 </Link>
               </li>
               <li>
                 <Link
-                  to={`${basePath}/attractions`}
-                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                  to="/attractions"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
                 >
-                  Attrazioni
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                  Attrazioni Locali
                 </Link>
               </li>
               <li>
                 <Link
                   to="/blog"
-                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
                 >
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                   Blog e Guide
                 </Link>
               </li>
               <li>
                 <Link
                   to="/faq"
-                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
                 >
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                   Domande Frequenti
                 </Link>
               </li>
               <li>
                 <Link
-                  to={`${basePath}/book`}
-                  className="text-muted-foreground hover:text-pine-dark transition-colors text-sm"
+                  to="/chi-siamo"
+                  className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-2 group"
                 >
-                  Prenota ora
+                  <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                  Chi Siamo
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-            <h3 className="font-serif font-medium text-base mb-4">
-              Informazioni
+          {/* Colonna 4: Info e Prenota */}
+          <div className="md:col-span-1">
+            <h3 className="font-serif font-semibold text-base mb-4 text-white">
+              Prenota il Tuo Soggiorno
             </h3>
-            <p className="text-muted-foreground text-sm mb-2">
-              Pinarella di Cervia, una pittoresca località costiera sulla
-              Riviera Romagnola, offre una perfetta combinazione di spiagge
-              dorate, pinete rigogliose e una ricca tradizione culinaria.
-              L'appartamento "Immerso nella Pineta" è la soluzione ideale per le
-              vostre vacanze estive.
+            <p className="text-white/80 text-sm mb-4 leading-relaxed">
+              Affitto diretto senza commissioni. Contattaci per disponibilità e
+              offerte.
             </p>
-            <p className="text-muted-foreground text-sm">
-              © {new Date().getFullYear()} Immerso nella Pineta. Sito web
-              sviluppato da{" "}
+            <Link
+              to={`${basePath}/book`}
+              className="inline-flex items-center gap-2 bg-white text-pine-dark px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/90 transition-colors"
+            >
+              Prenota Ora
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+
+            {/* Social Links */}
+            <div className="flex gap-3 mt-6">
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/20 pt-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/60">
+            <p>
+              © {new Date().getFullYear()} Immerso nella Pineta. Tutti i diritti
+              riservati.
+            </p>
+            <p>
+              Sito sviluppato da{" "}
               <a
                 href="https://eliazavatta.it/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground text-pine-dark transition-colors"
+                className="text-white/80 hover:text-white transition-colors underline"
               >
                 Elia Zavatta
               </a>
-              . Tutti i diritti riservati.
             </p>
           </div>
         </div>

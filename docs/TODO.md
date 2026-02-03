@@ -1,3 +1,27 @@
+- cin appartemtno pineta 8 è IT039007C2UTCCNWG5 mentre CIN pinetqa 3 è : IT039007C2RWYMLE52
+- src\pages\Index.tsx migliroa visualizzazione mobile della sezione hero, inoltre i due badge Pinarella di Cervia 4,5 stelle su Airbnb devi metterli in fono non in coma alla sezione e si devono acnhe essi adattare alla visualizzazione mobile. card Info Cards - Più belle e moderne falle meno grandi
+- analizza e migliroa tutte le altre sezioni di src\pages\Index.tsx organizzando meglio le info e rendendole piuu chiare e belle di design
+- migliroa design e funzionalita della pagina attractions e della pagina dell'alloggio
+- pagina chi siamo proprietari dal anno 1970 , mio nonno ha contruito questa palazzetta e la gestimo sempre noi gli affitti da quando è stata costruita. per le recensioni della pagina usa le migliroi tra queste , magari tagliandole o riadattandole
+
+- http://localhost:8080/pineta3/attractions e http://localhost:8080/pineta8/attractions sono uguali, non è meglio far eun unico perocrso unificato?
+- header se clicco home porta a / a volte al psoto che a http://localhost:8080/pineta3/ o pineta 8 in base a dove sono, risolvi
+- home , card alloggio metti prezzo a destrera del titolo, tolgi un po di info non necessarie e riorganizzale e le card falle piu piccole e meno lunghe
+- http://localhost:8080/chi-siamo
+
+- viene gestito bene il sito per il fatto che ci sono piu alloggi?
+- header se siamo nella aprte piu alta della pagina http://localhost:8080/pineta8 o http://localhost:8080/pineta3 dove non ha ancora lo sfondo voglio che ci siano colori piu chairi nelle scritte, NELLE ALTRE PAGINE NO
+- header se clicco home deve portare a http://localhost:8080/pineta8 o http://localhost:8080/pineta3 non a http://localhost:8080/ . mentre click sul logo a sisntira deve portare a http://localhost:8080/
+- migliroa hero section , rendila piu bella info piu organizzate e meno info qui ma piu belal hero section . titoli falli piu nromali e visibili
+
+- src\pages\AccommodationSelector.tsx falla piu bella questa pagina come desing e piu , card degli alloggi piu compatte con info piu organizzatte, sfondo miglire e info piu organizzate. aggiungi anche qui footer e header direi. card alloggio metti prezzo a destrera del titolo, tolgi un po di info non necessarie e riorganizzale e le card falle piu piccole e meno lunghe
+- header se sono nella parte piu alta di pagina http://localhost:8080/pineta8 o 3 dove non ha sfodno , deve avere colori dei testi molto chiari ,s correndo o nelle altre pagine stessi colri. se clicco al taasto home non deve MAI portare a AccommodationSelector ma sempre a http://localhost:8080/pineta8 o 3 . se clicco loa a sisnitra porta a AccommodationSelector
+- migliroa design del footer e orgnaizza meglio le informaizoni
+- http://localhost:8080/pineta3/attractions e http://localhost:8080/pineta8/attractions sono uguali, non è meglio far eun unico perocrso unificato?
+- viene gestito bene il sito per il fatto che ci sono piu alloggi? si puo miglriaore qualcosa?
+
+# altro vecchio
+
 - vorrei separare il backoffice dal sito immerso, clona questa parte in un'altra cartella (questa "C:\Users\zavat\Desktop\Progetti\rentpilot-yo") fuori dal progetto immerso, portando tutto quello che serve per riprodurre il rpogetto . togli controllo con pin e implementa un accesso con google. il progetto attuale lascialo cosi
 
 - l'app si deve chiamre rentpilot, passa l'icona

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
@@ -9,6 +9,7 @@ import {
   BookOpen,
   MessageCircle,
   Users,
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAccommodation } from "@/contexts/AccommodationContext";
@@ -18,8 +19,10 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [logoDropdownOpen, setLogoDropdownOpen] = useState(false);
   const location = useLocation();
   const { accommodation } = useAccommodation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const getBasePath = () => {
     if (location.pathname.startsWith("/pineta8")) return "/pineta8";
@@ -69,16 +72,37 @@ const Header = () => {
     };
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setLogoDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const basePath = getBasePath();
   // Normalize basePath so that when it's root ("/") we don't produce "//route" links
   const basePathNormalized = basePath === "/" ? "" : basePath;
+
+  // Determina se siamo nella home degli alloggi (pineta3 o pineta8)
+  const isAccommodationHome =
+    location.pathname === "/pineta3" || location.pathname === "/pineta8";
+
   const navigation = [
-    { name: "Home", href: basePathNormalized || "/", icon: Home },
+    // Home sempre porta alla pagina dell'alloggio corrente (pineta3 o pineta8)
+    { name: "Home", href: basePathNormalized || "/pineta3", icon: Home },
     { name: "Chi Siamo", href: "/chi-siamo", icon: Users },
     { name: "Galleria", href: `${basePathNormalized}/gallery`, icon: Image },
     {
       name: "Attrazioni",
-      href: `${basePathNormalized}/attractions`,
+      href: "/attractions",
       icon: MapPin,
     },
     { name: "Blog", href: "/blog", icon: BookOpen },
@@ -132,40 +156,111 @@ const Header = () => {
       )}
     >
       <div className="container px-4 mx-auto flex items-center justify-between">
-        <Link
-          to={basePath || "/"}
-          className="flex items-center gap-3 transition-transform hover:scale-105"
-          onClick={closeMobileMenu}
-        >
-          <img
-            src="/images/logo.nobg.png"
-            alt="Immerso nella Pineta Logo"
-            className="h-12 w-auto"
-          />
-          <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
-            {accommodation.shortName}
-            <span className="block text-xs text-muted-foreground font-normal">
-              Pinarella di Cervia
-            </span>
-          </span>
-        </Link>
+        {/* Logo with Dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setLogoDropdownOpen(!logoDropdownOpen)}
+            className="flex items-center gap-3 transition-transform hover:scale-105 cursor-pointer"
+          >
+            <img
+              src="/images/logo.nobg.png"
+              alt="Immerso nella Pineta Logo"
+              className="h-12 w-auto"
+            />
+            <div className="flex items-center gap-1">
+              <span
+                className={cn(
+                  "font-serif text-lg font-semibold tracking-tight transition-colors",
+                  isScrolled || !isAccommodationHome
+                    ? "text-foreground"
+                    : "text-white drop-shadow-lg",
+                )}
+              >
+                {accommodation.shortName}
+                <span
+                  className={cn(
+                    "block text-xs font-normal transition-colors",
+                    isScrolled || !isAccommodationHome
+                      ? "text-muted-foreground"
+                      : "text-white/90 drop-shadow-md",
+                  )}
+                >
+                  Pinarella di Cervia
+                </span>
+              </span>
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 transition-all ml-1",
+                  isScrolled || !isAccommodationHome
+                    ? "text-foreground"
+                    : "text-white drop-shadow-md",
+                  logoDropdownOpen && "rotate-180",
+                )}
+              />
+            </div>
+          </button>
+
+          {/* Dropdown Menu */}
+          {logoDropdownOpen && (
+            <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+              <Link
+                to="/pineta3"
+                onClick={() => setLogoDropdownOpen(false)}
+                className="block px-4 py-3 hover:bg-pine-light/20 transition-colors"
+              >
+                <div className="font-semibold text-pine-dark">Pineta 3</div>
+                <div className="text-xs text-gray-600">
+                  Piano terra • 4 ospiti
+                </div>
+              </Link>
+              <Link
+                to="/pineta8"
+                onClick={() => setLogoDropdownOpen(false)}
+                className="block px-4 py-3 hover:bg-sea-light/20 transition-colors"
+              >
+                <div className="font-semibold text-sea-dark">Pineta 8</div>
+                <div className="text-xs text-gray-600">
+                  Secondo piano • 6 ospiti
+                </div>
+              </Link>
+              <div className="border-t border-gray-200 my-2"></div>
+              <Link
+                to="/"
+                onClick={() => setLogoDropdownOpen(false)}
+                className="block px-4 py-3 hover:bg-gray-100 transition-colors font-semibold text-pine-dark"
+              >
+                Vedi tutti gli alloggi
+              </Link>
+            </div>
+          )}
+        </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          {fullNavigation.map((item) => (
-            <Link
-              key={item.name}
-              to={item.href}
-              className={cn(
-                "relative px-1 py-2 text-sm font-medium transition-colors hover:text-pine-dark",
-                location.pathname === item.href
-                  ? "text-pine-dark after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-pine-dark"
-                  : "text-foreground",
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {fullNavigation.map((item) => {
+            // Per la pagina attractions, verifica esatta del path senza basePath
+            const isActive =
+              item.href === "/attractions"
+                ? location.pathname === "/attractions"
+                : location.pathname === item.href;
+
+            return (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={cn(
+                  "relative px-1 py-2 text-sm font-medium transition-colors",
+                  isActive
+                    ? "text-pine-dark after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-pine-dark"
+                    : isScrolled || !isAccommodationHome
+                      ? "text-foreground hover:text-pine-dark"
+                      : "text-white hover:text-white/80 drop-shadow-md",
+                )}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -177,19 +272,28 @@ const Header = () => {
           <div className="space-y-1.5 relative transition-all">
             <span
               className={cn(
-                "block h-0.5 w-6 bg-foreground rounded-full transition-all",
+                "block h-0.5 w-6 rounded-full transition-all",
+                isScrolled || !isAccommodationHome
+                  ? "bg-foreground"
+                  : "bg-white drop-shadow-md",
                 mobileMenuOpen && "translate-y-2 rotate-45",
               )}
             />
             <span
               className={cn(
-                "block h-0.5 w-6 bg-foreground rounded-full transition-all",
+                "block h-0.5 w-6 rounded-full transition-all",
+                isScrolled || !isAccommodationHome
+                  ? "bg-foreground"
+                  : "bg-white drop-shadow-md",
                 mobileMenuOpen && "opacity-0",
               )}
             />
             <span
               className={cn(
-                "block h-0.5 w-6 bg-foreground rounded-full transition-all",
+                "block h-0.5 w-6 rounded-full transition-all",
+                isScrolled || !isAccommodationHome
+                  ? "bg-foreground"
+                  : "bg-white drop-shadow-md",
                 mobileMenuOpen && "-translate-y-2 -rotate-45",
               )}
             />

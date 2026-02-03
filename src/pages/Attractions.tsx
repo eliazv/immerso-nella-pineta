@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Utensils,
@@ -7,6 +7,11 @@ import {
   ChevronRight,
   CalendarDays,
   Video,
+  ShoppingCart,
+  UtensilsCrossed,
+  PartyPopper,
+  Waves,
+  Store,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,22 +24,92 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
 
 const Attractions = () => {
+  const [activeTab, setActiveTab] = useState("restaurants");
+
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
   }, []);
 
+  const restaurants = [
+    {
+      name: "Ristorante Saretina 152",
+      type: "Cucina Romagnola e Pesce",
+      distance: "2 km",
+      description:
+        "Autentica cucina romagnola di mare, con pesce fresco dell'Adriatico e piatti della tradizione locale. Da provare i primi piatti fatti in casa.",
+      image:
+        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1000&auto=format&fit=crop",
+      priceRange: "€€€",
+    },
+    {
+      name: "Ristorante Damida",
+      type: "Pesce e Cucina Italiana",
+      distance: "1.5 km",
+      description:
+        "Cucina a base di pesce con proposte creative e ingredienti di stagione. Ambiente elegante e raffinato, perfetto per una cena speciale.",
+      image:
+        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/c7/78/54/frittone-dello-sborone.jpg?q=80&w=1000&auto=format&fit=crop",
+      priceRange: "€€€",
+    },
+    {
+      name: "Bagno Andrea N.83",
+      type: "Pranzo in riva al mare",
+      distance: "0.5 km",
+      description:
+        "Ristorante in stabilimento balneare. Antipasti di pesce, primi e secondi sia pesce che carne, insalatone fresche e brioches cervesi.",
+      image:
+        "https://www.ravennaedintorni.it/wp-content/uploads/2022/08/losco.jpg?q=80&w=1000&auto=format&fit=crop",
+      priceRange: "€€",
+    },
+    {
+      name: "Gelateria Mezzanotte",
+      type: "Gelateria Artigianale",
+      distance: "0.2 km",
+      description:
+        "Gelato artigianale di alta qualità a pochi passi dall'alloggio. Gusti tradizionali e innovativi.",
+      image:
+        "https://images.unsplash.com/photo-1557142046-c704a3adf364?q=80&w=1000&auto=format&fit=crop",
+      priceRange: "€",
+    },
+  ];
+
+  const events = [
+    {
+      title: "Pinarella Summer Festival",
+      date: "Giugno - Agosto",
+      description:
+        "Concerti, spettacoli e animazione serale sul lungomare di Pinarella. Programma completo nei siti indicati.",
+      image:
+        "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1000&auto=format&fit=crop",
+      icon: PartyPopper,
+    },
+    {
+      title: "Festival Internazionale dell'Aquilone",
+      date: "Fine aprile - Inizio maggio",
+      description:
+        "Oltre 200 artisti da 50 paesi per celebrare il volo degli aquiloni sulla spiaggia di Cervia.",
+      image:
+        "https://www.ravenna24ore.it/wp-content/uploads/sites/6/2023/04/36-ARTEVENTO-CERVIA-Davide-Baroni-scaled-1.jpg?q=80&w=1000&auto=format&fit=crop",
+      icon: Calendar,
+    },
+    {
+      title: "Mercatino dell'Artigianato",
+      date: "Ogni giovedì sera (Maggio-Settembre)",
+      description:
+        "Mercatino artistico e artigianale in via Mezzanotte. Opere uniche e creazioni artistiche locali.",
+      image:
+        "https://www.novaratoday.it/~media/horizontal-hi/49129561680332/mercatino-antiquariato-arona-1.jpg?q=80&w=1000&auto=format&fit=crop",
+      icon: Store,
+    },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 via-white to-gray-50">
       <MetaTags
         title="Attrazioni e Luoghi da Visitare a Pinarella di Cervia | Immerso nella Pineta"
         description="Scopri le migliori attrazioni vicino al nostro appartamento immerso nella pineta a Pinarella di Cervia: spiaggia, parchi tematici, musei e ristoranti a pochi minuti di distanza. Immerso nella Pineta."
@@ -44,420 +119,383 @@ const Attractions = () => {
       <SEOSchema />
       <Header />
 
-      <main className="flex-1 pt-20">
-        {/* Hero Section */}
-        <section className="py-12 md:py-20">
-          <div className="container px-4 mx-auto">
-            <div className="max-w-3xl mx-auto text-center animate-page-in">
-              <div className="inline-flex items-center gap-2 bg-pine-light text-pine-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+      <main className="flex-1 pt-20 pb-16">
+        {/* Hero Section Migliorata */}
+        <section className="relative py-16 md:py-14 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-sea-light/20 via-transparent to-pine-light/20"></div>
+          <div className="container px-4 mx-auto relative z-10">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 bg-sea-dark/10 backdrop-blur-sm text-sea-dark px-4 py-2 rounded-full text-sm font-medium mb-6 border border-sea-light/50">
                 <MapPin className="h-4 w-4" />
-                <span>Scopri la zona</span>
+                <span>Scopri Pinarella di Cervia</span>
               </div>
-              <h1 className="font-serif text-4xl md:text-5xl font-medium mb-6">
-                Attrazioni e servizi
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 text-pine-dark">
+                Attrazioni e Servizi Locali
               </h1>
-              <p className="text-muted-foreground text-lg mb-8">
-                Tutto ciò che c'è da sapere per un soggiorno perfetto:
-                ristoranti, eventi e consigli di Pinarella.
+              <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                Tutto ciò che ti serve sapere per un soggiorno perfetto: i
+                migliori ristoranti, eventi imperdibili e consigli utili.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Tabs Section */}
-        <section className="pb-20">
-          <div className="container px-4 mx-auto">
-            <Tabs defaultValue="restaurants" className="max-w-4xl mx-auto">
-              <TabsList className="grid grid-cols-3 w-full mb-8">
-                <TabsTrigger value="restaurants">
-                  <Utensils className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Ristoranti</span>
-                </TabsTrigger>
-                <TabsTrigger value="events">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Eventi</span>
-                </TabsTrigger>
-                <TabsTrigger value="tips">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  <span className="hidden sm:inline">Consigli Utili</span>
-                </TabsTrigger>
-              </TabsList>
+        {/* Tabs Section Migliorata */}
+        <section className="container px-4 mx-auto">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="max-w-6xl mx-auto"
+          >
+            <TabsList className="grid grid-cols-3 w-full max-w-2xl mx-auto mb-12 h-14 bg-white shadow-lg border-2 border-gray-200">
+              <TabsTrigger
+                value="restaurants"
+                className="text-sm md:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white"
+              >
+                <Utensils className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Ristoranti</span>
+                <span className="sm:hidden">Cibo</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="events"
+                className="text-sm md:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white"
+              >
+                <Calendar className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Eventi</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="tips"
+                className="text-sm md:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white"
+              >
+                <MapPin className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Consigli</span>
+              </TabsTrigger>
+            </TabsList>
 
-              <TabsContent value="restaurants" className="animate-fade-in">
-                <h2 className="font-serif text-2xl font-medium mb-6 text-center">
-                  Ristoranti consigliati
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  {[
-                    {
-                      name: "Ristorante Saretina 152",
-                      type: "Cucina Romagnola e Pesce",
-                      distance: "2 km",
-                      description:
-                        "Autentica cucina romagnola di mare, con pesce fresco dell'Adriatico e piatti della tradizione locale. Da provare i primi piatti fatti in casa.",
-                      image:
-                        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1000&auto=format&fit=crop",
-                    },
-                    {
-                      name: "Ristorante Damida",
-                      type: "Pesce e Cucina Italiana",
-                      distance: "1.5 km",
-                      description:
-                        "Cucina a base di pesce con proposte creative e ingredienti di stagione. Ambiente elegante e raffinato, perfetto per una cena speciale.",
-                      image:
-                        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/c7/78/54/frittone-dello-sborone.jpg?q=80&w=1000&auto=format&fit=crop",
-                    },
-                    {
-                      name: "Bagno Andrea N.83",
-                      type: "Pranzo in riva al mare",
-                      distance: "0.5 km",
-                      description:
-                        "Ristorante sito in uno stabilimento balneare presso Pinarella di Cervia. 100 coperti per poter degustare antipasti di pesce,primi e secondi sia a base di pesce che carne, ottime insalatone di vario tipo e fresche brioches e paste cervesi. Qualità e quantità garantite in ogni porzione.",
-                      image:
-                        "https://www.ravennaedintorni.it/wp-content/uploads/2022/08/losco.jpg?q=80&w=1000&auto=format&fit=crop",
-                    },
-                    {
-                      name: "Gelateria Mezzanotte",
-                      type: "Gelateria",
-                      distance: "0.2 km",
-                      description: "Gelateria a pochi passi dall'alloggio.",
-                      image:
-                        "https://images.unsplash.com/photo-1557142046-c704a3adf364?q=80&w=1000&auto=format&fit=crop",
-                    },
-                  ].map((restaurant, index) => (
-                    <div
-                      key={index}
-                      className="bg-white rounded-xl overflow-hidden shadow-md border border-border"
-                    >
-                      <div className="aspect-video">
-                        <img
-                          src={restaurant.image}
-                          alt={restaurant.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-5">
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="font-serif text-lg font-medium">
-                            {restaurant.name}
-                          </h3>
-                          <span className="bg-sea-light/30 text-sea-dark text-xs px-2 py-1 rounded-full">
-                            {restaurant.distance}
-                          </span>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-1">
-                          {restaurant.type}
-                        </p>
-                        <p className="text-sm">{restaurant.description}</p>
+            {/* Ristoranti Tab */}
+            <TabsContent
+              value="restaurants"
+              className="animate-in fade-in-50 duration-300"
+            >
+              <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-pine-dark">
+                Dove Mangiare a Pinarella
+              </h2>
+              <p className="text-center text-gray-600 mb-10">
+                I nostri ristoranti preferiti, testati e consigliati
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-10">
+                {restaurants.map((restaurant, index) => (
+                  <div
+                    key={index}
+                    className="group bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-orange-300 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <div className="relative h-56 overflow-hidden">
+                      <img
+                        src={restaurant.image}
+                        alt={restaurant.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute top-4 right-4 flex gap-2">
+                        <span className="bg-white/95 backdrop-blur-sm text-orange-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                          {restaurant.distance}
+                        </span>
+                        <span className="bg-white/95 backdrop-blur-sm text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                          {restaurant.priceRange}
+                        </span>
                       </div>
                     </div>
-                  ))}
-                </div>
-                <div className="mt-6 text-center">
-                  <p className="text-muted-foreground">
-                    Esplora la mappa per trovare altri ristoranti e attrazioni
-                    nelle vicinanze.
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2 text-pine-dark group-hover:text-orange-600 transition-colors">
+                        {restaurant.name}
+                      </h3>
+                      <div className="flex items-center gap-2 mb-3">
+                        <UtensilsCrossed className="h-4 w-4 text-orange-500" />
+                        <p className="text-sm font-medium text-gray-600">
+                          {restaurant.type}
+                        </p>
+                      </div>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {restaurant.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Link utili */}
+              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-200 text-center">
+                <MapPin className="h-8 w-8 text-orange-600 mx-auto mb-3" />
+                <p className="text-gray-700 mb-4">
+                  Esplora la mappa per trovare altri ristoranti e attrazioni
+                  nelle vicinanze
+                </p>
+                <a
+                  href="https://maps.app.goo.gl/GjWrURBihH8ktaN77"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors font-semibold"
+                >
+                  Apri Google Maps
+                  <ChevronRight className="h-4 w-4" />
+                </a>
+              </div>
+            </TabsContent>
+
+            {/* Eventi Tab */}
+            <TabsContent
+              value="events"
+              className="animate-in fade-in-50 duration-300"
+            >
+              <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-pine-dark">
+                Eventi e Manifestazioni
+              </h2>
+              <p className="text-center text-gray-600 mb-10">
+                Non perdere gli appuntamenti più importanti dell'anno
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                {events.map((event, index) => (
+                  <div
+                    key={index}
+                    className="group bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-purple-300 hover:shadow-2xl transition-all duration-300"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm p-2 rounded-full shadow-lg">
+                        <event.icon className="h-5 w-5 text-purple-600" />
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold mb-2 text-pine-dark group-hover:text-purple-600 transition-colors">
+                        {event.title}
+                      </h3>
+                      <div className="flex items-center gap-2 mb-3">
+                        <CalendarDays className="h-4 w-4 text-purple-500" />
+                        <p className="text-xs font-semibold text-purple-600">
+                          {event.date}
+                        </p>
+                      </div>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {event.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Link Eventi Esterni */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a
+                  href="https://www.pinarellavillage.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-gradient-to-br from-pine-light/40 to-pine-light/20 rounded-2xl p-8 border-2 border-pine-light hover:border-pine-dark transition-all hover:shadow-xl"
+                >
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-pine-dark rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Video className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-center mb-3 text-pine-dark">
+                    Pinarella Village
+                  </h3>
+                  <p className="text-center text-gray-600 mb-4 text-sm">
+                    Eventi, attività e attrazioni di Pinarella
                   </p>
-                </div>
-              </TabsContent>
+                  <div className="flex items-center justify-center gap-2 text-pine-dark font-semibold">
+                    Visita il sito
+                    <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </a>
 
-              <TabsContent value="events" className="animate-fade-in">
-                <h2 className="font-serif text-2xl font-medium mb-6 text-center">
-                  Eventi nelle vicinanze
-                </h2>
+                <a
+                  href="https://www.rivieradeipini.it/eventi-riviera-dei-pini/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-gradient-to-br from-sea-light/40 to-sea-light/20 rounded-2xl p-8 border-2 border-sea-light hover:border-sea-dark transition-all hover:shadow-xl"
+                >
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-sea-dark rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Calendar className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-center mb-3 text-sea-dark">
+                    Riviera dei Pini
+                  </h3>
+                  <p className="text-center text-gray-600 mb-4 text-sm">
+                    Calendario completo degli eventi estivi
+                  </p>
+                  <div className="flex items-center justify-center gap-2 text-sea-dark font-semibold">
+                    Scopri gli eventi
+                    <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </a>
+              </div>
+            </TabsContent>
 
-                <Carousel className="max-w-3xl mx-auto mb-8">
-                  <CarouselContent>
-                    {[
-                      {
-                        title: "Pinarella Summer Festival",
-                        date: "Giugno - Agosto 2024",
-                        description:
-                          "Concerti, spettacoli e animazione serale sul lungomare di Pinarella. Programma completo nei siti qui sotto.",
-                        image:
-                          "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1000&auto=format&fit=crop",
-                      },
-                      {
-                        title: "Festival Internazionale dell'Aquilone",
-                        date: "Fine aprile - Inizio maggio",
-                        description:
-                          "Gli aquiloni di tutto il mondo in volo sulla spiaggia di Pinarella, oltre 200 artisti del vento e campioni internazionali di volo acrobatico, 2000 appassionati in arrivo da 50 paesi si incontrano nella Capitale dell'Aquilone per celebrare il mondo unito da un progetto di pace. ",
-                        image:
-                          "https://www.ravenna24ore.it/wp-content/uploads/sites/6/2023/04/36-ARTEVENTO-CERVIA-Davide-Baroni-scaled-1.jpg?q=80&w=1000&auto=format&fit=crop",
-                      },
-                      {
-                        title: "Mercatino dell'Artigianato",
-                        date: "Ogni giovedì sera (Maggio-Settembre)",
-                        description:
-                          "A Pinarella, in via Mezzanotte, si svolge un incantevole mercatino artistico e artigianale da maggio a settembre. Ogni settimana, visitatori possono esplorare una selezione di opere uniche, prodotti artigianali e creazioni artistiche locali. L'atmosfera vivace e accogliente rende questo mercatino un luogo ideale per scoprire talenti locali e trovare pezzi unici da portare a casa. Altri mercatini locali nei consigli utili!",
-                        image:
-                          "https://www.novaratoday.it/~media/horizontal-hi/49129561680332/mercatino-antiquariato-arona-1.jpg?q=80&w=1000&auto=format&fit=crop",
-                      },
-                    ].map((event, index) => (
-                      <CarouselItem key={index}>
-                        <div className="bg-white rounded-xl overflow-hidden shadow-md border border-border">
-                          <div className="aspect-[16/9]">
-                            <img
-                              src={event.image}
-                              alt={event.title}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="p-5">
-                            <h3 className="font-serif text-xl font-medium mb-2">
-                              {event.title}
-                            </h3>
-                            <p className="text-sm text-pine-dark font-medium mb-2">
-                              {event.date}
-                            </p>
-                            <p>{event.description}</p>
+            <TabsContent value="tips" className="animate-fade-in">
+              <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                {/* Spiagge */}
+                <div className="bg-gradient-to-br from-sea-light/20 to-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-sea-dark to-sea-light rounded-full flex items-center justify-center">
+                      <MapPin className="h-7 w-7 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-center mb-4 text-sea-dark">
+                    Spiagge
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-white rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl">🏖️</span>
+                        <div>
+                          <h4 className="font-semibold text-sm mb-1">
+                            Bagno Settebello 76
+                          </h4>
+                          <p className="text-xs text-gray-600 mb-2">
+                            La struttura balneare più vicina
+                          </p>
+                          <div className="flex items-center gap-1 text-xs text-sea-dark">
+                            <MapPin className="h-3 w-3" />
+                            <span>400m</span>
                           </div>
                         </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="-left-4 lg:-left-12" />
-                  <CarouselNext className="-right-4 lg:-right-12" />
-                </Carousel>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-                  <a
-                    href="https://www.pinarellavillage.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-pine-light/30 rounded-xl p-6 flex flex-col items-center text-center transition-transform hover:scale-105"
-                  >
-                    <h3 className="font-serif text-xl font-medium mb-3">
-                      Pinarella Village
-                    </h3>
-                    <p className="text-muted-foreground mb-4">
-                      Scopri tutti gli eventi, le attività e le attrazioni di
-                      Pinarella.
-                    </p>
-                    <Button variant="outline" className="mt-auto">
-                      Visita il sito
-                      <ChevronRight className="h-4 w-4 ml-1" />
-                    </Button>
-                  </a>
-
-                  <a
-                    href="https://www.rivieradeipini.it/eventi-riviera-dei-pini/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-sea-light/30 rounded-xl p-6 flex flex-col items-center text-center transition-transform hover:scale-105"
-                  >
-                    <h3 className="font-serif text-xl font-medium mb-3">
-                      Riviera dei Pini
-                    </h3>
-                    <p className="text-muted-foreground mb-4">
-                      Calendario completo degli eventi estivi della Riviera dei
-                      Pini.
-                    </p>
-                    <Button variant="outline" className="mt-auto">
-                      Scopri gli eventi
-                      <ChevronRight className="h-4 w-4 ml-1" />
-                    </Button>
-                  </a>
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl">🆓</span>
+                        <div>
+                          <h4 className="font-semibold text-sm mb-1">
+                            Spiaggia Libera
+                          </h4>
+                          <p className="text-xs text-gray-600 mb-2">
+                            Accanto al Bagno 59
+                          </p>
+                          <div className="flex items-center gap-1 text-xs text-sea-dark">
+                            <MapPin className="h-3 w-3" />
+                            <span>700m (9 min)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </TabsContent>
-              <TabsContent value="tips" className="animate-fade-in">
-                <h2 className="font-serif text-2xl font-medium mb-6 text-center">
-                  Consigli Utili
-                </h2>
 
-                <div className="max-w-3xl mx-auto">
-                  <Collapsible
-                    defaultOpen={true}
-                    className="bg-white rounded-xl overflow-hidden shadow-md border border-border mb-6"
-                  >
-                    <CollapsibleTrigger className="flex items-center justify-between w-full p-5 text-left">
-                      <div className="flex items-center">
-                        <MapPin className="h-5 w-5 mr-3 text-sea-dark" />
-                        <span className="font-medium">Spiagge consigliate</span>
+                {/* Supermercati */}
+                <div className="bg-gradient-to-br from-pine-light/20 to-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-pine-dark to-pine-light rounded-full flex items-center justify-center">
+                      <ShoppingCart className="h-7 w-7 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-center mb-4 text-pine-dark">
+                    Supermercati
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-white rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl">🏪</span>
+                        <div>
+                          <h4 className="font-semibold text-sm mb-1">
+                            Svelto A&O
+                          </h4>
+                          <p className="text-xs text-gray-600 mb-2">
+                            Alimentari stagionale (giu-set)
+                          </p>
+                          <div className="flex items-center gap-1 text-xs text-pine-dark">
+                            <MapPin className="h-3 w-3" />
+                            <span>200m</span>
+                          </div>
+                        </div>
                       </div>
-                      <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="px-5 pb-5">
-                      <p className="mb-4">
-                        Alcuni consigli per le spiagge più vicine
-                        all'appartamento:
-                      </p>
-                      <ul className="space-y-3">
-                        <li className="flex items-start">
-                          <span className="bg-sea-light text-sea-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            🏖️
-                          </span>
-                          <div>
-                            <h4 className="font-medium">
-                              Bagno Settebello 76 - Il piu vicino
-                            </h4>
-                            <p className="text-sm text-muted-foreground">
-                              Situata a 400 metri di distanza, è la struttura
-                              balneare piu vicina all'appartamento
-                            </p>
+                    </div>
+                    <div className="bg-white rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl">🛒</span>
+                        <div>
+                          <h4 className="font-semibold text-sm mb-1">Conad</h4>
+                          <p className="text-xs text-gray-600 mb-2">
+                            Grande supermercato
+                          </p>
+                          <div className="flex items-center gap-1 text-xs text-pine-dark">
+                            <MapPin className="h-3 w-3" />
+                            <span>2km</span>
                           </div>
-                        </li>
-
-                        <li className="flex items-start">
-                          <span className="bg-sea-light text-sea-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            🆓
-                          </span>
-                          <div>
-                            <h4 className="font-medium">
-                              Spiaggia libera - di fianco al Bagno 59
-                            </h4>
-                            <p className="text-sm text-muted-foreground">
-                              Dista 700 metri (circa 9 minuti a piedi) ed è
-                              situata di fianco al Bagno 59 (Via Arenile
-                              Demaniale, 59, 48015 Cervia RA).
-                            </p>
-                          </div>
-                        </li>
-                      </ul>
-                    </CollapsibleContent>
-                  </Collapsible>
-
-                  <Collapsible
-                    defaultOpen={true}
-                    className="bg-white rounded-xl overflow-hidden shadow-md border border-border mb-6"
-                  >
-                    <CollapsibleTrigger className="flex items-center justify-between w-full p-5 text-left">
-                      <div className="flex items-center">
-                        <CalendarDays className="h-5 w-5 mr-3 text-sea-dark" />
-                        <span className="font-medium">Supermercati</span>
+                        </div>
                       </div>
-                      <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="px-5 pb-5">
-                      <ul className="space-y-3">
-                        <li className="flex items-start">
-                          <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            💈
-                          </span>
-                          <div>
-                            <h4 className="font-medium">Svelto A&O</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Piccolo alimentari a 200 metri, aperto da giugno a
-                              settembre. Via Mezzanotte, 1b, 48015 Cervia RA
-                            </p>
-                          </div>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            🏪
-                          </span>
-                          <div>
-                            <h4 className="font-medium">Conad</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Grande supermercato, a 2km di distanza. Viale
-                              Europa Unita, 4, 48015 Cervia RA
-                            </p>
-                          </div>
-                        </li>
-                      </ul>
-                    </CollapsibleContent>
-                  </Collapsible>
-
-                  <Collapsible
-                    defaultOpen={true}
-                    className="bg-white rounded-xl overflow-hidden shadow-md border border-border"
-                  >
-                    <CollapsibleTrigger className="flex items-center justify-between w-full p-5 text-left">
-                      <div className="flex items-center">
-                        <CalendarDays className="h-5 w-5 mr-3 text-sea-dark" />
-                        <span className="font-medium">Mercati locali</span>
-                      </div>
-                      <ChevronRight className="h-5 w-5 transform transition-transform ui-open:rotate-90" />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="px-5 pb-5">
-                      <p className="mb-4">
-                        Durante il vostro soggiorno potrete visitare i
-                        <a
-                          href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline"
-                        >
-                          mercati locali
-                        </a>
-                        nelle vicinanze:
-                      </p>
-                      <ul className="space-y-3">
-                        <li className="flex items-start">
-                          <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            M
-                          </span>
-                          <div>
-                            <h4 className="font-medium">
-                              <a
-                                href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini/mercato-serale-a-pinarella-di-cervia"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-primary hover:underline"
-                              >
-                                Mercato di Pinarella
-                              </a>
-                            </h4>
-                            <p className="text-sm text-muted-foreground">
-                              Tutti i martedì sera, dal 15 maggio al 23
-                              settembre, scopri le bancarelle del mercato serale
-                              di Pinarella. 41 posteggi di ambulanti ti
-                              aspettano dalle ore 17 in viale Italia, nel tratto
-                              da viale De Amicis a viale Lucania.
-                            </p>
-                          </div>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            G
-                          </span>
-                          <div>
-                            <h4 className="font-medium">
-                              <a
-                                href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini/mercato-annuale-di-cervia"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-primary hover:underline"
-                              >
-                                Mercato di Cervia
-                              </a>
-                            </h4>
-                            <p className="text-sm text-muted-foreground">
-                              Durante tutto l'anno, scopri le bancarelle del
-                              mercato di Cervia tutti i giovedì mattina in
-                              piazza Andrea Costa.
-                            </p>
-                          </div>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="bg-pine-light text-pine-dark w-6 h-6 rounded-full flex items-center justify-center mr-2 shrink-0">
-                            G
-                          </span>
-                          <div>
-                            <h4 className="font-medium">
-                              <a
-                                href="https://www.turismo.comunecervia.it/it/eventi/manifestazioni-e-iniziative/mercatini-mostre-mercato/mercatino-dell-artigianato-artistico"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-primary hover:underline"
-                              >
-                                Mercatino dell'Artigianato
-                              </a>
-                            </h4>
-                            <p className="text-sm text-muted-foreground">
-                              Nei giovedì estivi di Pinarella (fine maggio -
-                              metà settembre), mercatino di originali oggetti
-                              fatti a mano.
-                            </p>
-                          </div>
-                        </li>
-                      </ul>
-                    </CollapsibleContent>
-                  </Collapsible>
+                    </div>
+                  </div>
                 </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+
+                {/* Mercati */}
+                <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-amber-600 to-amber-400 rounded-full flex items-center justify-center">
+                      <CalendarDays className="h-7 w-7 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-center mb-4 text-amber-700">
+                    Mercati
+                  </h3>
+                  <div className="space-y-3">
+                    <a
+                      href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini/mercato-serale-a-pinarella-di-cervia"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-white rounded-lg p-3 block hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg">🏖️</span>
+                        <div>
+                          <h4 className="font-semibold text-xs mb-1">
+                            Pinarella
+                          </h4>
+                          <p className="text-xs text-gray-600">Mar • 17:00</p>
+                        </div>
+                      </div>
+                    </a>
+                    <a
+                      href="https://www.turismo.comunecervia.it/it/eventi/mercati-cittadini/mercato-annuale-di-cervia"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-white rounded-lg p-3 block hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg">🏛️</span>
+                        <div>
+                          <h4 className="font-semibold text-xs mb-1">Cervia</h4>
+                          <p className="text-xs text-gray-600">Gio • Mattina</p>
+                        </div>
+                      </div>
+                    </a>
+                    <a
+                      href="https://www.turismo.comunecervia.it/it/eventi/manifestazioni-e-iniziative/mercatini-mostre-mercato/mercatino-dell-artigianato-artistico"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-white rounded-lg p-3 block hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg">🎨</span>
+                        <div>
+                          <h4 className="font-semibold text-xs mb-1">
+                            Artigianato
+                          </h4>
+                          <p className="text-xs text-gray-600">Gio • Estate</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </section>
 
         {/* Map Section */}
