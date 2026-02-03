@@ -4,6 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
 import BreadcrumbSEO from "@/components/BreadcrumbSEO";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 import {
   Accordion,
   AccordionContent,
@@ -120,6 +122,10 @@ const FAQ = () => {
       />
 
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <main className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="text-center mb-12">

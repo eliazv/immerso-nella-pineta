@@ -8,15 +8,17 @@ import HouseRules from "@/components/HouseRules";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
 import { useAccommodation } from "@/contexts/AccommodationContext";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 
 const Rules = () => {
   const { accommodation } = useAccommodation();
   const location = useLocation();
-  
+
   const getBasePath = () => {
-    if (location.pathname.startsWith('/pineta8')) return '/pineta8';
-    if (location.pathname.startsWith('/pineta3')) return '/pineta3';
-    return '/';
+    if (location.pathname.startsWith("/pineta8")) return "/pineta8";
+    if (location.pathname.startsWith("/pineta3")) return "/pineta3";
+    return "/";
   };
 
   useEffect(() => {
@@ -34,6 +36,10 @@ const Rules = () => {
       />
       <SEOSchema />
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <main className="flex-1 pt-20">
         {/* Hero Section */}
@@ -62,7 +68,7 @@ const Rules = () => {
               <HouseRules />
             </div>
 
-            {accommodation.id === 'pineta3' && (
+            {accommodation.id === "pineta3" && (
               <div className="max-w-3xl mx-auto mt-10 bg-sea-light/30 p-8 rounded-xl border border-sea-light animate-fade-in">
                 <h2 className="font-serif text-2xl font-medium mb-4">
                   Accessibilità
@@ -90,9 +96,9 @@ const Rules = () => {
                   </div>
                 </div>
                 <p className="text-muted-foreground text-sm italic">
-                  L'alloggio non è completamente accessibile per persone in sedia
-                  a rotelle a causa delle dimensioni delle porte e dello scalino
-                  nel bagno.
+                  L'alloggio non è completamente accessibile per persone in
+                  sedia a rotelle a causa delle dimensioni delle porte e dello
+                  scalino nel bagno.
                 </p>
 
                 <div className="mt-8 text-center">

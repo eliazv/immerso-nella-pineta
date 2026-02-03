@@ -94,7 +94,7 @@ const Index = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative h-[92vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[90vh] md:h-[92vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src={accommodation.heroImage}
@@ -105,8 +105,8 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
 
-        {/* Badge località e rating - in alto a destra */}
-        <div className="absolute top-20 md:top-24 right-4 md:right-8 z-20 flex flex-col items-end gap-3">
+        {/* Badge località e rating - Desktop solo: in BASSO a destra */}
+        <div className="hidden md:flex absolute bottom-20 md:bottom-14 right-4 md:right-8 z-20 flex-col items-end gap-3">
           {/* Badge località */}
           <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-lg border border-white/25 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-xl">
             <MapPin className="h-4 w-4" />
@@ -146,61 +146,65 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="container px-4 mx-auto relative z-10 text-center">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 drop-shadow-2xl tracking-tight leading-tight">
+        <div className="container px-4 mx-auto relative z-10 text-center pt-16 md:pt-0">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 md:mb-8 drop-shadow-2xl tracking-tight leading-tight px-2">
             {accommodation.name}
           </h1>
 
-          <div className="max-w-4xl mx-auto mb-12">
-            <p className="text-white text-2xl md:text-3xl mb-4 drop-shadow-xl font-light">
+          <div className="max-w-3xl mx-auto mb-8 md:mb-12 px-2">
+            <p className="text-white text-xl sm:text-2xl md:text-3xl mb-3 md:mb-4 drop-shadow-xl font-light">
               Vacanze al mare in affitto diretto
             </p>
-            <p className="text-white/95 text-lg md:text-xl drop-shadow-lg font-medium">
+            <p className="text-white/95 text-base sm:text-lg md:text-xl drop-shadow-lg font-medium">
               Nessuna commissione • Contatto diretto • Risparmia il 20%
             </p>
           </div>
 
-          {/* Info Cards - Più belle e moderne */}
-          <div className="flex flex-wrap gap-4 justify-center mb-12">
-            <div className="group bg-white/15 backdrop-blur-lg border-2 border-white/25 rounded-2xl px-6 py-4 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
-              <div className="flex items-center gap-3">
-                <div className="bg-white/20 p-2 rounded-full group-hover:scale-110 transition-transform">
-                  <Bed className="h-6 w-6" />
+          {/* Info Cards - Più compatte e moderne */}
+          <div className="flex flex-wrap gap-3 md:gap-4 justify-center mb-8 md:mb-12 px-2">
+            <div className="group bg-white/15 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2.5 md:px-5 md:py-3 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
+              <div className="flex items-center gap-2 md:gap-2.5">
+                <div className="bg-white/20 p-1.5 md:p-2 rounded-full group-hover:scale-110 transition-transform">
+                  <Bed className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
-                <span className="font-semibold text-lg">
-                  {accommodation.features.guests}
+                <span className="font-semibold text-sm md:text-base whitespace-nowrap">
+                  {accommodation.features.guests.replace("Fino a ", "")}
                 </span>
               </div>
             </div>
-            <div className="group bg-white/15 backdrop-blur-lg border-2 border-white/25 rounded-2xl px-6 py-4 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
-              <div className="flex items-center gap-3">
-                <div className="bg-white/20 p-2 rounded-full group-hover:scale-110 transition-transform">
-                  <TreePine className="h-6 w-6" />
+            <div className="group bg-white/15 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2.5 md:px-5 md:py-3 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
+              <div className="flex items-center gap-2 md:gap-2.5">
+                <div className="bg-white/20 p-1.5 md:p-2 rounded-full group-hover:scale-110 transition-transform">
+                  <TreePine className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
-                <span className="font-semibold text-lg">Nella pineta</span>
+                <span className="font-semibold text-sm md:text-base whitespace-nowrap">
+                  Nella pineta
+                </span>
               </div>
             </div>
-            <div className="group bg-white/15 backdrop-blur-lg border-2 border-white/25 rounded-2xl px-6 py-4 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
-              <div className="flex items-center gap-3">
-                <div className="bg-white/20 p-2 rounded-full group-hover:scale-110 transition-transform">
-                  <Waves className="h-6 w-6" />
+            <div className="group bg-white/15 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2.5 md:px-5 md:py-3 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
+              <div className="flex items-center gap-2 md:gap-2.5">
+                <div className="bg-white/20 p-1.5 md:p-2 rounded-full group-hover:scale-110 transition-transform">
+                  <Waves className="h-4 w-4 md:h-5 md:w-5" />
                 </div>
-                <span className="font-semibold text-lg">5 min dal mare</span>
+                <span className="font-semibold text-sm md:text-base whitespace-nowrap">
+                  5 min dal mare
+                </span>
               </div>
             </div>
           </div>
 
-          {/* CTA Buttons - Più evidenti */}
-          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 md:gap-5 justify-center items-center mb-8 md:mb-12 px-4">
             <Button
               size="lg"
               asChild
-              className="bg-gradient-to-r from-white to-gray-100 text-pine-dark hover:from-gray-100 hover:to-white font-bold shadow-2xl text-lg px-10 py-7 rounded-full border-2 border-white/50 hover:scale-105 transition-transform"
+              className="w-full sm:w-auto bg-gradient-to-r from-white to-gray-100 text-pine-dark hover:from-gray-100 hover:to-white font-bold shadow-2xl text-base md:text-lg px-8 md:px-10 py-6 md:py-7 rounded-full border-2 border-white/50 hover:scale-105 transition-transform"
             >
               <Link to={`${getBasePath()}/book`}>
                 <span className="flex items-center gap-2">
                   Prenota ora - Risparmia 20%
-                  <ChevronRight className="h-5 w-5" />
+                  <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
                 </span>
               </Link>
             </Button>
@@ -208,94 +212,148 @@ const Index = () => {
               size="lg"
               variant="outline"
               asChild
-              className="bg-transparent backdrop-blur-lg border-3 border-white/40 text-white hover:bg-white/15 font-semibold text-lg px-10 py-7 rounded-full shadow-xl hover:scale-105 transition-transform"
+              className="w-full sm:w-auto bg-transparent backdrop-blur-lg border-2 border-white/40 text-white hover:bg-white/15 font-semibold text-base md:text-lg px-8 md:px-10 py-6 md:py-7 rounded-full shadow-xl hover:scale-105 transition-transform"
             >
               <Link to={`${getBasePath()}/gallery`}>
                 <span className="flex items-center gap-2">
-                  <Aperture className="h-5 w-5" />
+                  <Aperture className="h-4 w-4 md:h-5 md:w-5" />
                   Galleria foto
                 </span>
               </Link>
             </Button>
           </div>
+
+          {/* Badge località e rating Airbnb - Mobile solo: in fondo alla sezione */}
+          <div className="md:hidden flex flex-col sm:flex-row items-center justify-center gap-3 px-4">
+            {/* Badge località */}
+            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-lg border border-white/25 text-white px-4 py-2 rounded-full text-xs font-medium shadow-xl">
+              <MapPin className="h-3.5 w-3.5" />
+              <span>Pinarella di Cervia</span>
+            </div>
+
+            {/* Badge rating */}
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/90 to-amber-600/90 backdrop-blur-lg border border-amber-400/30 px-4 py-2 rounded-full shadow-xl">
+              <div className="flex items-center gap-0.5">
+                {[...Array(4)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="h-3 w-3 text-white"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                ))}
+                <div className="relative">
+                  <Star
+                    className="h-3 w-3 text-white/40"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                  <Star
+                    className="h-3 w-3 text-white absolute top-0 left-0"
+                    style={{
+                      clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
+                    }}
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </div>
+              </div>
+              <span className="text-white text-xs font-bold">
+                {accommodation.rating.airbnb}
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Welcome Section - Più pulita */}
-      <section className="py-24 overflow-x-hidden bg-gradient-to-b from-white to-pine-light/20">
+      <section className="py-16 md:py-20 overflow-x-hidden bg-gradient-to-b from-white to-pine-light/20">
         <div className="container px-4 mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center max-w-6xl mx-auto">
             <div className="scroll-reveal order-2 lg:order-1">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pine-light to-sea-light/50 text-pine-dark px-4 py-2 rounded-full text-sm font-semibold mb-8 shadow-sm">
-                <TreePine className="h-4 w-4" />
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pine-light to-sea-light/50 text-pine-dark px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold mb-6 md:mb-8 shadow-sm">
+                <TreePine className="h-3.5 w-3.5 md:h-4 md:w-4" />
                 <span>Pinarella, Cervia</span>
               </div>
 
-              <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900 leading-tight">
+              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-6 text-gray-900 leading-tight">
                 {accommodation.welcomeTitle}
               </h2>
 
-              <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+              <p className="text-gray-600 text-base md:text-lg mb-6 md:mb-8 leading-relaxed">
                 {accommodation.welcomeDescription}
               </p>
 
-              {/* Features compatte */}
-              <div className="grid grid-cols-2 gap-6 mb-10">
-                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                  <div className="bg-pine-light/50 p-3 rounded-lg">
-                    <Bed className="text-pine-dark h-6 w-6" />
+              {/* Features più grandi e moderne */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-7 mb-8 md:mb-10">
+                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-pine-light transition-all duration-300">
+                  <div className="bg-gradient-to-br from-pine-light to-pine-light/50 p-4 md:p-5 rounded-xl shrink-0">
+                    <Bed className="text-pine-dark h-7 w-7 md:h-8 md:w-8" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm text-gray-900">
+                    <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-1.5">
                       {accommodation.features.guests}
                     </h3>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-sm md:text-base text-gray-600 font-medium">
                       {accommodation.features.beds}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                  <div className="bg-sea-light/50 p-3 rounded-lg">
-                    <Car className="text-sea-dark h-6 w-6" />
+                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-sea-light transition-all duration-300">
+                  <div className="bg-gradient-to-br from-sea-light to-sea-light/50 p-4 md:p-5 rounded-xl shrink-0">
+                    <Car className="text-sea-dark h-7 w-7 md:h-8 md:w-8" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm text-gray-900">
+                    <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-1.5">
                       {accommodation.features.parking}
                     </h3>
-                    <p className="text-xs text-gray-500">Incluso</p>
+                    <p className="text-sm md:text-base text-gray-600 font-medium">
+                      Incluso
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                  <div className="bg-pink-100 p-3 rounded-lg">
-                    <Heart className="text-pink-600 h-6 w-6" />
+                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-pink-200 transition-all duration-300">
+                  <div className="bg-gradient-to-br from-pink-100 to-pink-50 p-4 md:p-5 rounded-xl shrink-0">
+                    <Heart className="text-pink-600 h-7 w-7 md:h-8 md:w-8" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm text-gray-900">
+                    <h3 className="font-bold text-lg md:text-xl text-gray-900">
                       {accommodation.features.petsAllowed}
                     </h3>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                  <div className="bg-green-100 p-3 rounded-lg">
-                    <TreePine className="text-green-600 h-6 w-6" />
+                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-green-200 transition-all duration-300">
+                  <div className="bg-gradient-to-br from-green-100 to-green-50 p-4 md:p-5 rounded-xl shrink-0">
+                    <TreePine className="text-green-600 h-7 w-7 md:h-8 md:w-8" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm text-gray-900">
+                    <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-1.5">
                       Giardino
                     </h3>
-                    <p className="text-xs text-gray-500">Privato</p>
+                    <p className="text-sm md:text-base text-gray-600 font-medium">
+                      Privato
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button asChild size="lg" className="shadow-lg">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="shadow-lg w-full sm:w-auto"
+                >
                   <Link to={`${getBasePath()}/book`}>
                     Prenota ora
                     <ChevronRight className="ml-1 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                >
                   <Link to="/pinarella-guida">
                     Scopri Pinarella
                     <ChevronRight className="ml-1 h-4 w-4" />
@@ -313,7 +371,7 @@ const Index = () => {
                     className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                <div className="absolute -bottom-8 -right-8 -z-10 w-full h-full bg-gradient-to-br from-pine-light to-sea-light rounded-2xl opacity-30" />
+                <div className="absolute -bottom-6 md:-bottom-8 -right-6 md:-right-8 -z-10 w-full h-full bg-gradient-to-br from-pine-light to-sea-light rounded-2xl opacity-30" />
               </div>
             </div>
           </div>
@@ -321,95 +379,100 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-pine-light/30">
+      <section className="py-20 bg-gradient-to-b from-pine-light/30 via-white to-pine-light/20">
         <div className="container px-4 mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
-            <div className="inline-flex items-center gap-2 bg-white text-pine-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pine-light to-sea-light/50 text-pine-dark px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-sm">
               <House className="h-4 w-4" />
               <span>Lo spazio</span>
             </div>
-            <h2 className="font-serif text-3xl font-medium mb-4">
+            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900">
               Comfort, privacy e natura
             </h2>
-            <p className="text-muted-foreground text-base mb-2">
+            <p className="text-gray-600 text-lg leading-relaxed">
               Vivi la tua vacanza in un ambiente sereno e a contatto con al
-              natura. L’appartamento è pensato per offrire relax e praticità a
+              natura. L'appartamento è pensato per offrire relax e praticità a
               famiglie e coppie, con spazi funzionali e dettagli curati.
             </p>
-            {/* Dotazioni principali ora nelle cards */}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
-                <Bed className="h-6 w-6 text-sea-dark" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            <div className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-sea-light to-sea-light/50 flex items-center justify-center shadow-md">
+                <Bed className="h-8 w-8 text-sea-dark" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Camera accogliente</h3>
-              <ul className="flex flex-col gap-1 items-center mt-2">
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <Bed className="h-4 w-4" />4 posti letto
+              <h3 className="font-bold text-xl mb-4 text-gray-900">
+                Camera accogliente
+              </h3>
+              <ul className="flex flex-col gap-2 items-center mt-2">
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <Bed className="h-5 w-5" />4 posti letto
                 </li>
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <Copy className="h-4 w-4" />
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <Copy className="h-5 w-5" />
                   Biancheria inclusa
                 </li>
               </ul>
             </div>
             <div
-              className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
+              className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
               style={{ animationDelay: "0.2s" }}
             >
-              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
-                <House className="h-6 w-6 text-sea-dark" />
+              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center shadow-md">
+                <House className="h-8 w-8 text-amber-700" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">
+              <h3 className="font-bold text-xl mb-4 text-gray-900">
                 Soggiorno &amp; Cucina
               </h3>
-              <ul className="flex flex-col gap-1 items-center mt-2">
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <CookingPot className="h-4 w-4" />
+              <ul className="flex flex-col gap-2 items-center mt-2">
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <CookingPot className="h-5 w-5" />
                   Cucina attrezzata
                 </li>
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <DoorOpen className="h-4 w-4" />
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <DoorOpen className="h-5 w-5" />
                   Accesso autonomo
                 </li>
               </ul>
             </div>
             <div
-              className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
+              className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
               style={{ animationDelay: "0.1s" }}
             >
-              <div className="w-12 h-12 mb-4 rounded-full bg-sea-light flex items-center justify-center">
-                <ShowerHead className="h-6 w-6 text-sea-dark" />
+              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-md">
+                <ShowerHead className="h-8 w-8 text-blue-700" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Bagno moderno</h3>
-              <ul className="flex flex-col gap-1 items-center mt-2">
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <ShowerHead className="h-4 w-4" />
+              <h3 className="font-bold text-xl mb-4 text-gray-900">
+                Bagno moderno
+              </h3>
+              <ul className="flex flex-col gap-2 items-center mt-2">
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <ShowerHead className="h-5 w-5" />
                   Bagno completo
                 </li>
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <WashingMachine className="h-4 w-4" />
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <WashingMachine className="h-5 w-5" />
                   Lavatrice
                 </li>
               </ul>
             </div>
             <div
-              className="bg-white p-6 rounded-xl border border-border scroll-reveal flex flex-col items-center text-center shadow-md hover:shadow-xl transition-shadow duration-300"
+              className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
               style={{ animationDelay: "0.3s" }}
             >
-              <div className="w-12 h-12 mb-4 rounded-full bg-green-100 flex items-center justify-center">
-                <TreePine className="h-6 w-6 text-green-600" />
+              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center shadow-md">
+                <TreePine className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Spazi esterni</h3>
-              <ul className="flex flex-col gap-1 items-center mt-2">
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <TreePine className="h-4 w-4" />
+              <h3 className="font-bold text-xl mb-4 text-gray-900">
+                Spazi esterni
+              </h3>
+              <ul className="flex flex-col gap-2 items-center mt-2">
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <TreePine className="h-5 w-5" />
                   Giardino condiviso
                 </li>
-                <li className="flex items-center gap-1 text-pine-dark text-xs font-medium">
-                  <Car className="h-4 w-4" />
+                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
+                  <Car className="h-5 w-5" />
                   Parcheggio
                 </li>
               </ul>
@@ -419,17 +482,17 @@ const Index = () => {
       </section>
 
       {/* Gallery Section */}
-      <section className="py-16">
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container px-4 mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
-            <div className="inline-flex items-center gap-2 bg-sea-light text-sea-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-sea-light to-blue-100 text-sea-dark px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-sm">
               <Aperture className="h-4 w-4" />
               <span>Galleria</span>
             </div>
-            <h2 className="font-serif text-3xl font-medium mb-6">
+            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900">
               Dai un'occhiata agli spazi
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-gray-600 text-lg leading-relaxed">
               Esplora il nostro appartamento in affitto a Pinarella attraverso
               le immagini: camera con letti matrimoniale e singoli, cucina
               attrezzata, bagno con lavatrice e giardino condiviso con area
@@ -502,17 +565,17 @@ const Index = () => {
       </section>
 
       {/* Rules Preview */}
-      <section className="py-16 bg-sea-light/30">
+      <section className="py-20 bg-gradient-to-b from-sea-light/30 via-blue-50/20 to-white">
         <div className="container px-4 mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
-            <div className="inline-flex items-center gap-2 bg-white text-sea-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+            <div className="inline-flex items-center gap-2 bg-white text-sea-dark px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-md">
               <PencilRuler className="h-4 w-4" />
               <span>Regole della casa</span>
             </div>
-            <h2 className="font-serif text-3xl font-medium mb-6">
+            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900">
               Informazioni utili
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-gray-600 text-lg leading-relaxed">
               Informazioni essenziali per il vostro soggiorno: orari di check-in
               e check-out, contatti diretti e dettagli su parcheggio e accesso
               autonomo al nostro appartamento a Pinarella di Cervia.
@@ -535,20 +598,20 @@ const Index = () => {
       </section>
 
       {/* Attractions Preview Section */}
-      <section className="py-20 overflow-x-hidden">
+      <section className="py-20 overflow-x-hidden bg-gradient-to-b from-gray-50 to-white">
         <div className="container px-4 mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
             <div className="scroll-reveal">
-              <div className="inline-flex items-center gap-2 bg-sea-light text-sea-dark px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-sea-light to-blue-100 text-sea-dark px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-sm">
                 <MapPin className="h-4 w-4" />
                 <span>Scopri la zona</span>
               </div>
 
-              <h2 className="font-serif text-3xl font-medium mb-6">
+              <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900">
                 Attrazioni e consigli utili
               </h2>
 
-              <p className="text-muted-foreground mb-6">
+              <p className="text-gray-600 text-lg leading-relaxed mb-8">
                 Scopri i migliori ristoranti di Pinarella, gli eventi locali di
                 Cervia, e i suggerimenti per rendere il tuo soggiorno
                 nell'appartamento in affitto indimenticabile. Abbiamo raccolto
@@ -556,28 +619,36 @@ const Index = () => {
                 di Cervia per le tue vacanze al mare.
               </p>
 
-              <div className="flex flex-col md:flex-row gap-6 mb-8">
-                <div className="flex items-start">
-                  <Utensils className="text-sea-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
-                  <div>
-                    <h3 className="font-medium">Ristoranti locali</h3>
-                    <p className="text-sm text-muted-foreground">
+              <div className="flex flex-col gap-5 mb-10">
+                <div className="flex items-start bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-sea-light transition-all duration-300 shadow-md hover:shadow-lg">
+                  <div className="bg-gradient-to-br from-orange-100 to-orange-50 p-3 rounded-xl shrink-0">
+                    <Utensils className="text-orange-600 h-6 w-6" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="font-bold text-lg mb-1 text-gray-900">
+                      Ristoranti locali
+                    </h3>
+                    <p className="text-base text-gray-600">
                       I migliori ristoranti e pizzerie della zona
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <Calendar className="text-sea-dark h-6 w-6 mt-0.5 mr-3 shrink-0" />
-                  <div>
-                    <h3 className="font-medium">Eventi e attività</h3>
-                    <p className="text-sm text-muted-foreground">
+                <div className="flex items-start bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-sea-light transition-all duration-300 shadow-md hover:shadow-lg">
+                  <div className="bg-gradient-to-br from-purple-100 to-purple-50 p-3 rounded-xl shrink-0">
+                    <Calendar className="text-purple-600 h-6 w-6" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="font-bold text-lg mb-1 text-gray-900">
+                      Eventi e attività
+                    </h3>
+                    <p className="text-base text-gray-600">
                       Cosa fare durante il tuo soggiorno
                     </p>
                   </div>
                 </div>
               </div>
 
-              <Button asChild>
+              <Button asChild size="lg" className="shadow-lg">
                 <Link to={`${getBasePath()}/attractions`}>
                   Scopri di più
                   <ChevronRight className="ml-1 h-4 w-4" />
@@ -587,14 +658,14 @@ const Index = () => {
 
             <div className="scroll-reveal">
               <div className="relative">
-                <div className="aspect-[4/3] rounded-xl overflow-hidden">
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                   <img
                     src="https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg"
                     alt="Lungomare Pinarella di Cervia - appartamento 200m dal mare prenotazione diretta senza commissioni"
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                <div className="absolute -bottom-6 -right-6 -z-10 w-full h-full bg-sea-light rounded-xl" />
+                <div className="absolute -bottom-8 -right-8 -z-10 w-full h-full bg-gradient-to-br from-sea-light to-blue-200 rounded-2xl opacity-40" />
               </div>
             </div>
           </div>

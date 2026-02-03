@@ -14,6 +14,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
 import BreadcrumbSEO from "@/components/BreadcrumbSEO";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 
 const PinarellaGuide = () => {
   const localAttractions = [
@@ -94,6 +96,10 @@ const PinarellaGuide = () => {
       />
 
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <main className="flex-1">
         <div className="container px-4 mx-auto py-8">

@@ -96,16 +96,12 @@ const BreadcrumbSEO = ({ items }: BreadcrumbSEOProps) => {
               {item.href ? (
                 <Link
                   to={item.href}
-                  className="flex items-center hover:text-pine-dark transition-colors duration-200"
+                  className="hover:text-pine-dark transition-colors duration-200"
                 >
-                  {index === 0 && <Home className="h-4 w-4 mr-1" />}
                   {item.label}
                 </Link>
               ) : (
-                <span className="flex items-center text-pine-dark font-medium">
-                  {index === 0 && <Home className="h-4 w-4 mr-1" />}
-                  {item.label}
-                </span>
+                <span className="text-pine-dark font-medium">{item.label}</span>
               )}
             </li>
           ))}

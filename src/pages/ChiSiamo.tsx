@@ -7,6 +7,7 @@ import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CONTACT_INFO } from "@/lib/contactConfig";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
 
 const ChiSiamo = () => {
   const whatsappUrl = `https://wa.me/${CONTACT_INFO.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(CONTACT_INFO.whatsappMessage)}`;
@@ -56,6 +57,10 @@ const ChiSiamo = () => {
       />
 
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <article className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Hero Section */}
@@ -65,13 +70,13 @@ const ChiSiamo = () => {
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             <strong>Proprietari diretti</strong> di appartamenti a Pinarella dal
-            [ANNO]. Nessun intermediario, solo persone vere che amano la propria
+            1970. Nessun intermediario, solo persone vere che amano la propria
             terra.
           </p>
         </div>
 
         {/* Foto Proprietari - PLACEHOLDER */}
-        <div className="mb-12 rounded-xl overflow-hidden shadow-lg">
+        {/* <div className="mb-12 rounded-xl overflow-hidden shadow-lg">
           <div className="bg-gradient-to-br from-pine-light/20 to-sage-light/20 aspect-[16/9] flex items-center justify-center">
             <div className="text-center p-8">
               <Users className="h-24 w-24 mx-auto text-pine-dark/30 mb-4" />
@@ -80,7 +85,7 @@ const ChiSiamo = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Storia */}
         <div className="prose prose-lg max-w-none mb-12">
@@ -90,16 +95,22 @@ const ChiSiamo = () => {
           </h2>
 
           <p className="text-gray-700 leading-relaxed mb-4">
-            Siamo <strong>Elia Zavatta</strong> e famiglia, e viviamo a Cervia
-            da sempre. I nostri appartamenti a Pinarella non sono un business
-            anonimo: sono le case dove abbiamo passato le nostre estati, dove i
-            nostri figli hanno giocato nella pineta, dove conosciamo ogni
-            angolo, ogni spiaggia, ogni gelateria.
+            Siamo <strong>Elia Zavatta</strong> e famiglia. I nostri
+            appartamenti a Pinarella non sono un business anonimo: sono le case
+            dove abbiamo passato le nostre estati, dove conosciamo ogni angolo,
+            ogni spiaggia, ogni gelateria.
           </p>
 
           <p className="text-gray-700 leading-relaxed mb-4">
-            Affittiamo questi appartamenti da oltre <strong>[X] anni</strong> e
-            abbiamo scelto di farlo{" "}
+            Nel <strong>1970, mio nonno</strong> ha costruito questa graziosa
+            palazzetta immersa nella pineta di Pinarella. Da allora,{" "}
+            <strong>gestiamo sempre noi</strong> gli affitti, mantenendo vivo lo
+            spirito di accoglienza familiare che ci contraddistingue. Siamo
+            orgogliosi di portare avanti questa tradizione da oltre 50 anni.
+          </p>
+
+          <p className="text-gray-700 leading-relaxed mb-4">
+            Affittiamo questi appartamenti{" "}
             <strong>senza agenzie e senza intermediari</strong>. Perché? Perché
             vogliamo che chi viene da noi si senta a casa, non un numero in un
             portale.
@@ -217,7 +228,7 @@ const ChiSiamo = () => {
           <div className="space-y-6">
             <Card className="bg-gradient-to-br from-sage-50 to-white border-sage-light">
               <CardContent className="p-6">
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 mb-3">
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, i) => (
                       <Star
@@ -227,22 +238,101 @@ const ChiSiamo = () => {
                     ))}
                   </div>
                 </div>
-                <p className="text-gray-700 mt-4 italic">
-                  "[INSERIRE RECENSIONE VERA DA GOOGLE/AIRBNB - esempio: 'Elia è
-                  stato disponibilissimo, ci ha consigliato ristoranti
-                  fantastici']"
+                <p className="text-gray-700 leading-relaxed italic mb-3">
+                  "Ho soggiornato a Pinarella di Cervia per una settimana e mi
+                  sono trovata davvero molto bene. La casa era ben fornita di
+                  tutto il necessario e pulita. Si trova in una zona tranquilla
+                  e comoda, a pochi passi dal mare e vicina a tutti i servizi
+                  principali. I proprietari sono stati sempre molto disponibili
+                  e gentili. Le istruzioni per il check-in e per l'utilizzo
+                  della casa erano chiare e precise, il che ha reso tutto ancora
+                  più semplice. Consiglio assolutamente questo alloggio!"
                 </p>
-                <p className="text-gray-500 mt-2 text-sm">
-                  — [Nome Ospite], [Mese Anno]
+                <p className="text-gray-500 text-sm">— Alice, Giugno 2025</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-sage-50 to-white border-sage-light">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4 mb-3">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-5 w-5 text-yellow-400 fill-current"
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-700 leading-relaxed italic mb-3">
+                  "Abbiamo soggiornato nell'appartamento di Elia e Romano e
+                  l'esperienza è stata davvero ottima. La casa era pulitissima,
+                  curata nei dettagli e ben attrezzata, con tutto il necessario
+                  per un soggiorno confortevole. La posizione è un vero punto di
+                  forza: immersa nel verde, tranquilla e con ampio parcheggio. A
+                  soli 100 metri c'è un market super fornito, comodissimo. E in
+                  poco più di 3 minuti a piedi si raggiunge il parco pineta e la
+                  spiaggia. La casa è in una posizione strategica per visitare
+                  la riviera: in mezz'ora si raggiungono facilmente Rimini e
+                  Riccione."
+                </p>
+                <p className="text-gray-500 text-sm">— Riccardo, Maggio 2025</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-sage-50 to-white border-sage-light">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4 mb-3">
+                  <div className="flex gap-1">
+                    {[...Array(4)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-5 w-5 text-yellow-400 fill-current"
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-700 leading-relaxed italic mb-3">
+                  "Appartamento vicinissimo alla spiaggia, raggiungibile con una
+                  breve passeggiata all'ombra dei pini marittimi. Molto comodo
+                  il piccolo supermercato sul tragitto così come il posto auto
+                  di pertinenza dell'appartamento. Lo stabile è sempre
+                  ombreggiato dai pini e pranzare all'aperto nella zona esterna
+                  è stato molto piacevole. Si trova in fondo ad una strada
+                  chiusa, un posto quindi molto tranquillo e silenzioso. Un
+                  piccolo e gradito dono per le bimbe ci ha accolto all'arrivo."
+                </p>
+                <p className="text-gray-500 text-sm">— Ilaria, Luglio 2025</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-sage-50 to-white border-sage-light">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4 mb-3">
+                  <div className="flex gap-1">
+                    {[...Array(4)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-5 w-5 text-yellow-400 fill-current"
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-gray-700 leading-relaxed italic mb-3">
+                  "Soggiorno tranquillo, appartamento accogliente e pulito. Zona
+                  immersa nel verde, tranquilla e a pochi passi dalla spiaggia."
+                </p>
+                <p className="text-gray-500 text-sm">
+                  — Antonella, Settembre 2025
                 </p>
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-br from-sage-50 to-white border-sage-light">
               <CardContent className="p-6">
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 mb-3">
                   <div className="flex gap-1">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(4)].map((_, i) => (
                       <Star
                         key={i}
                         className="h-5 w-5 text-yellow-400 fill-current"
@@ -250,26 +340,15 @@ const ChiSiamo = () => {
                     ))}
                   </div>
                 </div>
-                <p className="text-gray-700 mt-4 italic">
-                  "[INSERIRE SECONDA RECENSIONE VERA]"
+                <p className="text-gray-700 leading-relaxed italic mb-3">
+                  "Alloggio pulito e ordinato. Host gentili e disponibilissimi.
+                  Il posto è vicinissimo a tutto quello che serve ed è comunque
+                  in una zona molto tranquilla, quindi consiglio!"
                 </p>
-                <p className="text-gray-500 mt-2 text-sm">
-                  — [Nome Ospite], [Mese Anno]
-                </p>
+                <p className="text-gray-500 text-sm">— Manuel, Luglio 2025</p>
               </CardContent>
             </Card>
           </div>
-
-          {/* <p className="text-center text-gray-600 mt-6">
-            <a
-              href="[LINK GOOGLE BUSINESS PROFILE]"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pine-600 hover:text-pine-700 underline"
-            >
-              Leggi tutte le recensioni su Google →
-            </a>
-          </p> */}
         </div>
 
         {/* CTA Contatto */}

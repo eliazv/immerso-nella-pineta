@@ -7,8 +7,6 @@ import {
   MapPin,
   TreePine,
   Waves,
-  Instagram,
-  Facebook,
   ChevronRight,
 } from "lucide-react";
 import { useAccommodation } from "@/contexts/AccommodationContext";
@@ -188,28 +186,6 @@ const Footer = ({ className }: { className?: string }) => {
               Prenota Ora
               <ChevronRight className="h-4 w-4" />
             </Link>
-
-            {/* Social Links */}
-            <div className="flex gap-3 mt-6">
-              <a
-                href="https://www.instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a
-                href="https://www.facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
-            </div>
           </div>
         </div>
 

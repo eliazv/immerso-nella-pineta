@@ -2,9 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
 import MetaTags from "@/components/MetaTags";
 import BreadcrumbSEO from "@/components/BreadcrumbSEO";
-import { Calendar, MapPin, Utensils, ArrowRight, Palmtree } from "lucide-react";
+import { CONTACT_INFO } from "@/lib/contactConfig";
+import {
+  Calendar,
+  MapPin,
+  Utensils,
+  ArrowRight,
+  Palmtree,
+  Music,
+  ShoppingBag,
+  Wind,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -60,6 +71,39 @@ const Blog = () => {
         "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
       color: "from-purple-500 to-pink-500",
     },
+    {
+      title: "Festival Internazionale dell'Aquilone a Cervia",
+      slug: "festival-aquilone-cervia",
+      excerpt:
+        "Oltre 200 artisti da 50 paesi per celebrare il volo degli aquiloni sulla spiaggia di Cervia. Un evento spettacolare tra fine aprile e inizio maggio.",
+      date: "2026-02-03",
+      icon: Wind,
+      image:
+        "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+      color: "from-sky-500 to-blue-500",
+    },
+    {
+      title: "Pinarella Summer Festival: Concerti ed Eventi Estivi",
+      slug: "pinarella-summer-festival",
+      excerpt:
+        "Concerti, spettacoli e animazione serale sul lungomare di Pinarella da giugno ad agosto. Programma completo degli eventi estivi 2026.",
+      date: "2026-02-03",
+      icon: Music,
+      image:
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
+      color: "from-purple-500 to-pink-500",
+    },
+    {
+      title: "Mercatino dell'Artigianato a Cervia e Pinarella",
+      slug: "mercatino-artigianato-cervia",
+      excerpt:
+        "Scopri i mercatini dell'artigianato locale: ceramiche, gioielli, prodotti in legno e creazioni uniche. Date, orari e cosa trovare.",
+      date: "2026-02-03",
+      icon: ShoppingBag,
+      image:
+        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80",
+      color: "from-amber-500 to-orange-500",
+    },
   ];
 
   const jsonLd = {
@@ -98,6 +142,10 @@ const Blog = () => {
       />
 
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <main className="flex-1 container mx-auto px-4 py-16 pt-24">
         {/* Hero Section */}
@@ -115,13 +163,13 @@ const Blog = () => {
           </p>
         </div>
 
-        {/* Blog Cards con Immagini */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
+        {/* Blog Cards con Immagini - 3 colonne su desktop */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
           {blogPosts.map((post, index) => (
             <Link key={index} to={`/blog/${post.slug}`} className="group block">
               <Card className="overflow-hidden h-full hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-pine-light">
                 {/* Immagine */}
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${post.color} opacity-20 group-hover:opacity-30 transition-opacity`}
                   ></div>
@@ -131,13 +179,13 @@ const Blog = () => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute top-4 right-4 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg">
-                    <post.icon className="w-6 h-6 text-pine-dark" />
+                    <post.icon className="w-5 h-5 text-pine-dark" />
                   </div>
                 </div>
 
                 <CardHeader className="pb-3">
-                  <div className="flex items-center gap-2 mb-3 text-sm text-gray-500">
-                    <Calendar className="w-4 h-4" />
+                  <div className="flex items-center gap-2 mb-3 text-xs text-gray-500">
+                    <Calendar className="w-3.5 h-3.5" />
                     <span>
                       {new Date(post.date).toLocaleDateString("it-IT", {
                         year: "numeric",
@@ -146,15 +194,15 @@ const Blog = () => {
                       })}
                     </span>
                   </div>
-                  <CardTitle className="text-xl md:text-2xl text-pine-dark mb-2 group-hover:text-pine-dark/80 transition-colors line-clamp-2">
+                  <CardTitle className="text-lg md:text-xl text-pine-dark mb-2 group-hover:text-pine-dark/80 transition-colors line-clamp-2">
                     {post.title}
                   </CardTitle>
-                  <CardDescription className="text-gray-600 leading-relaxed line-clamp-3">
+                  <CardDescription className="text-gray-600 text-sm leading-relaxed line-clamp-3">
                     {post.excerpt}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <div className="flex items-center text-pine-dark font-semibold group-hover:gap-3 gap-2 transition-all">
+                  <div className="flex items-center text-pine-dark font-semibold group-hover:gap-3 gap-2 transition-all text-sm">
                     Leggi l'articolo
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>

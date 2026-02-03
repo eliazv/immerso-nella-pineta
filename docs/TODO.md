@@ -1,3 +1,17 @@
+- se cambio pagina deve sempre partire dall'alto la pagina, non che se ho scrollato in fondo e cambio pagina quella nuova parte da quell'altezza
+- rimuovi icone src\components\BreadcrumbSEO.tsx:89:6 da parte alta della pagina
+- inoltre quale sarebbe il link eprfetto di questo sito? il dominio deve essere .eliazavatta.it, cosa consigli? immerso.eliazavatta.it che sarebbe il nome del brand delle case o pinarella.eliazavatta.it che sarebbe piu uniforme al luogo ma meno personale?
+- animazione di apertura e chiusura del dropdown di selezione dell'allogio e sfondo fallo leggermente traspaarente come header, metti icona alloggio di foianco a pineta 3 e 8
+- il bottone fluttuante scrivici deve avere icona whatsapp ed essere presente in tutte le apgine dell'app
+
+- in pagina vlog ci devono essere tutte lae card di tutti gli articoli, righe da 3 card suu desktop, adattabeili in base larghezza schemro
+
+- /attractions ha senso dividerla in tab? o si puo migliraore la disposizione e la navigazione di questa pagina? anche per seo
+- link social nel footer toglili
+- hero in modalita mobile metti un po di spazio prima ch einizi ill tiutolo senno finisce sotto l'header
+- hero desktop: Pinarella di Cervia , 4,5 stelle su Airbnb metitli uno sopra l'altro a destra di finco a gallaria foto ma orinetati a destra com'erano rpima. mentee per mobile va bene dove li hai messi ora
+- nel blog agigungi contenuti e ariticoli che aiutino a fare seo e portare traffico al sito , incentrati su cervia e pinarella e dintorni
+
 - cin appartemtno pineta 8 è IT039007C2UTCCNWG5 mentre CIN pinetqa 3 è : IT039007C2RWYMLE52
 - src\pages\Index.tsx migliroa visualizzazione mobile della sezione hero, inoltre i due badge Pinarella di Cervia 4,5 stelle su Airbnb devi metterli in fono non in coma alla sezione e si devono acnhe essi adattare alla visualizzazione mobile. card Info Cards - Più belle e moderne falle meno grandi
 - analizza e migliroa tutte le altre sezioni di src\pages\Index.tsx organizzando meglio le info e rendendole piuu chiare e belle di design

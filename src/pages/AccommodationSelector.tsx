@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import MetaTags from "@/components/MetaTags";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 
 const AccommodationSelector = () => {
   return (
@@ -25,6 +27,10 @@ const AccommodationSelector = () => {
       />
 
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <div
         className="flex-1 flex items-center justify-center px-4 py-24 bg-cover bg-center bg-fixed relative"

@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import PhotoGallery from "@/components/PhotoGallery";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 
 const Gallery = () => {
   useEffect(() => {
@@ -22,6 +24,10 @@ const Gallery = () => {
       />
       <SEOSchema />
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <main className="flex-1 pt-20">
         {/* Hero Section */}

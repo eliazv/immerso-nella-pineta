@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/carousel";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 
 const Attractions = () => {
   const [activeTab, setActiveTab] = useState("restaurants");
@@ -118,21 +120,25 @@ const Attractions = () => {
       />
       <SEOSchema />
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <main className="flex-1 pt-20 pb-16">
         {/* Hero Section Migliorata */}
-        <section className="relative py-16 md:py-14 overflow-hidden">
+        <section className="relative py-12 md:py-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-sea-light/20 via-transparent to-pine-light/20"></div>
           <div className="container px-4 mx-auto relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 bg-sea-dark/10 backdrop-blur-sm text-sea-dark px-4 py-2 rounded-full text-sm font-medium mb-6 border border-sea-light/50">
-                <MapPin className="h-4 w-4" />
+              <div className="inline-flex items-center gap-2 bg-sea-dark/10 backdrop-blur-sm text-sea-dark px-4 py-2 rounded-full text-xs md:text-sm font-medium mb-4 md:mb-6 border border-sea-light/50">
+                <MapPin className="h-3.5 w-3.5 md:h-4 md:w-4" />
                 <span>Scopri Pinarella di Cervia</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 text-pine-dark">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-pine-dark">
                 Attrazioni e Servizi Locali
               </h1>
-              <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+              <p className="text-gray-600 text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
                 Tutto ciò che ti serve sapere per un soggiorno perfetto: i
                 migliori ristoranti, eventi imperdibili e consigli utili.
               </p>
@@ -147,28 +153,30 @@ const Attractions = () => {
             onValueChange={setActiveTab}
             className="max-w-6xl mx-auto"
           >
-            <TabsList className="grid grid-cols-3 w-full max-w-2xl mx-auto mb-12 h-14 bg-white shadow-lg border-2 border-gray-200">
+            <TabsList className="grid grid-cols-3 w-full max-w-2xl mx-auto mb-8 md:mb-12 h-12 md:h-14 bg-white shadow-lg border-2 border-gray-200">
               <TabsTrigger
                 value="restaurants"
-                className="text-sm md:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white"
+                className="text-xs md:text-sm lg:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white"
               >
-                <Utensils className="h-4 w-4 mr-2" />
+                <Utensils className="h-3.5 w-3.5 md:h-4 md:w-4 mr-1.5 md:mr-2" />
                 <span className="hidden sm:inline">Ristoranti</span>
                 <span className="sm:hidden">Cibo</span>
               </TabsTrigger>
               <TabsTrigger
                 value="events"
-                className="text-sm md:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white"
+                className="text-xs md:text-sm lg:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white"
               >
-                <Calendar className="h-4 w-4 mr-2" />
+                <Calendar className="h-3.5 w-3.5 md:h-4 md:w-4 mr-1.5 md:mr-2" />
                 <span className="hidden sm:inline">Eventi</span>
+                <span className="sm:hidden">Eventi</span>
               </TabsTrigger>
               <TabsTrigger
                 value="tips"
-                className="text-sm md:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white"
+                className="text-xs md:text-sm lg:text-base data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white"
               >
-                <MapPin className="h-4 w-4 mr-2" />
+                <MapPin className="h-3.5 w-3.5 md:h-4 md:w-4 mr-1.5 md:mr-2" />
                 <span className="hidden sm:inline">Consigli</span>
+                <span className="sm:hidden">Info</span>
               </TabsTrigger>
             </TabsList>
 
@@ -177,45 +185,45 @@ const Attractions = () => {
               value="restaurants"
               className="animate-in fade-in-50 duration-300"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-pine-dark">
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-center mb-2 md:mb-3 text-pine-dark">
                 Dove Mangiare a Pinarella
               </h2>
-              <p className="text-center text-gray-600 mb-10">
+              <p className="text-center text-gray-600 mb-6 md:mb-10 text-sm md:text-base">
                 I nostri ristoranti preferiti, testati e consigliati
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 mb-8 md:mb-10">
                 {restaurants.map((restaurant, index) => (
                   <div
                     key={index}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-orange-300 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                    className="group bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-orange-300 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
                   >
-                    <div className="relative h-56 overflow-hidden">
+                    <div className="relative h-44 md:h-56 overflow-hidden">
                       <img
                         src={restaurant.image}
                         alt={restaurant.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute top-4 right-4 flex gap-2">
-                        <span className="bg-white/95 backdrop-blur-sm text-orange-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                      <div className="absolute top-3 md:top-4 right-3 md:right-4 flex gap-2">
+                        <span className="bg-white/95 backdrop-blur-sm text-orange-600 text-[10px] md:text-xs font-semibold px-2 md:px-3 py-1 md:py-1.5 rounded-full shadow-lg">
                           {restaurant.distance}
                         </span>
-                        <span className="bg-white/95 backdrop-blur-sm text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                        <span className="bg-white/95 backdrop-blur-sm text-gray-700 text-[10px] md:text-xs font-semibold px-2 md:px-3 py-1 md:py-1.5 rounded-full shadow-lg">
                           {restaurant.priceRange}
                         </span>
                       </div>
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2 text-pine-dark group-hover:text-orange-600 transition-colors">
+                    <div className="p-4 md:p-6">
+                      <h3 className="text-lg md:text-xl font-bold mb-1.5 md:mb-2 text-pine-dark group-hover:text-orange-600 transition-colors">
                         {restaurant.name}
                       </h3>
-                      <div className="flex items-center gap-2 mb-3">
-                        <UtensilsCrossed className="h-4 w-4 text-orange-500" />
-                        <p className="text-sm font-medium text-gray-600">
+                      <div className="flex items-center gap-2 mb-2 md:mb-3">
+                        <UtensilsCrossed className="h-3.5 w-3.5 md:h-4 md:w-4 text-orange-500" />
+                        <p className="text-xs md:text-sm font-medium text-gray-600">
                           {restaurant.type}
                         </p>
                       </div>
-                      <p className="text-sm text-gray-600 leading-relaxed">
+                      <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
                         {restaurant.description}
                       </p>
                     </div>
@@ -224,9 +232,9 @@ const Attractions = () => {
               </div>
 
               {/* Link utili */}
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-200 text-center">
-                <MapPin className="h-8 w-8 text-orange-600 mx-auto mb-3" />
-                <p className="text-gray-700 mb-4">
+              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl md:rounded-2xl p-5 md:p-6 border border-orange-200 text-center">
+                <MapPin className="h-6 w-6 md:h-8 md:w-8 text-orange-600 mx-auto mb-2 md:mb-3" />
+                <p className="text-gray-700 mb-3 md:mb-4 text-sm md:text-base">
                   Esplora la mappa per trovare altri ristoranti e attrazioni
                   nelle vicinanze
                 </p>
@@ -234,10 +242,10 @@ const Attractions = () => {
                   href="https://maps.app.goo.gl/GjWrURBihH8ktaN77"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors font-semibold"
+                  className="inline-flex items-center gap-2 bg-orange-600 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-lg hover:bg-orange-700 transition-colors font-semibold text-sm md:text-base"
                 >
                   Apri Google Maps
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
                 </a>
               </div>
             </TabsContent>
@@ -247,40 +255,40 @@ const Attractions = () => {
               value="events"
               className="animate-in fade-in-50 duration-300"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-pine-dark">
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-center mb-2 md:mb-3 text-pine-dark">
                 Eventi e Manifestazioni
               </h2>
-              <p className="text-center text-gray-600 mb-10">
+              <p className="text-center text-gray-600 mb-6 md:mb-10 text-sm md:text-base">
                 Non perdere gli appuntamenti più importanti dell'anno
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
                 {events.map((event, index) => (
                   <div
                     key={index}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-purple-300 hover:shadow-2xl transition-all duration-300"
+                    className="group bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-purple-300 hover:shadow-2xl transition-all duration-300"
                   >
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-40 md:h-48 overflow-hidden">
                       <img
                         src={event.image}
                         alt={event.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm p-2 rounded-full shadow-lg">
-                        <event.icon className="h-5 w-5 text-purple-600" />
+                      <div className="absolute top-3 md:top-4 right-3 md:right-4 bg-white/95 backdrop-blur-sm p-1.5 md:p-2 rounded-full shadow-lg">
+                        <event.icon className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
                       </div>
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold mb-2 text-pine-dark group-hover:text-purple-600 transition-colors">
+                    <div className="p-4 md:p-6">
+                      <h3 className="text-base md:text-lg font-bold mb-1.5 md:mb-2 text-pine-dark group-hover:text-purple-600 transition-colors">
                         {event.title}
                       </h3>
-                      <div className="flex items-center gap-2 mb-3">
-                        <CalendarDays className="h-4 w-4 text-purple-500" />
-                        <p className="text-xs font-semibold text-purple-600">
+                      <div className="flex items-center gap-2 mb-2 md:mb-3">
+                        <CalendarDays className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-500" />
+                        <p className="text-[10px] md:text-xs font-semibold text-purple-600">
                           {event.date}
                         </p>
                       </div>
-                      <p className="text-sm text-gray-600 leading-relaxed">
+                      <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
                         {event.description}
                       </p>
                     </div>

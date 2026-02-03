@@ -2,8 +2,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { useEffect } from "react";
 import Index from "./pages/Index";
 import Gallery from "./pages/Gallery";
 import Rules from "./pages/Rules";
@@ -21,12 +28,26 @@ import CosaFarePinarella from "./pages/blog/CosaFarePinarella";
 import RistorantiPinarella from "./pages/blog/RistorantiPinarella";
 import ComeArrivarePinarella from "./pages/blog/ComeArrivarePinarella";
 import EventiPinarella from "./pages/blog/EventiPinarella";
+import FestivalAquiloneCervia from "./pages/blog/FestivalAquiloneCervia";
+import PinarellaSummerFestival from "./pages/blog/PinarellaSummerFestival";
+import MercatinoArtigianatoCervia from "./pages/blog/MercatinoArtigianatoCervia";
 import ChiSiamo from "./pages/ChiSiamo";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 import { AccommodationProvider } from "@/contexts/AccommodationContext";
 import AccommodationSelector from "./pages/AccommodationSelector";
 
 const queryClient = new QueryClient();
+
+// Componente per scroll automatico al cambio pagina
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 const App = () => {
   return (
@@ -36,6 +57,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <ScrollToTop />
             <AccommodationProvider>
               <Routes>
                 {/* Homepage - Selettore alloggi */}
@@ -81,6 +103,18 @@ const App = () => {
                 <Route
                   path="/blog/eventi-pinarella-cervia"
                   element={<EventiPinarella />}
+                />
+                <Route
+                  path="/blog/festival-aquilone-cervia"
+                  element={<FestivalAquiloneCervia />}
+                />
+                <Route
+                  path="/blog/pinarella-summer-festival"
+                  element={<PinarellaSummerFestival />}
+                />
+                <Route
+                  path="/blog/mercatino-artigianato-cervia"
+                  element={<MercatinoArtigianatoCervia />}
                 />
 
                 {/* Backoffice con layout condiviso */}

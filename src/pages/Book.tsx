@@ -15,6 +15,8 @@ import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
 import { useAccommodation } from "@/contexts/AccommodationContext";
+import WhatsAppFloating from "@/components/WhatsAppFloating";
+import { CONTACT_INFO } from "@/lib/contactConfig";
 
 const Book = () => {
   const { accommodation } = useAccommodation();
@@ -34,6 +36,10 @@ const Book = () => {
       />
       <SEOSchema />
       <Header />
+      <WhatsAppFloating
+        phoneNumber={CONTACT_INFO.phone}
+        message={CONTACT_INFO.whatsappMessage}
+      />
 
       <main className="flex-1 pt-20">
         {/* Hero Section */}

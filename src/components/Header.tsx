@@ -10,6 +10,7 @@ import {
   MessageCircle,
   Users,
   ChevronDown,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAccommodation } from "@/contexts/AccommodationContext";
@@ -202,25 +203,31 @@ const Header = () => {
 
           {/* Dropdown Menu */}
           {logoDropdownOpen && (
-            <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+            <div className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-lg shadow-xl border border-gray-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
               <Link
                 to="/pineta3"
                 onClick={() => setLogoDropdownOpen(false)}
-                className="block px-4 py-3 hover:bg-pine-light/20 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-pine-light/20 transition-colors"
               >
-                <div className="font-semibold text-pine-dark">Pineta 3</div>
-                <div className="text-xs text-gray-600">
-                  Piano terra • 4 ospiti
+                <Building2 className="h-5 w-5 text-pine-dark" />
+                <div>
+                  <div className="font-semibold text-pine-dark">Pineta 3</div>
+                  <div className="text-xs text-gray-600">
+                    Piano terra • 4 ospiti
+                  </div>
                 </div>
               </Link>
               <Link
                 to="/pineta8"
                 onClick={() => setLogoDropdownOpen(false)}
-                className="block px-4 py-3 hover:bg-sea-light/20 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-sea-light/20 transition-colors"
               >
-                <div className="font-semibold text-sea-dark">Pineta 8</div>
-                <div className="text-xs text-gray-600">
-                  Secondo piano • 6 ospiti
+                <Building2 className="h-5 w-5 text-sea-dark" />
+                <div>
+                  <div className="font-semibold text-sea-dark">Pineta 8</div>
+                  <div className="text-xs text-gray-600">
+                    Secondo piano • 6 ospiti
+                  </div>
                 </div>
               </Link>
               <div className="border-t border-gray-200 my-2"></div>
