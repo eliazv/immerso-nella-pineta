@@ -75,9 +75,9 @@ const Footer = ({ className }: { className?: string }) => {
               </a>
             </div>
 
-            <p className="text-xs text-white/60 mt-4">
+            {/* <p className="text-xs text-white/60 mt-4">
               CIN: {accommodation.cin}
-            </p>
+            </p> */}
           </div>
 
           {/* Colonna 2: I Nostri Alloggi */}

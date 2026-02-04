@@ -42,10 +42,10 @@ const AccommodationSelector = () => {
         <div className="max-w-6xl mx-auto w-full">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-pine-dark/10 text-pine-dark px-4 py-2 rounded-full text-sm font-medium mb-4 border border-pine-light/50">
+            {/* <div className="inline-flex items-center gap-2 bg-pine-dark/10 text-pine-dark px-4 py-2 rounded-full text-sm font-medium mb-4 border border-pine-light/50">
               <MapPin className="h-4 w-4" />
               <span>Pinarella di Cervia, Riviera Romagnola</span>
-            </div>
+            </div> */}
             <h1 className="text-4xl md:text-5xl font-bold text-pine-dark mb-3 tracking-tight">
               Scegli il tuo alloggio
             </h1>
@@ -77,9 +77,13 @@ const AccommodationSelector = () => {
               <div className="p-4">
                 {/* Titolo e Prezzo */}
                 <div className="flex items-start justify-between mb-2">
-                  <h2 className="text-xl font-bold text-pine-dark">Pineta 3</h2>
+                  <h2 className="text-xl font-bold text-pine-dark">
+                    Pineta 3 - Pinarella
+                  </h2>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-green-700">52€</div>
+                    <div className="text-lg font-bold text-green-700">
+                      da 52€
+                    </div>
                     <div className="text-xs text-gray-500">per notte</div>
                   </div>
                 </div>
@@ -135,9 +139,13 @@ const AccommodationSelector = () => {
               <div className="p-4">
                 {/* Titolo e Prezzo */}
                 <div className="flex items-start justify-between mb-2">
-                  <h2 className="text-xl font-bold text-sea-dark">Pineta 8</h2>
+                  <h2 className="text-xl font-bold text-sea-dark">
+                    Pineta 8 - Pinarella
+                  </h2>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-blue-700">68€</div>
+                    <div className="text-lg font-bold text-blue-700">
+                      da 68€
+                    </div>
                     <div className="text-xs text-gray-500">per notte</div>
                   </div>
                 </div>

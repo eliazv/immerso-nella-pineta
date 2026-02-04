@@ -1,5 +1,7 @@
 - prendi info airbnb e mettile dentro alloggio
-- rianalizza tutto il sito, al momento è un po incasinato perche ci sono duplicazioni per ogni alloggio, vorrei che rendessi il sito di base unico e poi cliccando su un alloggio lo approfondisci vorrei che al momento otgliessi dropdown in alto a sisnitra tutti i blog devono avere header e footer. quindi home in header porta sempre a src\pages\AccommodationSelector.tsx che è la home , anche click nel logo a sinsitra che deve essere il testo Immerso nella pineta. prenota ora
+- rianalizza tutto il sito, al momento è un po incasinato perche ci sono duplicazioni per ogni alloggio, vorrei che rendessi il sito di base unico e poi cliccando su un alloggio lo approfondisci vorrei che al momento togliessi dropdown in alto a sisnitra tutti i blog devono avere header e footer. quindi home in header porta sempre a src\pages\AccommodationSelector.tsx che è la home , anche click nel logo a sinsitra che deve essere il testo Immerso nella pineta. prenota ora
+- hero togli 5 minutoi dal mare nella pineta e 4 posti card e magari metile di ficno con altre info piu condensate...
+- togli cin dal footer
 
 roceda a isolare ulteriormente AlloggiatiWeb (import dinamico delle funzionalità pesanti),
 aggiunga JSON-LD per le pagine prerenderate, o
