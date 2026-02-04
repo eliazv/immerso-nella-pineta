@@ -1,3 +1,5 @@
+- di base il sito è in modalita neutra se non si selezionanessun alloggio, quindi la pagina home sara la pagina scegli il tuo alloggio e in alto a sisntra in header compare scritta immerso nella pineta e non pineta 3 o 8 , quindi è come se selzionato in quel dropdown ci fosse vedi tutti gli alloggi. solo una volta che ... no in rpatica voglio che home sia semrpe scegli alloggio, galleria e prenota personalizzati per alloggio come aribnb o altri siti dai
+
 roceda a isolare ulteriormente AlloggiatiWeb (import dinamico delle funzionalità pesanti),
 aggiunga JSON-LD per le pagine prerenderate, o
 prepari i comandi e i file da caricare sul server per il deploy statico?

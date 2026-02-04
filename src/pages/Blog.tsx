@@ -147,6 +147,50 @@ const Blog = () => {
         "https://images.unsplash.com/photo-1555529669-2269763671c6?w=800&q=80",
       color: "from-purple-500 to-pink-500",
     },
+    {
+      title: "Prezzi Appartamenti Pinarella 2026: Quanto Costa Affittare?",
+      slug: "prezzi-appartamenti-pinarella-2026",
+      excerpt:
+        "Guida completa ai prezzi per affittare appartamenti a Pinarella nel 2026. Tabelle dettagliate per periodo, consigli per risparmiare e quando prenotare.",
+      date: "2026-02-04",
+      icon: Calendar,
+      image:
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      color: "from-green-500 to-emerald-500",
+    },
+    {
+      title: "Spiagge Libere o Stabilimenti a Pinarella? Cosa Scegliere",
+      slug: "spiagge-libere-stabilimenti-pinarella",
+      excerpt:
+        "Dove sono le spiagge libere gratuite a Pinarella? Quanto costano gli stabilimenti? Confronto completo con mappe, prezzi e consigli pratici.",
+      date: "2026-02-04",
+      icon: MapPin,
+      image:
+        "https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      title: "Pinarella o Milano Marittima: Dove Andare in Vacanza?",
+      slug: "pinarella-o-milano-marittima",
+      excerpt:
+        "Confronto completo tra Pinarella e Milano Marittima: prezzi, spiagge, vita notturna, servizi. Scopri quale località è perfetta per te.",
+      date: "2026-02-04",
+      icon: MapPin,
+      image:
+        "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      color: "from-purple-500 to-indigo-500",
+    },
+    {
+      title: "Meteo Pinarella: Quando Andare? Guida Clima 2026",
+      slug: "meteo-pinarella-quando-andare",
+      excerpt:
+        "Temperature mese per mese, periodi migliori, cosa portare in valigia. Guida completa al clima di Pinarella per pianificare la vacanza perfetta.",
+      date: "2026-02-04",
+      icon: Wind,
+      image:
+        "https://images.unsplash.com/photo-1601134467661-3d775b999c8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      color: "from-orange-500 to-red-500",
+    },
   ];
 
   const jsonLd = {

@@ -54,7 +54,7 @@ const ChiSiamo = () => {
 
       <article className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Hero Section */}
-        <div className="text-center mb-12">
+        <div className="text-center my-12">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-pine-dark mb-4">
             Siamo Elia e Famiglia
           </h1>

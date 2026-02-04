@@ -47,6 +47,14 @@ const MarePinarella = lazy(() => import("./pages/blog/MarePinarella"));
 const MercatoSeralePinarella = lazy(
   () => import("./pages/blog/MercatoSeralePinarella"),
 );
+const PrezziPinarella = lazy(() => import("./pages/blog/PrezziPinarella"));
+const SpiaggeLibereStabilimenti = lazy(
+  () => import("./pages/blog/SpiaggeLibereStabilimenti"),
+);
+const PinarellaVsMilanoMarittima = lazy(
+  () => import("./pages/blog/PinarellaVsMilanoMarittima"),
+);
+const MeteoPinarella = lazy(() => import("./pages/blog/MeteoPinarella"));
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo"));
 
 const AvailabilityCalendar = lazy(
@@ -164,6 +172,22 @@ const App = () => {
                   <Route
                     path="/blog/mercato-serale-pinarella"
                     element={<MercatoSeralePinarella />}
+                  />
+                  <Route
+                    path="/blog/prezzi-appartamenti-pinarella-2026"
+                    element={<PrezziPinarella />}
+                  />
+                  <Route
+                    path="/blog/spiagge-libere-stabilimenti-pinarella"
+                    element={<SpiaggeLibereStabilimenti />}
+                  />
+                  <Route
+                    path="/blog/pinarella-o-milano-marittima"
+                    element={<PinarellaVsMilanoMarittima />}
+                  />
+                  <Route
+                    path="/blog/meteo-pinarella-quando-andare"
+                    element={<MeteoPinarella />}
                   />
 
                   {/* Backoffice con layout condiviso */}
