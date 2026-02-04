@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useOutletContext } from "react-router-dom";
 import {
   Card,
@@ -17,10 +17,16 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarType } from "@/types/calendar";
 import { getDashboardStats } from "@/services/dashboardService";
-import OccupancyChart from "@/components/dashboard/OccupancyChart";
-import RevenueChart from "@/components/dashboard/RevenueChart";
-import OtaComparison from "@/components/dashboard/OtaComparison";
-import SeasonalityChart from "@/components/dashboard/SeasonalityChart";
+const OccupancyChart = lazy(
+  () => import("@/components/dashboard/OccupancyChart"),
+);
+const RevenueChart = lazy(() => import("@/components/dashboard/RevenueChart"));
+const OtaComparison = lazy(
+  () => import("@/components/dashboard/OtaComparison"),
+);
+const SeasonalityChart = lazy(
+  () => import("@/components/dashboard/SeasonalityChart"),
+);
 import SummaryCards from "@/components/dashboard/SummaryCards";
 import {
   Loader2,
@@ -40,7 +46,7 @@ interface BackofficeContext {
 const Dashboard: React.FC = () => {
   const { selectedCalendar } = useOutletContext<BackofficeContext>();
   const [selectedYear, setSelectedYear] = useState<string>(
-    new Date().getFullYear().toString()
+    new Date().getFullYear().toString(),
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isCached, setIsCached] = useState<boolean>(false);
@@ -59,7 +65,7 @@ const Dashboard: React.FC = () => {
       // Aggiunge un parametro per forzare il refresh nella funzione fetchBookings
       const { stats, isCachedData } = await getDashboardStats(
         selectedCalendar,
-        parseInt(selectedYear)
+        parseInt(selectedYear),
       );
       setStats(stats);
       setIsCached(isCachedData);
@@ -80,7 +86,7 @@ const Dashboard: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const availableYears = Array.from(
     { length: currentYear - 2024 + 1 },
-    (_, i) => (2024 + i).toString()
+    (_, i) => (2024 + i).toString(),
   );
 
   // Mappa tra codici calendario e nomi degli appartamenti
@@ -189,7 +195,15 @@ const Dashboard: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <OccupancyChart data={stats.occupancy} />
+                  <Suspense
+                    fallback={
+                      <div className="h-64 flex items-center justify-center">
+                        Caricamento grafico...
+                      </div>
+                    }
+                  >
+                    <OccupancyChart data={stats.occupancy} />
+                  </Suspense>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -203,7 +217,15 @@ const Dashboard: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <RevenueChart data={stats.revenue} />
+                  <Suspense
+                    fallback={
+                      <div className="h-64 flex items-center justify-center">
+                        Caricamento grafico...
+                      </div>
+                    }
+                  >
+                    <RevenueChart data={stats.revenue} />
+                  </Suspense>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -217,7 +239,15 @@ const Dashboard: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4">
-                  <OtaComparison data={stats.ota} />
+                  <Suspense
+                    fallback={
+                      <div className="h-64 flex items-center justify-center">
+                        Caricamento grafico...
+                      </div>
+                    }
+                  >
+                    <OtaComparison data={stats.ota} />
+                  </Suspense>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -232,7 +262,15 @@ const Dashboard: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <SeasonalityChart data={stats.seasonality} />
+                  <Suspense
+                    fallback={
+                      <div className="h-64 flex items-center justify-center">
+                        Caricamento grafico...
+                      </div>
+                    }
+                  >
+                    <SeasonalityChart data={stats.seasonality} />
+                  </Suspense>
                 </CardContent>
               </Card>
             </TabsContent>

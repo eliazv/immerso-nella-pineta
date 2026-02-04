@@ -19,6 +19,7 @@ export interface AccommodationData {
   };
   features: {
     guests: string;
+    guestsCount: number;
     beds: string;
     parking: string;
     parkingNumber: string;
@@ -60,6 +61,7 @@ const accommodationsData: Record<string, AccommodationData> = {
     },
     features: {
       guests: "Fino a 4 ospiti",
+      guestsCount: 4,
       beds: "Letto matrimoniale e due letti singoli",
       parking: "Parcheggio privato",
       parkingNumber: "Posto auto riservato #3",
@@ -103,6 +105,7 @@ const accommodationsData: Record<string, AccommodationData> = {
     },
     features: {
       guests: "Fino a 6 ospiti",
+      guestsCount: 6,
       beds: "2 letti matrimoniali e 2 letti singoli in 2 camere",
       parking: "Parcheggio privato",
       parkingNumber: "Posto auto riservato #8",

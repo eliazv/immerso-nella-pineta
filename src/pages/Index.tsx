@@ -402,7 +402,7 @@ const Index = () => {
               <ul className="flex flex-col gap-2 items-center mt-2">
                 <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
                   <Bed className="h-5 w-5" />
-                  {`${accommodation.features.guests.match(/\d+/)?.[0] ?? accommodation.features.guests} posti letto`}
+                  {`${accommodation.features.guestsCount} posti letto`}
                 </li>
                 <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
                   <Copy className="h-5 w-5" />
@@ -518,7 +518,7 @@ const Index = () => {
             <div className="relative overflow-hidden rounded-xl group aspect-[4/3] cursor-pointer">
               <img
                 src={accommodation.galleryImages.camera}
-                alt="Camera da letto appartamento 4 posti letto Pinarella di Cervia - prenotazione diretta contatta proprietario"
+                alt={`Camera da letto appartamento ${accommodation.features.guestsCount} posti letto Pinarella di Cervia - prenotazione diretta contatta proprietario`}
                 className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">

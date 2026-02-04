@@ -163,11 +163,24 @@ const Header = () => {
             onClick={() => setLogoDropdownOpen(!logoDropdownOpen)}
             className="flex items-center gap-3 transition-transform hover:scale-105 cursor-pointer"
           >
-            <img
-              src="/images/logo.nobg.png"
-              alt="Immerso nella Pineta Logo"
-              className="h-12 w-auto"
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcSet="/images/optimized/logo.nobg-320.avif 320w, /images/optimized/logo.nobg-640.avif 640w, /images/optimized/logo.nobg-1024.avif 1024w"
+                sizes="48px"
+              />
+              <source
+                type="image/webp"
+                srcSet="/images/optimized/logo.nobg-320.webp 320w, /images/optimized/logo.nobg-640.webp 640w, /images/optimized/logo.nobg-1024.webp 1024w"
+                sizes="48px"
+              />
+              <img
+                src="/images/logo.nobg.png"
+                alt="Immerso nella Pineta Logo"
+                className="h-12 w-auto"
+                loading="lazy"
+              />
+            </picture>
             <div className="flex items-center gap-1">
               <span
                 className={cn(
