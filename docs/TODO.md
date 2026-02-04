@@ -1,3 +1,7 @@
+roceda a isolare ulteriormente AlloggiatiWeb (import dinamico delle funzionalità pesanti),
+aggiunga JSON-LD per le pagine prerenderate, o
+prepari i comandi e i file da caricare sul server per il deploy statico?
+
 - se cambio pagina deve sempre partire dall'alto la pagina, non che se ho scrollato in fondo e cambio pagina quella nuova parte da quell'altezza
 - rimuovi icone src\components\BreadcrumbSEO.tsx:89:6 da parte alta della pagina
 - inoltre quale sarebbe il link eprfetto di questo sito? il dominio deve essere .eliazavatta.it, cosa consigli? immerso.eliazavatta.it che sarebbe il nome del brand delle case o pinarella.eliazavatta.it che sarebbe piu uniforme al luogo ma meno personale?

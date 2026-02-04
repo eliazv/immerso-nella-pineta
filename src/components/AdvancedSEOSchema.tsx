@@ -79,7 +79,7 @@ const AdvancedSEOSchema = ({
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "TV e WiFi",
+        name: "TV ",
         value: true,
       },
       {

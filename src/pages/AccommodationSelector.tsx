@@ -104,10 +104,10 @@ const AccommodationSelector = () => {
                     <Car className="h-3.5 w-3.5 text-pine-dark" />
                     <span>Parcheggio</span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <Wifi className="h-3.5 w-3.5 text-pine-dark" />
                     <span>Wi-Fi</span>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* CTA Button */}
@@ -162,10 +162,10 @@ const AccommodationSelector = () => {
                     <Car className="h-3.5 w-3.5 text-sea-dark" />
                     <span>Parcheggio</span>
                   </div>
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <Wifi className="h-3.5 w-3.5 text-sea-dark" />
                     <span>Wi-Fi</span>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* CTA Button */}

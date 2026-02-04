@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   TreePine,
@@ -6,15 +6,12 @@ import {
   Bed,
   Car,
   ShowerHead,
-  Wifi,
   ChevronRight,
   MapPin,
   Calendar,
   Utensils,
   Aperture,
   House,
-  Toilet,
-  Bath,
   CookingPot,
   DoorOpen,
   WashingMachine,
@@ -24,11 +21,9 @@ import {
   Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
-import PhotoGallery from "@/components/PhotoGallery";
 import EssentialInfo from "@/components/EssentialInfo";
 import MetaTags from "@/components/MetaTags";
 import SEOSchema from "@/components/SEOSchema";
@@ -284,53 +279,53 @@ const Index = () => {
                 {accommodation.welcomeDescription}
               </p>
 
-              {/* Features più grandi e moderne */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-7 mb-8 md:mb-10">
-                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-pine-light transition-all duration-300">
-                  <div className="bg-gradient-to-br from-pine-light to-pine-light/50 p-4 md:p-5 rounded-xl shrink-0">
-                    <Bed className="text-pine-dark h-7 w-7 md:h-8 md:w-8" />
+              {/* Features compatte */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 mb-6 md:mb-8">
+                <div className="flex items-center gap-3 bg-white p-3 md:p-4 rounded-lg shadow-md border border-gray-100 hover:shadow-lg hover:border-pine-light transition-all duration-200">
+                  <div className="bg-gradient-to-br from-pine-light to-pine-light/50 p-2.5 md:p-3 rounded-lg shrink-0">
+                    <Bed className="text-pine-dark h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-1.5">
+                    <h3 className="font-bold text-base md:text-lg text-gray-900 mb-1">
                       {accommodation.features.guests}
                     </h3>
-                    <p className="text-sm md:text-base text-gray-600 font-medium">
+                    <p className="text-xs md:text-sm text-gray-600 font-medium">
                       {accommodation.features.beds}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-sea-light transition-all duration-300">
-                  <div className="bg-gradient-to-br from-sea-light to-sea-light/50 p-4 md:p-5 rounded-xl shrink-0">
-                    <Car className="text-sea-dark h-7 w-7 md:h-8 md:w-8" />
+                <div className="flex items-center gap-3 bg-white p-3 md:p-4 rounded-lg shadow-md border border-gray-100 hover:shadow-lg hover:border-sea-light transition-all duration-200">
+                  <div className="bg-gradient-to-br from-sea-light to-sea-light/50 p-2.5 md:p-3 rounded-lg shrink-0">
+                    <Car className="text-sea-dark h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-1.5">
+                    <h3 className="font-bold text-base md:text-lg text-gray-900 mb-1">
                       {accommodation.features.parking}
                     </h3>
-                    <p className="text-sm md:text-base text-gray-600 font-medium">
+                    <p className="text-xs md:text-sm text-gray-600 font-medium">
                       Incluso
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-pink-200 transition-all duration-300">
-                  <div className="bg-gradient-to-br from-pink-100 to-pink-50 p-4 md:p-5 rounded-xl shrink-0">
-                    <Heart className="text-pink-600 h-7 w-7 md:h-8 md:w-8" />
+                <div className="flex items-center gap-3 bg-white p-3 md:p-4 rounded-lg shadow-md border border-gray-100 hover:shadow-lg hover:border-pink-200 transition-all duration-200">
+                  <div className="bg-gradient-to-br from-pink-100 to-pink-50 p-2.5 md:p-3 rounded-lg shrink-0">
+                    <Heart className="text-pink-600 h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg md:text-xl text-gray-900">
+                    <h3 className="font-bold text-base md:text-lg text-gray-900">
                       {accommodation.features.petsAllowed}
                     </h3>
                   </div>
                 </div>
-                <div className="flex items-center gap-5 bg-white p-6 md:p-7 rounded-2xl shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-green-200 transition-all duration-300">
-                  <div className="bg-gradient-to-br from-green-100 to-green-50 p-4 md:p-5 rounded-xl shrink-0">
-                    <TreePine className="text-green-600 h-7 w-7 md:h-8 md:w-8" />
+                <div className="flex items-center gap-3 bg-white p-3 md:p-4 rounded-lg shadow-md border border-gray-100 hover:shadow-lg hover:border-green-200 transition-all duration-200">
+                  <div className="bg-gradient-to-br from-green-100 to-green-50 p-2.5 md:p-3 rounded-lg shrink-0">
+                    <TreePine className="text-green-600 h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-1.5">
+                    <h3 className="font-bold text-base md:text-lg text-gray-900 mb-1">
                       Giardino
                     </h3>
-                    <p className="text-sm md:text-base text-gray-600 font-medium">
+                    <p className="text-xs md:text-sm text-gray-600 font-medium">
                       Privato
                     </p>
                   </div>
@@ -406,7 +401,8 @@ const Index = () => {
               </h3>
               <ul className="flex flex-col gap-2 items-center mt-2">
                 <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <Bed className="h-5 w-5" />4 posti letto
+                  <Bed className="h-5 w-5" />
+                  {`${accommodation.features.guests.match(/\d+/)?.[0] ?? accommodation.features.guests} posti letto`}
                 </li>
                 <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
                   <Copy className="h-5 w-5" />
