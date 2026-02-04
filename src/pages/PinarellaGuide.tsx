@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import { CONTACT_INFO } from "@/lib/contactConfig";
+import { getCanonicalUrl } from "@/lib/config";
 
 const PinarellaGuide = () => {
   const localAttractions = [
@@ -58,7 +59,7 @@ const PinarellaGuide = () => {
     name: "Pinarella di Cervia - Guida Turistica",
     description:
       "Guida completa a Pinarella di Cervia: spiagge, attrazioni, ristoranti e alloggi per vacanze perfette in Emilia Romagna.",
-    url: "https://immerso-nella-pineta.vercel.app/pinarella-guida",
+    url: getCanonicalUrl("/pinarella-guida"),
     image:
       "https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg",
     address: {

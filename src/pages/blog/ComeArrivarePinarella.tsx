@@ -6,6 +6,7 @@ import MetaTags from "@/components/MetaTags";
 import { Car, Train, Plane, MapPin, Navigation, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getCanonicalUrl, getSiteUrl } from "@/lib/config";
 
 const ComeArrivarePinarella = () => {
   const transportOptions = [
@@ -41,7 +42,7 @@ const ComeArrivarePinarella = () => {
     headline: "Come Arrivare a Pinarella: Auto, Treno e Aereo",
     description:
       "Guida completa su come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali, stazioni ferroviarie e aeroporti più vicini.",
-    image: "https://immerso-nella-pineta.vercel.app/images/logo.nobg.png",
+    image: `${getSiteUrl()}/images/logo.nobg.png`,
     datePublished: "2026-02-01",
     author: {
       "@type": "Person",
@@ -55,7 +56,7 @@ const ComeArrivarePinarella = () => {
         title="Come Arrivare a Pinarella di Cervia: Auto, Treno, Aereo | Guida 2026"
         description="Scopri come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali autostradali, stazioni ferroviarie e aeroporti più vicini. Guida completa."
         keywords="come arrivare pinarella, raggiungere pinarella auto, treno cervia, aeroporto rimini pinarella, autostrada pinarella, stazione cervia"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/come-arrivare-pinarella"
+        canonicalUrl={getCanonicalUrl("/blog/come-arrivare-pinarella")}
       />
       <script
         type="application/ld+json"

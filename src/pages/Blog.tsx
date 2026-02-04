@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import MetaTags from "@/components/MetaTags";
 import { CONTACT_INFO } from "@/lib/contactConfig";
+import { getSiteUrl, getCanonicalUrl } from "@/lib/config";
 import {
   Calendar,
   MapPin,
@@ -199,13 +200,13 @@ const Blog = () => {
     name: "Blog Pinarella - Guida Vacanze Cervia",
     description:
       "Guide, consigli e informazioni utili per le tue vacanze a Pinarella di Cervia: attrazioni, ristoranti, eventi e molto altro.",
-    url: "https://immerso-nella-pineta.vercel.app/blog",
+    url: getCanonicalUrl("/blog"),
     blogPost: blogPosts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
       description: post.excerpt,
       datePublished: post.date,
-      url: `https://immerso-nella-pineta.vercel.app/blog/${post.slug}`,
+      url: getCanonicalUrl(`/blog/${post.slug}`),
     })),
   };
 
@@ -215,7 +216,7 @@ const Blog = () => {
         title="Blog Pinarella | Guide e Consigli per Vacanze a Cervia"
         description="Scopri guide, consigli e informazioni utili per le tue vacanze a Pinarella di Cervia: cosa fare, dove mangiare, come arrivare e eventi da non perdere."
         keywords="blog pinarella, guida pinarella cervia, cosa fare pinarella, ristoranti pinarella, eventi cervia, vacanze romagna"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog"
+        canonicalUrl={getCanonicalUrl("/blog")}
       />
       <script
         type="application/ld+json"

@@ -31,8 +31,8 @@ export const getSiteUrl = (): string => {
     }
   }
 
-  // Fallback finale
-  return "https://immerso-nella-pineta.vercel.app";
+  // Fallback finale - dominio principale ufficiale
+  return "https://immerso.eliazavatta.it";
 };
 
 /**
@@ -57,7 +57,7 @@ export const siteConfig = {
   domains: [
     "immerso-nella-pineta.vercel.app",
     "immerso.eliazavatta.it",
-    "pinarella.eliazavatta.it",
+    // "pinarella.eliazavatta.it",
   ],
 
   // Nome del sito

@@ -1,4 +1,5 @@
-- di base il sito è in modalita neutra se non si selezionanessun alloggio, quindi la pagina home sara la pagina scegli il tuo alloggio e in alto a sisntra in header compare scritta immerso nella pineta e non pineta 3 o 8 , quindi è come se selzionato in quel dropdown ci fosse vedi tutti gli alloggi. solo una volta che ... no in rpatica voglio che home sia semrpe scegli alloggio, galleria e prenota personalizzati per alloggio come aribnb o altri siti dai
+- prendi info airbnb e mettile dentro alloggio
+- rianalizza tutto il sito, al momento è un po incasinato perche ci sono duplicazioni per ogni alloggio, vorrei che rendessi il sito di base unico e poi cliccando su un alloggio lo approfondisci vorrei che al momento otgliessi dropdown in alto a sisnitra tutti i blog devono avere header e footer. quindi home in header porta sempre a src\pages\AccommodationSelector.tsx che è la home , anche click nel logo a sinsitra che deve essere il testo Immerso nella pineta. prenota ora
 
 roceda a isolare ulteriormente AlloggiatiWeb (import dinamico delle funzionalità pesanti),
 aggiunga JSON-LD per le pagine prerenderate, o

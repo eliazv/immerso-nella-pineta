@@ -9,6 +9,7 @@ import {
   Info,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getSiteUrl } from "@/lib/config";
 
 const HouseRulesPDF = () => {
   useEffect(() => {
@@ -192,7 +193,7 @@ const HouseRulesPDF = () => {
             <div className="p-4 print:p-2 border rounded-md bg-white">
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-                  "https://immerso-nella-pineta.lovable.app/"
+                  getSiteUrl(),
                 )}`}
                 alt="QR Code"
                 className="w-32 h-32 print:w-28 print:h-28"

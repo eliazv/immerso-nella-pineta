@@ -12,6 +12,7 @@ import {
   Sunset,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getCanonicalUrl, getSiteUrl } from "@/lib/config";
 import {
   Card,
   CardContent,
@@ -95,7 +96,7 @@ const EventiPinarella = () => {
     headline: "Eventi e Manifestazioni a Pinarella e Cervia: Calendario 2026",
     description:
       "Scopri tutti gli eventi, sagre, concerti e manifestazioni a Pinarella e Cervia. Calendario completo 2026 con date e programmi.",
-    image: "https://immerso-nella-pineta.vercel.app/images/logo.nobg.png",
+    image: `${getSiteUrl()}/images/logo.nobg.png`,
     datePublished: "2026-02-01",
     author: {
       "@type": "Person",
@@ -109,7 +110,7 @@ const EventiPinarella = () => {
         title="Eventi Pinarella e Cervia 2026 | Calendario Concerti, Sagre e Manifestazioni"
         description="Scopri tutti gli eventi a Pinarella e Cervia: concerti sulla spiaggia, sagre gastronomiche, Notte Rosa, Ferragosto e mercatini. Calendario completo 2026."
         keywords="eventi pinarella, concerti cervia, notte rosa, ferragosto pinarella, sagre cervia, manifestazioni pinarella 2026"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/eventi-pinarella-cervia"
+        canonicalUrl={getCanonicalUrl("/blog/eventi-pinarella-cervia")}
       />
       <script
         type="application/ld+json"

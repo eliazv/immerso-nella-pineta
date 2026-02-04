@@ -20,7 +20,7 @@ const PinarellaSummerFestival = () => {
         title="Pinarella Summer Festival 2026 | Concerti e Eventi Estivi sul Lungomare"
         description="Scopri il Pinarella Summer Festival 2026: concerti, spettacoli e animazione serale sul lungomare di Pinarella da giugno ad agosto. Programma completo e date degli eventi."
         keywords="pinarella summer festival, eventi pinarella, concerti pinarella, estate pinarella, lungomare pinarella, eventi estivi cervia"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/pinarella-summer-festival"
+        canonicalUrl={getCanonicalUrl("/blog/pinarella-summer-festival")}
       />
 
       <Header />

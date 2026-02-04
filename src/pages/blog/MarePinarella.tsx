@@ -111,7 +111,7 @@ const MarePinarella = () => {
         title="Come è il Mare a Pinarella di Cervia? | Caratteristiche e Temperature"
         description="Scopri com'è il mare di Pinarella: acque basse e sicure, temperature ideali, Bandiera Blu, fondali perfetti per bambini. Guida completa alle spiagge."
         keywords="mare pinarella, spiaggia pinarella, bandiera blu cervia, mare adriatico pinarella, acqua pulita cervia, fondali bassi pinarella"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/mare-pinarella-cervia"
+        canonicalUrl={getCanonicalUrl("/blog/mare-pinarella-cervia")}
       />
       <script
         type="application/ld+json"

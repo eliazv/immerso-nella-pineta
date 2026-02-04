@@ -129,7 +129,7 @@ const MercatoSeralePinarella = () => {
         title="Mercato Serale a Pinarella di Cervia: Quando c'è? Date e Orari 2026"
         description="Scopri quando c'è il mercato serale a Pinarella: ogni martedì e venerdì dalle 18:00. Date, orari, location e cosa trovare nei mercati della zona."
         keywords="mercato serale pinarella, mercato cervia, bancarelle pinarella, mercatino pinarella, shopping cervia, mercato martedì venerdì"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/mercato-serale-pinarella"
+        canonicalUrl={getCanonicalUrl("/blog/mercato-serale-pinarella")}
       />
       <script
         type="application/ld+json"

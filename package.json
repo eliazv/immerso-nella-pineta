@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:analyze": "vite build --mode production",
+    "build": "node ./scripts/generate-sitemap.js && vite build",
+    "build:analyze": "node ./scripts/generate-sitemap.js && vite build --mode production",
     "images:optimize": "node ./scripts/optimize-images.js",
-    "build:prerender": "vite build --mode production && node ./scripts/prerender.js",
-    "build:dev": "vite build --mode development",
+    "build:prerender": "node ./scripts/generate-sitemap.js && vite build --mode production && node ./scripts/prerender.js",
+    "build:dev": "node ./scripts/generate-sitemap.js && vite build --mode development",
+    "sitemap:generate": "node ./scripts/generate-sitemap.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

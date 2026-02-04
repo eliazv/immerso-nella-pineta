@@ -84,7 +84,7 @@ const BellezzePinarella = () => {
         title="Cosa c'è di Bello a Pinarella di Cervia? | Le Bellezze da Scoprire"
         description="Scopri cosa rende Pinarella di Cervia una destinazione speciale: spiagge dorate, pineta secolare, tramonti mozzafiato, percorsi ciclabili e atmosfera autentica."
         keywords="bellezze pinarella, cosa vedere pinarella, pineta cervia, spiaggia pinarella, tramonti pinarella, vacanze pinarella"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/bellezze-pinarella-cervia"
+        canonicalUrl={getCanonicalUrl("/blog/bellezze-pinarella-cervia")}
       />
       <script
         type="application/ld+json"

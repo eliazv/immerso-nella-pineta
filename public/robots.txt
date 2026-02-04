@@ -8,7 +8,7 @@ Disallow: /dashboard
 Disallow: /calendar
 
 # Sitemap location
-Sitemap: https://immersonellapineta.it/sitemap.xml
+Sitemap: https://immerso.eliazavatta.it/sitemap.xml
 
 User-agent: Googlebot
 Allow: /

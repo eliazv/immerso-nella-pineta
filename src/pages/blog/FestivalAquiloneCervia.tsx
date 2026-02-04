@@ -13,7 +13,7 @@ const FestivalAquiloneCervia = () => {
         title="Festival Internazionale dell'Aquilone a Cervia | Guida Completa 2026"
         description="Scopri tutto sul Festival Internazionale dell'Aquilone di Cervia: date, programma, artisti e come partecipare. Oltre 200 artisti da 50 paesi per celebrare il volo degli aquiloni."
         keywords="festival aquilone cervia, aquiloni cervia, eventi cervia, festival internazionale aquiloni, cervia volante, eventi aprile maggio cervia"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/festival-aquilone-cervia"
+        canonicalUrl={getCanonicalUrl("/blog/festival-aquilone-cervia")}
       />
 
       <Header />

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getCanonicalUrl, getSiteUrl } from "@/lib/config";
 
 const CosaFarePinarella = () => {
   const activities = [
@@ -72,7 +73,7 @@ const CosaFarePinarella = () => {
     headline: "Cosa Fare a Pinarella di Cervia: Guida Completa 2026",
     description:
       "Scopri le migliori attività, attrazioni e esperienze da vivere durante la tua vacanza a Pinarella: spiagge, escursioni, eventi e molto altro.",
-    image: "https://immerso-nella-pineta.vercel.app/images/logo.nobg.png",
+    image: `${getSiteUrl()}/images/logo.nobg.png`,
     datePublished: "2026-02-01",
     dateModified: "2026-02-01",
     author: {
@@ -84,7 +85,7 @@ const CosaFarePinarella = () => {
       name: "Immerso nella Pineta",
       logo: {
         "@type": "ImageObject",
-        url: "https://immerso-nella-pineta.vercel.app/images/logo.nobg.png",
+        url: `${getSiteUrl()}/images/logo.nobg.png`,
       },
     },
   };
@@ -95,7 +96,7 @@ const CosaFarePinarella = () => {
         title="Cosa Fare a Pinarella di Cervia: Guida Completa 2026 | Attrazioni e Attività"
         description="Scopri le migliori attività e attrazioni a Pinarella di Cervia: spiagge, pineta, ciclismo, eventi estivi, escursioni e molto altro. Guida completa 2026."
         keywords="cosa fare pinarella, attrazioni pinarella cervia, spiaggia pinarella, pineta cervia, attività pinarella, vacanze pinarella"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/cosa-fare-pinarella-cervia"
+        canonicalUrl={getCanonicalUrl("/blog/cosa-fare-pinarella-cervia")}
       />
       <script
         type="application/ld+json"

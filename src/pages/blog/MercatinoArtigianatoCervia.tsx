@@ -20,7 +20,7 @@ const MercatinoArtigianatoCervia = () => {
         title="Mercatino dell'Artigianato a Cervia e Pinarella | Guida 2026"
         description="Scopri il Mercatino dell'Artigianato di Cervia e Pinarella: date, orari, prodotti artigianali, ceramiche, gioielli e creazioni uniche. Tutto quello che devi sapere per visitarlo."
         keywords="mercatino artigianato cervia, mercatino pinarella, artigianato locale cervia, mercatini estivi romagna, prodotti artigianali cervia"
-        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/mercatino-artigianato-cervia"
+        canonicalUrl={getCanonicalUrl("/blog/mercatino-artigianato-cervia")}
       />
 
       <Header />
