@@ -1,3 +1,5 @@
+import { getSiteUrl } from "./config";
+
 export const CONTACT_INFO = {
   phone: "+39 3938932793",
   email: "info+pina@eliazavatta.it",
@@ -14,8 +16,10 @@ export const CONTACT_INFO = {
     country: "IT",
   },
 
-  // URL (da aggiornare con dominio personalizzato)
-  website: "https://immerso-nella-pineta.vercel.app",
+  // URL dinamico basato sul dominio corrente
+  get website(): string {
+    return getSiteUrl();
+  },
 
   // Social (opzionale)
   facebook: "", // Opzionale

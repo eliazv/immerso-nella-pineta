@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import { Utensils, Star, MapPin, Euro, Clock, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -120,17 +119,7 @@ const RistorantiPinarella = () => {
         title="Migliori Ristoranti a Pinarella e Cervia 2026 | Dove Mangiare"
         description="Scopri i migliori ristoranti a Pinarella e Cervia: cucina romagnola tradizionale, pesce fresco, pizzerie e gelaterie. Guida gastronomica completa 2026."
         keywords="ristoranti pinarella, dove mangiare cervia, cucina romagnola, pesce fresco pinarella, pizzeria cervia, trattoria pinarella"
-        canonical="https://immerso-nella-pineta.vercel.app/blog/migliori-ristoranti-pinarella-cervia"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          { name: "Blog", url: "https://immerso-nella-pineta.vercel.app/blog" },
-          {
-            name: "Ristoranti Pinarella",
-            url: "https://immerso-nella-pineta.vercel.app/blog/migliori-ristoranti-pinarella-cervia",
-          },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/migliori-ristoranti-pinarella-cervia"
       />
       <script
         type="application/ld+json"

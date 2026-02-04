@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import { CONTACT_INFO } from "@/lib/contactConfig";
 import {
   Calendar,
@@ -27,6 +26,17 @@ import { Button } from "@/components/ui/button";
 
 const Blog = () => {
   const blogPosts = [
+    {
+      title: "Pinarella di Cervia: La Tua Guida Completa",
+      slug: "pinarella-guida",
+      excerpt:
+        "Scopri tutto quello che c'è da sapere su Pinarella di Cervia: dove si trova, attrazioni, ristoranti, come arrivare e consigli per una vacanza perfetta.",
+      date: "2026-02-01",
+      icon: MapPin,
+      image:
+        "https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg",
+      color: "from-cyan-500 to-blue-500",
+    },
     {
       title: "Cosa Fare a Pinarella di Cervia: Guida Completa 2026",
       slug: "cosa-fare-pinarella-cervia",
@@ -104,6 +114,39 @@ const Blog = () => {
         "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80",
       color: "from-amber-500 to-orange-500",
     },
+    {
+      title: "Cosa c'è di Bello a Pinarella di Cervia? Le Bellezze",
+      slug: "bellezze-pinarella-cervia",
+      excerpt:
+        "Scopri cosa rende Pinarella speciale: spiagge dorate, pineta secolare, tramonti mozzafiato, percorsi ciclabili e atmosfera autentica.",
+      date: "2026-02-04",
+      icon: Palmtree,
+      image:
+        "https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg",
+      color: "from-green-500 to-emerald-500",
+    },
+    {
+      title: "Come è il Mare a Pinarella di Cervia? Caratteristiche",
+      slug: "mare-pinarella-cervia",
+      excerpt:
+        "Scopri com'è il mare di Pinarella: acque basse e sicure, Bandiera Blu, temperature ideali e fondali perfetti per bambini e famiglie.",
+      date: "2026-02-04",
+      icon: Wind,
+      image:
+        "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+      color: "from-cyan-500 to-blue-500",
+    },
+    {
+      title: "Mercato Serale a Pinarella: Quando c'è? Date e Orari",
+      slug: "mercato-serale-pinarella",
+      excerpt:
+        "Scopri quando c'è il mercato serale a Pinarella: ogni martedì e venerdì dalle 18:00. Guida completa a tutti i mercati della zona.",
+      date: "2026-02-04",
+      icon: ShoppingBag,
+      image:
+        "https://images.unsplash.com/photo-1555529669-2269763671c6?w=800&q=80",
+      color: "from-purple-500 to-pink-500",
+    },
   ];
 
   const jsonLd = {
@@ -128,13 +171,7 @@ const Blog = () => {
         title="Blog Pinarella | Guide e Consigli per Vacanze a Cervia"
         description="Scopri guide, consigli e informazioni utili per le tue vacanze a Pinarella di Cervia: cosa fare, dove mangiare, come arrivare e eventi da non perdere."
         keywords="blog pinarella, guida pinarella cervia, cosa fare pinarella, ristoranti pinarella, eventi cervia, vacanze romagna"
-        canonical="https://immerso-nella-pineta.vercel.app/blog"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          { name: "Blog", url: "https://immerso-nella-pineta.vercel.app/blog" },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog"
       />
       <script
         type="application/ld+json"

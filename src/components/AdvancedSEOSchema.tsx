@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { getSiteUrl } from "@/lib/config";
 
 interface AdvancedSEOSchemaProps {
   accommodationType?: "pineta3" | "pineta8" | "default";
@@ -9,7 +10,8 @@ const AdvancedSEOSchema = ({
   accommodationType = "default",
 }: AdvancedSEOSchemaProps) => {
   const location = useLocation();
-  const currentUrl = `https://immerso-nella-pineta.vercel.app${location.pathname}`;
+  const siteUrl = getSiteUrl();
+  const currentUrl = `${siteUrl}${location.pathname}`;
 
   const baseAccommodation = {
     "@context": "https://schema.org",
@@ -193,11 +195,11 @@ const AdvancedSEOSchema = ({
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://immerso-nella-pineta.vercel.app/#business",
+    "@id": `${siteUrl}/#business`,
     name: "Immerso nella Pineta - Affitti Vacanze Pinarella",
     description:
       "Affitti vacanze diretti a Pinarella di Cervia. Appartamenti con parcheggio privato, 200m dal mare. Prenotazione diretta senza intermediari per risparmiare.",
-    url: "https://immersonellapineta.it",
+    url: siteUrl,
     telephone: "+393938932793",
     email: "zavattaelia@gmail.com",
     address: {
@@ -239,10 +241,10 @@ const AdvancedSEOSchema = ({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "https://immerso-nella-pineta.vercel.app/#organization",
+    "@id": `${siteUrl}/#organization`,
     name: "Immerso nella Pineta",
-    url: "https://immerso-nella-pineta.vercel.app",
-    logo: "https://immerso-nella-pineta.vercel.app/images/logo.nobg.png",
+    url: siteUrl,
+    logo: `${siteUrl}/images/logo.nobg.png`,
     sameAs: [
       "https://www.facebook.com/immersonellapineta",
       "https://www.instagram.com/immersonellapineta",

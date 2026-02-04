@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import {
   ArrowLeft,
   Calendar,
@@ -21,17 +20,7 @@ const PinarellaSummerFestival = () => {
         title="Pinarella Summer Festival 2026 | Concerti e Eventi Estivi sul Lungomare"
         description="Scopri il Pinarella Summer Festival 2026: concerti, spettacoli e animazione serale sul lungomare di Pinarella da giugno ad agosto. Programma completo e date degli eventi."
         keywords="pinarella summer festival, eventi pinarella, concerti pinarella, estate pinarella, lungomare pinarella, eventi estivi cervia"
-        canonical="https://immerso-nella-pineta.vercel.app/blog/pinarella-summer-festival"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          { name: "Blog", url: "https://immerso-nella-pineta.vercel.app/blog" },
-          {
-            name: "Pinarella Summer Festival",
-            url: "https://immerso-nella-pineta.vercel.app/blog/pinarella-summer-festival",
-          },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/pinarella-summer-festival"
       />
 
       <Header />

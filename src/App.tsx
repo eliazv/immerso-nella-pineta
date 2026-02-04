@@ -42,6 +42,11 @@ const PinarellaSummerFestival = lazy(
 const MercatinoArtigianatoCervia = lazy(
   () => import("./pages/blog/MercatinoArtigianatoCervia"),
 );
+const BellezzePinarella = lazy(() => import("./pages/blog/BellezzePinarella"));
+const MarePinarella = lazy(() => import("./pages/blog/MarePinarella"));
+const MercatoSeralePinarella = lazy(
+  () => import("./pages/blog/MercatoSeralePinarella"),
+);
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo"));
 
 const AvailabilityCalendar = lazy(
@@ -147,6 +152,18 @@ const App = () => {
                   <Route
                     path="/blog/mercatino-artigianato-cervia"
                     element={<MercatinoArtigianatoCervia />}
+                  />
+                  <Route
+                    path="/blog/bellezze-pinarella-cervia"
+                    element={<BellezzePinarella />}
+                  />
+                  <Route
+                    path="/blog/mare-pinarella-cervia"
+                    element={<MarePinarella />}
+                  />
+                  <Route
+                    path="/blog/mercato-serale-pinarella"
+                    element={<MercatoSeralePinarella />}
                   />
 
                   {/* Backoffice con layout condiviso */}

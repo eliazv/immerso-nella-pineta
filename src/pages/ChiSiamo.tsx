@@ -3,7 +3,6 @@ import { Heart, Home, MapPin, Users, Star, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CONTACT_INFO } from "@/lib/contactConfig";
@@ -40,16 +39,7 @@ const ChiSiamo = () => {
         title="Chi Siamo - Proprietari Appartamenti Pinarella | Gestione Diretta"
         description="Siamo Elia e famiglia, proprietari di appartamenti a Pinarella di Cervia. Gestiamo personalmente ogni prenotazione per garantirti la migliore esperienza, senza intermediari."
         keywords="proprietari pinarella, affitto diretto cervia, gestione privata appartamenti, elia zavatta pinarella"
-        canonical="https://immerso-nella-pineta.vercel.app/chi-siamo"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          {
-            name: "Chi Siamo",
-            url: "https://immerso-nella-pineta.vercel.app/chi-siamo",
-          },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/chi-siamo"
       />
       <script
         type="application/ld+json"

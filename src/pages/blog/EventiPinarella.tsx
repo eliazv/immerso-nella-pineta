@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import {
   Calendar,
   Music,
@@ -110,17 +109,7 @@ const EventiPinarella = () => {
         title="Eventi Pinarella e Cervia 2026 | Calendario Concerti, Sagre e Manifestazioni"
         description="Scopri tutti gli eventi a Pinarella e Cervia: concerti sulla spiaggia, sagre gastronomiche, Notte Rosa, Ferragosto e mercatini. Calendario completo 2026."
         keywords="eventi pinarella, concerti cervia, notte rosa, ferragosto pinarella, sagre cervia, manifestazioni pinarella 2026"
-        canonical="https://immerso-nella-pineta.vercel.app/blog/eventi-pinarella-cervia"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          { name: "Blog", url: "https://immerso-nella-pineta.vercel.app/blog" },
-          {
-            name: "Eventi Pinarella",
-            url: "https://immerso-nella-pineta.vercel.app/blog/eventi-pinarella-cervia",
-          },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/eventi-pinarella-cervia"
       />
       <script
         type="application/ld+json"

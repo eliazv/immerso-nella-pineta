@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import { CONTACT_INFO } from "@/lib/contactConfig";
 import {
@@ -108,13 +107,7 @@ const FAQ = () => {
         title="Domande Frequenti (FAQ) | Appartamenti Pinarella Prenotazione Diretta"
         description="Tutte le risposte alle tue domande su prenotazione diretta, check-in, parcheggio, distanza dal mare e servizi degli appartamenti a Pinarella di Cervia."
         keywords="faq appartamento pinarella, domande frequenti prenotazione diretta, check-in pinarella, parcheggio gratuito cervia, distanza mare pinarella"
-        canonical="https://immerso-nella-pineta.vercel.app/faq"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          { name: "FAQ", url: "https://immerso-nella-pineta.vercel.app/faq" },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/faq"
       />
       <script
         type="application/ld+json"

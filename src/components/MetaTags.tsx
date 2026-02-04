@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { getSiteUrl } from "@/lib/config";
 
 interface MetaTagsProps {
   title: string;
@@ -17,7 +18,8 @@ const MetaTags = ({
   imageUrl = "https://www.pinarellavillage.com/images/slider/1.jpg",
 }: MetaTagsProps) => {
   const siteName = "Immerso nella Pineta - Appartamento a Pinarella di Cervia";
-  const fullUrl = `https://immerso-nella-pineta.vercel.app${canonicalUrl}`;
+  const siteUrl = getSiteUrl();
+  const fullUrl = `${siteUrl}${canonicalUrl}`;
 
   return (
     <Helmet>

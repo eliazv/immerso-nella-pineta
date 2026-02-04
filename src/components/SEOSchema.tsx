@@ -1,13 +1,15 @@
 import React from "react";
+import { getSiteUrl } from "@/lib/config";
 
 const SEOSchema = () => {
+  const siteUrl = getSiteUrl();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
     name: "Appartamento Pinarella Prenotazione Diretta - Casa Vacanze Cervia",
     description:
       "Appartamento in affitto a Pinarella di Cervia con prenotazione diretta senza intermediari. 4 posti letto, parcheggio privato, 200m dal mare. Contatta il proprietario per risparmiare sulle commissioni. Casa vacanze ideale per famiglie nella pineta di Cervia.",
-    url: "https://immerso-nella-pineta.vercel.app",
+    url: siteUrl,
     telephone: "+393938932793",
     email: "zavattaelia@gmail.com",
     address: {
@@ -98,7 +100,7 @@ const SEOSchema = () => {
       "@type": "ReserveAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://immerso-nella-pineta.vercel.app/book",
+        urlTemplate: `${siteUrl}/book`,
         inLanguage: "it",
         actionPlatform: [
           "http://schema.org/DesktopWebPlatform",

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import { Car, Train, Plane, MapPin, Navigation, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,17 +55,7 @@ const ComeArrivarePinarella = () => {
         title="Come Arrivare a Pinarella di Cervia: Auto, Treno, Aereo | Guida 2026"
         description="Scopri come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali autostradali, stazioni ferroviarie e aeroporti più vicini. Guida completa."
         keywords="come arrivare pinarella, raggiungere pinarella auto, treno cervia, aeroporto rimini pinarella, autostrada pinarella, stazione cervia"
-        canonical="https://immerso-nella-pineta.vercel.app/blog/come-arrivare-pinarella"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          { name: "Blog", url: "https://immerso-nella-pineta.vercel.app/blog" },
-          {
-            name: "Come Arrivare",
-            url: "https://immerso-nella-pineta.vercel.app/blog/come-arrivare-pinarella",
-          },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/come-arrivare-pinarella"
       />
       <script
         type="application/ld+json"

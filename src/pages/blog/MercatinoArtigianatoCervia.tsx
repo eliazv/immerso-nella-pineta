@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import BreadcrumbSEO from "@/components/BreadcrumbSEO";
 import {
   ArrowLeft,
   Calendar,
@@ -21,17 +20,7 @@ const MercatinoArtigianatoCervia = () => {
         title="Mercatino dell'Artigianato a Cervia e Pinarella | Guida 2026"
         description="Scopri il Mercatino dell'Artigianato di Cervia e Pinarella: date, orari, prodotti artigianali, ceramiche, gioielli e creazioni uniche. Tutto quello che devi sapere per visitarlo."
         keywords="mercatino artigianato cervia, mercatino pinarella, artigianato locale cervia, mercatini estivi romagna, prodotti artigianali cervia"
-        canonical="https://immerso-nella-pineta.vercel.app/blog/mercatino-artigianato-cervia"
-      />
-      <BreadcrumbSEO
-        items={[
-          { name: "Home", url: "https://immerso-nella-pineta.vercel.app" },
-          { name: "Blog", url: "https://immerso-nella-pineta.vercel.app/blog" },
-          {
-            name: "Mercatino dell'Artigianato",
-            url: "https://immerso-nella-pineta.vercel.app/blog/mercatino-artigianato-cervia",
-          },
-        ]}
+        canonicalUrl="https://immerso-nella-pineta.vercel.app/blog/mercatino-artigianato-cervia"
       />
 
       <Header />

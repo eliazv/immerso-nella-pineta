@@ -1,19 +1,24 @@
 import React from "react";
+import { getSiteUrl } from "@/lib/config";
 
 interface LocalSEOProps {
   pageName?: string;
 }
 
 const LocalSEO = ({ pageName = "Homepage" }: LocalSEOProps) => {
+  const siteUrl = getSiteUrl();
+  const currentPath =
+    typeof window !== "undefined" ? window.location.pathname : "";
+
   // Local Business Schema for Google My Business
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "TouristAccommodation",
-    "@id": "https://immerso-nella-pineta.vercel.app/#localbusiness",
+    "@id": `${siteUrl}/#localbusiness`,
     name: "Immerso nella Pineta - Appartamenti Vacanze Pinarella",
     description:
       "Appartamenti in affitto per vacanze a Pinarella di Cervia. Prenotazione diretta senza intermediari, parcheggio privato incluso, 200m dal mare.",
-    url: "https://immersonellapineta.it",
+    url: siteUrl,
     telephone: "+393938932793",
     email: "zavattaelia@gmail.com",
     image: [
@@ -152,37 +157,36 @@ const LocalSEO = ({ pageName = "Homepage" }: LocalSEOProps) => {
     hasMap: "https://maps.google.com/?q=44.261434,12.339165",
     isAccessibleForFree: false,
     maximumAttendeeCapacity: 4,
-    tourBookingPage: "https://immerso-nella-pineta.vercel.app/book",
+    tourBookingPage: `${siteUrl}/book`,
   };
 
   // WebPage Schema for better page understanding
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": `https://immerso-nella-pineta.vercel.app${window.location.pathname}#webpage`,
-    url: `https://immerso-nella-pineta.vercel.app${window.location.pathname}`,
+    "@id": `${siteUrl}${currentPath}#webpage`,
+    url: `${siteUrl}${currentPath}`,
     name: `${pageName} - Appartamenti Vacanze Pinarella di Cervia`,
     description:
       "Appartamenti in affitto per vacanze a Pinarella di Cervia con prenotazione diretta. Parcheggio privato, 200m dal mare, senza commissioni intermediari.",
     inLanguage: "it-IT",
     isPartOf: {
       "@type": "WebSite",
-      "@id": "https://immerso-nella-pineta.vercel.app#website",
-      url: "https://immerso-nella-pineta.vercel.app",
+      "@id": `${siteUrl}#website`,
+      url: siteUrl,
       name: "Immerso nella Pineta",
       description:
         "Appartamenti vacanze Pinarella di Cervia - Prenotazione diretta",
       publisher: {
         "@type": "Person",
         name: "Elia Zavatta",
-        "@id": "https://immerso-nella-pineta.vercel.app#owner",
+        "@id": `${siteUrl}#owner`,
       },
       potentialAction: {
         "@type": "SearchAction",
         target: {
           "@type": "EntryPoint",
-          urlTemplate:
-            "https://immerso-nella-pineta.vercel.app/search?q={search_term_string}",
+          urlTemplate: `${siteUrl}/search?q={search_term_string}`,
         },
         "query-input": "required name=search_term_string",
       },
