@@ -1,4 +1,5 @@
 - docs\todo2.md
+- meno interlinea se titolo header va a capo
 - reintroduci src\components\BookingForm.tsx in book page e migliroalo , agigungi anche prezzo per notte che posso customizzare io da qualche parte
 - carosello deve scorrere in automatico (dopo un po si ferma) e le frecice devono essere visibili, a volte escono dallo schermo
 - - dropdown header deve mostrare nome completo non solo Pineta 3 ad esempio M Immerso nella Pineta 3, idem per pineta 8

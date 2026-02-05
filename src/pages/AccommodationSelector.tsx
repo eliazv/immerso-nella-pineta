@@ -35,7 +35,7 @@ const AccommodationSelector = () => {
       />
 
       <div
-        className="flex-1 flex items-center justify-center px-4 py-24 bg-cover bg-center bg-fixed relative"
+        className="flex-1 flex items-center justify-center px-4 pt-24 bg-cover bg-center bg-fixed relative"
         style={{
           backgroundImage:
             'linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.85)), url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=2070")',

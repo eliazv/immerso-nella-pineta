@@ -70,8 +70,6 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
         }}
         plugins={[plugin.current]}
         className="w-full"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {reviews.map((review, index) => (
@@ -109,8 +107,12 @@ const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg border-2 border-pine-light/50 hover:border-pine-dark transition-all" />
-        <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg border-2 border-pine-light/50 hover:border-pine-dark transition-all" />
+
+        {/* Navigation Buttons Below Carousel */}
+        <div className="flex justify-center gap-2 mt-6">
+          <CarouselPrevious className="static translate-y-0 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg border-2 border-pine-light/50 hover:border-pine-dark transition-all" />
+          <CarouselNext className="static translate-y-0 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg border-2 border-pine-light/50 hover:border-pine-dark transition-all" />
+        </div>
       </Carousel>
     </div>
   );

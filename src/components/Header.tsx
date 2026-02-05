@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
@@ -9,8 +9,6 @@ import {
   BookOpen,
   MessageCircle,
   Users,
-  ChevronDown,
-  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAccommodation } from "@/contexts/AccommodationContext";
@@ -20,10 +18,8 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [logoDropdownOpen, setLogoDropdownOpen] = useState(false);
   const location = useLocation();
   const { accommodation } = useAccommodation();
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const getBasePath = () => {
     if (location.pathname.startsWith("/pineta8")) return "/pineta8";
@@ -71,21 +67,6 @@ const Header = () => {
       document.body.style.width = "";
       document.body.style.overflow = "unset";
     };
-  }, []);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setLogoDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const basePath = getBasePath();
@@ -157,107 +138,40 @@ const Header = () => {
       )}
     >
       <div className="container px-4 mx-auto flex items-center justify-between">
-        {/* Logo with Dropdown */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setLogoDropdownOpen(!logoDropdownOpen)}
-            className="flex items-center gap-3 transition-transform hover:scale-105 cursor-pointer"
+        {/* Logo */}
+        <Link
+          to="/"
+          className="flex items-center gap-3 transition-transform hover:scale-105"
+        >
+          <picture>
+            <source
+              type="image/avif"
+              srcSet="/images/optimized/logo.nobg-320.avif 320w, /images/optimized/logo.nobg-640.avif 640w, /images/optimized/logo.nobg-1024.avif 1024w"
+              sizes="48px"
+            />
+            <source
+              type="image/webp"
+              srcSet="/images/optimized/logo.nobg-320.webp 320w, /images/optimized/logo.nobg-640.webp 640w, /images/optimized/logo.nobg-1024.webp 1024w"
+              sizes="48px"
+            />
+            <img
+              src="/images/logo.nobg.png"
+              alt="Immerso nella Pineta Logo"
+              className="h-12 w-auto"
+              loading="lazy"
+            />
+          </picture>
+          <span
+            className={cn(
+              "font-serif text-base md:text-lg font-semibold tracking-tight leading-tight whitespace-normal transition-colors",
+              isScrolled || !isAccommodationHome
+                ? "text-foreground"
+                : "text-white drop-shadow-lg",
+            )}
           >
-            <picture>
-              <source
-                type="image/avif"
-                srcSet="/images/optimized/logo.nobg-320.avif 320w, /images/optimized/logo.nobg-640.avif 640w, /images/optimized/logo.nobg-1024.avif 1024w"
-                sizes="48px"
-              />
-              <source
-                type="image/webp"
-                srcSet="/images/optimized/logo.nobg-320.webp 320w, /images/optimized/logo.nobg-640.webp 640w, /images/optimized/logo.nobg-1024.webp 1024w"
-                sizes="48px"
-              />
-              <img
-                src="/images/logo.nobg.png"
-                alt="Immerso nella Pineta Logo"
-                className="h-12 w-auto"
-                loading="lazy"
-              />
-            </picture>
-            <div className="flex items-center gap-1">
-              <span
-                className={cn(
-                  "font-serif text-lg font-semibold tracking-tight transition-colors",
-                  isScrolled || !isAccommodationHome
-                    ? "text-foreground"
-                    : "text-white drop-shadow-lg",
-                )}
-              >
-                {accommodation.name}
-                {/* <span
-                  className={cn(
-                    "block text-xs font-normal transition-colors",
-                    isScrolled || !isAccommodationHome
-                      ? "text-muted-foreground"
-                      : "text-white/90 drop-shadow-md",
-                  )}
-                >
-                  Pinarella di Cervia
-                </span> */}
-              </span>
-              <ChevronDown
-                className={cn(
-                  "h-4 w-4 transition-all ml-1",
-                  isScrolled || !isAccommodationHome
-                    ? "text-foreground"
-                    : "text-white drop-shadow-md",
-                  logoDropdownOpen && "rotate-180",
-                )}
-              />
-            </div>
-          </button>
-
-          {/* Dropdown Menu */}
-          {logoDropdownOpen && (
-            <div className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-lg shadow-xl border border-gray-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-              <Link
-                to="/pineta3"
-                onClick={() => setLogoDropdownOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-pine-light/20 transition-colors"
-              >
-                <Building2 className="h-5 w-5 text-pine-dark" />
-                <div>
-                  <div className="font-semibold text-pine-dark">
-                    Immerso nella Pineta 3
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    Piano terra • 4 ospiti
-                  </div>
-                </div>
-              </Link>
-              <Link
-                to="/pineta8"
-                onClick={() => setLogoDropdownOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-sea-light/20 transition-colors"
-              >
-                <Building2 className="h-5 w-5 text-sea-dark" />
-                <div>
-                  <div className="font-semibold text-sea-dark">
-                    Immerso nella Pineta 8
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    Secondo piano • 6 ospiti
-                  </div>
-                </div>
-              </Link>
-              <div className="border-t border-gray-200 my-2"></div>
-              <Link
-                to="/"
-                onClick={() => setLogoDropdownOpen(false)}
-                className="block px-4 py-3 hover:bg-gray-100 transition-colors font-semibold text-pine-dark"
-              >
-                Vedi tutti gli alloggi
-              </Link>
-            </div>
-          )}
-        </div>
+            {accommodation.name}
+          </span>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
