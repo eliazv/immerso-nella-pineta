@@ -15,6 +15,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import { CONTACT_INFO } from "@/lib/contactConfig";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
+import { Star } from "lucide-react";
 
 const AccommodationSelector = () => {
   return (
@@ -186,7 +188,7 @@ const AccommodationSelector = () => {
           </div>
 
           {/* Info Section - Più compatta */}
-          <div className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 shadow-lg max-w-4xl mx-auto">
+          {/* <div className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 shadow-lg max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-pine-dark mb-2">
               Affitto diretto, nessuna commissione
             </h3>
@@ -222,10 +224,33 @@ const AccommodationSelector = () => {
                   Posto auto privato per ogni alloggio
                 </p>
               </div>
-            </div>
-          </div>
+            </div> 
+          </div>*/}
         </div>
       </div>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container px-4 mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-100 to-yellow-50 text-amber-800 px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-sm">
+              <Star className="h-4 w-4" />
+              <span>Recensioni Verificate</span>
+            </div>
+            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900">
+              Cosa dicono i nostri ospiti
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              Affitto diretto con proprietari da oltre 50 anni. Leggi le
+              recensioni delle famiglie che hanno scelto i nostri appartamenti.
+            </p>
+          </div>
+
+          <div className="max-w-7xl mx-auto">
+            <TestimonialsCarousel />
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>

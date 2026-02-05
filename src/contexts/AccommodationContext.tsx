@@ -34,6 +34,11 @@ export interface AccommodationData {
     keywords: string;
   };
   cin: string;
+  pricing: {
+    pricePerNight: number;
+    currency: string;
+    notes?: string;
+  };
 }
 
 const accommodationsData: Record<string, AccommodationData> = {
@@ -79,6 +84,12 @@ const accommodationsData: Record<string, AccommodationData> = {
         "alloggio pinarella, appartamento pinarella cervia, affitto diretto pinarella, casa vacanze pinarella proprietari, prenotazione diretta cervia, affitto senza intermediari pinarella, appartamento mare cervia proprietario",
     },
     cin: "IT039007C2RWYMLE52",
+    pricing: {
+      pricePerNight: 85,
+      currency: "€",
+      notes:
+        "Prezzi indicativi per alta stagione. Contattaci per preventivi personalizzati.",
+    },
   },
   pineta8: {
     id: "pineta8",
@@ -123,6 +134,12 @@ const accommodationsData: Record<string, AccommodationData> = {
         "alloggio pinarella 6 posti, appartamento pinarella cervia, affitto diretto pinarella, casa vacanze pinarella proprietario, prenotazione diretta cervia 6 persone, affitto senza intermediari pinarella",
     },
     cin: "IT039007C2UTCCNWG5",
+    pricing: {
+      pricePerNight: 120,
+      currency: "€",
+      notes:
+        "Prezzi indicativi per alta stagione. Contattaci per preventivi personalizzati.",
+    },
   },
 };
 

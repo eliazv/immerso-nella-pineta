@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  Check,
+  Loader2,
+  InfoIcon,
+  Euro,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -8,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format, isBefore, isWithinInterval } from "date-fns";
+import { format, isBefore, isWithinInterval, differenceInDays } from "date-fns";
 import { it } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,8 +58,12 @@ const BookingForm = ({ className }: BookingFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const totalGuests = adults + children;
-  const maxGuests = accommodation.id === 'pineta3' ? 4 : 6;
-  const sheetName = accommodation.id === 'pineta3' ? 'Affitti3' : 'Affitti8';
+  const maxGuests = accommodation.id === "pineta3" ? 4 : 6;
+  const sheetName = accommodation.id === "pineta3" ? "Affitti3" : "Affitti8";
+
+  // Calcola il numero di notti e il prezzo totale indicativo
+  const nights = checkIn && checkOut ? differenceInDays(checkOut, checkIn) : 0;
+  const estimatedTotal = nights * accommodation.pricing.pricePerNight;
 
   useEffect(() => {
     // Fetch booking data from the same Google Sheets source
@@ -61,8 +71,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
       setIsCalendarLoading(true);
       try {
         // Utilizza la stessa URL di AvailabilityCalendar per ottenere i dati
-        const url =
-          `https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/${sheetName}`;
+        const url = `https://opensheet.elk.sh/156gOCNUFzwT4hmpxn2_9GE9Ionzlng3Rw0rAzoaktuc/${sheetName}`;
         const response = await axios.get(url);
         const data = response.data;
 
@@ -122,8 +131,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
     if (totalGuests > maxGuests) {
       toast({
         title: "Numero di ospiti eccessivo",
-        description:
-          `Il numero massimo di ospiti (adulti + bambini) consentito è ${maxGuests}.`,
+        description: `Il numero massimo di ospiti (adulti + bambini) consentito è ${maxGuests}.`,
         variant: "destructive",
       });
       return;
@@ -148,7 +156,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
 - Messaggio: ${message || "Nessun messaggio"}`;
 
     const whatsappUrl = `https://wa.me/393938932793?text=${encodeURIComponent(
-      whatsappMessage
+      whatsappMessage,
     )}`;
 
     window.open(whatsappUrl, "_blank");
@@ -192,7 +200,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
       <div
         className={cn(
           "p-8 bg-white rounded-xl border border-border flex flex-col items-center justify-center text-center",
-          className
+          className,
         )}
       >
         <div className="w-16 h-16 rounded-full bg-pine-light flex items-center justify-center mb-4">
@@ -248,7 +256,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
                 variant="outline"
                 className={cn(
                   "w-full justify-start text-left font-normal",
-                  !checkIn && "text-muted-foreground"
+                  !checkIn && "text-muted-foreground",
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -299,7 +307,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
                 variant="outline"
                 className={cn(
                   "w-full justify-start text-left font-normal",
-                  !checkOut && "text-muted-foreground"
+                  !checkOut && "text-muted-foreground",
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -340,6 +348,52 @@ const BookingForm = ({ className }: BookingFormProps) => {
           </Popover>
         </div>
       </div>
+
+      {/* Pricing Information */}
+      {checkIn && checkOut && nights > 0 && (
+        <div className="mb-4 p-4 bg-gradient-to-br from-pine-light/30 to-sea-light/20 rounded-lg border border-pine-light/50">
+          <div className="flex items-start gap-2 mb-3">
+            <Euro className="h-5 w-5 text-pine-dark mt-0.5 shrink-0" />
+            <div className="flex-1">
+              <h4 className="font-semibold text-pine-dark mb-1">
+                Prezzo Indicativo
+              </h4>
+              <p className="text-xs text-gray-600">
+                {accommodation.pricing.notes}
+              </p>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-700">
+                {accommodation.pricing.currency}
+                {accommodation.pricing.pricePerNight} × {nights}{" "}
+                {nights === 1 ? "notte" : "notti"}
+              </span>
+              <span className="font-semibold text-pine-dark">
+                {accommodation.pricing.currency}
+                {estimatedTotal}
+              </span>
+            </div>
+            <div className="pt-2 border-t border-pine-light/50 flex justify-between items-center">
+              <span className="font-semibold text-gray-800">
+                Totale stimato
+              </span>
+              <span className="text-xl font-bold text-pine-dark">
+                {accommodation.pricing.currency}
+                {estimatedTotal}
+              </span>
+            </div>
+          </div>
+          <div className="mt-3 flex items-start gap-2 text-xs text-gray-600">
+            <InfoIcon className="h-3 w-3 mt-0.5 shrink-0" />
+            <p>
+              Questo è un prezzo indicativo. Contattaci per un preventivo
+              preciso e personalizzato.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* <div className="text-right mb-4">
         <a
@@ -391,7 +445,9 @@ const BookingForm = ({ className }: BookingFormProps) => {
       </div>
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div className="space-y-2 text-right">
-          <Label htmlFor="name">Massimo {maxGuests} ospiti (animali esclusi)</Label>
+          <Label htmlFor="name">
+            Massimo {maxGuests} ospiti (animali esclusi)
+          </Label>
         </div>
       </div>
 
@@ -440,7 +496,8 @@ const BookingForm = ({ className }: BookingFormProps) => {
 
       {totalGuests > maxGuests && (
         <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded-md text-sm">
-          Il numero massimo di ospiti consentito è {maxGuests} (adulti + bambini).
+          Il numero massimo di ospiti consentito è {maxGuests} (adulti +
+          bambini).
         </div>
       )}
 
@@ -464,7 +521,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
         riguardo alla tua richiesta di prenotazione.
       </p>
 
-      <div className="mt-6 pt-6 border-t border-border">
+      {/* <div className="mt-6 pt-6 border-t border-border">
         <p className="text-sm text-muted-foreground">
           Oppure contattaci direttamente ai recapiti qui sotto: siamo a
           disposizione per qualsiasi informazione aggiuntiva!
@@ -489,7 +546,7 @@ const BookingForm = ({ className }: BookingFormProps) => {
             </a>
           </p>
         </div>
-      </div>
+      </div> */}
     </form>
   );
 };

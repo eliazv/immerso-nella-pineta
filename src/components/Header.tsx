@@ -190,7 +190,7 @@ const Header = () => {
                     : "text-white drop-shadow-lg",
                 )}
               >
-                {accommodation.shortName}
+                {accommodation.name}
                 {/* <span
                   className={cn(
                     "block text-xs font-normal transition-colors",

@@ -1,7 +1,16 @@
+- docs\todo2.md
+- reintroduci src\components\BookingForm.tsx in book page e migliroalo , agigungi anche prezzo per notte che posso customizzare io da qualche parte
+- carosello deve scorrere in automatico (dopo un po si ferma) e le frecice devono essere visibili, a volte escono dallo schermo
+- - dropdown header deve mostrare nome completo non solo Pineta 3 ad esempio M Immerso nella Pineta 3, idem per pineta 8
+- in /chi-siamo c'è sezione Cosa Dicono i Nostri Ospiti . con le recensioni, magari implemetale in src\pages\Index.tsx come carosello (usa una libreria cariselli gia fatta) dove scorrono in automatico all'infinito mettilo in una buona zona della home src\pages\Index.tsx che anche sotto src\pages\AccommodationSelector.tsx .
+- Google Business Profile ce l'ho ma non ha recensioni perhce la gente me lae lascia su airbnb non li.
+- https://media-cdn.tripadvisor.com/media/photo-s/01/8b/6c/ec/hotel-buratti.jpg immagine canale di notte di cervia, questa usala per iun blog magari inerente
+- per questo istema di Prenotazione Calendario Integrato in teoria c'era gia un componete che lo faceva nel repo, riesci a trovarlo?
+- anche se integrassi prezzi reali se nessuno si fila il sito sarebbe lavoro inutyile, magari questi prezzi reali posso in qulche moso integrarli con i sistemi di google o altri motori di ricerca non ota?
+
 - per articolo mercato serale usa questa immagine: https://www.viviromagna.it/archivio/eventi/7415/aghi-di-pino.jpg . anche epr altri articoli sarebbe utile prendessi immaigni relai di pinarella o almneo non ripetessi le immaigni
 - tutti i blog e aricoli devono avere sspazio sopra per non andare sotto a header e tasto tornal blog
 - dropdown header deve mostrare nome completo non solo Pineta 3 ad esempio M Immerso nella Pineta 3, idem per pineta 8
-- analizza poi cosa manca a questo sito secondo te, le cose piu importanti e fammi un repo e dimmi importanza epr onguna, voglio che sia un sito di afitti per i miei 2 appartmaenti ma con buona seo
 
 - come icoan scheda del browser usa public\images\logo.nobg.ico
 - rimuovi immagini che non servono superflue da public\images e rioganizzale

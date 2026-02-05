@@ -31,6 +31,7 @@ import AdvancedSEOSchema from "@/components/AdvancedSEOSchema";
 import FAQ from "@/components/FAQ";
 import { useAccommodation } from "@/contexts/AccommodationContext";
 import { CONTACT_INFO } from "@/lib/contactConfig";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 
 const Index = () => {
   const { accommodation } = useAccommodation();
@@ -673,6 +674,29 @@ const Index = () => {
                 <div className="absolute -bottom-8 -right-8 -z-10 w-full h-full bg-gradient-to-br from-sea-light to-blue-200 rounded-2xl opacity-40" />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div className="container px-4 mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-100 to-yellow-50 text-amber-800 px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-sm">
+              <Star className="h-4 w-4" />
+              <span>Recensioni</span>
+            </div>
+            <h2 className="font-serif text-4xl md:text-5xl font-medium mb-6 text-gray-900">
+              Cosa dicono i nostri ospiti
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              Oltre 50 recensioni a 5 stelle su Airbnb. Scopri cosa dicono le
+              famiglie che hanno soggiornato nei nostri appartamenti.
+            </p>
+          </div>
+
+          <div className="scroll-reveal max-w-7xl mx-auto">
+            <TestimonialsCarousel />
           </div>
         </div>
       </section>

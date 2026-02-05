@@ -17,6 +17,7 @@ import SEOSchema from "@/components/SEOSchema";
 import { useAccommodation } from "@/contexts/AccommodationContext";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import { CONTACT_INFO } from "@/lib/contactConfig";
+import BookingForm from "@/components/BookingForm";
 
 const Book = () => {
   const { accommodation } = useAccommodation();
@@ -108,7 +109,7 @@ const Book = () => {
                 prezzi
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-1 mb-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                 {/* WhatsApp - Featured */}
                 <div className="md:col-span-2 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-8 shadow-lg text-white relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20"></div>
@@ -180,7 +181,7 @@ const Book = () => {
               </div>
 
               {/* Info aggiuntive */}
-              <div className="bg-gradient-to-br from-blue-50 to-pine-light/20 rounded-2xl p-6 border border-blue-200">
+              <div className="bg-gradient-to-br mt-6 from-blue-50 to-pine-light/20 rounded-2xl p-6 border border-blue-200">
                 <div className="flex items-start gap-3">
                   <MapPin className="h-6 w-6 text-blue-600 mt-0.5 shrink-0" />
                   <div>
@@ -205,6 +206,25 @@ const Book = () => {
             </div>
           </div>
         </section>
+
+        {/* Booking Form Section */}
+        {/* <section className="py-8 md:py-12 bg-gradient-to-b from-white to-pine-light/10">
+          <div className="container px-4 mx-auto">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3 text-pine-dark">
+                  Oppure compila il form di richiesta
+                </h2>
+                <p className="text-gray-600">
+                  Inserisci i tuoi dati e ti ricontatteremo al più presto con
+                  disponibilità e prezzi
+                </p>
+              </div>
+
+              <BookingForm className="shadow-xl" />
+            </div>
+          </div>
+        </section> */}
       </main>
 
       <Footer />
