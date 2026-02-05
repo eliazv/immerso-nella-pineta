@@ -1,4 +1,7 @@
-- per articolo mercato serale usa questa immagine: https://www.viviromagna.it/archivio/eventi/7415/aghi-di-pino.jpg
+- per articolo mercato serale usa questa immagine: https://www.viviromagna.it/archivio/eventi/7415/aghi-di-pino.jpg . anche epr altri articoli sarebbe utile prendessi immaigni relai di pinarella o almneo non ripetessi le immaigni
+- tutti i blog e aricoli devono avere sspazio sopra per non andare sotto a header e tasto tornal blog
+- dropdown header deve mostrare nome completo non solo Pineta 3 ad esempio M Immerso nella Pineta 3, idem per pineta 8
+- analizza poi cosa manca a questo sito secondo te, le cose piu importanti e fammi un repo e dimmi importanza epr onguna, voglio che sia un sito di afitti per i miei 2 appartmaenti ma con buona seo
 
 - come icoan scheda del browser usa public\images\logo.nobg.ico
 - rimuovi immagini che non servono superflue da public\images e rioganizzale

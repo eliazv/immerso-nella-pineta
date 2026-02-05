@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
+import { getCanonicalUrl } from "@/lib/config";
 import {
   ArrowLeft,
   Waves,

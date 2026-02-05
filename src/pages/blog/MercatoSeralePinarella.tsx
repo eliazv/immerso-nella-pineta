@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
+import { getCanonicalUrl } from "@/lib/config";
 import {
   ArrowLeft,
   ShoppingBag,
@@ -150,7 +151,7 @@ const MercatoSeralePinarella = () => {
         {/* Hero Image */}
         <div className="relative h-96 rounded-2xl overflow-hidden mb-8 shadow-2xl">
           <img
-            src="https://images.unsplash.com/photo-1555529669-2269763671c6?w=1200&q=80"
+            src="https://www.viviromagna.it/archivio/eventi/7415/aghi-di-pino.jpg"
             alt="Mercato serale di Pinarella - bancarelle e shopping"
             className="w-full h-full object-cover"
           />

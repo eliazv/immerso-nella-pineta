@@ -144,8 +144,7 @@ const Blog = () => {
         "Scopri quando c'è il mercato serale a Pinarella: ogni martedì e venerdì dalle 18:00. Guida completa a tutti i mercati della zona.",
       date: "2026-02-04",
       icon: ShoppingBag,
-      image:
-        "https://images.unsplash.com/photo-1555529669-2269763671c6?w=800&q=80",
+      image: "https://www.viviromagna.it/archivio/eventi/7415/aghi-di-pino.jpg",
       color: "from-purple-500 to-pink-500",
     },
     {

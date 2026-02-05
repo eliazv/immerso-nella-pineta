@@ -32,7 +32,7 @@ const DormirePinarellaBambini = () => {
 
       <Header />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-24">
         {/* Hero */}
         <section className="relative py-16 md:py-20 bg-gradient-to-br from-pink-50 via-blue-50 to-green-50">
           <div className="container px-4 mx-auto max-w-4xl">

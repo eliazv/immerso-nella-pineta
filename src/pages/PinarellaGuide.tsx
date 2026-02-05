@@ -101,7 +101,7 @@ const PinarellaGuide = () => {
         message={CONTACT_INFO.whatsappMessage}
       />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-24">
         <div className="container px-4 mx-auto py-8">
           {/* Hero Section */}
           <section className="mb-12">

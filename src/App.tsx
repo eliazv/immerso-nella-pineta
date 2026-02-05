@@ -134,6 +134,10 @@ const App = () => {
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route
+                    path="/blog/pinarella-guida"
+                    element={<PinarellaGuide />}
+                  />
+                  <Route
                     path="/blog/cosa-fare-pinarella-cervia"
                     element={<CosaFarePinarella />}
                   />

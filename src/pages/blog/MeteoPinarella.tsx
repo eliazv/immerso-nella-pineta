@@ -9,6 +9,8 @@ import {
   Sun,
 } from "lucide-react";
 import MetaTags from "@/components/MetaTags";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { getCanonicalUrl } from "@/lib/config";
 
 const MeteoPinarella = () => {
@@ -87,6 +89,8 @@ const MeteoPinarella = () => {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
       </Helmet>
+
+      <Header />
 
       <article className="min-h-screen bg-gray-50">
         <div className="bg-white border-b">
@@ -404,6 +408,7 @@ const MeteoPinarella = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <p className="font-semibold text-gray-900 mb-2">
+                      <Footer />
                       Abbigliamento mare:
                     </p>
                     <ul className="text-sm text-gray-700 space-y-1">

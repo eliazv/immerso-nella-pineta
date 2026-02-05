@@ -224,7 +224,9 @@ const Header = () => {
               >
                 <Building2 className="h-5 w-5 text-pine-dark" />
                 <div>
-                  <div className="font-semibold text-pine-dark">Pineta 3</div>
+                  <div className="font-semibold text-pine-dark">
+                    Immerso nella Pineta 3
+                  </div>
                   <div className="text-xs text-gray-600">
                     Piano terra • 4 ospiti
                   </div>
@@ -237,7 +239,9 @@ const Header = () => {
               >
                 <Building2 className="h-5 w-5 text-sea-dark" />
                 <div>
-                  <div className="font-semibold text-sea-dark">Pineta 8</div>
+                  <div className="font-semibold text-sea-dark">
+                    Immerso nella Pineta 8
+                  </div>
                   <div className="text-xs text-gray-600">
                     Secondo piano • 6 ospiti
                   </div>
