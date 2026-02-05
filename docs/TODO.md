@@ -1,3 +1,5 @@
+- per articolo mercato serale usa questa immagine: https://www.viviromagna.it/archivio/eventi/7415/aghi-di-pino.jpg
+
 - come icoan scheda del browser usa public\images\logo.nobg.ico
 - rimuovi immagini che non servono superflue da public\images e rioganizzale
 - in /attractions se ci sono articoli di blog che parlando di eventi al click sulla card eventi deve portare a qull'articolo

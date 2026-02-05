@@ -391,127 +391,89 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            <div className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-sea-light to-sea-light/50 flex items-center justify-center shadow-md">
-                <Bed className="h-8 w-8 text-sea-dark" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            <div className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-sea-light to-sea-light/50 flex items-center justify-center">
+                <Bed className="h-6 w-6 text-sea-dark" />
               </div>
-              <h3 className="font-bold text-xl mb-4 text-gray-900">
-                Camera accogliente
+              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
+                Camera
               </h3>
-              <ul className="flex flex-col gap-2 items-center mt-2">
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <Bed className="h-5 w-5" />
-                  {`${accommodation.features.guestsCount} posti letto`}
-                </li>
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <Copy className="h-5 w-5" />
-                  Biancheria inclusa
-                </li>
-              </ul>
+              <p className="text-xs text-gray-600">
+                {accommodation.features.guestsCount} posti
+              </p>
             </div>
             <div
-              className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-              style={{ animationDelay: "0.2s" }}
-            >
-              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center shadow-md">
-                <House className="h-8 w-8 text-amber-700" />
-              </div>
-              <h3 className="font-bold text-xl mb-4 text-gray-900">
-                Soggiorno &amp; Cucina
-              </h3>
-              <ul className="flex flex-col gap-2 items-center mt-2">
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <CookingPot className="h-5 w-5" />
-                  Cucina attrezzata
-                </li>
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <DoorOpen className="h-5 w-5" />
-                  Accesso autonomo
-                </li>
-              </ul>
-            </div>
-            <div
-              className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
               style={{ animationDelay: "0.1s" }}
             >
-              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-md">
-                <ShowerHead className="h-8 w-8 text-blue-700" />
+              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center">
+                <House className="h-6 w-6 text-amber-700" />
               </div>
-              <h3 className="font-bold text-xl mb-4 text-gray-900">
-                Bagno moderno
+              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
+                Cucina
               </h3>
-              <ul className="flex flex-col gap-2 items-center mt-2">
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <ShowerHead className="h-5 w-5" />
-                  Bagno completo
-                </li>
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <WashingMachine className="h-5 w-5" />
-                  Lavatrice
-                </li>
-              </ul>
+              <p className="text-xs text-gray-600">Attrezzata</p>
             </div>
             <div
-              className="bg-white p-7 md:p-8 rounded-xl border-2 border-border scroll-reveal flex flex-col items-center text-center shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              style={{ animationDelay: "0.2s" }}
+            >
+              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
+                <ShowerHead className="h-6 w-6 text-blue-700" />
+              </div>
+              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
+                Bagno
+              </h3>
+              <p className="text-xs text-gray-600">Con lavatrice</p>
+            </div>
+            <div
+              className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
               style={{ animationDelay: "0.3s" }}
             >
-              <div className="w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center shadow-md">
-                <TreePine className="h-8 w-8 text-green-600" />
+              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center">
+                <TreePine className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="font-bold text-xl mb-4 text-gray-900">
-                Spazi esterni
+              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
+                Giardino
               </h3>
-              <ul className="flex flex-col gap-2 items-center mt-2">
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <TreePine className="h-5 w-5" />
-                  Giardino condiviso
-                </li>
-                <li className="flex items-center gap-2 text-pine-dark text-base font-semibold">
-                  <Car className="h-5 w-5" />
-                  Parcheggio
-                </li>
-              </ul>
+              <p className="text-xs text-gray-600">Con parcheggio</p>
             </div>
           </div>
-          <div className="mt-16 text-center animate-fade-in">
-            <h2 className="font-serif text-2xl font-medium mb-4">
-              La nostra posizione
-            </h2>
-            <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-              L'appartamento si trova in una posizione ideale, in Via
-              Vallombrosa 10, a soli 200 metri dalla pineta e a 5 minuti a piedi
-              dalle splendide spiagge di Pinarella di Cervia.
-            </p>
-            <section>
-              <div className="container px-4 mx-auto">
-                <div className="max-w-4xl mx-auto">
-                  <div className="h-56 md:h-80 w-full rounded-xl overflow-hidden shadow-md border border-border">
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2855.5175857991725!2d12.336976126126825!3d44.26143457117975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132cb6ec48c3e64f%3A0xe2e57ac4f1dda518!2sVia%20Vallombrosa%2C%2010%2C%2048015%20Cervia%20RA!5e0!3m2!1sit!2sit!4v1712597348639!5m2!1sit!2sit"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Mappa dell'appartamento"
-                    />
-                  </div>
-                  <div className="mt-4 text-center">
-                    <a
-                      href="https://maps.app.goo.gl/GjWrURBihH8ktaN77"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline text-sm inline-flex items-center"
-                    >
-                      <MapPin className="h-3.5 w-3.5 mr-1" />
-                      Via Vallombrosa 10, Pinarella di Cervia (RA)
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </section>
+
+          {/* Posizione integrata */}
+          <div className="mt-12 max-w-5xl mx-auto scroll-reveal">
+            <div className="text-center mb-6">
+              <h3 className="font-serif text-xl md:text-2xl font-medium mb-3 text-gray-900">
+                Posizione ideale
+              </h3>
+              <p className="text-gray-600 text-sm md:text-base">
+                Via Vallombrosa 10 • 200m dalla pineta • 5 min dal mare
+              </p>
+            </div>
+            <div className="h-48 md:h-64 w-full rounded-xl overflow-hidden shadow-md border border-gray-200">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2855.5175857991725!2d12.336976126126825!3d44.26143457117975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132cb6ec48c3e64f%3A0xe2e57ac4f1dda518!2sVia%20Vallombrosa%2C%2010%2C%2048015%20Cervia%20RA!5e0!3m2!1sit!2sit!4v1712597348639!5m2!1sit!2sit"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Mappa dell'appartamento"
+              />
+            </div>
+            <div className="mt-3 text-center">
+              <a
+                href="https://maps.app.goo.gl/GjWrURBihH8ktaN77"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline text-xs inline-flex items-center"
+              >
+                <MapPin className="h-3 w-3 mr-1" />
+                Apri in Google Maps
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -655,32 +617,40 @@ const Index = () => {
               </p>
 
               <div className="flex flex-col gap-5 mb-10">
-                <div className="flex items-start bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-sea-light transition-all duration-300 shadow-md hover:shadow-lg">
-                  <div className="bg-gradient-to-br from-orange-100 to-orange-50 p-3 rounded-xl shrink-0">
+                <Link
+                  to={`${getBasePath()}/attractions`}
+                  className="flex items-start bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-sea-light transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer group"
+                >
+                  <div className="bg-gradient-to-br from-orange-100 to-orange-50 p-3 rounded-xl shrink-0 group-hover:scale-110 transition-transform">
                     <Utensils className="text-orange-600 h-6 w-6" />
                   </div>
-                  <div className="ml-4">
-                    <h3 className="font-bold text-lg mb-1 text-gray-900">
+                  <div className="ml-4 flex-1">
+                    <h3 className="font-bold text-lg mb-1 text-gray-900 group-hover:text-orange-600 transition-colors">
                       Ristoranti locali
                     </h3>
                     <p className="text-base text-gray-600">
                       I migliori ristoranti e pizzerie della zona
                     </p>
                   </div>
-                </div>
-                <div className="flex items-start bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-sea-light transition-all duration-300 shadow-md hover:shadow-lg">
-                  <div className="bg-gradient-to-br from-purple-100 to-purple-50 p-3 rounded-xl shrink-0">
+                  <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-orange-600 group-hover:translate-x-1 transition-all ml-2" />
+                </Link>
+                <Link
+                  to={`${getBasePath()}/attractions`}
+                  className="flex items-start bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-sea-light transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer group"
+                >
+                  <div className="bg-gradient-to-br from-purple-100 to-purple-50 p-3 rounded-xl shrink-0 group-hover:scale-110 transition-transform">
                     <Calendar className="text-purple-600 h-6 w-6" />
                   </div>
-                  <div className="ml-4">
-                    <h3 className="font-bold text-lg mb-1 text-gray-900">
+                  <div className="ml-4 flex-1">
+                    <h3 className="font-bold text-lg mb-1 text-gray-900 group-hover:text-purple-600 transition-colors">
                       Eventi e attività
                     </h3>
                     <p className="text-base text-gray-600">
                       Cosa fare durante il tuo soggiorno
                     </p>
                   </div>
-                </div>
+                  <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all ml-2" />
+                </Link>
               </div>
 
               <Button asChild size="lg" className="shadow-lg">

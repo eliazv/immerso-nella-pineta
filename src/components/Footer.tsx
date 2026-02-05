@@ -28,12 +28,22 @@ const Footer = ({ className }: { className?: string }) => {
           {/* Colonna 1: Brand e Contatti */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <img
-                src="/images/optimized/optimized/logo.nobg-640-320.webp"
-                alt="Immerso nella Pineta"
-                loading="lazy"
-                className="h-8 w-auto object-contain"
-              />
+              <picture>
+                <source
+                  type="image/avif"
+                  srcSet="/images/optimized/logo.nobg-320.avif"
+                />
+                <source
+                  type="image/webp"
+                  srcSet="/images/optimized/logo.nobg-320.webp"
+                />
+                <img
+                  src="/images/logo.nobg.png"
+                  alt="Immerso nella Pineta"
+                  loading="lazy"
+                  className="h-8 w-auto object-contain"
+                />
+              </picture>
               <span className="font-serif text-lg font-semibold tracking-tight">
                 Immerso nella Pineta
               </span>

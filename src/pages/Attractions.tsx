@@ -89,6 +89,7 @@ const Attractions = () => {
       image:
         "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1000&auto=format&fit=crop",
       icon: PartyPopper,
+      blogSlug: "pinarella-summer-festival",
     },
     {
       title: "Festival Internazionale dell'Aquilone",
@@ -98,6 +99,7 @@ const Attractions = () => {
       image:
         "https://www.ravenna24ore.it/wp-content/uploads/sites/6/2023/04/36-ARTEVENTO-CERVIA-Davide-Baroni-scaled-1.jpg?q=80&w=1000&auto=format&fit=crop",
       icon: Calendar,
+      blogSlug: "festival-aquilone-cervia",
     },
     {
       title: "Mercatino dell'Artigianato",
@@ -107,6 +109,7 @@ const Attractions = () => {
       image:
         "https://www.novaratoday.it/~media/horizontal-hi/49129561680332/mercatino-antiquariato-arona-1.jpg?q=80&w=1000&auto=format&fit=crop",
       icon: Store,
+      blogSlug: "mercatino-artigianato-cervia",
     },
   ];
 
@@ -263,37 +266,50 @@ const Attractions = () => {
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
-                {events.map((event, index) => (
-                  <div
-                    key={index}
-                    className="group bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-purple-300 hover:shadow-2xl transition-all duration-300"
-                  >
-                    <div className="relative h-40 md:h-48 overflow-hidden">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute top-3 md:top-4 right-3 md:right-4 bg-white/95 backdrop-blur-sm p-1.5 md:p-2 rounded-full shadow-lg">
-                        <event.icon className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+                {events.map((event, index) => {
+                  const EventWrapper = event.blogSlug ? Link : "div";
+                  const wrapperProps = event.blogSlug
+                    ? { to: `/blog/${event.blogSlug}` }
+                    : {};
+
+                  return (
+                    <EventWrapper
+                      key={index}
+                      {...wrapperProps}
+                      className="group bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg border-2 border-gray-200 hover:border-purple-300 hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                    >
+                      <div className="relative h-40 md:h-48 overflow-hidden">
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute top-3 md:top-4 right-3 md:right-4 bg-white/95 backdrop-blur-sm p-1.5 md:p-2 rounded-full shadow-lg">
+                          <event.icon className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+                        </div>
+                        {event.blogSlug && (
+                          <div className="absolute top-3 md:top-4 left-3 md:left-4 bg-purple-600 text-white text-[10px] md:text-xs font-semibold px-2 md:px-3 py-1 rounded-full shadow-lg">
+                            Leggi articolo
+                          </div>
+                        )}
                       </div>
-                    </div>
-                    <div className="p-4 md:p-6">
-                      <h3 className="text-base md:text-lg font-bold mb-1.5 md:mb-2 text-pine-dark group-hover:text-purple-600 transition-colors">
-                        {event.title}
-                      </h3>
-                      <div className="flex items-center gap-2 mb-2 md:mb-3">
-                        <CalendarDays className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-500" />
-                        <p className="text-[10px] md:text-xs font-semibold text-purple-600">
-                          {event.date}
+                      <div className="p-4 md:p-6">
+                        <h3 className="text-base md:text-lg font-bold mb-1.5 md:mb-2 text-pine-dark group-hover:text-purple-600 transition-colors">
+                          {event.title}
+                        </h3>
+                        <div className="flex items-center gap-2 mb-2 md:mb-3">
+                          <CalendarDays className="h-3.5 w-3.5 md:h-4 md:w-4 text-purple-500" />
+                          <p className="text-[10px] md:text-xs font-semibold text-purple-600">
+                            {event.date}
+                          </p>
+                        </div>
+                        <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
+                          {event.description}
                         </p>
                       </div>
-                      <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
-                        {event.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                    </EventWrapper>
+                  );
+                })}
               </div>
 
               {/* Link Eventi Esterni */}

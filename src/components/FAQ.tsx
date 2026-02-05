@@ -27,7 +27,7 @@ const FAQ = () => {
     {
       question: "Quante persone può ospitare l'appartamento?",
       answer:
-        "L'appartamento  può ospitare fino a 4 persone con 1 letto matrimoniale e 2 letti singoli. È perfetto per famiglie o gruppi di amici che visitano Pinarella di Cervia.",
+        "L'appartamento  può ospitare fino a 4 persone con 1 letto matrimoniale e 2 letti singoli. È perfetto per famiglie o gruppi di amici che visitano Pinarella di Cervia. L'appartamento ha una superficie di circa 35 mq con un'altezza interna di 2,25 metri.",
     },
     {
       question: "È incluso il parcheggio nell'affitto?",
@@ -40,14 +40,24 @@ const FAQ = () => {
         "Il check-in è dalle ore 14:00 e il check-out entro le ore 10:00. L'accesso è autonomo tramite cassetta di sicurezza, quindi puoi arrivare quando preferisci dopo le 14:00.",
     },
     {
-      question: "Cosa c'è vicino all'appartamento a Pinarella?",
+      question: "Cosa viene fornito nell'appartamento?",
       answer:
-        "A 200 metri trovi il mare e la pineta di Pinarella. Nelle vicinanze ci sono ristoranti, pizzerie, bar, supermercati e noleggi bici. Il centro di Cervia è a 10 minuti in auto.",
+        "Durante il soggiorno vengono forniti: set completo di lenzuola, federe e asciugamani, stoviglie e utensili da cucina, prodotti per la pulizia della casa. È disponibile anche un deumidificatore e su richiesta un seggiolone per bambini. Nota: non vengono forniti articoli per l'igiene personale (es. saponi da bagno) né generi alimentari.",
     },
     {
-      question: "L'appartamento ha aria condizionata?",
+      question: "C'è l'imposta di soggiorno?",
       answer:
-        "Sì, l'appartamento è dotato di aria condizionata e riscaldamento per il massimo comfort durante tutto l'anno. Include anche lavatrice, cucina completamente attrezzata e TV.",
+        "Sì, l'imposta di soggiorno è di €1 a notte per adulto (dai 15 anni in su), applicabile dal 1° maggio al 30 settembre, fino a un massimo di 7 notti consecutive. Il pagamento può essere effettuato separatamente tramite PayPal, Satispay o bonifico bancario.",
+    },
+    {
+      question: "Cosa c'è vicino all'appartamento a Pinarella?",
+      answer:
+        "A 200 metri trovi il mare e la pineta di Pinarella. Nelle vicinanze ci sono ristoranti, pizzerie, bar, supermercati (200m in estate, 2km tutto l'anno) e noleggi bici. Il centro di Cervia è a 10 minuti in auto.",
+    },
+    {
+      question: "L'appartamento ha aria condizionata e riscaldamento?",
+      answer:
+        "Sì, l'appartamento è dotato di aria condizionata e riscaldamento per il massimo comfort durante tutto l'anno. Nei mesi freddi, il riscaldamento è fornito da uno split con pompa di calore nel soggiorno. In camera da letto è presente una stufetta elettrica portatile. Include anche lavatrice, cucina completamente attrezzata e TV.",
     },
     {
       question: "Posso portare animali domestici?",
