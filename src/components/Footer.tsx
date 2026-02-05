@@ -1,14 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  TreePine,
-  Waves,
-  ChevronRight,
-} from "lucide-react";
+import { Mail, Phone, MapPin, ChevronRight } from "lucide-react";
 import { useAccommodation } from "@/contexts/AccommodationContext";
 
 const Footer = ({ className }: { className?: string }) => {
@@ -30,15 +23,17 @@ const Footer = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      <div className="container px-4 py-12 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div className="container px-4 py-8 mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-2">
           {/* Colonna 1: Brand e Contatti */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="relative flex items-center">
-                <TreePine className="text-pine-light h-6 w-6" />
-                <Waves className="text-sea-light h-6 w-6 absolute left-3" />
-              </div>
+              <img
+                src="/images/optimized/optimized/logo.nobg-640-320.webp"
+                alt="Immerso nella Pineta"
+                loading="lazy"
+                className="h-8 w-auto object-contain"
+              />
               <span className="font-serif text-lg font-semibold tracking-tight">
                 Immerso nella Pineta
               </span>
@@ -71,7 +66,7 @@ const Footer = ({ className }: { className?: string }) => {
                 className="flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm group"
               >
                 <MapPin className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                <span>Viale dei Mille 3, Pinarella</span>
+                <span>Via Vallombrosa 10, Cervia</span>
               </a>
             </div>
 
@@ -194,10 +189,7 @@ const Footer = ({ className }: { className?: string }) => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/60">
             <p>
               © {new Date().getFullYear()} Immerso nella Pineta. Tutti i diritti
-              riservati.
-            </p>
-            <p>
-              Sito sviluppato da{" "}
+              riservati. Sito sviluppato da{" "}
               <a
                 href="https://eliazavatta.it/"
                 target="_blank"

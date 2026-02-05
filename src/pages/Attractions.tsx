@@ -510,7 +510,7 @@ const Attractions = () => {
         <section className="pb-20">
           <div className="container px-4 mx-auto">
             <div className="max-w-4xl mx-auto">
-              <h2 className="font-serif text-2xl font-medium mb-6 text-center">
+              <h2 className="font-serif text-2xl font-medium my-6 text-center">
                 La nostra posizione
               </h2>
               <div className="aspect-[16/9] w-full rounded-xl overflow-hidden shadow-md border border-border">

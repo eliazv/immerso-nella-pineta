@@ -1,3 +1,10 @@
+- come icoan scheda del browser usa public\images\logo.nobg.ico
+- rimuovi immagini che non servono superflue da public\images e rioganizzale
+- in /attractions se ci sono articoli di blog che parlando di eventi al click sulla card eventi deve portare a qull'articolo
+- in src\pages\Index.tsx migliuroa sezione Comfort, privacy e natura e la mia posizione, nle card sono torppoo grandi , cercha il milglior dessign e unisci tuto insieme senza allungare troppo la pagina
+- in sezione Attrazioni e consigli utili se clicco su card risoranti locali o venti e ativita porta ad attrazioni pagina
+- inotlre verifica che le info piu importanti di docs\airbnb-data.md siano presenti nella pagina magari in punti non molto centrali come nella sezione Informazioni utili o Faq
+
 - prendi info airbnb e mettile dentro alloggio
 - rianalizza tutto il sito, al momento è un po incasinato perche ci sono duplicazioni per ogni alloggio, vorrei che rendessi il sito di base unico e poi cliccando su un alloggio lo approfondisci vorrei che al momento togliessi dropdown in alto a sisnitra tutti i blog devono avere header e footer. quindi home in header porta sempre a src\pages\AccommodationSelector.tsx che è la home , anche click nel logo a sinsitra che deve essere il testo Immerso nella pineta. prenota ora
 - hero togli 5 minutoi dal mare nella pineta e 4 posti card e magari metile di ficno con altre info piu condensate...

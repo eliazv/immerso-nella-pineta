@@ -191,7 +191,7 @@ const Header = () => {
                 )}
               >
                 {accommodation.shortName}
-                <span
+                {/* <span
                   className={cn(
                     "block text-xs font-normal transition-colors",
                     isScrolled || !isAccommodationHome
@@ -200,7 +200,7 @@ const Header = () => {
                   )}
                 >
                   Pinarella di Cervia
-                </span>
+                </span> */}
               </span>
               <ChevronDown
                 className={cn(

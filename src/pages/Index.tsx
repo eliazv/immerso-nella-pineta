@@ -146,17 +146,17 @@ const Index = () => {
             {accommodation.name}
           </h1>
 
-          <div className="max-w-3xl mx-auto mb-8 md:mb-12 px-2">
+          <div className="max-w-3xl mx-auto mb-4 md:mb-8 px-2">
             <p className="text-white text-xl sm:text-2xl md:text-3xl mb-3 md:mb-4 drop-shadow-xl font-light">
-              Vacanze al mare in affitto diretto
+              Casa Vacanze al mare in affitto diretto
             </p>
-            <p className="text-white/95 text-base sm:text-lg md:text-xl drop-shadow-lg font-medium">
+            {/* <p className="text-white/95 text-base sm:text-lg md:text-xl drop-shadow-lg font-medium">
               Nessuna commissione • Contatto diretto • Risparmia il 20%
-            </p>
+            </p> */}
           </div>
 
           {/* Info Cards - Più compatte e moderne */}
-          <div className="flex flex-wrap gap-3 md:gap-4 justify-center mb-8 md:mb-12 px-2">
+          {/* <div className="flex flex-wrap gap-3 md:gap-4 justify-center mb-8 md:mb-12 px-2">
             <div className="group bg-white/15 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2.5 md:px-5 md:py-3 text-white hover:bg-white/25 hover:border-white/40 transition-all duration-300 shadow-xl">
               <div className="flex items-center gap-2 md:gap-2.5">
                 <div className="bg-white/20 p-1.5 md:p-2 rounded-full group-hover:scale-110 transition-transform">
@@ -187,7 +187,7 @@ const Index = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 md:gap-5 justify-center items-center mb-8 md:mb-12 px-4">
@@ -266,10 +266,10 @@ const Index = () => {
         <div className="container px-4 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center max-w-6xl mx-auto">
             <div className="scroll-reveal order-2 lg:order-1">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pine-light to-sea-light/50 text-pine-dark px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold mb-6 md:mb-8 shadow-sm">
+              {/* <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pine-light to-sea-light/50 text-pine-dark px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-semibold mb-6 md:mb-8 shadow-sm">
                 <TreePine className="h-3.5 w-3.5 md:h-4 md:w-4" />
                 <span>Pinarella, Cervia</span>
-              </div>
+              </div> */}
 
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-6 text-gray-900 leading-tight">
                 {accommodation.welcomeTitle}
@@ -473,6 +473,45 @@ const Index = () => {
                 </li>
               </ul>
             </div>
+          </div>
+          <div className="mt-16 text-center animate-fade-in">
+            <h2 className="font-serif text-2xl font-medium mb-4">
+              La nostra posizione
+            </h2>
+            <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+              L'appartamento si trova in una posizione ideale, in Via
+              Vallombrosa 10, a soli 200 metri dalla pineta e a 5 minuti a piedi
+              dalle splendide spiagge di Pinarella di Cervia.
+            </p>
+            <section>
+              <div className="container px-4 mx-auto">
+                <div className="max-w-4xl mx-auto">
+                  <div className="h-56 md:h-80 w-full rounded-xl overflow-hidden shadow-md border border-border">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2855.5175857991725!2d12.336976126126825!3d44.26143457117975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132cb6ec48c3e64f%3A0xe2e57ac4f1dda518!2sVia%20Vallombrosa%2C%2010%2C%2048015%20Cervia%20RA!5e0!3m2!1sit!2sit!4v1712597348639!5m2!1sit!2sit"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Mappa dell'appartamento"
+                    />
+                  </div>
+                  <div className="mt-4 text-center">
+                    <a
+                      href="https://maps.app.goo.gl/GjWrURBihH8ktaN77"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline text-sm inline-flex items-center"
+                    >
+                      <MapPin className="h-3.5 w-3.5 mr-1" />
+                      Via Vallombrosa 10, Pinarella di Cervia (RA)
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </section>
