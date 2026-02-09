@@ -38,7 +38,7 @@ const SeasonalityChart: React.FC<SeasonalityChartProps> = ({ data }) => {
   // Combina i dati di prenotazioni e prezzi medi
   const chartData = monthOrder.map((month) => {
     const bookingsData = data.monthlyBookings.find(
-      (item) => item.month === month
+      (item) => item.month === month,
     );
     const priceData = data.monthlyAvgPrice.find((item) => item.month === month);
 
@@ -165,13 +165,13 @@ const SeasonalityChart: React.FC<SeasonalityChartProps> = ({ data }) => {
         </div>
       </div>
 
-      <div className="text-center text-muted-foreground text-sm mt-2">
+      {/* <div className="text-center text-muted-foreground text-sm mt-2">
         La stagionalità mostra la relazione tra numero di prenotazioni e prezzi
         medi durante l'anno.
         <br />
         Usa questi dati per ottimizzare i prezzi nei periodi di alta domanda e
         stimolare le prenotazioni nei periodi con meno richieste.
-      </div>
+      </div> */}
     </div>
   );
 };

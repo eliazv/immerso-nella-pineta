@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Booking } from "@/types/calendar";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingCard from "@/components/calendar/BookingCard";
+import { Calendar, Search, Filter } from "lucide-react";
 
 // Funzione per ordinare le prenotazioni per data di check-in
 const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
@@ -37,7 +38,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
       const [checkoutDay, checkoutMonth, checkoutYear] =
         booking.CheckOut.split("/");
       const checkoutDate = new Date(
-        `${checkoutYear}-${checkoutMonth}-${checkoutDay}`
+        `${checkoutYear}-${checkoutMonth}-${checkoutDay}`,
       );
 
       // Mantieni la prenotazione se la data di checkout è oggi o successiva
@@ -90,26 +91,34 @@ const BookingsList: React.FC<BookingsListProps> = ({
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center my-6">
-        <h3 className="font-serif text-lg font-medium">Lista Prenotazioni</h3>
-        <div className="flex items-center space-x-2">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 my-6 px-2">
+        <div>
+          <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">
+            Prenotazioni
+          </h3>
+          <p className="text-sm font-bold text-slate-400">
+            Dettagli e storico dei tuoi ospiti
+          </p>
+        </div>
+
+        <div className="flex bg-slate-100 dark:bg-slate-800 p-1.5 rounded-[1.25rem] w-full sm:w-auto shadow-inner border border-slate-200/50 dark:border-slate-700/50">
           <button
             onClick={() => setShowOnlyUpcoming(true)}
-            className={`px-3 py-1 text-sm rounded-md ${
+            className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-black rounded-2xl transition-all ${
               showOnlyUpcoming
-                ? "bg-primary text-white"
-                : "bg-gray-200 text-gray-700"
+                ? "bg-white dark:bg-slate-900 text-primary shadow-md"
+                : "text-slate-500 hover:text-slate-700 font-bold"
             }`}
           >
             Prossime
           </button>
           <button
             onClick={() => setShowOnlyUpcoming(false)}
-            className={`px-3 py-1 text-sm rounded-md ${
+            className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-black rounded-2xl transition-all ${
               !showOnlyUpcoming
-                ? "bg-primary text-white"
-                : "bg-gray-200 text-gray-700"
+                ? "bg-white dark:bg-slate-900 text-primary shadow-md"
+                : "text-slate-500 hover:text-slate-700 font-bold"
             }`}
           >
             Tutte
@@ -117,47 +126,51 @@ const BookingsList: React.FC<BookingsListProps> = ({
         </div>
       </div>
 
-      {bookings.length === 0 ? (
-        <p className="text-muted-foreground">Nessuna prenotazione trovata.</p>
-      ) : (
-        <div className="space-y-6">
-          {showOnlyUpcoming ? (
-            // Visualizzazione normale per le prenotazioni future
-            <div className="space-y-4">
-              {getFilteredBookings().map((booking, index) => (
-                <BookingCard
-                  key={index}
-                  booking={booking}
-                  onClick={onBookingClick}
-                  getApartmentShortName={getApartmentShortName}
-                />
+      <div className="space-y-8">
+        {Object.entries(getGroupedBookings()).map(([year, yearBookings]) => (
+          <div key={year} className="space-y-4">
+            {year !== "ungrouped" && (
+              <div className="flex items-center gap-4">
+                <h4 className="text-xl font-black text-slate-300 tracking-tighter">
+                  {year}
+                </h4>
+                <div className="h-[1px] bg-slate-200 flex-1" />
+                <span className="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded border uppercase">
+                  {yearBookings.length} pren.
+                </span>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {yearBookings.map((booking, index) => (
+                <div
+                  key={`${year}-${index}`}
+                  className="animate-in fade-in slide-in-from-bottom-2 duration-300"
+                  style={{ animationDelay: `${index * 30}ms` }}
+                >
+                  <BookingCard
+                    booking={booking}
+                    onClick={onBookingClick}
+                    getApartmentShortName={getApartmentShortName}
+                  />
+                </div>
               ))}
             </div>
-          ) : (
-            // Visualizzazione raggruppata per anno
-            Object.entries(getGroupedBookings()).map(([year, yearBookings]) => (
-              <div key={year} className="space-y-3">
-                <h4 className="text-lg font-semibold sticky top-[56px] py-2 z-10 shadow-sm bg-[#fcfaf8] border-b">
-                  {year}{" "}
-                  <span className="text-sm text-muted-foreground">
-                    ({yearBookings.length} prenotazioni)
-                  </span>
-                </h4>
-                <div className="space-y-4">
-                  {yearBookings.map((booking, index) => (
-                    <BookingCard
-                      key={`${year}-${index}`}
-                      booking={booking}
-                      onClick={onBookingClick}
-                      getApartmentShortName={getApartmentShortName}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      )}
+          </div>
+        ))}
+
+        {getFilteredBookings().length === 0 && (
+          <div className="text-center py-20 bg-slate-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
+            <Calendar className="h-12 w-12 text-slate-300 dark:text-slate-700 mx-auto mb-4" />
+            <h4 className="text-lg font-bold text-slate-800 dark:text-slate-200">
+              Nessuna prenotazione
+            </h4>
+            <p className="text-slate-500">
+              Non ci sono prenotazioni per questo periodo.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

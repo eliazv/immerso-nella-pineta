@@ -10,6 +10,7 @@ import BookingsList from "@/components/calendar/BookingsList";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { RefreshCw, Building } from "lucide-react";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -44,7 +45,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
       setIsLoading(true);
       const { events, bookings, isCachedData } = await fetchBookings(
         selectedCalendar,
-        forceRefresh
+        forceRefresh,
       );
 
       // Se stiamo visualizzando tutti gli appartamenti, dobbiamo modificare
@@ -54,7 +55,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           ? events.map((event) => ({
               ...event,
               title: `${getApartmentShortName(
-                event.extendedProps.apartment
+                event.extendedProps.apartment,
               )} - ${event.title}`,
             }))
           : events;
@@ -133,174 +134,189 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   };
 
   return (
-    <div className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto">
+    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700 px-4 md:px-0">
       <style>{`
         .fc-header-toolbar {
-          padding: 0.1rem 0 !important;
-          min-height: 2rem !important;
-          margin-bottom: 0.5rem !important;
+          padding: 0.5rem 0 !important;
+          margin-bottom: 1.5rem !important;
+          flex-wrap: wrap;
+          gap: 12px;
         }
         .fc-header-toolbar .fc-toolbar-title {
-          font-size: 1.4rem !important;
-          font-weight: 500 !important;
-          margin: 0 !important;
-          line-height: 1.2 !important;
+          font-size: 1.5rem !important;
+          font-weight: 900 !important;
+          color: #1e293b;
+          text-transform: capitalize;
+          letter-spacing: -0.025em;
         }
-        .fc-header-toolbar .fc-button {
-          font-size: 1rem !important;
-          padding: 0.1rem 0.3rem !important;
-          height: 2.3rem !important;
-          line-height: 1 !important;
+        .fc-button {
+          background-color: #f8fafc !important;
+          border: none !important;
+          color: #64748b !important;
+          font-weight: 800 !important;
+          font-size: 0.875rem !important;
+          padding: 0.6rem 1.2rem !important;
+          border-radius: 1rem !important;
+          box-shadow: none !important;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .fc-header-toolbar .fc-toolbar-chunk {
-          display: flex !important;
-          align-items: center !important;
-          height: 2.5rem !important;
+        .fc-button-active {
+          background-color: #10b981 !important;
+          color: white !important;
+          box-shadow: 0 4px 12px -2px rgba(16, 185, 129, 0.3) !important;
         }
-        /* Eventi calendario con bordi arrotondati intelligenti e posizione a metà giornata */
-        .fc-daygrid-event-harness {
-          overflow: visible !important;
+        .fc-button:hover:not(.fc-button-active) {
+          background-color: #f1f5f9 !important;
+          transform: translateY(-1px);
+        }
+        .fc-daygrid-day-number {
+          padding: 10px !important;
+          font-size: 0.8rem !important;
+          font-weight: 600 !important;
+          color: #94a3b8 !important;
+        }
+        .fc-day-today {
+          background-color: #f0fdf4 !important;
+        }
+        .fc-day-today .fc-daygrid-day-number {
+          color: #10b981 !important;
+          font-weight: 900 !important;
+          background: white;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 4px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .fc-col-header-cell {
+          padding: 16px 0 !important;
+          background-color: transparent;
+          border-bottom: 2px solid #f1f5f9 !important;
+        }
+        .fc-col-header-cell-cushion {
+          font-size: 0.75rem !important;
+          font-weight: 800 !important;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: #94a3b8;
+          text-decoration: none !important;
         }
         .fc-daygrid-event {
-          border-radius: 0 !important;
+          border: none !important;
+          padding: 4px 6px !important;
+          font-size: 0.75rem !important;
+          font-weight: 700 !important;
+          margin-top: 3px !important;
+          margin-bottom: 3px !important;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.03);
         }
-        /* Solo l'inizio della prenotazione ha il bordo sinistro arrotondato e inizia a metà */
         .fc-daygrid-event.fc-event-start {
-          border-top-left-radius: 8px !important;
-          border-bottom-left-radius: 8px !important;
-          margin-left: 10% !important;
+          border-top-left-radius: 12px !important;
+          border-bottom-left-radius: 12px !important;
+          margin-left: 2px !important;
         }
-        /* Solo la fine della prenotazione ha il bordo destro arrotondato e finisce a metà */
         .fc-daygrid-event.fc-event-end {
-          border-top-right-radius: 8px !important;
-          border-bottom-right-radius: 8px !important;
-          margin-right: 10% !important;
+          border-top-right-radius: 12px !important;
+          border-bottom-right-radius: 12px !important;
+          margin-right: 2px !important;
         }
-        /* Eventi che continuano da una settimana all'altra (né inizio né fine) */
-        .fc-daygrid-event:not(.fc-event-start):not(.fc-event-end) {
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-        }
-        /* Se la prenotazione è di un solo giorno, ha tutti i bordi arrotondati e centrata */
         .fc-daygrid-event.fc-event-start.fc-event-end {
-          border-radius: 8px !important;
-          margin-left: 3.57% !important;
-          margin-right: 3.57% !important;
+          border-radius: 12px !important;
+        }
+        .calendar-card {
+          overflow: hidden;
+          border: none;
+          box-shadow: 0 10px 30px -5px rgba(0,0,0,0.04);
         }
       `}</style>
 
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-medium">Calendario e Prenotazioni</h2>
-          <p className="text-muted-foreground">
-            {apartmentNames[selectedCalendar]}
+          <h1 className="text-2xl font-black tracking-tight text-slate-800 dark:text-white">
+            Calendario
+          </h1>
+          <p className="text-muted-foreground text-sm font-semibold flex items-center gap-2">
+            <Building className="h-3.5 w-3.5 text-primary" />
+            {apartmentNames[selectedCalendar as keyof typeof apartmentNames]}
           </p>
         </div>
+      </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleRefresh}
-            disabled={isLoading}
-            className="flex items-center gap-1 px-3 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-          >
-            {isLoading ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                {!isMobile && <span>Caricamento...</span>}
-              </>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38" />
-                </svg>
-                {!isMobile && <span>Aggiorna dati</span>}
-              </>
-            )}
-          </button>
+      <div className="grid grid-cols-1 gap-6">
+        <div className="bg-white dark:bg-slate-900 rounded-[1.5rem] p-4 md:p-6 shadow-md border border-slate-100 dark:border-slate-800">
+          <div className=" flex flex-wrap items-center justify-between gap-4">
+            {/* <h3 className="text-xl font-black text-slate-800 dark:text-white">
+              Disponibilità
+            </h3> */}
+            {renderColorLegend()}
+          </div>
+
+          {isLoading && !events.length ? (
+            <div className="h-[500px] flex items-center justify-center">
+              <div className="flex flex-col items-center gap-4">
+                <div className="h-12 w-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                <p className="text-sm font-bold text-slate-400">
+                  Caricamento calendario...
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="dark:text-slate-200">
+              <FullCalendar
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                locale="it"
+                events={events}
+                firstDay={1}
+                eventClick={(info) => {
+                  const booking = info.event.extendedProps as Booking;
+                  openBookingDetails(booking);
+                }}
+                height="auto"
+                headerToolbar={{
+                  left: "prev,next today",
+                  center: "title",
+                  right: "",
+                }}
+                buttonText={{
+                  today: "Oggi",
+                  month: "Mese",
+                }}
+                titleFormat={{
+                  year: "numeric",
+                  month: "long",
+                }}
+                eventContent={(arg) => {
+                  const ota =
+                    arg.event.extendedProps?.OTA ||
+                    arg.event.extendedProps?.ota;
+                  return (
+                    <div className="flex items-center gap-1.5 overflow-hidden py-0.5">
+                      {ota && (
+                        <span className="shrink-0 scale-110">
+                          {getOtaLogo(ota)}
+                        </span>
+                      )}
+                      <span className="truncate">{arg.event.title}</span>
+                    </div>
+                  );
+                }}
+              />
+            </div>
+          )}
+        </div>
+
+        <div>
+          <BookingsList
+            bookings={bookings}
+            onBookingClick={(booking) => openBookingDetails(booking)}
+          />
         </div>
       </div>
 
-      {renderColorLegend()}
-
-      <div className="bg-white rounded-xl p-3 shadow-md border">
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          locale="it"
-          events={events}
-          firstDay={1} // Imposta lunedì come primo giorno della settimana
-          eventClick={(info) => {
-            const booking = info.event.extendedProps as Booking;
-            openBookingDetails(booking);
-          }}
-          height="auto"
-          titleFormat={{
-            year: "numeric",
-            month: "short", // Usa l'abbreviazione del mese per ridurre la lunghezza
-          }}
-          viewClassNames="calendar-view "
-          contentHeight="auto"
-          eventClassNames="text-sm"
-          dayCellClassNames="text-xs"
-          eventContent={(arg) => {
-            // Mostra il logo OTA accanto al titolo della prenotazione, se disponibile
-            const ota =
-              arg.event.extendedProps?.OTA || arg.event.extendedProps?.ota;
-            // Rimuove la dicitura tra parentesi (es. (airbnb), (booking), ecc.) dal titolo
-
-            return (
-              <div className="flex items-center gap-1">
-                {ota && getOtaLogo(ota)}
-                <span>{arg.event.title}</span>
-              </div>
-            );
-          }}
-        />
-      </div>
-
-      {/* <p className="text-xs text-muted-foreground mt-4">
-        La data di check-out si riferisce alla mattina della partenza
-        dell'ospite. Di conseguenza, nel calendario l'appartamento risulterà
-        occupato fino alla notte del giorno precedente. Ad esempio, se il
-        check-out è previsto per il 10, l'ultima notte prenotata sarà quella del
-        9.
-      </p> */}
-
-      <BookingsList
-        bookings={bookings}
-        onBookingClick={(booking) => openBookingDetails(booking)}
-      />
-
-      {/* Modale per i dettagli della prenotazione */}
       <BookingModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
