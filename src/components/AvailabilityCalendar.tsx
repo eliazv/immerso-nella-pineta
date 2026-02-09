@@ -134,7 +134,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   };
 
   return (
-    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700 px-4 md:px-0">
+    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700 px-2 md:px-0">
       <style>{`
         .fc-header-toolbar {
           padding: 0.5rem 0 !important;

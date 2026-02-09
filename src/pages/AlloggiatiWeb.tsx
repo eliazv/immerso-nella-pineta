@@ -58,15 +58,15 @@ const AlloggiatiWeb: React.FC = () => {
   const sendEmailNotification = async (
     formData: AlloggiatiFormData,
     fileName: string,
-    fileContent: string
+    fileContent: string,
   ) => {
     try {
       const config = {
         serviceId: "service_8vct8zl",
-        templateId: "template_8zgge3d", 
+        templateId: "template_8zgge3d",
         publicKey: "cL0t8BEEWVW6SEE86",
         toEmail: "zavattaelia@gmail.com",
-        fromEmail: "zavattaelia@gmail.com"
+        fromEmail: "zavattaelia@gmail.com",
       };
 
       const subject = `Nuova registrazione ospiti - ${fileName}`;
@@ -100,14 +100,14 @@ ${JSON.stringify(formData, null, 2)}
       if (import.meta.env.DEV) {
         console.log("Invio email con allegato ottimizzato...");
       }
-      
+
       const result = await EmailAttachmentService.sendEmailWithAttachment(
         config,
         fileName,
         fileContent,
         subject,
         message,
-        fileName
+        fileName,
       );
 
       if (result.success) {
@@ -147,7 +147,7 @@ ${JSON.stringify(formData, null, 2)}
       // Genera la schedina
       const content = AlloggiatiService.generateSchedina(formData);
       const fileName = AlloggiatiService.generateFileName(
-        formData.idAppartamento
+        formData.idAppartamento,
       );
 
       // Il caricamento del file viene gestito direttamente nel servizio email
@@ -202,7 +202,7 @@ ${JSON.stringify(formData, null, 2)}
         description="Sistema per la raccolta dati ospiti e generazione schedine per Alloggiati Web - Comunicazione alla Questura"
       />
 
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-2 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
@@ -233,7 +233,9 @@ ${JSON.stringify(formData, null, 2)}
           <Alert className="mb-6 border-blue-200 bg-blue-50">
             <Info className="h-4 w-4 text-blue-600" />
             <AlertDescription>
-              <strong className="text-blue-800">Informazioni importanti:</strong>
+              <strong className="text-blue-800">
+                Informazioni importanti:
+              </strong>
               <ol className="list-decimal list-inside mt-2 space-y-1 text-blue-700">
                 <li>
                   <strong>Inserisci tutti gli ospiti</strong> che alloggeranno

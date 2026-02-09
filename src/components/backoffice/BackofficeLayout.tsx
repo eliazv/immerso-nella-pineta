@@ -253,12 +253,9 @@ const BackofficeLayout: React.FC = () => {
           </div>
         </div>
       </header>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content Area */}
-      <main className="pt-4 md:pt-20 pb-28 md:pb-8 container mx-auto px-4 max-w-6xl">
+      <main className="pt-4 md:pt-20 pb-28 md:pb-8 container mx-auto px-0 md:px-4 max-w-6xl">
         <Outlet context={{ selectedCalendar }} />
       </main>
 
@@ -269,8 +266,16 @@ const BackofficeLayout: React.FC = () => {
           value={selectedCalendar}
           onValueChange={(value) => handleCalendarChange(value as CalendarType)}
         >
-          <SelectTrigger className="w-[80px] h-11 border-none bg-slate-100 dark:bg-slate-800 rounded-full focus:ring-0 p-0 flex items-center justify-center">
-            <Building className="h-5 w-5 text-primary" />
+          <SelectTrigger
+            hideChevron
+            className="w-14 h-11 border-none bg-slate-100 dark:bg-slate-800 rounded-full focus:ring-0 p-0 flex flex-col items-center justify-center"
+          >
+            <House className="h-4 w-4 text-primary" />
+            <span className="text-[10px] font-black leading-none mt-0.5">
+              {apartmentOptions
+                .find((o) => o.value === selectedCalendar)
+                ?.label.replace("N° ", "") || "ALL"}
+            </span>
           </SelectTrigger>
           <SelectContent className="rounded-3xl border-none shadow-2xl">
             {apartmentOptions.map((option) => (

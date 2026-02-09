@@ -4,7 +4,7 @@ import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingCard from "@/components/calendar/BookingCard";
 import { Calendar, Search, Filter } from "lucide-react";
 
-// Funzione per ordinare le prenotazioni per data di check-in
+// Funzione per ordinare le prenotazioni per data di check-in (crescente)
 const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
   return [...bookings].sort((a, b) => {
     // Converti le date di check-in da formato DD/MM/YYYY a Date per il confronto
@@ -18,6 +18,19 @@ const sortBookingsByCheckIn = (bookings: Booking[]): Booking[] => {
   });
 };
 
+// Funzione per ordinare le prenotazioni per data di check-in (decrescente)
+const sortBookingsByCheckInDesc = (bookings: Booking[]): Booking[] => {
+  return [...bookings].sort((a, b) => {
+    const [dayA, monthA, yearA] = a.CheckIn.split("/");
+    const [dayB, monthB, yearB] = b.CheckIn.split("/");
+
+    const dateA = new Date(`${yearA}-${monthA}-${dayA}`);
+    const dateB = new Date(`${yearB}-${monthB}-${dayB}`);
+
+    return dateB.getTime() - dateA.getTime();
+  });
+};
+
 interface BookingsListProps {
   bookings: Booking[];
   onBookingClick: (booking: Booking) => void;
@@ -28,29 +41,32 @@ const BookingsList: React.FC<BookingsListProps> = ({
   onBookingClick,
 }) => {
   const [showOnlyUpcoming, setShowOnlyUpcoming] = useState<boolean>(true);
+  const [visibleItems, setVisibleItems] = useState<number>(10);
+
   // Funzione per filtrare le prenotazioni future
   const getFilteredBookings = () => {
-    if (!showOnlyUpcoming) return sortBookingsByCheckIn(bookings);
-
     const today = new Date();
-    const filtered = bookings.filter((booking) => {
-      // Converti la data di checkout da formato DD/MM/YYYY a Date
-      const [checkoutDay, checkoutMonth, checkoutYear] =
-        booking.CheckOut.split("/");
-      const checkoutDate = new Date(
-        `${checkoutYear}-${checkoutMonth}-${checkoutDay}`,
-      );
+    today.setHours(0, 0, 0, 0);
 
-      // Mantieni la prenotazione se la data di checkout è oggi o successiva
-      return checkoutDate >= today;
-    });
+    if (showOnlyUpcoming) {
+      const filtered = bookings.filter((booking) => {
+        const [checkoutDay, checkoutMonth, checkoutYear] =
+          booking.CheckOut.split("/");
+        const checkoutDate = new Date(
+          `${checkoutYear}-${checkoutMonth}-${checkoutDay}`,
+        );
+        return checkoutDate >= today;
+      });
+      return sortBookingsByCheckIn(filtered);
+    }
 
-    return sortBookingsByCheckIn(filtered);
+    // Per "Tutte", ordiniamo per le più future in alto
+    return sortBookingsByCheckInDesc(bookings);
   };
 
   // Funzione per raggruppare le prenotazioni per anno (solo quando si mostrano tutte)
   const getGroupedBookings = () => {
-    const filtered = getFilteredBookings();
+    const filtered = getFilteredBookings().slice(0, visibleItems);
 
     // Se stiamo mostrando solo le prossime, non raggruppiamo
     if (showOnlyUpcoming) return { ungrouped: filtered };
@@ -58,23 +74,26 @@ const BookingsList: React.FC<BookingsListProps> = ({
     const grouped: Record<string, Booking[]> = {};
 
     filtered.forEach((booking) => {
-      // Estrai l'anno dalla data di check-in
       const year = booking.CheckIn.split("/")[2];
-
       if (!grouped[year]) {
         grouped[year] = [];
       }
-
       grouped[year].push(booking);
-    }); // Ordina le chiavi (anni) in ordine decrescente
+    });
+
     return Object.keys(grouped)
       .sort((a, b) => parseInt(b) - parseInt(a))
       .reduce((result: Record<string, Booking[]>, year) => {
-        // Ordina le prenotazioni all'interno di ogni anno per data di check-in
-        result[year] = sortBookingsByCheckIn(grouped[year]);
+        result[year] = sortBookingsByCheckInDesc(grouped[year]);
         return result;
       }, {});
   };
+
+  const handleLoadMore = () => {
+    setVisibleItems((prev) => prev + 10);
+  };
+
+  const totalFiltered = getFilteredBookings().length;
 
   // Versione abbreviata dei nomi degli appartamenti
   const getApartmentShortName = (apartment?: string) => {
@@ -168,6 +187,21 @@ const BookingsList: React.FC<BookingsListProps> = ({
             <p className="text-slate-500">
               Non ci sono prenotazioni per questo periodo.
             </p>
+          </div>
+        )}
+
+        {totalFiltered > visibleItems && (
+          <div className="flex justify-center pt-8 pb-12">
+            <button
+              onClick={handleLoadMore}
+              className="px-8 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl font-black text-sm text-primary shadow-sm hover:shadow-md transition-all active:scale-95 flex items-center gap-2"
+            >
+              <Search className="w-4 h-4" />
+              Mostra altre prenotazioni
+              <span className="bg-primary/10 px-2 py-0.5 rounded-lg text-xs">
+                {totalFiltered - visibleItems}
+              </span>
+            </button>
           </div>
         )}
       </div>
