@@ -22,7 +22,7 @@ export function getOtaLogo(ota: string) {
     case "extra":
       return (
         <img
-          src="https://cdn-icons-png.flaticon.com/512/5277/5277971.png"
+          src="https://www.freeiconspng.com/uploads/message-icon-png-10.png"
           alt="Extra"
           className="inline-block h-5 w-auto"
         />
@@ -30,7 +30,7 @@ export function getOtaLogo(ota: string) {
     case "agenzia":
       return (
         <img
-          src="https://cdn-icons-png.flaticon.com/512/2132/2132930.png"
+          src="https://cdn-icons-png.flaticon.com/256/5775/5775402.png"
           alt="Agenzia"
           className="inline-block h-5 w-auto"
         />

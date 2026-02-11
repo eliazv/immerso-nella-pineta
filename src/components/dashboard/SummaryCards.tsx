@@ -94,9 +94,6 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
       </Card>
 
       <Card className="border-none shadow-md overflow-hidden bg-white dark:bg-slate-900 hover:shadow-lg transition-all duration-300 rounded-2xl border border-slate-100 dark:border-slate-800">
-        <div className="absolute top-0 right-0 p-3 opacity-10">
-          <Activity className="h-12 w-12 text-orange-600" />
-        </div>
         <CardContent className="flex flex-col items-start p-4 md:p-5">
           <div className="flex items-center mb-3">
             <Activity className="h-5 w-5 text-orange-600 dark:text-orange-400 mr-2" />

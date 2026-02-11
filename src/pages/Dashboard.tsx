@@ -111,20 +111,21 @@ const Dashboard: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1 rounded-xl border shadow-sm uppercase">
+        <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-4 py-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300">
+          <Calendar className="h-4 w-4 text-primary/70" />
           <Select value={selectedYear} onValueChange={setSelectedYear}>
             <SelectTrigger
               hideChevron
-              className="w-[85px] md:w-[100px] h-7 md:h-8 border-none shadow-none focus:ring-0 font-bold text-xs md:text-sm p-0"
+              className="w-[85px] md:w-[90px] h-8 border-none shadow-none focus:ring-0 font-black text-sm p-0 bg-transparent"
             >
               <SelectValue placeholder="Anno" />
             </SelectTrigger>
-            <SelectContent className="rounded-xl border-none shadow-xl">
+            <SelectContent className="rounded-xl border border-slate-100 dark:border-slate-800 shadow-xl">
               {availableYears.map((year) => (
                 <SelectItem
                   key={year}
                   value={year}
-                  className="rounded-lg text-sm"
+                  className="rounded-lg text-sm font-medium cursor-pointer"
                 >
                   {year}
                 </SelectItem>

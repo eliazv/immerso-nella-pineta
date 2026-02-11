@@ -243,6 +243,15 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
             {apartmentNames[selectedCalendar as keyof typeof apartmentNames]}
           </p>
         </div>
+
+        <button
+          onClick={handleRefresh}
+          disabled={isLoading}
+          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm"
+        >
+          <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+          <span className="hidden md:inline">Sincronizza Excel</span>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
