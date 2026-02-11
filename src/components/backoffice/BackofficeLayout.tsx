@@ -10,8 +10,6 @@ import {
   BellOff,
   Menu,
   LogOut,
-  Moon,
-  Sun,
 } from "lucide-react";
 import {
   Select,
@@ -31,7 +29,6 @@ import {
 import PinAuth from "@/components/calendar/PinAuth";
 import { CalendarType } from "@/types/calendar";
 import { isAuthenticated, logout } from "@/services/authService";
-import { ThemeToggle } from "./ThemeToggle";
 import { notificationService } from "@/services/notificationService";
 import { fetchBookings } from "@/services/bookingService";
 
@@ -237,8 +234,6 @@ const BackofficeLayout: React.FC = () => {
                   )}
                 </button>
 
-                <ThemeToggle />
-
                 <button
                   onClick={handleLogout}
                   className="p-2.5 hover:bg-red-50 hover:text-red-500 rounded-full transition-colors text-slate-400"
@@ -368,15 +363,6 @@ const BackofficeLayout: React.FC = () => {
                   Notif
                 </span>
               </button>
-
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center">
-                  <ThemeToggle />
-                </div>
-                <span className="text-[10px] font-bold text-slate-500">
-                  Tema
-                </span>
-              </div>
 
               <button
                 onClick={handleLogout}
