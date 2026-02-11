@@ -57,7 +57,8 @@ const BookingsList: React.FC<BookingsListProps> = ({
         );
         return checkoutDate >= today;
       });
-      return sortBookingsByCheckIn(filtered);
+      // Ordiniamo per le più future in alto (anche nelle prossime)
+      return sortBookingsByCheckInDesc(filtered);
     }
 
     // Per "Tutte", ordiniamo per le più future in alto
@@ -69,24 +70,24 @@ const BookingsList: React.FC<BookingsListProps> = ({
     const filtered = getFilteredBookings().slice(0, visibleItems);
 
     // Se stiamo mostrando solo le prossime, non raggruppiamo
-    if (showOnlyUpcoming) return { ungrouped: filtered };
+    if (showOnlyUpcoming) return [{ year: "ungrouped", bookings: filtered }];
 
-    const grouped: Record<string, Booking[]> = {};
+    const groupedMap: Record<string, Booking[]> = {};
 
     filtered.forEach((booking) => {
       const year = booking.CheckIn.split("/")[2];
-      if (!grouped[year]) {
-        grouped[year] = [];
+      if (!groupedMap[year]) {
+        groupedMap[year] = [];
       }
-      grouped[year].push(booking);
+      groupedMap[year].push(booking);
     });
 
-    return Object.keys(grouped)
+    return Object.keys(groupedMap)
       .sort((a, b) => parseInt(b) - parseInt(a))
-      .reduce((result: Record<string, Booking[]>, year) => {
-        result[year] = sortBookingsByCheckInDesc(grouped[year]);
-        return result;
-      }, {});
+      .map((year) => ({
+        year,
+        bookings: sortBookingsByCheckInDesc(groupedMap[year]),
+      }));
   };
 
   const handleLoadMore = () => {
@@ -146,7 +147,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
       </div>
 
       <div className="space-y-8">
-        {Object.entries(getGroupedBookings()).map(([year, yearBookings]) => (
+        {getGroupedBookings().map(({ year, bookings: yearBookings }) => (
           <div key={year} className="space-y-4">
             {year !== "ungrouped" && (
               <div className="flex items-center gap-4">
@@ -154,7 +155,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
                   {year}
                 </h4>
                 <div className="h-[1px] bg-slate-200 flex-1" />
-                <span className="text-xs font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded border uppercase">
+                <span className="text-xs font-bold text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 uppercase">
                   {yearBookings.length} pren.
                 </span>
               </div>

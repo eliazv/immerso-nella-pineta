@@ -153,9 +153,12 @@ const Dashboard: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
               <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
-                <CardTitle className="text-xl font-black">
-                  Andamento Ricavi
-                </CardTitle>
+                <div className="flex items-center gap-3">
+                  <TrendingUp className="h-6 w-6 text-primary" />
+                  <CardTitle className="text-xl font-black">
+                    Andamento Ricavi
+                  </CardTitle>
+                </div>
                 <CardDescription className="font-medium">
                   Ricavi mensili lordi per il {selectedYear}
                 </CardDescription>
@@ -173,9 +176,12 @@ const Dashboard: React.FC = () => {
 
             <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
               <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
-                <CardTitle className="text-xl font-black">
-                  Occupazione
-                </CardTitle>
+                <div className="flex items-center gap-3">
+                  <Activity className="h-6 w-6 text-primary" />
+                  <CardTitle className="text-xl font-black">
+                    Occupazione
+                  </CardTitle>
+                </div>
                 <CardDescription className="font-medium">
                   Saturazione delle disponibilità mensili
                 </CardDescription>
@@ -193,9 +199,12 @@ const Dashboard: React.FC = () => {
 
             <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
               <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
-                <CardTitle className="text-xl font-black">
-                  Canali di Vendita
-                </CardTitle>
+                <div className="flex items-center gap-3">
+                  <PieChart className="h-6 w-6 text-primary" />
+                  <CardTitle className="text-xl font-black">
+                    Canali di Vendita
+                  </CardTitle>
+                </div>
                 <CardDescription className="font-medium">
                   Distribuzione delle prenotazioni per piattaforma
                 </CardDescription>
@@ -213,10 +222,12 @@ const Dashboard: React.FC = () => {
 
             <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden">
               <CardHeader className="px-6 pt-6 md:px-8 md:pt-8">
-                <TrendingUp className="h-7 w-7 text-green-600 dark:text-green-400 mb-4" />
-                <CardTitle className="text-2xl font-black">
-                  Top Performance
-                </CardTitle>
+                <div className="flex items-center gap-3 mb-2">
+                  <TrendingUp className="h-7 w-7 text-green-600 dark:text-green-400" />
+                  <CardTitle className="text-2xl font-black">
+                    Top Performance
+                  </CardTitle>
+                </div>
                 <CardDescription className="font-bold text-green-700/70 dark:text-green-400/70">
                   I periodi migliori del {selectedYear}
                 </CardDescription>
@@ -258,7 +269,12 @@ const Dashboard: React.FC = () => {
 
           <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
             <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
-              <CardTitle className="text-xl font-black">Stagionalità</CardTitle>
+              <div className="flex items-center gap-3">
+                <BarChart className="h-6 w-6 text-primary" />
+                <CardTitle className="text-xl font-black">
+                  Stagionalità
+                </CardTitle>
+              </div>
               <CardDescription className="font-medium">
                 Performance medie suddivise per stagioni
               </CardDescription>

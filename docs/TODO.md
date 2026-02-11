@@ -1,6 +1,6 @@
 - docs\todo2.md
-- meno interlinea se titolo header va a capo
-- reintroduci src\components\BookingForm.tsx in book page e migliroalo , agigungi anche prezzo per notte che posso customizzare io da qualche parte
+- backoffice: Periodi da migliorare escludi mesi inverno . lista prenotazioni se clicco tutte deve partire dalle piu lointane e andrae alle piu passate, inverti oridnamento
+- reintroduci src\components\BookingForm.tsx in book page e migliroalo , agigungi anche prezzo per notte che posso customizzare io da qualche parte (magari se sito è relamente visitato)
 - carosello deve scorrere in automatico (dopo un po si ferma) e le frecice devono essere visibili, a volte escono dallo schermo
 - - dropdown header deve mostrare nome completo non solo Pineta 3 ad esempio M Immerso nella Pineta 3, idem per pineta 8
 - in /chi-siamo c'è sezione Cosa Dicono i Nostri Ospiti . con le recensioni, magari implemetale in src\pages\Index.tsx come carosello (usa una libreria cariselli gia fatta) dove scorrono in automatico all'infinito mettilo in una buona zona della home src\pages\Index.tsx che anche sotto src\pages\AccommodationSelector.tsx .

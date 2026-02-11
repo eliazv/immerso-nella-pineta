@@ -36,10 +36,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
             </p>
           </div>
           <div>
-            <h3 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-800 dark:text-white leading-none">
               € {revenue.totalRevenue.toLocaleString("it-IT")}
             </h3>
-            <p className="text-[11px] text-green-600 dark:text-green-400 font-bold mt-1 flex items-center gap-1.5">
+            <p className="text-xs md:text-sm text-green-600 dark:text-green-400 font-bold mt-2 flex items-center gap-1.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
               €{revenue.averagePerNight} /notte
             </p>
@@ -59,10 +59,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
             </p>
           </div>
           <div>
-            <h3 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-800 dark:text-white leading-none">
               {occupancy.occupancyRate}%
             </h3>
-            <p className="text-[11px] text-primary font-bold mt-1 flex items-center gap-1.5">
+            <p className="text-xs md:text-sm text-primary font-bold mt-2 flex items-center gap-1.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary" />
               {occupancy.occupiedDays}/{occupancy.totalDays} gg
             </p>
@@ -82,10 +82,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
             </p>
           </div>
           <div>
-            <h3 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-800 dark:text-white leading-none">
               {totalBookings}
             </h3>
-            <p className="text-[11px] text-blue-600 dark:text-blue-400 font-bold mt-1 flex items-center gap-1.5">
+            <p className="text-xs md:text-sm text-blue-600 dark:text-blue-400 font-bold mt-2 flex items-center gap-1.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500" />
               €{revenue.averagePerBooking.toFixed(0)} /pren.
             </p>
@@ -105,10 +105,10 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({ stats }) => {
             </p>
           </div>
           <div>
-            <h3 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-800 dark:text-white leading-none">
               {averageNights}
             </h3>
-            <p className="text-[11px] text-orange-600 dark:text-orange-400 font-bold mt-1 flex items-center gap-1.5">
+            <p className="text-xs md:text-sm text-orange-600 dark:text-orange-400 font-bold mt-2 flex items-center gap-1.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-orange-500" />
               {occupancy.occupiedDays} gg tot.
             </p>

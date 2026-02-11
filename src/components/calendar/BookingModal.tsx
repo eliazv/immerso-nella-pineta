@@ -391,35 +391,88 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             Importi e Tasse
           </div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <span className="text-slate-500 font-bold">Totale Cliente:</span>
-            <span className="text-slate-800 dark:text-slate-200 font-black">
-              {booking.TotaleCliente
-                ? booking.TotaleCliente.includes("€")
-                  ? booking.TotaleCliente
-                  : `€${booking.TotaleCliente}`
-                : "-"}
-            </span>
+            {/* Funzione helper interna per il rendering condizionale degli importi */}
+            {(() => {
+              const renderEconomicalRow = (
+                label: string,
+                value: any,
+                className = "text-slate-800 dark:text-slate-200 font-bold",
+              ) => {
+                // Se il valore è "-", vuoto, nullo o palesemente zero, non mostriamo la riga
+                if (
+                  !value ||
+                  value === "-" ||
+                  value === "0" ||
+                  value === "€0" ||
+                  value === "0€" ||
+                  (typeof value === "string" && value.trim() === "")
+                ) {
+                  return null;
+                }
 
-            <span className="text-slate-500 font-bold">Tassa Soggiorno:</span>
-            <span className="text-slate-800 dark:text-slate-200 font-bold">
-              {(booking.SoggiornoTax && booking.SoggiornoTax.trim() !== "") ||
-              (booking.adulti &&
-                booking.adulti !== "0" &&
-                calculateSoggiornoTax(booking) !== "")
-                ? `€${booking.SoggiornoTax || calculateSoggiornoTax(booking)}`
-                : "-"}
-            </span>
+                let displayValue = value.toString().trim();
+                // Evita duplicazione del simbolo €
+                if (
+                  !displayValue.includes("€") &&
+                  !displayValue.includes("%")
+                ) {
+                  displayValue = `€${displayValue}`;
+                }
 
-            <span className="text-slate-500 font-bold border-t border-slate-200 dark:border-slate-700 pt-2 mt-1">
-              Totale Netto:
-            </span>
-            <span className="text-primary font-black text-lg border-t border-slate-200 dark:border-slate-700 pt-2 mt-1">
-              {booking.Totale
-                ? booking.Totale.includes("€")
-                  ? booking.Totale
-                  : `€${booking.Totale}`
-                : "-"}
-            </span>
+                return (
+                  <React.Fragment key={label}>
+                    <span className="text-slate-500 font-bold">{label}:</span>
+                    <span className={className}>{displayValue}</span>
+                  </React.Fragment>
+                );
+              };
+
+              return (
+                <>
+                  {renderEconomicalRow(
+                    "Totale Cliente",
+                    booking.TotaleCliente,
+                    "text-slate-800 dark:text-slate-200 font-black",
+                  )}
+                  {renderEconomicalRow("Fuori OTA", booking.FuoriOTA)}
+                  {renderEconomicalRow("Costo Notti", booking.CostoNotti)}
+                  {renderEconomicalRow("Media a Notte", booking.MediaANotte)}
+                  {renderEconomicalRow("Pulizia", booking.Pulizia)}
+                  {renderEconomicalRow(
+                    "Sconti",
+                    booking.Sconti,
+                    "text-red-600 font-bold",
+                  )}
+                  {renderEconomicalRow(
+                    "Tassa Soggiorno",
+                    booking.SoggiornoTax && booking.SoggiornoTax.trim() !== ""
+                      ? booking.SoggiornoTax
+                      : calculateSoggiornoTax(booking),
+                  )}
+                  {renderEconomicalRow("OTA Tax", booking.OTATax)}
+                  {renderEconomicalRow(
+                    "Cedolare Secca (21%)",
+                    booking.CedolareSecca,
+                  )}
+
+                  {/* Totale Netto è sempre mostrato se presente, altrimenti - */}
+                  <span className="text-slate-500 font-bold border-t border-slate-200 dark:border-slate-700 pt-2 mt-1">
+                    Totale Netto:
+                  </span>
+                  <span className="text-primary font-black text-lg border-t border-slate-200 dark:border-slate-700 pt-2 mt-1">
+                    {booking.Total && booking.Total !== "0"
+                      ? booking.Total.includes("€")
+                        ? booking.Total
+                        : `€${booking.Total}`
+                      : booking.Totale && booking.Totale !== "0"
+                        ? booking.Totale.includes("€")
+                          ? booking.Totale
+                          : `€${booking.Totale}`
+                        : "-"}
+                  </span>
+                </>
+              );
+            })()}
           </div>
         </div>
       </div>
@@ -637,10 +690,81 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label
+                  htmlFor="FuoriOTA"
+                  className="text-[10px] font-bold text-slate-500 uppercase"
+                >
+                  Fuori OTA
+                </Label>
+                <Input
+                  id="FuoriOTA"
+                  {...form.register("FuoriOTA")}
+                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="CostoNotti"
+                  className="text-[10px] font-bold text-slate-500 uppercase"
+                >
+                  Costo Notti
+                </Label>
+                <Input
+                  id="CostoNotti"
+                  {...form.register("CostoNotti")}
+                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="MediaANotte"
+                  className="text-[10px] font-bold text-slate-500 uppercase"
+                >
+                  Media a Notte
+                </Label>
+                <Input
+                  id="MediaANotte"
+                  {...form.register("MediaANotte")}
+                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="Pulizia"
+                  className="text-[10px] font-bold text-slate-500 uppercase"
+                >
+                  Pulizia
+                </Label>
+                <Input
+                  id="Pulizia"
+                  {...form.register("Pulizia")}
+                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="Sconti"
+                  className="text-[10px] font-bold text-red-500 uppercase"
+                >
+                  Sconti
+                </Label>
+                <Input
+                  id="Sconti"
+                  {...form.register("Sconti")}
+                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm text-red-500 font-bold"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label
                   htmlFor="SoggiornoTax"
                   className="text-[10px] font-bold text-slate-500 uppercase"
                 >
-                  Tassa Soggiorno
+                  Soggiorno
                 </Label>
                 <Input
                   id="SoggiornoTax"
@@ -653,7 +777,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   htmlFor="OTATax"
                   className="text-[10px] font-bold text-slate-500 uppercase"
                 >
-                  Comm. OTA
+                  OTA Tax
                 </Label>
                 <Input
                   id="OTATax"
@@ -661,6 +785,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
                 />
               </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label
+                htmlFor="CedolareSecca"
+                className="text-[10px] font-bold text-slate-500 uppercase"
+              >
+                Cedolare Secca (21%)
+              </Label>
+              <Input
+                id="CedolareSecca"
+                {...form.register("CedolareSecca")}
+                className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+              />
             </div>
 
             <div className="space-y-1.5">
