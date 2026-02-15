@@ -55,7 +55,7 @@ const ComeArrivarePinarella = () => {
       <MetaTags
         title="Come Arrivare a Pinarella di Cervia: Auto, Treno, Aereo | Guida 2026"
         description="Scopri come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali autostradali, stazioni ferroviarie e aeroporti più vicini. Guida completa."
-        keywords="come arrivare pinarella, raggiungere pinarella auto, treno cervia, aeroporto rimini pinarella, autostrada pinarella, stazione cervia"
+        keywords="come arrivare pinarella, raggiungere pinarella auto, treno cervia, aeroporto rimini pinarella, autostrada pinarella, stazione cervia, da bologna a pinarella, da milano a pinarella"
         canonicalUrl={getCanonicalUrl("/blog/come-arrivare-pinarella")}
       />
       <script
@@ -297,6 +297,31 @@ const ComeArrivarePinarella = () => {
             <li className="text-gray-700">Zone blu per residenti e ospiti</li>
           </ul>
 
+          <h2 className="text-3xl font-bold text-pine-800 mt-12 mb-6">
+            Guide specifiche sulle indicazioni più cercate
+          </h2>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            Se parti da una città specifica, abbiamo preparato guide dedicate con
+            tempi reali, costi indicativi e consigli anti-traffico:
+          </p>
+          <ul className="list-disc pl-6 mb-4 space-y-2">
+            <li className="text-gray-700">
+              <Link
+                to="/blog/come-arrivare-pinarella-da-bologna"
+                className="text-pine-700 font-semibold hover:underline"
+              >
+                Come arrivare a Pinarella da Bologna
+              </Link>
+            </li>
+            <li className="text-gray-700">
+              <Link
+                to="/blog/come-arrivare-pinarella-da-milano"
+                className="text-pine-700 font-semibold hover:underline"
+              >
+                Come arrivare a Pinarella da Milano
+              </Link>
+            </li>
+          </ul>
           <h2 className="text-3xl font-bold text-pine-800 mt-12 mb-6">
             Muoversi a Pinarella
           </h2>
