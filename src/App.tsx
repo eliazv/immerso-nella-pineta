@@ -56,6 +56,24 @@ const PinarellaVsMilanoMarittima = lazy(
   () => import("./pages/blog/PinarellaVsMilanoMarittima"),
 );
 const MeteoPinarella = lazy(() => import("./pages/blog/MeteoPinarella"));
+const DormirePinarellaBambini = lazy(
+  () => import("./pages/blog/DormirePinarellaBambini"),
+);
+const DaBolognaAPinarella = lazy(
+  () => import("./pages/blog/DaBolognaAPinarella"),
+);
+const DaMilanoAPinarella = lazy(
+  () => import("./pages/blog/DaMilanoAPinarella"),
+);
+const GoogleBusinessFreelanceRomagna = lazy(
+  () => import("./pages/blog/GoogleBusinessFreelanceRomagna"),
+);
+const RecensioniGoogleBusinessFreelance = lazy(
+  () => import("./pages/blog/RecensioniGoogleBusinessFreelance"),
+);
+const IdeePostGoogleBusinessRomagna = lazy(
+  () => import("./pages/blog/IdeePostGoogleBusinessRomagna"),
+);
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo"));
 
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
@@ -204,6 +222,30 @@ const App = () => {
                       <Route
                         path="/blog/meteo-pinarella-quando-andare"
                         element={<MeteoPinarella />}
+                      />
+                      <Route
+                        path="/blog/dove-dormire-pinarella-cervia-bambini"
+                        element={<DormirePinarellaBambini />}
+                      />
+                      <Route
+                        path="/blog/come-arrivare-pinarella-da-bologna"
+                        element={<DaBolognaAPinarella />}
+                      />
+                      <Route
+                        path="/blog/come-arrivare-pinarella-da-milano"
+                        element={<DaMilanoAPinarella />}
+                      />
+                      <Route
+                        path="/blog/google-business-freelance-romagna"
+                        element={<GoogleBusinessFreelanceRomagna />}
+                      />
+                      <Route
+                        path="/blog/recensioni-google-business-freelance"
+                        element={<RecensioniGoogleBusinessFreelance />}
+                      />
+                      <Route
+                        path="/blog/idee-post-google-business-romagna"
+                        element={<IdeePostGoogleBusinessRomagna />}
                       />
 
                       {/* Backoffice con layout condiviso */}

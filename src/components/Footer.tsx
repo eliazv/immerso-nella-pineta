@@ -76,7 +76,7 @@ const Footer = ({ className }: { className?: string }) => {
                 className="flex items-center gap-2 text-white/90 hover:text-white transition-colors text-sm group"
               >
                 <MapPin className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                <span>Via Vallombrosa 10, Cervia</span>
+                <span>Via Vallombrosa 10, Cervia (Apri su Google Maps)</span>
               </a>
             </div>
 
