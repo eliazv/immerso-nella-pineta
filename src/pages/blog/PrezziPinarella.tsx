@@ -1,117 +1,92 @@
 import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import {
-  Calendar,
   Euro,
   TrendingDown,
   TrendingUp,
   Info,
   CheckCircle,
 } from "lucide-react";
-import MetaTags from "@/components/MetaTags";
 import { getCanonicalUrl } from "@/lib/config";
+import BlogPostLayout from "@/components/blog/BlogPostLayout";
 
 const PrezziPinarella = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: "Prezzi Appartamenti a Pinarella 2026: Guida Completa",
-    description:
-      "Quanto costa affittare un appartamento a Pinarella di Cervia nel 2026? Prezzi reali, periodi migliori per risparmiare e consigli pratici per prenotare.",
-    image:
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    datePublished: "2026-02-04",
-    dateModified: "2026-02-04",
-    author: {
-      "@type": "Person",
-      name: "Elia Zavatta",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Immerso nella Pineta",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: "Prezzi Appartamenti a Pinarella 2026: Guida Completa",
+      description:
+        "Quanto costa affittare un appartamento a Pinarella di Cervia nel 2026? Prezzi reali, periodi migliori per risparmiare e consigli pratici per prenotare.",
+      image:
+        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1200&q=80",
+      datePublished: "2026-02-07",
+      dateModified: "2026-02-07",
+      author: {
+        "@type": "Person",
+        name: "Elia Zavatta",
       },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": getCanonicalUrl("/blog/prezzi-appartamenti-pinarella-2026"),
-    },
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Quanto costa un appartamento a Pinarella nel 2026?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "A Pinarella i prezzi variano da €400 a €2.500 a settimana. Giugno: €400-800/sett. Luglio: €800-1.200/sett. Agosto: €1.200-2.500/sett. Settembre: €400-700/sett. I prezzi dipendono da periodo, distanza dal mare e servizi inclusi.",
+      publisher: {
+        "@type": "Organization",
+        name: "Immerso nella Pineta",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
         },
       },
-      {
-        "@type": "Question",
-        name: "Qual è il periodo più economico per affittare a Pinarella?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "I periodi più economici sono giugno e settembre, con prezzi fino al 60% inferiori rispetto ad agosto. La seconda metà di giugno e la prima di settembre offrono mare ancora caldo e servizi aperti a prezzi vantaggiosi.",
-        },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": "https://immerso.eliazavatta.it/blog/prezzi-appartamenti-pinarella-2026",
       },
-      {
-        "@type": "Question",
-        name: "Conviene prenotare in anticipo a Pinarella?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Sì. Prenotando 3-4 mesi prima si risparmia fino al 20%. Per agosto, prenotare entro marzo garantisce scelta migliore e prezzi più bassi. Le prenotazioni last minute (sotto 2 settimane) possono trovare occasioni ma con scelta limitata.",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Quanto costa un appartamento a Pinarella nel 2026?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "A Pinarella i prezzi variano da €400 a €2.500 a settimana. Giugno: €400-800/sett. Luglio: €800-1.200/sett. Agosto: €1.200-2.500/sett. Settembre: €400-700/sett. I prezzi dipendono da periodo, distanza dal mare e servizi inclusi.",
+          },
         },
-      },
-    ],
-  };
+        {
+          "@type": "Question",
+          name: "Qual è il periodo più economico per affittare a Pinarella?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "I periodi più economici sono giugno e settembre, con prezzi fino al 60% inferiori rispetto ad agosto. La seconda metà di giugno e la prima di settembre offrono mare ancora caldo e servizi aperti a prezzi vantaggiosi.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Conviene prenotare in anticipo a Pinarella?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sì. Prenotando 3-4 mesi prima si risparmia fino al 20%. Per agosto, prenotare entro marzo garantisce scelta migliore e prezzi più bassi. Le prenotazioni last minute (sotto 2 settimane) possono trovare occasioni ma con scelta limitata.",
+          },
+        },
+      ],
+    },
+  ];
 
   return (
-    <>
-      <MetaTags
-        title="Prezzi Appartamenti Pinarella 2026: Quanto Costa Affittare"
-        description="Quanto costa un appartamento a Pinarella di Cervia nel 2026? Guida completa con prezzi reali per periodo, consigli per risparmiare e quando prenotare."
-        canonicalUrl="/blog/prezzi-appartamenti-pinarella-2026"
-        ogImage="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-      />
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
-      </Helmet>
-
-      <article className="min-h-screen bg-gray-50">
-        <div className="bg-white border-b">
-          <div className="max-w-4xl mx-auto px-4 py-12">
-            <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-              <Calendar className="h-4 w-4" />
-              <time dateTime="2026-02-04">4 Febbraio 2026</time>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Prezzi Appartamenti a Pinarella 2026: Quanto Costa Affittare?
-            </h1>
-            <p className="text-xl text-gray-600">
-              Guida completa e aggiornata con prezzi reali, periodi migliori per
-              risparmiare e consigli pratici per prenotare la tua vacanza.
-            </p>
-          </div>
-        </div>
-
-        <div className="max-w-4xl mx-auto px-4 py-12">
-          <img
-            src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-            alt="Appartamenti vista mare a Pinarella"
-            className="w-full h-96 object-cover rounded-lg shadow-lg mb-12"
-          />
-
+    <BlogPostLayout
+      title="Prezzi Appartamenti Pinarella 2026: Quanto Costa Affittare"
+      description="Quanto costa un appartamento a Pinarella di Cervia nel 2026? Guida completa con prezzi reali per periodo, consigli per risparmiare e quando prenotare."
+      heroImage="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1200&q=80"
+      publishDate="7 Febbraio 2026"
+      readingTime="8 min di lettura"
+      category="Prezzi"
+      canonicalUrl={getCanonicalUrl("/blog/prezzi-appartamenti-pinarella-2026")}
+      keywords="prezzi appartamenti pinarella 2026, quanto costa pinarella, affitti pinarella cervia, prezzi vacanze pinarella"
+      jsonLd={jsonLd}
+    >
           {/* RISPOSTA DIRETTA - AI-FRIENDLY */}
           <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-12 rounded-r-lg">
             <h2 className="text-2xl font-bold text-blue-900 mb-4 flex items-center gap-2">
@@ -559,25 +534,16 @@ const PrezziPinarella = () => {
             </div>
           </section>
 
-          {/* CTA FINALE */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 rounded-lg shadow-xl text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Prenota il Tuo Appartamento a Pinarella
-            </h2>
-            <p className="text-xl mb-6">
-              Appartamenti selezionati a prezzi trasparenti. Contattaci per
-              disponibilità e preventivi personalizzati.
-            </p>
-            <a
-              href="/book"
-              className="inline-block bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-50 transition-colors"
-            >
-              Richiedi Disponibilità →
-            </a>
+          {/* INTERNAL LINKS */}
+          <div className="bg-slate-100 p-8 rounded-2xl my-8 not-prose">
+            <h3 className="text-xl font-bold text-pine-900 mb-4">Approfondisci la tua ricerca</h3>
+            <ul className="space-y-2">
+              <li><Link to="/blog/dove-dormire-pinarella-cervia-bambini" className="text-pine-600 hover:underline font-medium">→ Dove dormire a Pinarella con bambini</Link></li>
+              <li><Link to="/blog/meteo-pinarella-quando-andare" className="text-pine-600 hover:underline font-medium">→ Quando andare a Pinarella per il miglior prezzo</Link></li>
+              <li><Link to="/blog/pinarella-o-milano-marittima" className="text-pine-600 hover:underline font-medium">→ Pinarella vs Milano Marittima: confronto prezzi</Link></li>
+            </ul>
           </div>
-        </div>
-      </article>
-    </>
+    </BlogPostLayout>
   );
 };
 

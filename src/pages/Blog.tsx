@@ -16,8 +16,6 @@ import {
   ShoppingBag,
   Wind,
   Car,
-  Star,
-  Megaphone,
 } from "lucide-react";
 import {
   Card,
@@ -227,39 +225,6 @@ const Blog = () => {
         "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       color: "from-indigo-500 to-blue-500",
     },
-    {
-      title: "Google Business per Freelance in Romagna: Cosa Conta Davvero",
-      slug: "google-business-freelance-romagna",
-      excerpt:
-        "Guida pragmatica per trovare clienti locali: impatto reale dei post, recensioni, vicinanza geografica e profilo completo.",
-      date: "2026-02-15",
-      icon: MapPin,
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      color: "from-blue-600 to-indigo-600",
-    },
-    {
-      title: "Recensioni Google Business per Freelance: Strategia Semplice",
-      slug: "recensioni-google-business-freelance",
-      excerpt:
-        "Workflow pratico per ottenere 8-12 recensioni autentiche in 2-3 mesi e aumentare visibilità locale e conversioni.",
-      date: "2026-02-15",
-      icon: Star,
-      image:
-        "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      color: "from-amber-500 to-orange-500",
-    },
-    {
-      title: "5 Idee di Post Google Business per Clienti Locali",
-      slug: "idee-post-google-business-romagna",
-      excerpt:
-        "Esempi pronti da copiare per freelance in Romagna: contenuti utili, CTA chiare e frequenza sostenibile.",
-      date: "2026-02-15",
-      icon: Megaphone,
-      image:
-        "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      color: "from-violet-500 to-purple-600",
-    },
   ];
 
   const jsonLd = {
@@ -283,7 +248,7 @@ const Blog = () => {
       <MetaTags
         title="Blog Pinarella | Guide e Consigli per Vacanze a Cervia"
         description="Scopri guide, consigli e informazioni utili per le tue vacanze a Pinarella di Cervia: cosa fare, dove mangiare, come arrivare e eventi da non perdere."
-        keywords="blog pinarella, guida pinarella cervia, come arrivare pinarella, google business freelance romagna, recensioni google business, vacanze romagna"
+        keywords="blog pinarella, guida pinarella cervia, come arrivare pinarella, vacanze pinarella, cosa fare pinarella, appartamenti pinarella"
         canonicalUrl={getCanonicalUrl("/blog")}
       />
       <script
@@ -308,7 +273,7 @@ const Blog = () => {
             Blog Pinarella
           </h1>
           <p className="text-lg text-gray-600">
-            Guide complete, consigli pratici e articoli sulle indicazioni stradali per vivere al
+            Guide complete, consigli pratici e informazioni utili per vivere al
             meglio la tua vacanza a Pinarella di Cervia
           </p>
         </div>

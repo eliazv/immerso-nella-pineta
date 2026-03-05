@@ -1,111 +1,87 @@
 import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
-import { Calendar, MapPin, Users, Euro, Waves, TrendingUp } from "lucide-react";
-import MetaTags from "@/components/MetaTags";
+import { Link } from "react-router-dom";
+import { MapPin, Users, Euro, Waves, TrendingUp } from "lucide-react";
 import { getCanonicalUrl } from "@/lib/config";
+import BlogPostLayout from "@/components/blog/BlogPostLayout";
 
 const PinarellaVsMilanoMarittima = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline:
-      "Pinarella o Milano Marittima: Dove Andare? Confronto Completo 2026",
-    description:
-      "Meglio Pinarella o Milano Marittima per le vacanze? Confronto dettagliato tra prezzi, spiagge, vita notturna, servizi e tipologia di turismo.",
-    image:
-      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    datePublished: "2026-02-04",
-    dateModified: "2026-02-04",
-    author: {
-      "@type": "Person",
-      name: "Elia Zavatta",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Immerso nella Pineta",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline:
+        "Pinarella o Milano Marittima: Dove Andare? Confronto Completo 2026",
+      description:
+        "Meglio Pinarella o Milano Marittima per le vacanze? Confronto dettagliato tra prezzi, spiagge, vita notturna, servizi e tipologia di turismo.",
+      image:
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
+      datePublished: "2026-02-09",
+      dateModified: "2026-02-09",
+      author: {
+        "@type": "Person",
+        name: "Elia Zavatta",
       },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": getCanonicalUrl("/blog/pinarella-o-milano-marittima"),
-    },
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Cosa è meglio: Pinarella o Milano Marittima?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Dipende dalle esigenze. Pinarella: più tranquilla, familiare, prezzi bassi (-30-50%), ideale per famiglie e relax. Milano Marittima: più mondana, vita notturna, servizi lusso, ideale per giovani e coppie che cercano movida.",
+      publisher: {
+        "@type": "Organization",
+        name: "Immerso nella Pineta",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
         },
       },
-      {
-        "@type": "Question",
-        name: "Quanto distano Pinarella e Milano Marittima?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Pinarella e Milano Marittima distano solo 2 km. In auto 5 minuti, in bici 8-10 minuti. Sono praticamente attaccate, quindi puoi alloggiare a Pinarella e andare la sera a Milano Marittima.",
-        },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": "https://immerso.eliazavatta.it/blog/pinarella-o-milano-marittima",
       },
-      {
-        "@type": "Question",
-        name: "Milano Marittima costa di più di Pinarella?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Sì, Milano Marittima è significativamente più cara. Appartamenti: +30-50%. Stabilimenti balneari: +20-40%. Ristoranti: +25-35%. Bar/aperitivi: +30-50%. Per una famiglia, la differenza può essere €500-1000 a settimana.",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Cosa è meglio: Pinarella o Milano Marittima?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Dipende dalle esigenze. Pinarella: più tranquilla, familiare, prezzi bassi (-30-50%), ideale per famiglie e relax. Milano Marittima: più mondana, vita notturna, servizi lusso, ideale per giovani e coppie che cercano movida.",
+          },
         },
-      },
-    ],
-  };
+        {
+          "@type": "Question",
+          name: "Quanto distano Pinarella e Milano Marittima?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Pinarella e Milano Marittima distano solo 2 km. In auto 5 minuti, in bici 8-10 minuti. Sono praticamente attaccate, quindi puoi alloggiare a Pinarella e andare la sera a Milano Marittima.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Milano Marittima costa di più di Pinarella?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sì, Milano Marittima è significativamente più cara. Appartamenti: +30-50%. Stabilimenti balneari: +20-40%. Ristoranti: +25-35%. Bar/aperitivi: +30-50%. Per una famiglia, la differenza può essere €500-1000 a settimana.",
+          },
+        },
+      ],
+    },
+  ];
 
   return (
-    <>
-      <MetaTags
-        title="Pinarella o Milano Marittima: Dove Andare in Vacanza?"
-        description="Meglio Pinarella o Milano Marittima? Confronto completo 2026 tra prezzi, spiagge, vita notturna, servizi e tipologia di turismo per scegliere la località perfetta."
-        canonicalUrl="/blog/pinarella-o-milano-marittima"
-        ogImage="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-      />
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
-      </Helmet>
-
-      <article className="min-h-screen bg-gray-50">
-        <div className="bg-white border-b">
-          <div className="max-w-4xl mx-auto px-4 py-12">
-            <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-              <Calendar className="h-4 w-4" />
-              <time dateTime="2026-02-04">4 Febbraio 2026</time>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Pinarella o Milano Marittima: Dove Andare in Vacanza?
-            </h1>
-            <p className="text-xl text-gray-600">
-              Confronto completo tra le due località per aiutarti a scegliere:
-              prezzi, spiagge, vita notturna, servizi e tipologia di turismo.
-            </p>
-          </div>
-        </div>
-
-        <div className="max-w-4xl mx-auto px-4 py-12">
-          <img
-            src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-            alt="Spiaggia Romagna"
-            className="w-full h-96 object-cover rounded-lg shadow-lg mb-12"
-          />
-
+    <BlogPostLayout
+      title="Pinarella o Milano Marittima: Dove Andare in Vacanza?"
+      description="Meglio Pinarella o Milano Marittima? Confronto completo 2026 tra prezzi, spiagge, vita notturna, servizi e tipologia di turismo per scegliere la località perfetta."
+      heroImage="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80"
+      publishDate="9 Febbraio 2026"
+      readingTime="10 min di lettura"
+      category="Confronto"
+      canonicalUrl={getCanonicalUrl("/blog/pinarella-o-milano-marittima")}
+      keywords="pinarella o milano marittima, differenza pinarella milano marittima, confronto spiagge romagna, dove andare vacanze cervia"
+      jsonLd={jsonLd}
+    >
           {/* RISPOSTA DIRETTA */}
           <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-12 rounded-r-lg">
             <h2 className="text-2xl font-bold text-blue-900 mb-4 flex items-center gap-2">
@@ -721,25 +697,16 @@ const PinarellaVsMilanoMarittima = () => {
             </div>
           </section>
 
-          {/* CTA */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 rounded-lg shadow-xl text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Prenota a Pinarella e Goditi Entrambe le Località
-            </h2>
-            <p className="text-xl mb-6">
-              Alloggia a Pinarella per tranquillità e risparmio, vai la sera a
-              Milano Marittima per la movida. Il meglio di entrambi i mondi.
-            </p>
-            <a
-              href="/book"
-              className="inline-block bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-50 transition-colors"
-            >
-              Richiedi Disponibilità →
-            </a>
+          {/* INTERNAL LINKS */}
+          <div className="bg-slate-100 p-8 rounded-2xl my-8 not-prose">
+            <h3 className="text-xl font-bold text-pine-900 mb-4">Altre guide su Pinarella</h3>
+            <ul className="space-y-2">
+              <li><Link to="/blog/prezzi-appartamenti-pinarella-2026" className="text-pine-600 hover:underline font-medium">→ Prezzi appartamenti a Pinarella nel 2026</Link></li>
+              <li><Link to="/blog/bellezze-pinarella-cervia" className="text-pine-600 hover:underline font-medium">→ Le bellezze di Pinarella di Cervia</Link></li>
+              <li><Link to="/blog/dove-dormire-pinarella-cervia-bambini" className="text-pine-600 hover:underline font-medium">→ Dove dormire a Pinarella con bambini</Link></li>
+            </ul>
           </div>
-        </div>
-      </article>
-    </>
+    </BlogPostLayout>
   );
 };
 
