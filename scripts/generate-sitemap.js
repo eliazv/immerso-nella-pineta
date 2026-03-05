@@ -11,7 +11,7 @@ const SITE_URL = "https://immerso.eliazavatta.it";
 const CURRENT_DATE = new Date().toISOString().split("T")[0];
 
 // Definizione di tutte le routes del sito
-const routes = [
+export const routes = [
   {
     path: "/",
     changefreq: "monthly",
@@ -55,13 +55,7 @@ const routes = [
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/pineta3/attractions",
-    changefreq: "monthly",
-    priority: "0.7",
-    lastmod: CURRENT_DATE,
-  },
-  {
-    path: "/pineta8/attractions",
+    path: "/attractions",
     changefreq: "monthly",
     priority: "0.7",
     lastmod: CURRENT_DATE,
@@ -97,13 +91,13 @@ const routes = [
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/cosa-fare-pinarella",
+    path: "/blog/cosa-fare-pinarella-cervia",
     changefreq: "monthly",
     priority: "0.8",
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/ristoranti-pinarella",
+    path: "/blog/migliori-ristoranti-pinarella-cervia",
     changefreq: "monthly",
     priority: "0.8",
     lastmod: CURRENT_DATE,
@@ -115,7 +109,7 @@ const routes = [
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/eventi-pinarella",
+    path: "/blog/eventi-pinarella-cervia",
     changefreq: "weekly",
     priority: "0.7",
     lastmod: CURRENT_DATE,
@@ -139,13 +133,13 @@ const routes = [
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/bellezze-pinarella",
+    path: "/blog/bellezze-pinarella-cervia",
     changefreq: "monthly",
     priority: "0.7",
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/mare-pinarella",
+    path: "/blog/mare-pinarella-cervia",
     changefreq: "monthly",
     priority: "0.7",
     lastmod: CURRENT_DATE,
@@ -157,29 +151,36 @@ const routes = [
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/prezzi-pinarella",
+    path: "/blog/prezzi-appartamenti-pinarella-2026",
     changefreq: "monthly",
     priority: "0.8",
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/spiagge-libere-stabilimenti",
+    path: "/blog/spiagge-libere-stabilimenti-pinarella",
     changefreq: "monthly",
     priority: "0.7",
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/pinarella-vs-milano-marittima",
+    path: "/blog/pinarella-o-milano-marittima",
     changefreq: "monthly",
     priority: "0.7",
     lastmod: CURRENT_DATE,
   },
   {
-    path: "/blog/meteo-pinarella",
+    path: "/blog/meteo-pinarella-quando-andare",
     changefreq: "daily",
     priority: "0.6",
     lastmod: CURRENT_DATE,
   },
+  {
+    path: "/blog/dove-dormire-pinarella-cervia-bambini",
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: CURRENT_DATE,
+  },
+
   {
     path: "/chi-siamo",
     changefreq: "monthly",
@@ -226,10 +227,13 @@ function saveSitemap() {
   console.log(`📅 Data ultima modifica: ${CURRENT_DATE}`);
 }
 
-// Esegui la generazione
-try {
-  saveSitemap();
-} catch (error) {
-  console.error("❌ Errore durante la generazione della sitemap:", error);
-  process.exit(1);
+// Esegui la generazione solo se il file viene eseguito direttamente (non importato)
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  try {
+    saveSitemap();
+  } catch (error) {
+    console.error("❌ Errore durante la generazione della sitemap:", error);
+    process.exit(1);
+  }
 }
+

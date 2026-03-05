@@ -251,9 +251,11 @@ const MarePinarella = () => {
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Le spiagge di Pinarella e Cervia sono premiate ogni anno con
                   la <strong>Bandiera Blu</strong>, il riconoscimento
-                  internazionale che certifica:
+                  internazionale che certifica la qualità delle acque e dei servizi. 
+                  Scopri di più sulla differenza tra <Link to="/blog/spiagge-libere-stabilimenti-pinarella" className="text-cyan-600 hover:underline font-semibold">spiagge libere e stabilimenti a Pinarella</Link>.
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
+
                   <li>
                     <strong>Qualità delle acque</strong>: analisi costanti per
                     garantire balneazione sicura
@@ -290,10 +292,10 @@ const MarePinarella = () => {
               </h3>
               <p className="text-gray-600">
                 Scegli gli stabilimenti balneari attrezzati con animazione,
-                piscine gonfiabili e servizi dedicati. I bagnini sono sempre
-                presenti e attenti alla sicurezza dei più piccoli.
+                piscine gonfiabili e servizi dedicati. Leggi la nostra guida su <Link to="/blog/dove-dormire-pinarella-cervia-bambini" className="text-cyan-600 hover:underline font-semibold">dove dormire a Pinarella con bambini</Link> per maggiori dettagli.
               </p>
             </div>
+
 
             <div>
               <h3 className="font-semibold text-pine-dark mb-2 flex items-center gap-2">

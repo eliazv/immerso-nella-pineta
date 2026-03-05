@@ -56,7 +56,9 @@ const PinarellaVsMilanoMarittima = lazy(
   () => import("./pages/blog/PinarellaVsMilanoMarittima"),
 );
 const MeteoPinarella = lazy(() => import("./pages/blog/MeteoPinarella"));
+const DormirePinarellaBambini = lazy(() => import("./pages/blog/DormirePinarellaBambini"));
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo"));
+
 
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
@@ -205,6 +207,11 @@ const App = () => {
                         path="/blog/meteo-pinarella-quando-andare"
                         element={<MeteoPinarella />}
                       />
+                      <Route
+                        path="/blog/dove-dormire-pinarella-cervia-bambini"
+                        element={<DormirePinarellaBambini />}
+                      />
+
 
                       {/* Backoffice con layout condiviso */}
                       <Route path="/" element={<BackofficeLayout />}>

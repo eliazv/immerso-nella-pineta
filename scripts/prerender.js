@@ -7,20 +7,10 @@ import path from "path";
 const DIST_DIR = path.join(process.cwd(), "dist");
 const PORT = 4173;
 
-// Routes to prerender (exclude /alloggiati)
-const ROUTES = [
-  "/",
-  "/pinarella-guida",
-  "/blog",
-  "/blog/cosa-fare-pinarella-cervia",
-  "/blog/migliori-ristoranti-pinarella-cervia",
-  "/blog/come-arrivare-pinarella",
-  "/blog/eventi-pinarella-cervia",
-  "/blog/festival-aquilone-cervia",
-  "/blog/pinarella-summer-festival",
-  "/blog/mercatino-artigianato-cervia",
-  "/chi-siamo",
-];
+// Routes to prerender (all from sitemap)
+const ROUTES = routes.map(r => r.path);
+
+
 
 async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true });

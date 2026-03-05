@@ -609,10 +609,10 @@ const SpiaggeLibereStabilimenti = () => {
                 </h3>
                 <p className="text-gray-700">
                   Sulle spiagge libere sì, purché al guinzaglio. Alcuni
-                  stabilimenti hanno zone pet-friendly (es. Bagno 91). A Cervia
-                  c'è anche una spiaggia per cani dedicata.
+                  stabilimenti hanno zone pet-friendly (es. Bagno 91). Se viaggi con la famiglia, leggi anche la nostra guida su <a href="/blog/dove-dormire-pinarella-cervia-bambini" className="text-blue-600 hover:underline font-semibold">dove dormire a Pinarella con bambini</a>.
                 </p>
               </div>
+
             </div>
           </section>
 
