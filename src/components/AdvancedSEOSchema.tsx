@@ -55,99 +55,25 @@ const AdvancedSEOSchema = ({
   const airbnbId = isPineta8 ? "1496353845267245023" : "1170325824706403059";
   const images = isPineta8 ? PINETA8_IMAGES : PINETA3_IMAGES;
 
-  const pineta3ContainsPlace = [
-    {
-      "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta3#camera-matrimoniale`,
-      name: "Camera matrimoniale",
-      numberOfBedrooms: 1,
-      numberOfBathroomsTotal: 1,
-      additionalType: "Room",
-      occupancy: { "@type": "QuantitativeValue", value: 2, maxValue: 2, unitText: "persons" },
-      bed: { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
-      amenityFeature: [
-        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
-        { "@type": "LocationFeatureSpecification", name: "Letto matrimoniale", value: true },
-      ],
-    },
-    {
-      "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta3#camera-singoli`,
-      name: "Camera con letti singoli",
-      numberOfBedrooms: 1,
-      numberOfBathroomsTotal: 0,
-      additionalType: "Room",
-      occupancy: { "@type": "QuantitativeValue", value: 2, maxValue: 2, unitText: "persons" },
-      bed: { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
-      amenityFeature: [
-        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
-        { "@type": "LocationFeatureSpecification", name: "Letti singoli", value: true },
-      ],
-    },
-    {
-      "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta3#soggiorno`,
-      name: "Soggiorno con cucina",
-      additionalType: "Room",
-      numberOfBedrooms: 0,
-      numberOfBathroomsTotal: 0,
-      occupancy: { "@type": "QuantitativeValue", value: 4, maxValue: 4, unitText: "persons" },
-      bed: { "@type": "BedDetails", numberOfBeds: 0, typeOfBed: "https://schema.org/CoupleBed" },
-      amenityFeature: [
-        { "@type": "LocationFeatureSpecification", name: "Cucina attrezzata", value: true },
-        { "@type": "LocationFeatureSpecification", name: "TV", value: true },
-      ],
-    },
-  ];
+  const pineta3ContainsPlace = {
+    "@type": "Accommodation",
+    "@id": `${siteUrl}/pineta3#unit`,
+    name: "Appartamento Immerso nella Pineta 3",
+    numberOfBedrooms: 2,
+    numberOfBathroomsTotal: 1,
+    occupancy: { "@type": "QuantitativeValue", value: 4, maxValue: 4, unitText: "persons" },
+    amenityFeature: COMMON_AMENITIES,
+  };
 
-  const pineta8ContainsPlace = [
-    {
-      "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta8#camera-1`,
-      name: "Camera matrimoniale con balcone",
-      numberOfBedrooms: 1,
-      numberOfBathroomsTotal: 1,
-      additionalType: "Room",
-      occupancy: { "@type": "QuantitativeValue", value: 2, maxValue: 2, unitText: "persons" },
-      bed: { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
-      amenityFeature: [
-        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
-        { "@type": "LocationFeatureSpecification", name: "Balcone", value: true },
-      ],
-    },
-    {
-      "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta8#camera-2`,
-      name: "Camera matrimoniale con letti singoli aggiuntivi",
-      numberOfBedrooms: 1,
-      numberOfBathroomsTotal: 0,
-      additionalType: "Room",
-      occupancy: { "@type": "QuantitativeValue", value: 4, maxValue: 4, unitText: "persons" },
-      bed: [
-        { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
-        { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
-      ],
-      amenityFeature: [
-        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
-        { "@type": "LocationFeatureSpecification", name: "Letti singoli aggiuntivi", value: true },
-      ],
-    },
-    {
-      "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta8#soggiorno`,
-      name: "Soggiorno con cucina e balcone",
-      additionalType: "Room",
-      numberOfBedrooms: 0,
-      numberOfBathroomsTotal: 0,
-      occupancy: { "@type": "QuantitativeValue", value: 6, maxValue: 6, unitText: "persons" },
-      bed: { "@type": "BedDetails", numberOfBeds: 0, typeOfBed: "https://schema.org/CoupleBed" },
-      amenityFeature: [
-        { "@type": "LocationFeatureSpecification", name: "Cucina attrezzata", value: true },
-        { "@type": "LocationFeatureSpecification", name: "Balcone", value: true },
-        { "@type": "LocationFeatureSpecification", name: "TV", value: true },
-      ],
-    },
-  ];
+  const pineta8ContainsPlace = {
+    "@type": "Accommodation",
+    "@id": `${siteUrl}/pineta8#unit`,
+    name: "Appartamento Immerso nella Pineta 8",
+    numberOfBedrooms: 2,
+    numberOfBathroomsTotal: 1,
+    occupancy: { "@type": "QuantitativeValue", value: 6, maxValue: 6, unitText: "persons" },
+    amenityFeature: COMMON_AMENITIES,
+  };
 
   const baseAccommodation = {
     "@context": "https://schema.org",
