@@ -62,7 +62,8 @@ const AdvancedSEOSchema = ({
       name: "Camera matrimoniale",
       numberOfBedrooms: 1,
       numberOfBathroomsTotal: 1,
-      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
+      additionalType: "Room",
+      occupancy: { "@type": "QuantitativeValue", value: 2, maxValue: 2, unitText: "persons" },
       bed: { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
       amenityFeature: [
         { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
@@ -75,7 +76,8 @@ const AdvancedSEOSchema = ({
       name: "Camera con letti singoli",
       numberOfBedrooms: 1,
       numberOfBathroomsTotal: 0,
-      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
+      additionalType: "Room",
+      occupancy: { "@type": "QuantitativeValue", value: 2, maxValue: 2, unitText: "persons" },
       bed: { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
       amenityFeature: [
         { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
@@ -86,9 +88,11 @@ const AdvancedSEOSchema = ({
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta3#soggiorno`,
       name: "Soggiorno con cucina",
+      additionalType: "Room",
       numberOfBedrooms: 0,
       numberOfBathroomsTotal: 0,
-      occupancy: { "@type": "QuantitativeValue", maxValue: 4, unitText: "persons" },
+      occupancy: { "@type": "QuantitativeValue", value: 4, maxValue: 4, unitText: "persons" },
+      bed: { "@type": "BedDetails", numberOfBeds: 0, typeOfBed: "https://schema.org/CoupleBed" },
       amenityFeature: [
         { "@type": "LocationFeatureSpecification", name: "Cucina attrezzata", value: true },
         { "@type": "LocationFeatureSpecification", name: "TV", value: true },
@@ -99,11 +103,12 @@ const AdvancedSEOSchema = ({
   const pineta8ContainsPlace = [
     {
       "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta8#camera-matrimoniale`,
+      "@id": `${siteUrl}/pineta8#camera-1`,
       name: "Camera matrimoniale con balcone",
       numberOfBedrooms: 1,
       numberOfBathroomsTotal: 1,
-      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
+      additionalType: "Room",
+      occupancy: { "@type": "QuantitativeValue", value: 2, maxValue: 2, unitText: "persons" },
       bed: { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
       amenityFeature: [
         { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
@@ -112,24 +117,30 @@ const AdvancedSEOSchema = ({
     },
     {
       "@type": "Accommodation",
-      "@id": `${siteUrl}/pineta8#camera-singoli`,
-      name: "Camera con letti singoli",
+      "@id": `${siteUrl}/pineta8#camera-2`,
+      name: "Camera matrimoniale con letti singoli aggiuntivi",
       numberOfBedrooms: 1,
       numberOfBathroomsTotal: 0,
-      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
-      bed: { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
+      additionalType: "Room",
+      occupancy: { "@type": "QuantitativeValue", value: 4, maxValue: 4, unitText: "persons" },
+      bed: [
+        { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
+        { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
+      ],
       amenityFeature: [
         { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
-        { "@type": "LocationFeatureSpecification", name: "Letti singoli", value: true },
+        { "@type": "LocationFeatureSpecification", name: "Letti singoli aggiuntivi", value: true },
       ],
     },
     {
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta8#soggiorno`,
       name: "Soggiorno con cucina e balcone",
+      additionalType: "Room",
       numberOfBedrooms: 0,
       numberOfBathroomsTotal: 0,
-      occupancy: { "@type": "QuantitativeValue", maxValue: 4, unitText: "persons" },
+      occupancy: { "@type": "QuantitativeValue", value: 6, maxValue: 6, unitText: "persons" },
+      bed: { "@type": "BedDetails", numberOfBeds: 0, typeOfBed: "https://schema.org/CoupleBed" },
       amenityFeature: [
         { "@type": "LocationFeatureSpecification", name: "Cucina attrezzata", value: true },
         { "@type": "LocationFeatureSpecification", name: "Balcone", value: true },
@@ -142,13 +153,14 @@ const AdvancedSEOSchema = ({
     "@context": "https://schema.org",
     "@type": "VacationRental",
     "@id": `${siteUrl}/${propertyId}#accommodation`,
+    additionalType: "Apartment",
     identifier: `${siteUrl}/${propertyId}`,
     name: isPineta8
       ? "Appartamento Pinarella con Balcone - Casa Vacanze Cervia"
       : "Appartamento Pinarella Prenotazione Diretta - Casa Vacanze Cervia",
     description: isPineta8
-      ? "Appartamento al piano superiore con balcone a Pinarella di Cervia. Prenotazione diretta senza intermediari. 4 posti letto, parcheggio privato, 200m dal mare."
-      : "Appartamento in affitto a Pinarella di Cervia con prenotazione diretta senza intermediari. 4 posti letto, parcheggio privato, 200m dal mare. Contatta il proprietario per risparmiare sulle commissioni.",
+      ? "Appartamento al secondo piano con balcone a Pinarella di Cervia. Prenotazione diretta senza intermediari. 6 posti letto, parcheggio privato, 200m dal mare."
+      : "Appartamento al piano terra a Pinarella di Cervia con prenotazione diretta senza intermediari. 4 posti letto, parcheggio privato, 200m dal mare. Contatta il proprietario per risparmiare sulle commissioni.",
     url: currentUrl,
     image: images,
     address: {
@@ -168,35 +180,41 @@ const AdvancedSEOSchema = ({
     telephone: "+393938932793",
     email: "zavattaelia@gmail.com",
     priceRange: "€€",
-    petsAllowed: false,
+    petsAllowed: true,
     smokingAllowed: false,
     numberOfRooms: 2,
     floorSize: {
       "@type": "QuantitativeValue",
-      value: 60,
+      value: isPineta8 ? 80 : 60,
       unitCode: "MTK",
     },
     occupancy: {
       "@type": "QuantitativeValue",
-      maxValue: 4,
+      value: isPineta8 ? 6 : 4,
+      maxValue: isPineta8 ? 6 : 4,
       unitText: "persons",
     },
     amenityFeature: COMMON_AMENITIES,
     checkinTime: "T16:00",
     checkoutTime: "T10:00",
-    numberOfBeds: 3,
-    bed: [
-      { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
-      { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
-    ],
+    numberOfBeds: isPineta8 ? 4 : 3,
+    bed: isPineta8
+      ? [
+          { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/KingBed" },
+          { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
+        ]
+      : [
+          { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
+          { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
+        ],
     offers: {
       "@type": "Offer",
       availability: "https://schema.org/InStock",
-      price: 80,
+      price: isPineta8 ? 120 : 85,
       priceCurrency: "EUR",
       priceSpecification: {
         "@type": "PriceSpecification",
-        price: 80,
+        price: isPineta8 ? 120 : 85,
         priceCurrency: "EUR",
         eligibleQuantity: {
           "@type": "QuantitativeValue",
@@ -214,7 +232,7 @@ const AdvancedSEOSchema = ({
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: 4.8,
+      ratingValue: 4.5,
       reviewCount: 15,
       bestRating: 5,
       worstRating: 1,
