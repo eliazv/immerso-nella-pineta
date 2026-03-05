@@ -225,6 +225,17 @@ const Blog = () => {
         "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       color: "from-indigo-500 to-blue-500",
     },
+    {
+      title: "Dove fare Colazione a Pinarella: Bar e Pasticcerie",
+      slug: "dove-fare-colazione-pinarella",
+      excerpt:
+        "Scopri i migliori bar e le pasticcerie artigianali a Pinarella di Cervia: dai bomboloni caldi al caffè vista mare.",
+      date: "2026-03-05",
+      icon: Utensils,
+      image:
+        "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+      color: "from-yellow-400 to-orange-500",
+    },
   ];
 
   const jsonLd = {

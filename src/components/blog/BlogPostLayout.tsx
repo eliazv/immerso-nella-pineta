@@ -72,11 +72,11 @@ const BlogPostLayout = ({
                 <span className="bg-pine-600/80 px-3 py-1 rounded-full backdrop-blur-sm">
                   {category}
                 </span>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 text-xs">
                   <Calendar className="w-4 h-4" />
                   {publishDate}
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 text-xs">
                   <Clock className="w-4 h-4" />
                   {readingTime}
                 </div>
@@ -88,10 +88,10 @@ const BlogPostLayout = ({
           </div>
         </div>
 
-        <div className="container px-4 mx-auto -mt-12 relative z-10">
+        <div className="container px-2 mx-auto -mt-12 relative z-10">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Main Content */}
-            <article className="bg-white rounded-2xl shadow-xl p-6 md:p-12 lg:w-2/3 border border-slate-100">
+            <article className="bg-white rounded-2xl shadow-xl py-6 px-4 md:p-12 lg:w-2/3 border border-slate-100">
               <div className="mb-8">
                 <Link
                   to="/blog"
@@ -124,21 +124,21 @@ const BlogPostLayout = ({
                   zero commissioni.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-                  <Link to="/pineta3/book">
+                  <Link to="/" className="w-full sm:w-auto">
                     <Button
                       size="lg"
-                      className="bg-white text-pine-900 hover:bg-pine-50 font-bold px-10 py-7 text-lg shadow-xl w-full sm:w-auto border-none"
+                      className="bg-white text-pine-900 hover:bg-pine-50 font-bold px-10 py-7 text-lg shadow-xl w-full border-none"
                     >
-                      Prenota Pineta 3
+                      Scegli Alloggio
                     </Button>
                   </Link>
-                  <Link to="/pineta8/book">
+                  <Link to="/pineta3/book" className="w-full sm:w-auto">
                     <Button
                       size="lg"
                       variant="outline"
-                      className="border-2 border-white text-white hover:bg-white/10 font-bold px-10 py-7 text-lg w-full sm:w-auto"
+                      className="border-2 bg-green border-white text-white hover:bg-white/10 font-bold px-10 py-7 text-lg w-full"
                     >
-                      Prenota Pineta 8
+                      Prenota ora
                     </Button>
                   </Link>
                 </div>

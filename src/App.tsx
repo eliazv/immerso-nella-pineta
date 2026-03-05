@@ -65,8 +65,10 @@ const DaBolognaAPinarella = lazy(
 const DaMilanoAPinarella = lazy(
   () => import("./pages/blog/DaMilanoAPinarella"),
 );
+const ColazionePinarella = lazy(
+  () => import("./pages/blog/ColazionePinarella"),
+);
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo"));
-
 
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
@@ -226,6 +228,10 @@ const App = () => {
                       <Route
                         path="/blog/come-arrivare-pinarella-da-milano"
                         element={<DaMilanoAPinarella />}
+                      />
+                      <Route
+                        path="/blog/dove-fare-colazione-pinarella"
+                        element={<ColazionePinarella />}
                       />
 
                       {/* Backoffice con layout condiviso */}
