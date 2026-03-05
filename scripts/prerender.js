@@ -4,11 +4,13 @@ import puppeteer from "puppeteer";
 import fs from "fs/promises";
 import path from "path";
 
+import { routes } from "./generate-sitemap.js";
+
 const DIST_DIR = path.join(process.cwd(), "dist");
 const PORT = 4173;
 
 // Routes to prerender (all from sitemap)
-const ROUTES = routes.map(r => r.path);
+const ROUTES = routes.map((r) => r.path);
 
 
 
