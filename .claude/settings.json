@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(node ./scripts/generate-sitemap.js:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
