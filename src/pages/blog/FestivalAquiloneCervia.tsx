@@ -8,10 +8,12 @@ import BlogPostLayout from "@/components/blog/BlogPostLayout";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  headline: "Festival Internazionale dell'Aquilone a Cervia | Guida Completa 2026",
+  headline:
+    "Festival Internazionale dell'Aquilone a Cervia | Guida Completa 2026",
   description:
     "Scopri tutto sul Festival Internazionale dell'Aquilone di Cervia: date, programma, artisti e come partecipare. Oltre 200 artisti da 50 paesi per celebrare il volo degli aquiloni.",
-  image: "https://images.unsplash.com/photo-1604076913837-52ab5629fdc9?w=1200&q=80",
+  image:
+    "https://images.unsplash.com/photo-1604076913837-52ab5629fdc9?w=1200&q=80",
   datePublished: "2026-02-03",
   author: { "@type": "Organization", name: "Immerso nella Pineta" },
   publisher: {
@@ -63,8 +65,8 @@ const FestivalAquiloneCervia = () => {
           Evento Imperdibile
         </p>
         <p className="text-gray-700 m-0">
-          Ogni anno tra fine aprile e inizio maggio, la spiaggia di Cervia
-          si trasforma in un palcoscenico colorato dove oltre 200 artisti
+          Ogni anno tra fine aprile e inizio maggio, la spiaggia di Cervia si
+          trasforma in un palcoscenico colorato dove oltre 200 artisti
           provenienti da 50 paesi diversi celebrano l'arte del volo degli
           aquiloni.
         </p>
@@ -74,17 +76,17 @@ const FestivalAquiloneCervia = () => {
         Cos'è il Festival Internazionale dell'Aquilone
       </h2>
       <p className="text-gray-700 leading-relaxed mb-6">
-        Il <strong>Festival Internazionale dell'Aquilone di Cervia</strong>{" "}
-        è uno degli eventi più attesi dell'anno sulla Riviera Romagnola.
-        Nato nel 1981, questo festival ha acquisito nel tempo una fama
-        internazionale, attirando maestri aquilonisti da tutto il mondo e
-        migliaia di visitatori ogni anno.
+        Il <strong>Festival Internazionale dell'Aquilone di Cervia</strong> è
+        uno degli eventi più attesi dell'anno sulla Riviera Romagnola. Nato nel
+        1981, questo festival ha acquisito nel tempo una fama internazionale,
+        attirando maestri aquilonisti da tutto il mondo e migliaia di visitatori
+        ogni anno.
       </p>
       <p className="text-gray-700 leading-relaxed mb-6">
-        Per una settimana, il cielo sopra la spiaggia di Cervia diventa una
-        tela colorata dove aquiloni di ogni forma e dimensione danzano al
-        vento: da quelli tradizionali a forme spettacolari di animali,
-        personaggi fantastici e creazioni artistiche uniche.
+        Per una settimana, il cielo sopra la spiaggia di Cervia diventa una tela
+        colorata dove aquiloni di ogni forma e dimensione danzano al vento: da
+        quelli tradizionali a forme spettacolari di animali, personaggi
+        fantastici e creazioni artistiche uniche.
       </p>
 
       <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">
@@ -144,9 +146,9 @@ const FestivalAquiloneCervia = () => {
             Spettacoli di Volo
           </h3>
           <p className="text-gray-700 m-0">
-            Ammira gli aquiloni acrobatici pilotati da esperti
-            internazionali, aquiloni giganti lunghi decine di metri e
-            coreografie aeree sincronizzate con la musica.
+            Ammira gli aquiloni acrobatici pilotati da esperti internazionali,
+            aquiloni giganti lunghi decine di metri e coreografie aeree
+            sincronizzate con la musica.
           </p>
         </div>
 
@@ -155,8 +157,8 @@ const FestivalAquiloneCervia = () => {
             Workshop e Laboratori
           </h3>
           <p className="text-gray-700 m-0">
-            Partecipa ai laboratori per costruire il tuo aquilone, imparare
-            le tecniche di volo e scoprire i segreti di questa antica arte.
+            Partecipa ai laboratori per costruire il tuo aquilone, imparare le
+            tecniche di volo e scoprire i segreti di questa antica arte.
             Attività perfette per famiglie con bambini.
           </p>
         </div>
@@ -182,32 +184,31 @@ const FestivalAquiloneCervia = () => {
             <span className="text-2xl">🎯</span>
             <div>
               <strong>Orario migliore:</strong> Il pomeriggio offre le
-              condizioni di vento più favorevoli per ammirare gli spettacoli
-              più spettacolari.
+              condizioni di vento più favorevoli per ammirare gli spettacoli più
+              spettacolari.
             </div>
           </li>
           <li className="flex items-start gap-3">
             <span className="text-2xl">📸</span>
             <div>
-              <strong>Fotografia:</strong> Porta la tua macchina
-              fotografica! Il cielo colorato di aquiloni offre opportunità
-              fotografiche incredibili.
+              <strong>Fotografia:</strong> Porta la tua macchina fotografica! Il
+              cielo colorato di aquiloni offre opportunità fotografiche
+              incredibili.
             </div>
           </li>
           <li className="flex items-start gap-3">
             <span className="text-2xl">👨‍👩‍👧‍👦</span>
             <div>
-              <strong>Per famiglie:</strong> Evento perfetto per bambini.
-              Non dimenticare crema solare e cappellini, si sta all'aperto
-              per ore!
+              <strong>Per famiglie:</strong> Evento perfetto per bambini. Non
+              dimenticare crema solare e cappellini, si sta all'aperto per ore!
             </div>
           </li>
           <li className="flex items-start gap-3">
             <span className="text-2xl">🅿️</span>
             <div>
-              <strong>Parcheggio:</strong> Il lungomare può essere
-              affollato. Considera di arrivare in bicicletta o a piedi se
-              alloggi nelle vicinanze.
+              <strong>Parcheggio:</strong> Il lungomare può essere affollato.
+              Considera di arrivare in bicicletta o a piedi se alloggi nelle
+              vicinanze.
             </div>
           </li>
         </ul>
@@ -220,20 +221,30 @@ const FestivalAquiloneCervia = () => {
         Se vuoi vivere al meglio l'esperienza del Festival dell'Aquilone, ti
         consigliamo di soggiornare a <strong>Pinarella</strong>, località a
         pochi passi dalla spiaggia di Cervia dove si svolge l'evento. Da qui
-        potrai raggiungere il festival a piedi o in bicicletta in pochi
-        minuti.
+        potrai raggiungere il festival a piedi o in bicicletta in pochi minuti.
       </p>
       <p className="text-gray-700 leading-relaxed mb-8">
         Il nostro appartamento "Immerso nella Pineta" offre una posizione
-        ideale: a 5 minuti dal mare e immerso nel verde della pineta, è
-        perfetto per le famiglie che vogliono godersi il festival e allo
-        stesso tempo avere un rifugio tranquillo dove rilassarsi.
+        ideale: a 5 minuti dal mare e immerso nel verde della pineta, è perfetto
+        per le famiglie che vogliono godersi il festival e allo stesso tempo
+        avere un rifugio tranquillo dove rilassarsi.
       </p>
 
       <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">
         Informazioni Utili
       </h2>
       <div className="space-y-4 text-gray-700">
+        <p>
+          <strong>🌐 Programma Dettagliato:</strong>{" "}
+          <a
+            href="https://www.vitaromagna.it/eventi/artevento-2026-festival-internazionale-dellaquilone-2510"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-pine-dark hover:underline font-bold"
+          >
+            Artevento 2026 su VitaRomagna
+          </a>
+        </p>
         <p>
           <strong>🌐 Sito ufficiale:</strong>{" "}
           <a
@@ -247,12 +258,12 @@ const FestivalAquiloneCervia = () => {
         </p>
         <p>
           <strong>📍 Come arrivare:</strong> Il festival si svolge sulla
-          spiaggia libera di Cervia, facilmente raggiungibile a piedi dal
-          centro città e dalle località vicine come Pinarella.
+          spiaggia libera di Cervia, facilmente raggiungibile a piedi dal centro
+          città e dalle località vicine come Pinarella.
         </p>
         <p>
-          <strong>💰 Ingresso:</strong> Gratuito. Alcune attività specifiche
-          o workshop potrebbero richiedere un piccolo contributo.
+          <strong>💰 Ingresso:</strong> Gratuito. Alcune attività specifiche o
+          workshop potrebbero richiedere un piccolo contributo.
         </p>
         <p>
           <strong>☔ In caso di maltempo:</strong> L'evento dipende dalle
@@ -262,11 +273,34 @@ const FestivalAquiloneCervia = () => {
       </div>
 
       <div className="bg-slate-100 p-8 rounded-2xl my-8 not-prose">
-        <h3 className="text-xl font-bold text-pine-900 mb-4">Altri eventi a Pinarella</h3>
+        <h3 className="text-xl font-bold text-pine-900 mb-4">
+          Altri eventi a Pinarella
+        </h3>
         <ul className="space-y-2">
-          <li><Link to="/blog/eventi-pinarella-cervia" className="text-pine-600 hover:underline font-medium">→ Tutti gli eventi estivi a Pinarella e Cervia</Link></li>
-          <li><Link to="/blog/pinarella-summer-festival" className="text-pine-600 hover:underline font-medium">→ Pinarella Summer Festival</Link></li>
-          <li><Link to="/blog/cosa-fare-pinarella-cervia" className="text-pine-600 hover:underline font-medium">→ Cosa fare a Pinarella: guida completa</Link></li>
+          <li>
+            <Link
+              to="/blog/eventi-pinarella-cervia"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Tutti gli eventi estivi a Pinarella e Cervia
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/pinarella-summer-festival"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Pinarella Summer Festival
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/cosa-fare-pinarella-cervia"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Cosa fare a Pinarella: guida completa
+            </Link>
+          </li>
         </ul>
       </div>
     </BlogPostLayout>

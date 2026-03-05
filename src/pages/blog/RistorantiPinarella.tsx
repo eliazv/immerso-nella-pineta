@@ -102,7 +102,7 @@ const RistorantiPinarella = () => {
     headline: "I Migliori Ristoranti a Pinarella e Cervia: Dove Mangiare",
     description:
       "Guida completa ai migliori ristoranti di Pinarella e Cervia. Cucina romagnola tradizionale, pesce fresco, pizzerie e gelaterie artigianali.",
-    image: "https://immerso-nella-pineta.it/images/logo.nobg.png",
+    image: "https://immerso.eliazavatta.it/images/logo.nobg.png",
     datePublished: "2026-02-01",
     dateModified: "2026-02-01",
     author: {
@@ -119,16 +119,18 @@ const RistorantiPinarella = () => {
       publishDate="1 Febbraio 2026"
       readingTime="6 min di lettura"
       category="Gastronomia"
-      canonicalUrl={getCanonicalUrl("/blog/migliori-ristoranti-pinarella-cervia")}
+      canonicalUrl={getCanonicalUrl(
+        "/blog/migliori-ristoranti-pinarella-cervia",
+      )}
       keywords="ristoranti pinarella, dove mangiare cervia, cucina romagnola, pesce fresco pinarella, pizzeria cervia, trattoria pinarella"
       jsonLd={jsonLd}
     >
       <p className="text-xl text-gray-700 leading-relaxed mb-8">
-        La Romagna è famosa per la sua tradizione gastronomica e Pinarella
-        non fa eccezione. Qui troverai ristoranti per tutti i gusti: dalla
-        trattoria familiare con cucina tradizionale romagnola, al ristorante
-        gourmet vista mare, passando per pizzerie e piadinerie artigianali.
-        Ecco la nostra guida completa ai migliori posti dove mangiare.
+        La Romagna è famosa per la sua tradizione gastronomica e Pinarella non
+        fa eccezione. Qui troverai ristoranti per tutti i gusti: dalla trattoria
+        familiare con cucina tradizionale romagnola, al ristorante gourmet vista
+        mare, passando per pizzerie e piadinerie artigianali. Ecco la nostra
+        guida completa ai migliori posti dove mangiare.
       </p>
 
       <h2 className="text-3xl font-bold text-pine-800 mt-12 mb-6">
@@ -164,16 +166,12 @@ const RistorantiPinarella = () => {
               <div className="flex items-center gap-2 text-sm">
                 <Utensils className="w-4 h-4 text-pine-600" />
                 <span className="font-semibold">Specialità:</span>
-                <span className="text-gray-600">
-                  {restaurant.specialty}
-                </span>
+                <span className="text-gray-600">{restaurant.specialty}</span>
               </div>
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2 text-sm">
                   <MapPin className="w-4 h-4 text-pine-600" />
-                  <span className="text-gray-600">
-                    {restaurant.location}
-                  </span>
+                  <span className="text-gray-600">{restaurant.location}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Euro className="w-4 h-4 text-pine-600" />
@@ -191,8 +189,8 @@ const RistorantiPinarella = () => {
         Piatti Tipici da Non Perdere
       </h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        La cucina romagnola è una delle più ricche e saporite d'Italia. Ecco
-        i piatti che devi assolutamente assaggiare durante la tua vacanza a
+        La cucina romagnola è una delle più ricche e saporite d'Italia. Ecco i
+        piatti che devi assolutamente assaggiare durante la tua vacanza a
         Pinarella:
       </p>
 
@@ -200,8 +198,8 @@ const RistorantiPinarella = () => {
         Piadina Romagnola
       </h3>
       <p className="text-gray-700 leading-relaxed mb-4">
-        La regina della cucina romagnola. Sottile o spessa, viene cotta su
-        una piastra rovente e farcita con salumi, formaggi e verdure. La
+        La regina della cucina romagnola. Sottile o spessa, viene cotta su una
+        piastra rovente e farcita con salumi, formaggi e verdure. La
         combinazione più classica è con prosciutto crudo e squacquerone, un
         formaggio fresco cremoso tipico della zona.
       </p>
@@ -219,28 +217,25 @@ const RistorantiPinarella = () => {
         Tagliatelle al Ragù
       </h3>
       <p className="text-gray-700 leading-relaxed mb-4">
-        Pasta all'uovo tirata a mano condita con un ragù di carne cotto per
-        ore. Ogni nonna romagnola ha la sua ricetta segreta, ma il risultato
-        è sempre delizioso.
+        Pasta all'uovo tirata a mano condita con un ragù di carne cotto per ore.
+        Ogni nonna romagnola ha la sua ricetta segreta, ma il risultato è sempre
+        delizioso.
       </p>
 
       <h3 className="text-2xl font-bold text-pine-700 mt-8 mb-4">
         Pesce dell'Adriatico
       </h3>
       <p className="text-gray-700 leading-relaxed mb-4">
-        Essendo sul mare, il pesce fresco è protagonista. Prova il brodetto
-        di pesce, il fritto misto dell'Adriatico con paranza (pesci
-        piccoli), calamari e gamberoni, o i crudi di mare nei ristoranti più
-        raffinati.
+        Essendo sul mare, il pesce fresco è protagonista. Prova il brodetto di
+        pesce, il fritto misto dell'Adriatico con paranza (pesci piccoli),
+        calamari e gamberoni, o i crudi di mare nei ristoranti più raffinati.
       </p>
 
-      <h3 className="text-2xl font-bold text-pine-700 mt-8 mb-4">
-        Crescione
-      </h3>
+      <h3 className="text-2xl font-bold text-pine-700 mt-8 mb-4">Crescione</h3>
       <p className="text-gray-700 leading-relaxed mb-4">
-        Simile alla piadina ma chiusa a mezzaluna e fritta, ripiena di
-        verdure (erbette, zucca) o mozzarella. Uno street food irresistibile
-        da mangiare caldo appena fritto.
+        Simile alla piadina ma chiusa a mezzaluna e fritta, ripiena di verdure
+        (erbette, zucca) o mozzarella. Uno street food irresistibile da mangiare
+        caldo appena fritto.
       </p>
 
       <h2 className="text-3xl font-bold text-pine-800 mt-12 mb-6">
@@ -269,15 +264,11 @@ const RistorantiPinarella = () => {
               </div>
               <div className="flex items-center gap-3">
                 <span className="font-bold text-lg">€€</span>
-                <span className="text-gray-700">
-                  Medio: 20-35€ a persona
-                </span>
+                <span className="text-gray-700">Medio: 20-35€ a persona</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="font-bold text-lg">€€€</span>
-                <span className="text-gray-700">
-                  Alto: 35-50€ a persona
-                </span>
+                <span className="text-gray-700">Alto: 35-50€ a persona</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="font-bold text-lg">€€€€</span>
@@ -295,17 +286,39 @@ const RistorantiPinarella = () => {
       </h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         In Romagna si pranza generalmente tra le 12:30 e le 14:00, mentre la
-        cena inizia dalle 19:30-20:00. Molti ristoranti offrono anche
-        servizio di mezza giornata con piadine e piatti veloci tra le 16:00
-        e le 19:00.
+        cena inizia dalle 19:30-20:00. Molti ristoranti offrono anche servizio
+        di mezza giornata con piadine e piatti veloci tra le 16:00 e le 19:00.
       </p>
 
       <div className="bg-slate-100 p-8 rounded-2xl my-8 not-prose">
-        <h3 className="text-xl font-bold text-pine-900 mb-4">Articoli correlati</h3>
+        <h3 className="text-xl font-bold text-pine-900 mb-4">
+          Articoli correlati
+        </h3>
         <ul className="space-y-2">
-          <li><Link to="/blog/cosa-fare-pinarella-cervia" className="text-pine-600 hover:underline font-medium">→ Cosa fare a Pinarella: tutte le attività</Link></li>
-          <li><Link to="/blog/mare-pinarella-cervia" className="text-pine-600 hover:underline font-medium">→ Com'è il mare a Pinarella?</Link></li>
-          <li><Link to="/blog/meteo-pinarella-quando-andare" className="text-pine-600 hover:underline font-medium">→ Quando andare a Pinarella: meteo e stagioni</Link></li>
+          <li>
+            <Link
+              to="/blog/cosa-fare-pinarella-cervia"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Cosa fare a Pinarella: tutte le attività
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/mare-pinarella-cervia"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Com'è il mare a Pinarella?
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/meteo-pinarella-quando-andare"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Quando andare a Pinarella: meteo e stagioni
+            </Link>
+          </li>
         </ul>
       </div>
     </BlogPostLayout>

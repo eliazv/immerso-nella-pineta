@@ -11,7 +11,7 @@ const DaMilanoAPinarella = () => {
     headline: "Come Arrivare a Pinarella da Milano: Guida Completa",
     description:
       "Tutte le opzioni pratiche per raggiungere Pinarella da Milano: auto, treno con cambio, tempi medi e costi indicativi.",
-    image: "https://immerso-nella-pineta.it/images/logo.nobg.png",
+    image: "https://immerso.eliazavatta.it/images/logo.nobg.png",
     datePublished: "2026-02-05",
     author: {
       "@type": "Person",
@@ -32,10 +32,13 @@ const DaMilanoAPinarella = () => {
       jsonLd={jsonLd}
     >
       <section className="mb-8 rounded-2xl border border-blue-100 bg-blue-50 p-6">
-        <h2 className="mb-3 text-2xl font-semibold text-blue-900">Qual è l'opzione migliore?</h2>
+        <h2 className="mb-3 text-2xl font-semibold text-blue-900">
+          Qual è l'opzione migliore?
+        </h2>
         <p className="text-gray-700">
-          Se viaggi in famiglia o per più giorni, l'auto è spesso la scelta più comoda. Se vuoi evitare il traffico estivo,
-          il treno con cambio a Bologna è la soluzione più rilassante.
+          Se viaggi in famiglia o per più giorni, l'auto è spesso la scelta più
+          comoda. Se vuoi evitare il traffico estivo, il treno con cambio a
+          Bologna è la soluzione più rilassante.
         </p>
       </section>
 
@@ -44,7 +47,8 @@ const DaMilanoAPinarella = () => {
           <Car className="h-6 w-6" /> Da Milano in Auto
         </h2>
         <p className="mb-3 text-gray-700">
-          Percorso consigliato: A1 verso Bologna, poi A14 direzione Ancona con uscita Cesena Nord.
+          Percorso consigliato: A1 verso Bologna, poi A14 direzione Ancona con
+          uscita Cesena Nord.
         </p>
         <ul className="list-disc space-y-2 pl-6 text-gray-700">
           <li>Tempo medio: 3h15-4h (in base al traffico).</li>
@@ -58,8 +62,9 @@ const DaMilanoAPinarella = () => {
           <Train className="h-6 w-6" /> Da Milano in Treno
         </h2>
         <p className="text-gray-700">
-          L'itinerario più comune è Milano Centrale → Bologna AV → Ravenna/Rimini → Cervia-Milano Marittima.
-          In estate conviene prenotare i treni AV in anticipo per risparmiare.
+          L'itinerario più comune è Milano Centrale → Bologna AV →
+          Ravenna/Rimini → Cervia-Milano Marittima. In estate conviene prenotare
+          i treni AV in anticipo per risparmiare.
         </p>
       </section>
 
@@ -68,34 +73,67 @@ const DaMilanoAPinarella = () => {
           <p className="mb-2 flex items-center gap-2 font-semibold text-pine-800">
             <Clock className="h-4 w-4" /> Tempi medi
           </p>
-          <p className="text-sm text-gray-700">Auto: 3h15-4h • Treno + transfer: 3h45-4h30</p>
+          <p className="text-sm text-gray-700">
+            Auto: 3h15-4h • Treno + transfer: 3h45-4h30
+          </p>
         </div>
         <div className="rounded-xl border bg-white p-4">
           <p className="mb-2 flex items-center gap-2 font-semibold text-pine-800">
             <Euro className="h-4 w-4" /> Costi indicativi
           </p>
-          <p className="text-sm text-gray-700">Auto: 55-80€ (carburante+pedaggi) • Treno: 35-90€ a persona</p>
+          <p className="text-sm text-gray-700">
+            Auto: 55-80€ (carburante+pedaggi) • Treno: 35-90€ a persona
+          </p>
         </div>
       </section>
 
       <p className="text-gray-700">
         Per una panoramica completa consulta anche la guida su{" "}
-        <Link className="font-semibold text-pine-700" to="/blog/come-arrivare-pinarella">
+        <Link
+          className="font-semibold text-pine-700"
+          to="/blog/come-arrivare-pinarella"
+        >
           come arrivare a Pinarella
         </Link>{" "}
         e l'articolo dedicato a{" "}
-        <Link className="font-semibold text-pine-700" to="/blog/come-arrivare-pinarella-da-bologna">
+        <Link
+          className="font-semibold text-pine-700"
+          to="/blog/come-arrivare-pinarella-da-bologna"
+        >
           chi parte da Bologna
         </Link>
         .
       </p>
 
       <div className="bg-slate-100 p-8 rounded-2xl my-8 not-prose">
-        <h3 className="text-xl font-bold text-pine-900 mb-4">Guide correlate</h3>
+        <h3 className="text-xl font-bold text-pine-900 mb-4">
+          Guide correlate
+        </h3>
         <ul className="space-y-2">
-          <li><Link to="/blog/come-arrivare-pinarella" className="text-pine-600 hover:underline font-medium">→ Come arrivare a Pinarella: guida generale</Link></li>
-          <li><Link to="/blog/come-arrivare-pinarella-da-bologna" className="text-pine-600 hover:underline font-medium">→ Come arrivare a Pinarella da Bologna</Link></li>
-          <li><Link to="/blog/dove-dormire-pinarella-cervia-bambini" className="text-pine-600 hover:underline font-medium">→ Dove dormire a Pinarella</Link></li>
+          <li>
+            <Link
+              to="/blog/come-arrivare-pinarella"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Come arrivare a Pinarella: guida generale
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/come-arrivare-pinarella-da-bologna"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Come arrivare a Pinarella da Bologna
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/dove-dormire-pinarella-cervia-bambini"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Dove dormire a Pinarella
+            </Link>
+          </li>
         </ul>
       </div>
     </BlogPostLayout>

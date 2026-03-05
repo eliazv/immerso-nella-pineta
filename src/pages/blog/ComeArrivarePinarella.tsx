@@ -39,7 +39,7 @@ const ComeArrivarePinarella = () => {
     headline: "Come Arrivare a Pinarella: Auto, Treno e Aereo",
     description:
       "Guida completa su come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali, stazioni ferroviarie e aeroporti più vicini.",
-    image: "https://immerso-nella-pineta.it/images/logo.nobg.png",
+    image: "https://immerso.eliazavatta.it/images/logo.nobg.png",
     datePublished: "2026-02-01",
     author: {
       "@type": "Person",
@@ -60,10 +60,10 @@ const ComeArrivarePinarella = () => {
       jsonLd={jsonLd}
     >
       <p className="text-xl text-gray-700 leading-relaxed mb-8">
-        Pinarella di Cervia è facilmente raggiungibile da tutta Italia
-        grazie alla sua posizione strategica sulla costa adriatica. Che tu
-        preferisca viaggiare in auto, treno o aereo, ecco tutte le
-        informazioni per pianificare il tuo viaggio.
+        Pinarella di Cervia è facilmente raggiungibile da tutta Italia grazie
+        alla sua posizione strategica sulla costa adriatica. Che tu preferisca
+        viaggiare in auto, treno o aereo, ecco tutte le informazioni per
+        pianificare il tuo viaggio.
       </p>
 
       <div className="grid md:grid-cols-3 gap-6 my-12 not-prose">
@@ -92,9 +92,9 @@ const ComeArrivarePinarella = () => {
         In Auto: Autostrada A14
       </h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        L'auto è il mezzo più comodo per raggiungere Pinarella, specialmente
-        se porti con te famiglie o attrezzatura da spiaggia. Pinarella si
-        trova lungo l'autostrada A14 Adriatica che collega Bologna a Bari.
+        L'auto è il mezzo più comodo per raggiungere Pinarella, specialmente se
+        porti con te famiglie o attrezzatura da spiaggia. Pinarella si trova
+        lungo l'autostrada A14 Adriatica che collega Bologna a Bari.
       </p>
 
       <h3 className="text-2xl font-bold text-pine-700 mt-8 mb-4">
@@ -114,8 +114,7 @@ const ComeArrivarePinarella = () => {
           Dopo circa 20 km, segui le indicazioni per Pinarella
         </li>
         <li className="text-gray-700">
-          <strong>Tempo di percorrenza:</strong> Bologna 90 minuti, Milano 3
-          ore
+          <strong>Tempo di percorrenza:</strong> Bologna 90 minuti, Milano 3 ore
         </li>
       </ul>
 
@@ -144,9 +143,7 @@ const ComeArrivarePinarella = () => {
             <div className="flex items-start gap-3">
               <Navigation className="w-6 h-6 text-pine-600 flex-shrink-0 mt-1" />
               <div>
-                <h4 className="font-bold text-pine-800 mb-2">
-                  Coordinate GPS
-                </h4>
+                <h4 className="font-bold text-pine-800 mb-2">Coordinate GPS</h4>
                 <p className="text-gray-700">
                   Per navigatore satellitare:{" "}
                   <strong>44.261434, 12.339165</strong>
@@ -182,8 +179,8 @@ const ComeArrivarePinarella = () => {
           minuti)
         </li>
         <li className="text-gray-700">
-          <strong>Da Ravenna:</strong> Treni regionali ogni 30-60 minuti
-          (circa 20 minuti)
+          <strong>Da Ravenna:</strong> Treni regionali ogni 30-60 minuti (circa
+          20 minuti)
         </li>
         <li className="text-gray-700">
           <strong>Da Milano:</strong> Cambio a Bologna (totale 3-3.5 ore)
@@ -198,20 +195,20 @@ const ComeArrivarePinarella = () => {
       </p>
       <ul className="list-disc pl-6 mb-4 space-y-2">
         <li className="text-gray-700">
-          <strong>Taxi:</strong> Disponibili fuori dalla stazione (circa
-          10€, 10 minuti)
+          <strong>Taxi:</strong> Disponibili fuori dalla stazione (circa 10€, 10
+          minuti)
         </li>
         <li className="text-gray-700">
-          <strong>Autobus urbano:</strong> Linea 176 verso Pinarella
-          (fermate ogni 20 minuti)
+          <strong>Autobus urbano:</strong> Linea 176 verso Pinarella (fermate
+          ogni 20 minuti)
         </li>
         <li className="text-gray-700">
-          <strong>Transfer privato:</strong> Possiamo organizzare un
-          transfer per te
+          <strong>Transfer privato:</strong> Possiamo organizzare un transfer
+          per te
         </li>
         <li className="text-gray-700">
-          <strong>Noleggio bici:</strong> Piste ciclabili collegano la
-          stazione a Pinarella
+          <strong>Noleggio bici:</strong> Piste ciclabili collegano la stazione
+          a Pinarella
         </li>
       </ul>
 
@@ -223,14 +220,14 @@ const ComeArrivarePinarella = () => {
         Aeroporto di Rimini "Federico Fellini" (30 km)
       </h3>
       <p className="text-gray-700 leading-relaxed mb-4">
-        L'aeroporto più vicino, ideale per voli low-cost e collegamenti con
-        le principali città italiane ed europee. Tempo di trasferimento:
-        circa 30 minuti in auto.
+        L'aeroporto più vicino, ideale per voli low-cost e collegamenti con le
+        principali città italiane ed europee. Tempo di trasferimento: circa 30
+        minuti in auto.
       </p>
       <ul className="list-disc pl-6 mb-4 space-y-2">
         <li className="text-gray-700">
-          <strong>Transfer:</strong> Taxi (circa 40-50€), noleggio auto,
-          navetta condivisa
+          <strong>Transfer:</strong> Taxi (circa 40-50€), noleggio auto, navetta
+          condivisa
         </li>
         <li className="text-gray-700">
           <strong>Collegamenti:</strong> Milano, Roma, Londra, Mosca
@@ -247,8 +244,8 @@ const ComeArrivarePinarella = () => {
       </p>
       <ul className="list-disc pl-6 mb-4 space-y-2">
         <li className="text-gray-700">
-          <strong>Transfer:</strong> Navetta aeroporto + treno, noleggio
-          auto, taxi (80-100€)
+          <strong>Transfer:</strong> Navetta aeroporto + treno, noleggio auto,
+          taxi (80-100€)
         </li>
         <li className="text-gray-700">
           <strong>Collegamenti:</strong> Tutte le principali città europee e
@@ -261,8 +258,8 @@ const ComeArrivarePinarella = () => {
       </h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         Se arrivi in auto, non preoccuparti del parcheggio: il nostro
-        appartamento include un <strong>posto auto privato gratuito</strong>
-        . Inoltre, a Pinarella trovi:
+        appartamento include un <strong>posto auto privato gratuito</strong>.
+        Inoltre, a Pinarella trovi:
       </p>
       <ul className="list-disc pl-6 mb-4 space-y-2">
         <li className="text-gray-700">
@@ -315,17 +312,40 @@ const ComeArrivarePinarella = () => {
           noleggio economico ovunque
         </li>
         <li className="text-gray-700">
-          <strong>Autobus:</strong> Collegamenti con Cervia, Milano
-          Marittima e Ravenna
+          <strong>Autobus:</strong> Collegamenti con Cervia, Milano Marittima e
+          Ravenna
         </li>
       </ul>
 
       <div className="bg-slate-100 p-8 rounded-2xl my-8 not-prose">
-        <h3 className="text-xl font-bold text-pine-900 mb-4">Guide specifiche per città</h3>
+        <h3 className="text-xl font-bold text-pine-900 mb-4">
+          Guide specifiche per città
+        </h3>
         <ul className="space-y-2">
-          <li><Link to="/blog/come-arrivare-pinarella-da-bologna" className="text-pine-600 hover:underline font-medium">→ Da Bologna a Pinarella: guida completa</Link></li>
-          <li><Link to="/blog/come-arrivare-pinarella-da-milano" className="text-pine-600 hover:underline font-medium">→ Da Milano a Pinarella: guida completa</Link></li>
-          <li><Link to="/blog/dove-dormire-pinarella-cervia-bambini" className="text-pine-600 hover:underline font-medium">→ Dove dormire a Pinarella con bambini</Link></li>
+          <li>
+            <Link
+              to="/blog/come-arrivare-pinarella-da-bologna"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Da Bologna a Pinarella: guida completa
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/come-arrivare-pinarella-da-milano"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Da Milano a Pinarella: guida completa
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/blog/dove-dormire-pinarella-cervia-bambini"
+              className="text-pine-600 hover:underline font-medium"
+            >
+              → Dove dormire a Pinarella con bambini
+            </Link>
+          </li>
         </ul>
       </div>
     </BlogPostLayout>

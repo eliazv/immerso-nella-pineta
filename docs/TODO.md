@@ -1,3 +1,7 @@
+- il sito in prod è https://immerso.eliazavatta.it/ , non https://immerso-nella-pineta.it/. i problemi di indicizzazione sonos tati risoliti? a cosa erano docvuti? cosa devo fare su googel serach console? cita https://www.vitaromagna.it/eventi/artevento-2026-festival-internazionale-dellaquilone-2510 per festival dell'Aquilone. {/_ Final CTA _/}
+  <div className="mt-16 bg-gradient-to-br from-pine-900 to-pine-800 rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl overflow-hidden relative">
+  è completamente bianca come seizone non si vede niente correggi . tutte le immigni nel dettalgio del blog non sono visivbili come mia?
+
 - docs\todo2.md
 - backoffice: Periodi da migliorare escludi mesi inverno . lista prenotazioni se clicco tutte deve partire dalle piu lointane e andrae alle piu passate, inverti oridnamento
 - reintroduci src\components\BookingForm.tsx in book page e migliroalo , agigungi anche prezzo per notte che posso customizzare io da qualche parte (magari se sito è relamente visitato)

@@ -3,7 +3,13 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MetaTags from "@/components/MetaTags";
-import { ArrowLeft, Calendar, Clock, BookOpen, ExternalLink } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  BookOpen,
+  ExternalLink,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -41,7 +47,7 @@ const BlogPostLayout = ({
         canonicalUrl={canonicalUrl}
         imageUrl={heroImage}
       />
-      
+
       {jsonLd && (
         <script
           type="application/ld+json"
@@ -87,8 +93,8 @@ const BlogPostLayout = ({
             {/* Main Content */}
             <article className="bg-white rounded-2xl shadow-xl p-6 md:p-12 lg:w-2/3 border border-slate-100">
               <div className="mb-8">
-                <Link 
-                  to="/blog" 
+                <Link
+                  to="/blog"
                   className="inline-flex items-center gap-2 text-pine-600 hover:text-pine-700 font-semibold group transition-all"
                 >
                   <div className="p-2 bg-pine-50 rounded-full group-hover:bg-pine-100">
@@ -103,27 +109,35 @@ const BlogPostLayout = ({
               </div>
 
               {/* Final CTA */}
-              <div className="mt-16 bg-gradient-to-br from-pine-900 to-pine-800 rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl overflow-hidden relative">
-                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                   <div className="absolute top-[-10%] right-[-10%] w-[30%] h-[50%] bg-white rounded-full blur-[100px]" />
-                   <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[50%] bg-cyan-400 rounded-full blur-[100px]" />
+              <div className="mt-16 bg-gradient-to-br from-pine-900 to-pine-800 rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl overflow-hidden relative border border-white/10">
+                <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+                  <div className="absolute top-[-10%] right-[-10%] w-[30%] h-[50%] bg-pine-400 rounded-full blur-[100px]" />
+                  <div className="absolute bottom-[-10%] left-[-10%] w-[30%] h-[50%] bg-cyan-700 rounded-full blur-[100px]" />
                 </div>
-                
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">
+
+                <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10 !text-white">
                   Pronto per la tua vacanza a Pinarella?
                 </h2>
                 <p className="text-pine-100 text-lg mb-10 max-w-2xl mx-auto relative z-10 leading-relaxed">
-                  Soggiorna nei nostri appartamenti a soli 200 metri dal mare. 
-                  Prenota direttamente con noi per il miglior prezzo garantito e zero commissioni.
+                  Soggiorna nei nostri appartamenti a soli 200 metri dal mare.
+                  Prenota direttamente con noi per il miglior prezzo garantito e
+                  zero commissioni.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
                   <Link to="/pineta3/book">
-                    <Button size="lg" className="bg-white text-pine-900 hover:bg-pine-50 font-bold px-10 py-7 text-lg shadow-xl w-full sm:w-auto">
+                    <Button
+                      size="lg"
+                      className="bg-white text-pine-900 hover:bg-pine-50 font-bold px-10 py-7 text-lg shadow-xl w-full sm:w-auto border-none"
+                    >
                       Prenota Pineta 3
                     </Button>
                   </Link>
                   <Link to="/pineta8/book">
-                    <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 font-bold px-10 py-7 text-lg w-full sm:w-auto">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="border-2 border-white text-white hover:bg-white/10 font-bold px-10 py-7 text-lg w-full sm:w-auto"
+                    >
                       Prenota Pineta 8
                     </Button>
                   </Link>
@@ -139,22 +153,37 @@ const BlogPostLayout = ({
                   Potrebbe interessarti
                 </h3>
                 <div className="space-y-6">
-                  <Link to="/blog/mare-pinarella-cervia" className="group block">
-                    <span className="text-sm text-slate-500 block mb-1">Guida Mare</span>
+                  <Link
+                    to="/blog/mare-pinarella-cervia"
+                    className="group block"
+                  >
+                    <span className="text-sm text-slate-500 block mb-1">
+                      Guida Mare
+                    </span>
                     <h4 className="font-bold text-slate-800 group-hover:text-pine-600 transition-colors line-clamp-2">
                       Com'è il mare a Pinarella? Acque basse e Bandiera Blu
                     </h4>
                   </Link>
                   <div className="h-px bg-slate-100" />
-                  <Link to="/blog/cosa-fare-pinarella-cervia" className="group block">
-                    <span className="text-sm text-slate-500 block mb-1">Attività</span>
+                  <Link
+                    to="/blog/cosa-fare-pinarella-cervia"
+                    className="group block"
+                  >
+                    <span className="text-sm text-slate-500 block mb-1">
+                      Attività
+                    </span>
                     <h4 className="font-bold text-slate-800 group-hover:text-pine-600 transition-colors line-clamp-2">
                       Cosa fare a Pinarella: 10 attività imperdibili
                     </h4>
                   </Link>
                   <div className="h-px bg-slate-100" />
-                  <Link to="/blog/spiagge-libere-stabilimenti-pinarella" className="group block">
-                    <span className="text-sm text-slate-500 block mb-1">Spiagge</span>
+                  <Link
+                    to="/blog/spiagge-libere-stabilimenti-pinarella"
+                    className="group block"
+                  >
+                    <span className="text-sm text-slate-500 block mb-1">
+                      Spiagge
+                    </span>
                     <h4 className="font-bold text-slate-800 group-hover:text-pine-600 transition-colors line-clamp-2">
                       Spiagge libere o stabilimenti? Guida alla scelta
                     </h4>
@@ -164,10 +193,14 @@ const BlogPostLayout = ({
                 <div className="mt-8 pt-8 border-t border-slate-100">
                   <h4 className="font-bold text-pine-900 mb-4">Hai domande?</h4>
                   <p className="text-sm text-slate-600 mb-4">
-                    Contattaci direttamente per informazioni sugli appartamenti e disponibilità.
+                    Contattaci direttamente per informazioni sugli appartamenti
+                    e disponibilità.
                   </p>
                   <Link to="/chi-siamo">
-                    <Button variant="link" className="p-0 text-pine-600 flex items-center gap-1 font-bold">
+                    <Button
+                      variant="link"
+                      className="p-0 text-pine-600 flex items-center gap-1 font-bold"
+                    >
                       Scopri chi siamo <ExternalLink className="w-4 h-4" />
                     </Button>
                   </Link>
