@@ -60,18 +60,39 @@ const AdvancedSEOSchema = ({
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta3#camera-matrimoniale`,
       name: "Camera matrimoniale",
+      numberOfBedrooms: 1,
+      numberOfBathroomsTotal: 1,
+      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
       bed: { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
+      amenityFeature: [
+        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
+        { "@type": "LocationFeatureSpecification", name: "Letto matrimoniale", value: true },
+      ],
     },
     {
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta3#camera-singoli`,
       name: "Camera con letti singoli",
+      numberOfBedrooms: 1,
+      numberOfBathroomsTotal: 0,
+      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
       bed: { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
+      amenityFeature: [
+        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
+        { "@type": "LocationFeatureSpecification", name: "Letti singoli", value: true },
+      ],
     },
     {
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta3#soggiorno`,
       name: "Soggiorno con cucina",
+      numberOfBedrooms: 0,
+      numberOfBathroomsTotal: 0,
+      occupancy: { "@type": "QuantitativeValue", maxValue: 4, unitText: "persons" },
+      amenityFeature: [
+        { "@type": "LocationFeatureSpecification", name: "Cucina attrezzata", value: true },
+        { "@type": "LocationFeatureSpecification", name: "TV", value: true },
+      ],
     },
   ];
 
@@ -80,18 +101,40 @@ const AdvancedSEOSchema = ({
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta8#camera-matrimoniale`,
       name: "Camera matrimoniale con balcone",
+      numberOfBedrooms: 1,
+      numberOfBathroomsTotal: 1,
+      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
       bed: { "@type": "BedDetails", numberOfBeds: 1, typeOfBed: "https://schema.org/KingBed" },
+      amenityFeature: [
+        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
+        { "@type": "LocationFeatureSpecification", name: "Balcone", value: true },
+      ],
     },
     {
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta8#camera-singoli`,
       name: "Camera con letti singoli",
+      numberOfBedrooms: 1,
+      numberOfBathroomsTotal: 0,
+      occupancy: { "@type": "QuantitativeValue", maxValue: 2, unitText: "persons" },
       bed: { "@type": "BedDetails", numberOfBeds: 2, typeOfBed: "https://schema.org/SingleBed" },
+      amenityFeature: [
+        { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
+        { "@type": "LocationFeatureSpecification", name: "Letti singoli", value: true },
+      ],
     },
     {
       "@type": "Accommodation",
       "@id": `${siteUrl}/pineta8#soggiorno`,
       name: "Soggiorno con cucina e balcone",
+      numberOfBedrooms: 0,
+      numberOfBathroomsTotal: 0,
+      occupancy: { "@type": "QuantitativeValue", maxValue: 4, unitText: "persons" },
+      amenityFeature: [
+        { "@type": "LocationFeatureSpecification", name: "Cucina attrezzata", value: true },
+        { "@type": "LocationFeatureSpecification", name: "Balcone", value: true },
+        { "@type": "LocationFeatureSpecification", name: "TV", value: true },
+      ],
     },
   ];
 
@@ -99,12 +142,7 @@ const AdvancedSEOSchema = ({
     "@context": "https://schema.org",
     "@type": "VacationRental",
     "@id": `${siteUrl}/${propertyId}#accommodation`,
-    additionalType: "https://schema.org/Apartment",
-    identifier: {
-      "@type": "PropertyValue",
-      name: "AirbnbListingID",
-      value: airbnbId,
-    },
+    identifier: `${siteUrl}/${propertyId}`,
     name: isPineta8
       ? "Appartamento Pinarella con Balcone - Casa Vacanze Cervia"
       : "Appartamento Pinarella Prenotazione Diretta - Casa Vacanze Cervia",

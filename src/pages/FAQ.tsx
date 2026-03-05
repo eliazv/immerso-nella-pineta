@@ -50,7 +50,7 @@ const FAQ = () => {
     {
       question: "Cosa include l'appartamento?",
       answer:
-        "Ogni appartamento è completamente attrezzato con cucina, bagno, camere da letto, aria condizionata, Wi-Fi gratuito, TV e tutto il necessario per un soggiorno confortevole. Le lenzuola e gli asciugamani sono forniti.",
+        "Ogni appartamento è completamente attrezzato con cucina, bagno, camere da letto, aria condizionata,  TV e tutto il necessario per un soggiorno confortevole. Le lenzuola e gli asciugamani sono forniti.",
     },
     {
       question: "Come si effettua il pagamento?",
@@ -72,11 +72,7 @@ const FAQ = () => {
       answer:
         "Oltre alla splendida spiaggia, puoi visitare la Pineta di Cervia per passeggiate, il centro storico di Cervia con le saline, Milano Marittima per lo shopping e la vita notturna, e numerosi parchi tematici come Mirabilandia e l'Acquario di Cattolica.",
     },
-    {
-      question: "È disponibile il Wi-Fi?",
-      answer:
-        "Sì, tutti i nostri appartamenti dispongono di connessione Wi-Fi gratuita ad alta velocità, perfetta per lavorare in smart working o intrattenersi.",
-    },
+
     {
       question: "Perché prenotare direttamente invece che su Booking o Airbnb?",
       answer:

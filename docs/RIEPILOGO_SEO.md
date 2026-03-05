@@ -151,9 +151,8 @@ Domande incluse:
 9. Politica cancellazione
 10. Supermercati vicini
 11. Attrazioni vicine
-12. Wi-Fi disponibile
-13. Perché prenotare direttamente vs Booking/Airbnb
-14. Come raggiungere Pinarella
+12. Perché prenotare direttamente vs Booking/Airbnb
+13. Come raggiungere Pinarella
 
 ### 🎯 Schema Markup Implementato
 
