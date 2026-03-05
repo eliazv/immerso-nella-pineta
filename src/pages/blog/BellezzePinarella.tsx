@@ -65,7 +65,7 @@ const BellezzePinarella = () => {
     description:
       "Scopri cosa rende Pinarella di Cervia una destinazione speciale: spiagge dorate, pineta secolare, tramonti mozzafiato e atmosfera autentica. Guida completa.",
     image:
-      "https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg",
+      "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=80",
     datePublished: "2026-02-04",
     dateModified: "2026-02-04",
     author: {
@@ -78,7 +78,7 @@ const BellezzePinarella = () => {
     <BlogPostLayout
       title="Cosa c'è di Bello a Pinarella di Cervia? Le Bellezze da Scoprire"
       description="Scopri cosa rende Pinarella di Cervia una destinazione speciale: spiagge dorate, pineta secolare, tramonti mozzafiato, percorsi ciclabili e atmosfera autentica."
-      heroImage="https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg"
+      heroImage="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=80"
       publishDate="4 Febbraio 2026"
       readingTime="5 min di lettura"
       category="Destinazione"

@@ -11,7 +11,7 @@ const DaBolognaAPinarella = () => {
     headline: "Come Arrivare a Pinarella da Bologna: Auto e Treno",
     description:
       "Guida pratica aggiornata per raggiungere Pinarella da Bologna in auto o in treno con tempi, costi e consigli utili.",
-    image: "https://immerso.eliazavatta.it/images/logo.nobg.png",
+    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=80",
     datePublished: "2026-02-05",
     author: {
       "@type": "Person",

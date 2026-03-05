@@ -11,7 +11,7 @@ const DaMilanoAPinarella = () => {
     headline: "Come Arrivare a Pinarella da Milano: Guida Completa",
     description:
       "Tutte le opzioni pratiche per raggiungere Pinarella da Milano: auto, treno con cambio, tempi medi e costi indicativi.",
-    image: "https://immerso.eliazavatta.it/images/logo.nobg.png",
+    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=80",
     datePublished: "2026-02-05",
     author: {
       "@type": "Person",

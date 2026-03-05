@@ -21,12 +21,12 @@ const jsonLd = {
     name: "Immerso nella Pineta",
     logo: {
       "@type": "ImageObject",
-      url: "https://immersonellapineta.it/logo.png",
+      url: "https://immerso.eliazavatta.it/logo.png",
     },
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://immersonellapineta.it/blog/festival-aquilone-cervia",
+    "@id": "https://immerso.eliazavatta.it/blog/festival-aquilone-cervia",
   },
 };
 

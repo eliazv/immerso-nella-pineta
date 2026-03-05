@@ -39,7 +39,7 @@ const ComeArrivarePinarella = () => {
     headline: "Come Arrivare a Pinarella: Auto, Treno e Aereo",
     description:
       "Guida completa su come raggiungere Pinarella di Cervia in auto, treno o aereo. Indicazioni stradali, stazioni ferroviarie e aeroporti più vicini.",
-    image: "https://immerso.eliazavatta.it/images/logo.nobg.png",
+    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=80",
     datePublished: "2026-02-01",
     author: {
       "@type": "Person",

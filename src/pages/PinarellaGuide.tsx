@@ -61,7 +61,7 @@ const PinarellaGuide = () => {
       "Guida completa a Pinarella di Cervia: spiagge, attrazioni, ristoranti e alloggi per vacanze perfette in Emilia Romagna.",
     url: getCanonicalUrl("/pinarella-guida"),
     image:
-      "https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Pinarella di Cervia",
@@ -107,7 +107,7 @@ const PinarellaGuide = () => {
           <section className="mb-12">
             <div className="relative h-64 rounded-xl overflow-hidden mb-6">
               <img
-                src="https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg"
+                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80"
                 alt="Pinarella di Cervia panorama spiaggia e pineta - guida vacanze"
                 className="object-cover w-full h-full"
               />

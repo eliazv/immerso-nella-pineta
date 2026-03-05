@@ -102,7 +102,7 @@ const RistorantiPinarella = () => {
     headline: "I Migliori Ristoranti a Pinarella e Cervia: Dove Mangiare",
     description:
       "Guida completa ai migliori ristoranti di Pinarella e Cervia. Cucina romagnola tradizionale, pesce fresco, pizzerie e gelaterie artigianali.",
-    image: "https://immerso.eliazavatta.it/images/logo.nobg.png",
+    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80",
     datePublished: "2026-02-01",
     dateModified: "2026-02-01",
     author: {

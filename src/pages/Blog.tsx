@@ -36,7 +36,7 @@ const Blog = () => {
       date: "2026-02-01",
       icon: MapPin,
       image:
-        "https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg",
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
       color: "from-cyan-500 to-blue-500",
     },
     {
@@ -124,7 +124,7 @@ const Blog = () => {
       date: "2026-02-04",
       icon: Palmtree,
       image:
-        "https://www.cerviaemilanomarittima.org/wp-content/uploads/2018/09/pinarella_950x551.jpg",
+        "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80",
       color: "from-green-500 to-emerald-500",
     },
     {
@@ -145,7 +145,8 @@ const Blog = () => {
         "Scopri quando c'è il mercato serale a Pinarella: ogni martedì e venerdì dalle 18:00. Guida completa a tutti i mercati della zona.",
       date: "2026-02-04",
       icon: ShoppingBag,
-      image: "https://www.viviromagna.it/archivio/eventi/7415/aghi-di-pino.jpg",
+      image:
+        "https://images.unsplash.com/photo-1543168256-418811576931?w=800&q=80",
       color: "from-purple-500 to-pink-500",
     },
     {
