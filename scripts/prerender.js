@@ -12,8 +12,6 @@ const PORT = 4173;
 // Routes to prerender (all from sitemap)
 const ROUTES = routes.map((r) => r.path);
 
-
-
 async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true });
 }

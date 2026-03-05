@@ -91,6 +91,12 @@ export const routes = [
     lastmod: CURRENT_DATE,
   },
   {
+    path: "/blog/pinarella-guida",
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: CURRENT_DATE,
+  },
+  {
     path: "/blog/cosa-fare-pinarella-cervia",
     changefreq: "monthly",
     priority: "0.8",
@@ -105,7 +111,7 @@ export const routes = [
   {
     path: "/blog/come-arrivare-pinarella",
     changefreq: "monthly",
-    priority: "0.7",
+    priority: "0.8",
     lastmod: CURRENT_DATE,
   },
   {
@@ -147,7 +153,7 @@ export const routes = [
   {
     path: "/blog/mercato-serale-pinarella",
     changefreq: "weekly",
-    priority: "0.6",
+    priority: "0.7",
     lastmod: CURRENT_DATE,
   },
   {
@@ -170,8 +176,8 @@ export const routes = [
   },
   {
     path: "/blog/meteo-pinarella-quando-andare",
-    changefreq: "daily",
-    priority: "0.6",
+    changefreq: "weekly",
+    priority: "0.7",
     lastmod: CURRENT_DATE,
   },
   {
@@ -180,7 +186,18 @@ export const routes = [
     priority: "0.8",
     lastmod: CURRENT_DATE,
   },
-
+  {
+    path: "/blog/come-arrivare-pinarella-da-bologna",
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: CURRENT_DATE,
+  },
+  {
+    path: "/blog/come-arrivare-pinarella-da-milano",
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: CURRENT_DATE,
+  },
   {
     path: "/chi-siamo",
     changefreq: "monthly",
@@ -236,4 +253,3 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1);
   }
 }
-

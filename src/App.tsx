@@ -56,7 +56,15 @@ const PinarellaVsMilanoMarittima = lazy(
   () => import("./pages/blog/PinarellaVsMilanoMarittima"),
 );
 const MeteoPinarella = lazy(() => import("./pages/blog/MeteoPinarella"));
-const DormirePinarellaBambini = lazy(() => import("./pages/blog/DormirePinarellaBambini"));
+const DormirePinarellaBambini = lazy(
+  () => import("./pages/blog/DormirePinarellaBambini"),
+);
+const DaBolognaAPinarella = lazy(
+  () => import("./pages/blog/DaBolognaAPinarella"),
+);
+const DaMilanoAPinarella = lazy(
+  () => import("./pages/blog/DaMilanoAPinarella"),
+);
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo"));
 
 
@@ -211,7 +219,14 @@ const App = () => {
                         path="/blog/dove-dormire-pinarella-cervia-bambini"
                         element={<DormirePinarellaBambini />}
                       />
-
+                      <Route
+                        path="/blog/come-arrivare-pinarella-da-bologna"
+                        element={<DaBolognaAPinarella />}
+                      />
+                      <Route
+                        path="/blog/come-arrivare-pinarella-da-milano"
+                        element={<DaMilanoAPinarella />}
+                      />
 
                       {/* Backoffice con layout condiviso */}
                       <Route path="/" element={<BackofficeLayout />}>
