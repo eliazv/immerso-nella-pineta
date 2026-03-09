@@ -14,7 +14,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, FileText, Clock, MapPin, Car, Coffee } from "lucide-react";
+import {
+  MessageCircle,
+  FileText,
+  Clock,
+  MapPin,
+  Car,
+  Coffee,
+} from "lucide-react";
 
 const FAQ = () => {
   const faqCategories = [
@@ -106,14 +113,16 @@ const FAQ = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqCategories.flatMap(cat => cat.items).map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
+    mainEntity: faqCategories
+      .flatMap((cat) => cat.items)
+      .map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
   };
 
   return (
@@ -141,32 +150,9 @@ const FAQ = () => {
             Informazioni utili
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Tutto quello che devi sapere per il tuo soggiorno a Pinarella di Cervia
+            Tutto quello che devi sapere per il tuo soggiorno a Pinarella di
+            Cervia
           </p>
-        </div>
-
-        {/* Quick Info Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          <Link to="#check-in" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
-            <Clock className="w-8 h-8 text-pine-600 mx-auto mb-2" />
-            <p className="text-sm font-medium">Check-in</p>
-            <p className="text-xs text-gray-500">dalle 14:00</p>
-          </Link>
-          <Link to="#check-out" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
-            <Clock className="w-8 h-8 text-pine-600 mx-auto mb-2" />
-            <p className="text-sm font-medium">Check-out</p>
-            <p className="text-xs text-gray-500">entro le 10:00</p>
-          </Link>
-          <Link to="#posizione" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
-            <MapPin className="w-8 h-8 text-pine-600 mx-auto mb-2" />
-            <p className="text-sm font-medium">Mare</p>
-            <p className="text-xs text-gray-500">200 metri</p>
-          </Link>
-          <Link to="#parcheggio" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
-            <Car className="w-8 h-8 text-pine-600 mx-auto mb-2" />
-            <p className="text-sm font-medium">Parcheggio</p>
-            <p className="text-xs text-gray-500">Gratuito</p>
-          </Link>
         </div>
 
         {/* House Rules Section */}
@@ -191,15 +177,24 @@ const FAQ = () => {
 
           <div className="space-y-8">
             {faqCategories.map((category, catIndex) => (
-              <div key={catIndex} className="bg-white rounded-xl shadow-sm border overflow-hidden">
+              <div
+                key={catIndex}
+                className="bg-white rounded-xl shadow-sm border overflow-hidden"
+              >
                 <div className="bg-pine-50/50 px-6 py-4 border-b flex items-center gap-3">
                   {category.icon}
-                  <h3 className="font-serif text-xl text-pine-900">{category.title}</h3>
+                  <h3 className="font-serif text-xl text-pine-900">
+                    {category.title}
+                  </h3>
                 </div>
                 <div className="p-2 md:p-4">
                   <Accordion type="single" collapsible className="w-full">
                     {category.items.map((item, index) => (
-                      <AccordionItem key={index} value={`item-${catIndex}-${index}`} className="border-none">
+                      <AccordionItem
+                        key={index}
+                        value={`item-${catIndex}-${index}`}
+                        className="border-none"
+                      >
                         <AccordionTrigger className="text-left py-4 px-4 text-base font-medium text-pine-800 hover:text-pine-600 hover:no-underline transition-colors">
                           {item.question}
                         </AccordionTrigger>
@@ -234,7 +229,11 @@ const FAQ = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button size="lg" variant="outline" className="border-pine-600 text-pine-600">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-pine-600 text-pine-600"
+              >
                 Scrivici su WhatsApp
               </Button>
             </a>
