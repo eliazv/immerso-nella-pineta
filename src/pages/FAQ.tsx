@@ -156,12 +156,6 @@ const FAQ = () => {
 
         {/* House Rules Section */}
         <section id="check-in" className="mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <FileText className="w-6 h-6 text-pine-600" />
-            <h2 className="text-2xl font-serif font-medium text-pine-800">
-              Regole della casa
-            </h2>
-          </div>
           <HouseRules />
         </section>
 

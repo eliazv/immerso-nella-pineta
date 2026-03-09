@@ -96,7 +96,7 @@ const HouseRulesPDF = () => {
                 <h3 className="font-medium mb-2 print:mb-1">
                   Regole principali
                 </h3>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-1 text-sm print:text-xs">
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-1 pt-2 text-sm print:text-xs">
                   <li className="flex items-center gap-1">
                     <span className="text-pine-dark">✓</span>
                     <span>Animali domestici ammessi</span>
