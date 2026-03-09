@@ -4,25 +4,28 @@ import {
   Check,
   X,
   Clock,
-  Calendar,
   Car,
   Sparkles,
   ChevronDown,
   Mail,
   Phone,
   CalendarDays,
-  Video,
   ChevronRight,
-  ExternalLink,
   Contact,
+  LogIn,
   LogOut,
-  PocketKnife,
-  Flame,
+  Key,
+  Lock,
   FileText,
   Power,
   Thermometer,
   Fan,
   TimerIcon,
+  Info,
+  MapPin,
+  Video,
+  Flame,
+  PocketKnife,
 } from "lucide-react";
 import {
   Accordion,
@@ -103,6 +106,70 @@ const HouseRules = ({ className }: RulesListProps) => {
           </ul>
         </div>
       </div>
+
+      {/* Check-In Section */}
+      <div className="p-6 rounded-xl border-2 border-sea-light bg-sea-soft/30">
+        <h3 className="font-serif text-lg font-medium mb-4 flex items-center">
+          <LogIn className="mr-2 h-5 w-5 text-sea-dark" />
+          Come arrivare e ritirare le chiavi
+        </h3>
+        
+        <div className="space-y-4">
+          <div className="flex items-start gap-3">
+            <div className="bg-sea-light w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sea-dark font-medium text-sm">
+              1
+            </div>
+            <div>
+              <p className="font-medium text-sm">In auto</p>
+              <p className="text-sm text-muted-foreground">
+                Potete arrivare comodamente in auto e parcheggiare nel cortile dell'edificio. 
+                Il parcheggio riservato per voi è segnato con il <strong>numero 3</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="bg-sea-light w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sea-dark font-medium text-sm">
+              2
+            </div>
+            <div>
+              <p className="font-medium text-sm">Cassetta di sicurezza</p>
+              <p className="text-sm text-muted-foreground">
+                Le chiavi dell'appartamento si trovano nella cassetta di sicurezza posizionata 
+                a <strong>sinistra dell'ingresso principale</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white/60 p-4 rounded-lg">
+            <p className="font-medium text-sm mb-3 flex items-center">
+              <Key className="mr-2 h-4 w-4" />
+              Istruzioni per aprire la cassetta:
+            </p>
+            <ol className="list-decimal pl-5 space-y-1 text-sm text-muted-foreground">
+              <li>Inserire il <strong>codice</strong> indicato per chat sulla serratura</li>
+              <li>Abbassare la <strong>levetta nera</strong> per aprire la cassetta</li>
+              <li>Prendere le chiavi e <strong>chiudere la cassetta</strong></li>
+              <li>Cambiare la combinazione dopo l'uso (ruotando i numeri) per sicurezza</li>
+            </ol>
+          </div>
+
+          <div className="rounded-lg overflow-hidden border">
+            <img 
+              src="/images/pina3/cassetta-checkin.jpeg" 
+              alt="Cassetta di sicurezza per le chiavi" 
+              className="w-full h-auto max-h-64 object-cover"
+            />
+          </div>
+
+          <p className="text-sm text-muted-foreground">
+            Una volta dentro, avrete accesso completo all'appartamento. 
+            Al momento della partenza, riponete gentilmente le chiavi nella cassetta di sicurezza, 
+            seguendo la stessa procedura.
+          </p>
+        </div>
+      </div>
+
       <div className="p-6 rounded-xl border border-border bg-card/50">
         <h3 className="font-serif text-lg font-medium mb-4">Regole generali</h3>
         <ul className="space-y-3">

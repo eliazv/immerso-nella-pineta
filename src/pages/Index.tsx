@@ -195,13 +195,18 @@ const Index = () => {
             <Button
               size="lg"
               asChild
-              className="w-full sm:w-auto bg-gradient-to-r from-white to-gray-100 text-pine-dark hover:from-gray-100 hover:to-white font-bold shadow-2xl text-base md:text-lg px-8 md:px-10 py-6 md:py-7 rounded-full border-2 border-white/50 hover:scale-105 transition-transform"
+              className="w-full sm:w-auto bg-gradient-to-r from-white to-gray-100 text-pine-dark hover:from-gray-100 hover:to-white font-bold shadow-2xl px-8 md:px-10 py-8 md:py-9 rounded-2xl border-2 border-white/50 hover:scale-105 transition-all duration-300 group"
             >
               <Link to={`${getBasePath()}/book`}>
-                <span className="flex items-center gap-2">
-                  Prenota ora - Risparmia 20%
-                  <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
-                </span>
+                <div className="flex flex-col items-center">
+                  <span className="flex items-center gap-2 text-lg md:text-xl">
+                    Prenota ora
+                    <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <span className="text-xs md:text-sm font-medium opacity-80 mt-1">
+                    Risparmia 20% prenotando qui
+                  </span>
+                </div>
               </Link>
             </Button>
             <Button
@@ -392,53 +397,62 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
-            <div className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-sea-light to-sea-light/50 flex items-center justify-center">
-                <Bed className="h-6 w-6 text-sea-dark" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="group bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white scroll-reveal flex flex-col items-center text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500">
+              <div className="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-sea-light to-blue-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-inner">
+                <Bed className="h-8 w-8 text-sea-dark" />
               </div>
-              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
-                Camera
+              <h3 className="font-serif text-xl mb-3 text-gray-900 group-hover:text-sea-dark transition-colors">
+                Camere Relax
               </h3>
-              <p className="text-xs text-gray-600">
-                {accommodation.features.guestsCount} posti
+              <p className="text-sm text-gray-500 leading-relaxed">
+                {accommodation.features.guestsCount} posti letto configurabili per il massimo comfort del tuo riposo.
               </p>
             </div>
+            
             <div
-              className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              className="group bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white scroll-reveal flex flex-col items-center text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500"
               style={{ animationDelay: "0.1s" }}
             >
-              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center">
-                <House className="h-6 w-6 text-amber-700" />
+              <div className="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-50 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 shadow-inner">
+                <House className="h-8 w-8 text-amber-600" />
               </div>
-              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
-                Cucina
+              <h3 className="font-serif text-xl mb-3 text-gray-900 group-hover:text-amber-600 transition-colors">
+                Cucina Completa
               </h3>
-              <p className="text-xs text-gray-600">Attrezzata</p>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                Completamente attrezzata per le tue cene in famiglia, proprio come a casa tua.
+              </p>
             </div>
+
             <div
-              className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              className="group bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white scroll-reveal flex flex-col items-center text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500"
               style={{ animationDelay: "0.2s" }}
             >
-              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
-                <ShowerHead className="h-6 w-6 text-blue-700" />
+              <div className="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-50 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-inner">
+                <ShowerHead className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
-                Bagno
+              <h3 className="font-serif text-xl mb-3 text-gray-900 group-hover:text-blue-600 transition-colors">
+                Benessere & Praticità
               </h3>
-              <p className="text-xs text-gray-600">Con lavatrice</p>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                Bagno curato dotato di box doccia e lavatrice per ogni tua esigenza quotidiana.
+              </p>
             </div>
+
             <div
-              className="bg-white p-4 md:p-5 rounded-lg border border-gray-200 scroll-reveal flex flex-col items-center text-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              className="group bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white scroll-reveal flex flex-col items-center text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500"
               style={{ animationDelay: "0.3s" }}
             >
-              <div className="w-12 h-12 mb-3 rounded-xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center">
-                <TreePine className="h-6 w-6 text-green-600" />
+              <div className="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-pine-light to-green-50 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-all duration-500 shadow-inner">
+                <TreePine className="h-8 w-8 text-pine-dark" />
               </div>
-              <h3 className="font-bold text-sm md:text-base mb-2 text-gray-900">
-                Giardino
+              <h3 className="font-serif text-xl mb-3 text-gray-900 group-hover:text-pine-dark transition-colors">
+                Oasi Esterna
               </h3>
-              <p className="text-xs text-gray-600">Con parcheggio</p>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                Giardino privato con posto auto, ideale per i tuoi momenti di relax all'aria aperta.
+              </p>
             </div>
           </div>
 
@@ -585,7 +599,7 @@ const Index = () => {
 
             <div className="mt-8 text-center">
               <Button variant="outline" asChild>
-                <Link to={`${getBasePath()}/rules`}>
+                <Link to="/faq">
                   Vedi tutte le informazioni
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>

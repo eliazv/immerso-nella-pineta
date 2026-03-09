@@ -199,6 +199,42 @@ export const routes = [
     lastmod: CURRENT_DATE,
   },
   {
+    path: "/blog/dove-fare-colazione-pinarella",
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: CURRENT_DATE,
+  },
+  {
+    path: "/blog/itinerari-bicicletta-pinarella",
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: CURRENT_DATE,
+  },
+  {
+    path: "/blog/vacanze-pet-friendly-pinarella",
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: CURRENT_DATE,
+  },
+  {
+    path: "/blog/escursioni-giornaliere-pinarella",
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: CURRENT_DATE,
+  },
+  {
+    path: "/blog/parchi-gioco-bambini-pinarella",
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: CURRENT_DATE,
+  },
+  {
+    path: "/blog/sport-acquatici-pinarella",
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: CURRENT_DATE,
+  },
+  {
     path: "/chi-siamo",
     changefreq: "monthly",
     priority: "0.7",

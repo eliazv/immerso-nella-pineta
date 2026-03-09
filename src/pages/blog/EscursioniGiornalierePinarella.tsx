@@ -69,7 +69,7 @@ const EscursioniGiornalierePinarella = () => {
       type: "Enogastronomia",
       highlights: ["Terrazza sulla Romagna", "Vini locali", "Cucina romagnola", "Vista panoramica"],
       description:
-        "Il "balcone della Romagna": da qui si gode una vista mozzafiato su tutta la costa. Famoso per la sua tradizione vinicola e i ristoranti di cucina tipica romagnola.",
+        "Il 'balcone della Romagna': da qui si gode una vista mozzafiato su tutta la costa. Famoso per la sua tradizione vinicola e i ristoranti di cucina tipica romagnola.",
       transport: "In auto: SP254 verso Bertinoro",
     },
     {

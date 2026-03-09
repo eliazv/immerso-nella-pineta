@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HouseRules from "@/components/HouseRules";
 import MetaTags from "@/components/MetaTags";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import { CONTACT_INFO } from "@/lib/contactConfig";
@@ -13,75 +14,44 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, FileText, Clock, MapPin, Car, Coffee } from "lucide-react";
 
 const FAQ = () => {
   const faqItems = [
     {
-      question: "Come posso prenotare direttamente senza intermediari?",
+      question: "Come posso prenotare?",
       answer:
-        "Puoi prenotare direttamente contattandoci tramite il modulo di prenotazione sul nostro sito. Non utilizziamo piattaforme come Booking o Airbnb, quindi risparmierai sulle commissioni e avrai un contatto diretto con il proprietario.",
-    },
-    {
-      question: "Qual è il check-in e il check-out?",
-      answer:
-        "Il check-in è previsto dalle ore 15:00, mentre il check-out entro le ore 10:00. Per esigenze particolari, contattaci in anticipo per verificare la disponibilità di orari flessibili.",
-    },
-    {
-      question: "A che distanza si trova il mare?",
-      answer:
-        "L'appartamento si trova a soli 200 metri dalla spiaggia di Pinarella. Una breve passeggiata di 3-4 minuti a piedi ti porterà direttamente sulla sabbia.",
-    },
-    {
-      question: "È disponibile il parcheggio?",
-      answer:
-        "Sì, ogni appartamento dispone di un posto auto privato gratuito. Ideale se arrivi in macchina senza doverti preoccupare di cercare parcheggio.",
-    },
-    {
-      question: "Quante persone possono alloggiare?",
-      answer:
-        "Abbiamo due appartamenti: uno può ospitare fino a 4 persone e l'altro fino a 8 persone. Entrambi dispongono di tutti i comfort per famiglie e gruppi.",
-    },
-    {
-      question: "Gli animali domestici sono ammessi?",
-      answer:
-        "Purtroppo non possiamo accettare animali domestici per garantire la pulizia e il comfort di tutti gli ospiti, inclusi quelli con allergie.",
-    },
-    {
-      question: "Cosa include l'appartamento?",
-      answer:
-        "Ogni appartamento è completamente attrezzato con cucina, bagno, camere da letto, aria condizionata,  TV e tutto il necessario per un soggiorno confortevole. Le lenzuola e gli asciugamani sono forniti.",
+        "Puoi prenotare direttamente tramite il modulo sul nostro sito. Non utilizziamo piattaforme come Booking o Airbnb, quindi risparmi sulle commissioni e hai un contatto diretto.",
     },
     {
       question: "Come si effettua il pagamento?",
       answer:
-        "Per confermare la prenotazione richiediamo una caparra tramite bonifico bancario. Il saldo può essere completato all'arrivo in contanti o con bonifico prima del check-in.",
+        "Richiediamo una caparra tramite bonifico bancario. Il saldo può essere completato all'arrivo in contanti o con bonifico.",
     },
     {
       question: "Qual è la politica di cancellazione?",
       answer:
-        "In caso di cancellazione con almeno 30 giorni di anticipo, la caparra viene restituita per intero. Per cancellazioni successive, applicheremo una trattenuta proporzionale ai giorni mancanti.",
+        "Con almeno 30 giorni di anticipo, la caparra viene restituita per intero. Per cancellazioni successive, applicheremo una trattenuta proporzionale.",
     },
     {
-      question: "Ci sono supermercati e negozi nelle vicinanze?",
+      question: "Quante persone possono alloggiare?",
       answer:
-        "Sì, a Pinarella trovi supermercati, panifici, farmacia e altri negozi a pochi minuti a piedi. Anche il mercato settimanale di Cervia è facilmente raggiungibile.",
+        "Due appartamenti: uno fino a 4 persone, l'altro fino a 8. Entrambi con tutti i comfort per famiglie e gruppi.",
     },
     {
-      question: "Quali sono le attrazioni vicine?",
+      question: "Gli animali domestici sono ammessi?",
       answer:
-        "Oltre alla splendida spiaggia, puoi visitare la Pineta di Cervia per passeggiate, il centro storico di Cervia con le saline, Milano Marittima per lo shopping e la vita notturna, e numerosi parchi tematici come Mirabilandia e l'Acquario di Cattolica.",
-    },
-
-    {
-      question: "Perché prenotare direttamente invece che su Booking o Airbnb?",
-      answer:
-        "Prenotando direttamente risparmierai sulle commissioni delle piattaforme OTA (fino al 20-30%). Inoltre avrai un contatto diretto con il proprietario, maggiore flessibilità e un servizio personalizzato per rendere la tua vacanza perfetta.",
+        "Sì! Gli animali domestici sono ammessi.",
     },
     {
-      question: "Come posso raggiungere Pinarella?",
+      question: "Quali attrazioni ci sono nelle vicine?",
       answer:
-        "Pinarella è facilmente raggiungibile in auto tramite l'autostrada A14 (uscita Cesena Nord). Se arrivi in treno, la stazione di Cervia-Milano Marittima dista circa 3 km. L'aeroporto più vicino è Bologna Guglielmo Marconi (90 km) o Rimini Federico Fellini (30 km).",
+        "Spiaggia a 200m, Pineta di Cervia, centro storico di Cervia con le saline, Milano Marittima per shopping e vita notturna, Mirabilandia e Acquario di Cattolica.",
+    },
+    {
+      question: "Come raggiungere Pinarella?",
+      answer:
+        "In auto: A14 uscita Cesena Nord. In treno: stazione Cervia-Milano Marittima (3km). Aerei: Bologna (90km) o Rimini (30km).",
     },
   ];
 
@@ -101,9 +71,9 @@ const FAQ = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sage-50 to-white">
       <MetaTags
-        title="Domande Frequenti (FAQ) | Appartamenti Pinarella Prenotazione Diretta"
-        description="Tutte le risposte alle tue domande su prenotazione diretta, check-in, parcheggio, distanza dal mare e servizi degli appartamenti a Pinarella di Cervia."
-        keywords="faq appartamento pinarella, domande frequenti prenotazione diretta, check-in pinarella, parcheggio gratuito cervia, distanza mare pinarella"
+        title="Info e FAQ | Appartamenti Pinarella Prenotazione Diretta"
+        description="Tutte le informazioni utili, regole della casa e risposte alle domande frequenti per il tuo soggiorno a Pinarella di Cervia."
+        keywords="info appartamento pinarella, faq prenotazione diretta, regole casa pinarella, check-in cervia"
         canonicalUrl={getCanonicalUrl("/faq")}
       />
       <script
@@ -117,45 +87,100 @@ const FAQ = () => {
         message={CONTACT_INFO.whatsappMessage}
       />
 
-      <main className="container mx-auto px-4 pt-32 max-w-4xl">
+      <main className="container mx-auto px-4 pt-32 pb-16 max-w-5xl">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-pine-800 mb-4">
-            Domande Frequenti (FAQ)
+          <h1 className="text-4xl md:text-5xl font-serif font-medium text-pine-800 mb-4">
+            Informazioni utili
           </h1>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Trova tutte le risposte sulle prenotazioni dirette, servizi e
-            informazioni utili per il tuo soggiorno a Pinarella di Cervia
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Tutto quello che devi sapere per il tuo soggiorno a Pinarella di Cervia
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
-          <Accordion type="single" collapsible className="w-full">
-            {faqItems.map((item, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left text-lg font-semibold text-pine-800 hover:text-pine-600">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-700 leading-relaxed">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+        {/* Quick Info Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          <Link to="#check-in" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
+            <Clock className="w-8 h-8 text-pine-600 mx-auto mb-2" />
+            <p className="text-sm font-medium">Check-in</p>
+            <p className="text-xs text-gray-500">dalle 14:00</p>
+          </Link>
+          <Link to="#check-out" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
+            <Clock className="w-8 h-8 text-pine-600 mx-auto mb-2" />
+            <p className="text-sm font-medium">Check-out</p>
+            <p className="text-xs text-gray-500">entro le 10:00</p>
+          </Link>
+          <Link to="#posizione" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
+            <MapPin className="w-8 h-8 text-pine-600 mx-auto mb-2" />
+            <p className="text-sm font-medium">Mare</p>
+            <p className="text-xs text-gray-500">200 metri</p>
+          </Link>
+          <Link to="#parcheggio" className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-center">
+            <Car className="w-8 h-8 text-pine-600 mx-auto mb-2" />
+            <p className="text-sm font-medium">Parcheggio</p>
+            <p className="text-xs text-gray-500">Gratuito</p>
+          </Link>
         </div>
+
+        {/* House Rules Section */}
+        <section id="check-in" className="mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <FileText className="w-6 h-6 text-pine-600" />
+            <h2 className="text-2xl font-serif font-medium text-pine-800">
+              Regole della casa
+            </h2>
+          </div>
+          <HouseRules />
+        </section>
+
+        {/* FAQ Section */}
+        <section className="mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <MessageCircle className="w-6 h-6 text-pine-600" />
+            <h2 className="text-2xl font-serif font-medium text-pine-800">
+              Domande Frequenti
+            </h2>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm border p-6 md:p-8">
+            <Accordion type="single" collapsible className="w-full">
+              {faqItems.map((item, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="text-left text-base font-medium text-pine-800 hover:text-pine-600">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-600 leading-relaxed">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
 
         <div className="bg-pine-50 rounded-lg p-8 text-center">
-          <MessageCircle className="w-12 h-12 text-pine-600 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-pine-800 mb-3">
+          <MessageCircle className="w-10 h-10 text-pine-600 mx-auto mb-4" />
+          <h2 className="text-xl font-medium text-pine-800 mb-3">
             Non hai trovato la risposta?
           </h2>
-          <p className="text-gray-700 mb-6">
-            Contattaci direttamente per qualsiasi domanda o richiesta speciale
+          <p className="text-gray-600 mb-6">
+            Contattaci direttamente per qualsiasi domanda
           </p>
-          <Link to="/pineta3/book">
-            <Button size="lg" className="bg-pine-600 hover:bg-pine-700">
-              Contattaci
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link to="/pineta3/book">
+              <Button size="lg" className="bg-pine-600 hover:bg-pine-700">
+                Prenota ora
+              </Button>
+            </Link>
+            <a
+              href={`https://wa.me/${CONTACT_INFO.phone.replace(/\D/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" variant="outline" className="border-pine-600 text-pine-600">
+                Scrivici su WhatsApp
+              </Button>
+            </a>
+          </div>
         </div>
       </main>
 

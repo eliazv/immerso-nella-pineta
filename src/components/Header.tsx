@@ -9,6 +9,7 @@ import {
   BookOpen,
   MessageCircle,
   Users,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAccommodation } from "@/contexts/AccommodationContext";
@@ -78,7 +79,6 @@ const Header = () => {
     location.pathname === "/pineta3" || location.pathname === "/pineta8";
 
   const navigation = [
-    // Home sempre porta alla pagina dell'alloggio corrente (pineta3 o pineta8)
     { name: "Home", href: basePathNormalized || "/pineta3", icon: Home },
     { name: "Chi Siamo", href: "/chi-siamo", icon: Users },
     { name: "Galleria", href: `${basePathNormalized}/gallery`, icon: Image },
@@ -88,7 +88,7 @@ const Header = () => {
       icon: MapPin,
     },
     { name: "Blog", href: "/blog", icon: BookOpen },
-    { name: "FAQ", href: "/faq", icon: MessageCircle },
+    { name: "Info", href: "/faq", icon: FileText },
     { name: "Prenota", href: `${basePathNormalized}/book`, icon: Calendar },
   ];
 
@@ -187,12 +187,13 @@ const Header = () => {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "relative px-1 py-2 text-sm font-medium transition-colors",
+                  "relative px-3 py-2 text-sm font-medium transition-all",
                   isActive
                     ? "text-pine-dark after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-pine-dark"
                     : isScrolled || !isAccommodationHome
                       ? "text-foreground hover:text-pine-dark"
                       : "text-white hover:text-white/80 drop-shadow-md",
+                  item.name === "Prenota" && "bg-pine-dark text-white hover:bg-pine-dark/90 hover:text-white rounded-md px-4",
                 )}
               >
                 {item.name}

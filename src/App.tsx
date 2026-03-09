@@ -68,6 +68,21 @@ const DaMilanoAPinarella = lazy(
 const ColazionePinarella = lazy(
   () => import("./pages/blog/ColazionePinarella"),
 );
+const ItinerariBiciclettaPinarella = lazy(
+  () => import("./pages/blog/ItinerariBiciclettaPinarella"),
+);
+const VacanzePetFriendlyPinarella = lazy(
+  () => import("./pages/blog/VacanzePetFriendlyPinarella"),
+);
+const EscursioniGiornalierePinarella = lazy(
+  () => import("./pages/blog/EscursioniGiornalierePinarella"),
+);
+const ParchiGiocoPinarella = lazy(
+  () => import("./pages/blog/ParchiGiocoPinarella"),
+);
+const SportAcquaticiPinarella = lazy(
+  () => import("./pages/blog/SportAcquaticiPinarella"),
+);
 const ChiSiamo = lazy(() => import("./pages/ChiSiamo"));
 
 import AvailabilityCalendar from "@/components/AvailabilityCalendar";
@@ -233,6 +248,26 @@ const App = () => {
                         path="/blog/dove-fare-colazione-pinarella"
                         element={<ColazionePinarella />}
                       />
+                      <Route
+                        path="/blog/itinerari-bicicletta-pinarella"
+                        element={<ItinerariBiciclettaPinarella />}
+                      />
+                      <Route
+                        path="/blog/vacanze-pet-friendly-pinarella"
+                        element={<VacanzePetFriendlyPinarella />}
+                      />
+                      <Route
+                        path="/blog/escursioni-giornaliere-pinarella"
+                        element={<EscursioniGiornalierePinarella />}
+                      />
+                      <Route
+                        path="/blog/parchi-gioco-bambini-pinarella"
+                        element={<ParchiGiocoPinarella />}
+                      />
+                      <Route
+                        path="/blog/sport-acquatici-pinarella"
+                        element={<SportAcquaticiPinarella />}
+                      />
 
                       {/* Backoffice con layout condiviso */}
                       <Route path="/" element={<BackofficeLayout />}>
@@ -263,7 +298,7 @@ const App = () => {
                       />
                       <Route
                         path="/rules"
-                        element={<Navigate to="/pineta3/rules" replace />}
+                        element={<Navigate to="/faq" replace />}
                       />
                       <Route
                         path="/book"
@@ -271,7 +306,7 @@ const App = () => {
                       />
                       <Route
                         path="/rules/pdf"
-                        element={<Navigate to="/pineta3/rules/pdf" replace />}
+                        element={<Navigate to="/faq" replace />}
                       />
 
                       {/* Pagina 404 */}
