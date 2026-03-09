@@ -86,7 +86,7 @@ import { AccommodationProvider } from "@/contexts/AccommodationContext";
 import HouseRulesPDF from "./pages/HouseRulesPDF";
 import PinarellaGuide from "./pages/PinarellaGuide";
 import AlloggiatiWeb from "./pages/AlloggiatiWeb";
-import FAQ from "./components/FAQ";
+import FAQ from "./pages/FAQ";
 import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 

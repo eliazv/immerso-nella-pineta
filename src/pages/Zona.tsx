@@ -16,6 +16,7 @@ import {
   Car,
   Info,
   BookOpen,
+  Globe,
 } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/Header";
@@ -102,6 +103,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
       color: "from-blue-500 to-cyan-500",
       date: "2026-02-01",
+      readTime: "8 min",
     },
     {
       title: "Dove Mangiare: Ristoranti e Locali",
@@ -113,6 +115,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80",
       color: "from-orange-500 to-red-500",
       date: "2026-02-01",
+      readTime: "6 min",
     },
     {
       title: "Come Arrivare: Auto, Treno e Aereo",
@@ -123,6 +126,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?w=800&q=80",
       color: "from-green-500 to-emerald-500",
       date: "2026-02-01",
+      readTime: "5 min",
     },
     {
       title: "Eventi e Manifestazioni 2026",
@@ -133,6 +137,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
       color: "from-purple-500 to-pink-500",
       date: "2026-02-01",
+      readTime: "4 min",
     },
     {
       title: "Spiagge Libere vs Stabilimenti",
@@ -143,6 +148,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80",
       color: "from-cyan-500 to-blue-500",
       date: "2026-02-04",
+      readTime: "5 min",
     },
     {
       title: "Il Mare di Pinarella: Caratteristiche",
@@ -153,6 +159,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
       color: "from-sky-500 to-blue-500",
       date: "2026-02-04",
+      readTime: "4 min",
     },
     {
       title: "Mercato Serale: Date e Orari",
@@ -163,6 +170,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1543168256-418811576931?w=800&q=80",
       color: "from-amber-500 to-orange-500",
       date: "2026-02-04",
+      readTime: "3 min",
     },
     {
       title: "Prezzi Appartamenti 2026",
@@ -173,6 +181,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
       color: "from-emerald-500 to-green-500",
       date: "2026-02-04",
+      readTime: "6 min",
     },
     {
       title: "Meteo e Clima: Quando Andare?",
@@ -183,6 +192,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1601134467661-3d775b999c8b?w=800&q=80",
       color: "from-orange-500 to-red-500",
       date: "2026-02-04",
+      readTime: "5 min",
     },
     {
       title: "Vacanza con Bambini",
@@ -193,6 +203,7 @@ const Zona = () => {
         "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&q=80",
       color: "from-pink-500 to-rose-500",
       date: "2026-02-05",
+      readTime: "7 min",
     },
   ];
 
@@ -313,7 +324,7 @@ const Zona = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 bg-pine-light/20 p-3 rounded-lg border border-pine-light hover:border-pine-dark transition"
               >
-                <Video className="h-5 w-5 text-pine-dark shrink-0" />
+                <Globe className="h-5 w-5 text-pine-dark shrink-0" />
                 <div className="flex-1 min-w-0">
                   <span className="text-sm font-medium text-pine-dark block">
                     Pinarella Village
@@ -330,7 +341,7 @@ const Zona = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 bg-purple-50 p-3 rounded-lg border border-purple-200 hover:border-purple-400 transition"
               >
-                <Calendar className="h-5 w-5 text-purple-600 shrink-0" />
+                <Globe className="h-5 w-5 text-purple-600 shrink-0" />
                 <div className="flex-1 min-w-0">
                   <span className="text-sm font-medium text-purple-700 block">
                     Riviera dei Pini
@@ -413,7 +424,7 @@ const Zona = () => {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {blogPosts.map((post, index) => (
                 <Link
                   key={index}
@@ -421,7 +432,7 @@ const Zona = () => {
                   className="group block"
                 >
                   <Card className="overflow-hidden h-full hover:shadow-lg transition-all duration-300 border border-gray-100">
-                    {/* Immagine - più bassa e arrotondata */}
+                    {/* Immagine - bassa e arrotondata */}
                     <div className="relative h-28 overflow-hidden rounded-t-lg">
                       <div
                         className={`absolute inset-0 bg-gradient-to-br ${post.color} opacity-20 group-hover:opacity-30 transition-opacity`}
@@ -437,22 +448,27 @@ const Zona = () => {
                     </div>
 
                     <CardHeader className="p-3">
-                      <CardTitle className="text-sm text-pine-dark line-clamp-2">
+                      <div className="flex items-center gap-2 mb-2 text-xs text-gray-500">
+                        <Calendar className="w-3 h-3" />
+                        <span>
+                          {new Date(post.date).toLocaleDateString("it-IT", {
+                            day: "numeric",
+                            month: "short",
+                          })}
+                        </span>
+                        <span className="text-gray-300">•</span>
+                        <span>{post.readTime}</span>
+                      </div>
+                      <CardTitle className="text-sm text-pine-dark leading-tight line-clamp-2">
                         {post.title}
                       </CardTitle>
+                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                        {post.excerpt}
+                      </p>
                     </CardHeader>
                   </Card>
                 </Link>
               ))}
-            </div>
-
-            <div className="text-center mt-6">
-              <Link
-                to="/blog"
-                className="inline-flex items-center gap-2 text-pine-dark font-medium hover:underline text-sm"
-              >
-                Leggi tutti gli articoli <ChevronRight className="h-4 w-4" />
-              </Link>
             </div>
           </section>
         </div>
