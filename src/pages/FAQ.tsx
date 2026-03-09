@@ -62,8 +62,7 @@ const FAQ = () => {
         },
         {
           question: "C'è il Wi-Fi?",
-          answer:
-            "Certamente! Offriamo una connessione Wi-Fi gratuita e veloce (Fibra) in tutto l'appartamento, ideale anche se hai bisogno di lavorare un po' durante il soggiorno.",
+          answer: "No, al moemnto non offriamo wi-fi negli alloggi",
         },
         {
           question: "Quante persone possono alloggiare?",
