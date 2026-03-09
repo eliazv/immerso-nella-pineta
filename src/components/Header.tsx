@@ -82,12 +82,7 @@ const Header = () => {
     { name: "Home", href: basePathNormalized || "/pineta3", icon: Home },
     { name: "Chi Siamo", href: "/chi-siamo", icon: Users },
     { name: "Galleria", href: `${basePathNormalized}/gallery`, icon: Image },
-    {
-      name: "Attrazioni",
-      href: "/attractions",
-      icon: MapPin,
-    },
-    { name: "Blog", href: "/blog", icon: BookOpen },
+    { name: "Zona", href: "/zona", icon: MapPin },
     { name: "Info", href: "/faq", icon: FileText },
     { name: "Prenota", href: `${basePathNormalized}/book`, icon: Calendar },
   ];

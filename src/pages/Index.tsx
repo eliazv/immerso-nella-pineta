@@ -101,8 +101,8 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
 
-        {/* Badge località e rating - Desktop solo: in BASSO a destra */}
-        <div className="hidden md:flex absolute bottom-20 md:bottom-14 right-4 md:right-8 z-20 flex-col items-end gap-3">
+        {/* Badge località e rating - Desktop solo: in BASSO, uno a sinistra e uno a destra */}
+        <div className="hidden md:flex absolute bottom-20 md:bottom-14 left-0 right-0 px-4 md:px-8 z-20 flex-row items-center justify-between">
           {/* Badge località */}
           <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-lg border border-white/25 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-xl">
             <MapPin className="h-4 w-4" />
@@ -195,7 +195,7 @@ const Index = () => {
             <Button
               size="lg"
               asChild
-              className="w-full sm:w-auto bg-gradient-to-r from-white to-gray-100 text-pine-dark hover:from-gray-100 hover:to-white font-bold shadow-2xl px-8 md:px-10 py-8 md:py-9 rounded-2xl border-2 border-white/50 hover:scale-105 transition-all duration-300 group"
+              className="w-full sm:w-auto bg-gradient-to-r from-white to-gray-100 text-pine-dark hover:from-gray-100 hover:to-white font-bold shadow-2xl px-8 md:px-10 py-5 md:py-6 rounded-2xl border-2 border-white/50 hover:scale-105 transition-all duration-300 group"
             >
               <Link to={`${getBasePath()}/book`}>
                 <div className="flex flex-col items-center">
@@ -203,8 +203,8 @@ const Index = () => {
                     Prenota ora
                     <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </span>
-                  <span className="text-xs md:text-sm font-medium opacity-80 mt-1">
-                    Risparmia 20% prenotando qui
+                  <span className="text-xs md:text-sm font-medium opacity-80">
+                    Risparmia 20%
                   </span>
                 </div>
               </Link>
@@ -338,7 +338,7 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+              {/* <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <Button
                   asChild
                   size="lg"
@@ -360,7 +360,7 @@ const Index = () => {
                     <ChevronRight className="ml-1 h-4 w-4" />
                   </Link>
                 </Button>
-              </div>
+              </div> */}
             </div>
 
             <div className="scroll-reveal order-1 lg:order-2">
@@ -436,7 +436,7 @@ const Index = () => {
                 Benessere & Praticità
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed">
-                Bagno curato dotato di box doccia e lavatrice per ogni tua esigenza quotidiana.
+                Bagno curato dotato di lavatrice per ogni tua esigenza quotidiana.
               </p>
             </div>
 

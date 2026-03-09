@@ -19,13 +19,7 @@ import AccommodationSelector from "./pages/AccommodationSelector";
 const Gallery = lazy(() => import("./pages/Gallery"));
 const Rules = lazy(() => import("./pages/Rules"));
 const Book = lazy(() => import("./pages/Book"));
-const Attractions = lazy(() => import("./pages/Attractions"));
-const HouseRulesPDF = lazy(() => import("./pages/HouseRulesPDF"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const AlloggiatiWeb = lazy(() => import("./pages/AlloggiatiWeb"));
-const PinarellaGuide = lazy(() => import("./pages/PinarellaGuide"));
-const Blog = lazy(() => import("./pages/Blog"));
-const FAQ = lazy(() => import("./pages/FAQ"));
+const Zona = lazy(() => import("./pages/Zona"));
 const CosaFarePinarella = lazy(() => import("./pages/blog/CosaFarePinarella"));
 const RistorantiPinarella = lazy(
   () => import("./pages/blog/RistorantiPinarella"),
@@ -89,6 +83,12 @@ import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import BackofficeLayout from "@/components/backoffice/BackofficeLayout";
 import Dashboard from "@/pages/Dashboard";
 import { AccommodationProvider } from "@/contexts/AccommodationContext";
+import HouseRulesPDF from "./pages/HouseRulesPDF";
+import PinarellaGuide from "./pages/PinarellaGuide";
+import AlloggiatiWeb from "./pages/AlloggiatiWeb";
+import FAQ from "./components/FAQ";
+import Blog from "./pages/Blog";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -158,8 +158,16 @@ const App = () => {
                         element={<HouseRulesPDF />}
                       />
 
-                      {/* Pagina Attrazioni unificata */}
-                      <Route path="/attractions" element={<Attractions />} />
+                      {/* Pagina Zona unificata */}
+                      <Route path="/zona" element={<Zona />} />
+                      <Route
+                        path="/attractions"
+                        element={<Navigate to="/zona" replace />}
+                      />
+                      <Route
+                        path="/blog"
+                        element={<Navigate to="/zona" replace />}
+                      />
 
                       {/* Sistema Alloggiati Web */}
                       <Route path="/alloggiati" element={<AlloggiatiWeb />} />
