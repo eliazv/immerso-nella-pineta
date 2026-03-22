@@ -1,6 +1,7 @@
 import React from "react";
 import { Booking } from "@/types/calendar";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
+import { Calendar, Moon } from "lucide-react";
 
 interface BookingCardProps {
   booking: Booking;
@@ -14,10 +15,10 @@ const BookingCard: React.FC<BookingCardProps> = ({
   getApartmentShortName,
 }) => (
   <div
-    className="relative overflow-hidden border rounded-[1.5rem] p-4 md:p-5 shadow-sm bg-white dark:bg-slate-900 hover:shadow-xl hover:border-primary/30 cursor-pointer transition-all active:scale-[0.99]"
+    className="relative overflow-hidden border rounded-[1.5rem] p-3 md:p-4 shadow-sm bg-white dark:bg-slate-900 hover:shadow-xl hover:border-primary/30 cursor-pointer transition-all active:scale-[0.99]"
     onClick={() => onClick(booking)}
   >
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 md:gap-4">
       {/* Sinistra: Info Ospite + Totale su Mobile */}
       <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
         <div className="w-9 h-9 md:w-12 md:h-12 rounded-2xl flex items-center justify-center shrink-0">
@@ -41,29 +42,17 @@ const BookingCard: React.FC<BookingCardProps> = ({
       </div>
 
       {/* Centro: Date */}
-      <div className="flex items-center justify-start sm:justify-center gap-3 py-1 sm:py-0 border-y sm:border-none border-slate-50 dark:border-slate-800">
-        <div className="flex flex-col items-center">
-          <span className="text-[9px] uppercase text-slate-400 font-bold">
-            In
-          </span>
-          <span className="font-mono font-bold text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-1.5 py-0.5 rounded text-xs md:text-sm">
+      <div className="flex items-center justify-start sm:justify-center gap-4 py-1 sm:py-0  sm:border-none border-slate-50 dark:border-slate-800 ml-8 sm:ml-0">
+        <div className="flex items-center gap-1.5">
+          <Calendar className="w-4 h-4 text-slate-400" />
+          <span className="font-mono font-bold text-slate-500 dark:text-slate-400 text-xs md:text-sm">
             {booking.CheckIn}
           </span>
         </div>
-        <div className="h-[1px] w-3 bg-slate-200 dark:bg-slate-700 mt-3" />
-        <div className="flex flex-col items-center">
-          <span className="text-[9px] uppercase text-slate-400 font-bold">
-            Out
-          </span>
-          <span className="font-mono font-bold text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-1.5 py-0.5 rounded text-xs md:text-sm">
-            {booking.CheckOut}
-          </span>
-        </div>
-        <div className="ml-1 flex flex-col items-center">
-          <span className="text-[9px] uppercase text-slate-400 font-bold">
-            Notti
-          </span>
-          <span className="text-xs md:text-sm font-bold text-slate-600 dark:text-slate-400">
+
+        <div className="flex items-center gap-1.5">
+          <Moon className="w-4 h-4 text-slate-400" />
+          <span className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">
             {booking.Notti}
           </span>
         </div>

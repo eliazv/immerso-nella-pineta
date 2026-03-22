@@ -184,12 +184,26 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           box-shadow: none !important;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .fc-prev-button, .fc-next-button, .fc-today-button {
+          background-color: #e2e8f0 !important;
+          color: #475569 !important;
+          border: 1px solid #cbd5e1 !important;
+          font-size: 0.95rem !important;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+        }
+        .fc-prev-button { margin-right: 4px !important; }
+        .fc-prev-button:hover, .fc-next-button:hover, .fc-today-button:hover {
+          background-color: #cbd5e1 !important;
+          color: #1e293b !important;
+          transform: translateY(-1px);
+        }
         .fc-button-active {
           background-color: #10b981 !important;
           color: white !important;
+          border-color: #10b981 !important;
           box-shadow: 0 4px 12px -2px rgba(16, 185, 129, 0.3) !important;
         }
-        .fc-button:hover:not(.fc-button-active) {
+        .fc-button:hover:not(.fc-button-active):not(.fc-prev-button):not(.fc-next-button):not(.fc-today-button) {
           background-color: #f1f5f9 !important;
           transform: translateY(-1px);
         }
@@ -269,15 +283,16 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* iCal solo su desktop — su mobile è nel menu Opzioni */}
           <a
             href={getICalUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            title="Esporta feed iCal per sincronizzazione calendario"
-            className="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 active:scale-95 transition-all rounded-xl shadow-sm font-bold text-sm"
+            title="Esporta feed iCal"
+            className="hidden md:flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 active:scale-95 transition-all rounded-xl shadow-sm font-bold text-sm"
           >
             <CalendarDays className="h-4 w-4" />
-            <span className="hidden md:inline">iCal</span>
+            iCal
           </a>
 
           <button

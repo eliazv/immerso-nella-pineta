@@ -138,11 +138,13 @@ function addBooking(sheet, booking) {
  */
 function updateBooking(sheet, booking) {
   try {
-    var rowIndex = booking.rowIndex;
+    // Cerca SEMPRE per nome+check-in (più affidabile del rowIndex proveniente dal client,
+    // che potrebbe essere sfasato se il foglio contiene righe vuote)
+    var rowIndex = findBookingRow(sheet, booking);
 
-    if (!rowIndex || rowIndex < 2) {
-      // Cerca la riga per nome e check-in se rowIndex non è disponibile
-      rowIndex = findBookingRow(sheet, booking);
+    // Fallback: usa rowIndex del client solo se la ricerca non trova nulla
+    if (!rowIndex && booking.rowIndex && booking.rowIndex >= 2) {
+      rowIndex = booking.rowIndex;
     }
 
     if (!rowIndex) {
@@ -171,10 +173,12 @@ function updateBooking(sheet, booking) {
  */
 function deleteBooking(sheet, booking) {
   try {
-    var rowIndex = booking.rowIndex;
+    // Cerca SEMPRE per nome+check-in per evitare di eliminare la riga sbagliata
+    var rowIndex = findBookingRow(sheet, booking);
 
-    if (!rowIndex || rowIndex < 2) {
-      rowIndex = findBookingRow(sheet, booking);
+    // Fallback: usa rowIndex del client solo se la ricerca non trova nulla
+    if (!rowIndex && booking.rowIndex && booking.rowIndex >= 2) {
+      rowIndex = booking.rowIndex;
     }
 
     if (!rowIndex) {

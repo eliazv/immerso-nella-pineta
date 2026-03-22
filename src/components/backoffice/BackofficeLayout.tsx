@@ -10,7 +10,9 @@ import {
   BellOff,
   Menu,
   LogOut,
+  CalendarDays,
 } from "lucide-react";
+import BookingSearch from "@/components/backoffice/BookingSearch";
 import {
   Select,
   SelectContent,
@@ -117,6 +119,20 @@ const BackofficeLayout: React.FC = () => {
     setIsAuth(false);
   };
 
+  // Genera URL feed iCal per il calendario corrente
+  const getICalUrl = () => {
+    const endpoint =
+      import.meta.env.VITE_GOOGLE_SCRIPT_ENDPOINT ||
+      "https://script.google.com/macros/s/AKfycbzZBZidBO_8ernlbziFug6sPVjUxErfH60K6AcHgVGtwGc_3CjzaPAyZqoITayED-6btA/exec";
+    const sheetMap: Record<string, string> = {
+      principale: "Affitti3",
+      secondario: "Affitti4",
+      terziario: "Affitti8",
+      all: "all",
+    };
+    return `${endpoint}?action=ical&sheet=${sheetMap[selectedCalendar] || "all"}`;
+  };
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground">
@@ -211,6 +227,8 @@ const BackofficeLayout: React.FC = () => {
               </nav>
 
               <div className="flex items-center gap-2">
+                <BookingSearch className="p-2.5 rounded-full transition-colors text-slate-400 hover:bg-slate-100 hover:text-slate-700" />
+
                 <button
                   onClick={async () => {
                     const p = await notificationService.requestPermission();
@@ -314,6 +332,9 @@ const BackofficeLayout: React.FC = () => {
           </button>
         </div>
 
+        {/* Search Mobile */}
+        <BookingSearch className="w-11 h-11 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full flex items-center justify-center" />
+
         {/* Hamburger/Menu Mobile */}
         <Sheet>
           <SheetTrigger asChild>
@@ -342,6 +363,20 @@ const BackofficeLayout: React.FC = () => {
                   Sito
                 </span>
               </button>
+
+              <a
+                href={getICalUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center">
+                  <CalendarDays className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                </div>
+                <span className="text-[10px] font-bold text-slate-500">
+                  iCal
+                </span>
+              </a>
 
               <button
                 onClick={async () => {
