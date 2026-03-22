@@ -534,6 +534,47 @@ export const updateBooking = async (
   }
 };
 
+// Funzione per aggiungere una nuova prenotazione
+export const addBooking = async (
+  booking: Booking,
+  calendarType: CalendarType
+): Promise<boolean> => {
+  try {
+    let sheet = "";
+    switch (calendarType) {
+      case "principale":
+        sheet = "Affitti3";
+        break;
+      case "secondario":
+        sheet = "Affitti4";
+        break;
+      case "terziario":
+        sheet = "Affitti8";
+        break;
+      default:
+        sheet = "Affitti3";
+    }
+
+    const payload = {
+      booking,
+      sheet,
+      spreadsheetId: SPREADSHEET_ID,
+    };
+
+    const result = await submitViaDirectAccess("add", payload);
+
+    if (result) {
+      const cacheKey = `bookings_${calendarType}`;
+      localStorage.removeItem(cacheKey);
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Errore durante l'aggiunta della prenotazione:", error);
+    return false;
+  }
+};
+
 // Funzione per cancellare una prenotazione
 export const deleteBooking = async (
   booking: Booking,

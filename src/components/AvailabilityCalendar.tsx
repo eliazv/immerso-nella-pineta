@@ -9,8 +9,9 @@ import { fetchBookings } from "@/services/bookingService";
 import BookingsList from "@/components/calendar/BookingsList";
 import { getOtaLogo } from "@/components/calendar/getOtaLogo";
 import BookingModal from "@/components/calendar/BookingModal";
+import AddBookingModal from "@/components/calendar/AddBookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { RefreshCw, Building } from "lucide-react";
+import { RefreshCw, Building, PlusCircle, CalendarDays } from "lucide-react";
 
 interface AvailabilityCalendarProps {
   className?: string;
@@ -26,6 +27,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [newBookingCheckIn, setNewBookingCheckIn] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isCached, setIsCached] = useState<boolean>(false);
   const [lastUpdated, setLastUpdated] = useState<string>("");
@@ -84,6 +87,12 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
     setIsModalOpen(true);
   };
 
+  // Apre il modale di aggiunta prenotazione, opzionalmente con data preimpostata
+  const openAddBooking = (checkInDate = "") => {
+    setNewBookingCheckIn(checkInDate);
+    setIsAddModalOpen(true);
+  };
+
   // Mappa tra codici calendario e nomi degli appartamenti
   const apartmentNames = {
     principale: "Appartamento 3",
@@ -109,6 +118,21 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   // Funzione per ottenere il titolo del calendario in base al tipo selezionato
   const getCalendarTitle = () => {
     return apartmentNames[selectedCalendar] || "Calendario Disponibilità";
+  };
+
+  // Genera l'URL del feed iCal per questo calendario
+  const getICalUrl = () => {
+    const endpoint =
+      import.meta.env.VITE_GOOGLE_SCRIPT_ENDPOINT ||
+      "https://script.google.com/macros/s/AKfycbyClrLjSCXjQEZ4KOi9yRzJvcdks1HOf3P0BbsOZhjhiP8D18pN5uzwV5w7Gr9SPmpVfw/exec";
+    const sheetMap: Record<string, string> = {
+      principale: "Affitti3",
+      secondario: "Affitti4",
+      terziario: "Affitti8",
+      all: "all",
+    };
+    const sheet = sheetMap[selectedCalendar] || "all";
+    return `${endpoint}?action=ical&sheet=${sheet}`;
   };
 
   // Legenda dei colori per la vista "all"
@@ -244,14 +268,35 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           </p>
         </div>
 
-        <button
-          onClick={handleRefresh}
-          disabled={isLoading}
-          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm"
-        >
-          <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
-          <span className="hidden md:inline">Sincronizza Excel</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <a
+            href={getICalUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Esporta feed iCal per sincronizzazione calendario"
+            className="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 active:scale-95 transition-all rounded-xl shadow-sm font-bold text-sm"
+          >
+            <CalendarDays className="h-4 w-4" />
+            <span className="hidden md:inline">iCal</span>
+          </a>
+
+          <button
+            onClick={() => openAddBooking()}
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white hover:bg-primary/90 active:scale-95 transition-all rounded-xl shadow-md font-bold text-sm"
+          >
+            <PlusCircle className="h-4 w-4" />
+            <span className="hidden md:inline">Nuova Prenotazione</span>
+          </button>
+
+          <button
+            onClick={handleRefresh}
+            disabled={isLoading}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm"
+          >
+            <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+            <span className="hidden md:inline">Sincronizza Excel</span>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
@@ -283,6 +328,9 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
                 eventClick={(info) => {
                   const booking = info.event.extendedProps as Booking;
                   openBookingDetails(booking);
+                }}
+                dateClick={(info) => {
+                  openAddBooking(info.dateStr);
                 }}
                 height="auto"
                 headerToolbar={{
@@ -336,6 +384,14 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
             : selectedCalendar
         }
         onUpdate={loadBookings}
+      />
+
+      <AddBookingModal
+        open={isAddModalOpen}
+        onOpenChange={setIsAddModalOpen}
+        calendarType={selectedCalendar}
+        initialCheckIn={newBookingCheckIn}
+        onAdd={() => loadBookings(true)}
       />
     </div>
   );
