@@ -68,13 +68,24 @@ function extractEventsFromSheet(sheet, apartmentName) {
   var headers = getHeaders(sheet);
   var data = sheet.getRange(2, 1, lastRow - 1, headers.length).getValues();
 
-  var nomeCol = findColumnIndex(headers, ["Nome", "nome", "Name", "Cliente"]);
-  var checkInCol = findColumnIndex(headers, ["Check-in", "check-in", "CheckIn", "Arrivo", "Data arrivo"]);
-  var checkOutCol = findColumnIndex(headers, ["Check-out", "check-out", "CheckOut", "Partenza", "Data partenza"]);
-  var otaCol = findColumnIndex(headers, ["OTA", "ota", "Canale", "Channel"]);
-  var nottiCol = findColumnIndex(headers, ["Notti", "notti", "Nights"]);
-  var adultiCol = findColumnIndex(headers, ["Adulti", "adulti", "Adults"]);
-  var noteCol = findColumnIndex(headers, ["Note", "note", "Notes"]);
+  var nomeCol       = findColumnIndex(headers, ["Nome", "nome", "Name", "Cliente"]);
+  var checkInCol    = findColumnIndex(headers, ["Check-in", "check-in", "CheckIn", "Arrivo", "Data arrivo"]);
+  var checkOutCol   = findColumnIndex(headers, ["Check-out", "check-out", "CheckOut", "Partenza", "Data partenza"]);
+  var otaCol        = findColumnIndex(headers, ["OTA", "ota", "Canale", "Channel"]);
+  var nottiCol      = findColumnIndex(headers, ["Notti", "notti", "Nights"]);
+  var adultiCol     = findColumnIndex(headers, ["Adulti", "adulti", "Adults", "Persone"]);
+  var bambiniCol    = findColumnIndex(headers, ["Bambini", "bambini", "Children"]);
+  var animaliCol    = findColumnIndex(headers, ["Animali", "animali", "Pets"]);
+  var totClienteCol = findColumnIndex(headers, ["Totale cliente", "TotaleCliente", "Total"]);
+  var fuoriOtaCol   = findColumnIndex(headers, ["Fuori OTA", "FuoriOTA", "Extra OTA"]);
+  var costoNottiCol = findColumnIndex(headers, ["Costo notti", "CostoNotti", "Room cost"]);
+  var puliziaCole   = findColumnIndex(headers, ["Pulizia", "pulizia", "Cleaning"]);
+  var scontiCol     = findColumnIndex(headers, ["Sconti", "sconti", "Discount"]);
+  var soggTaxCol    = findColumnIndex(headers, ["Soggiorno Tax", "SoggiornoTax", "City Tax", "Tassa di soggiorno"]);
+  var otaTaxCol     = findColumnIndex(headers, ["OTA Tax", "OTATax", "Service Fee"]);
+  var cedolareCol   = findColumnIndex(headers, ["Cedolare secca", "CedolareSecca", "Cedolare Secca (21%)"]);
+  var totaleCol     = findColumnIndex(headers, ["Totale", "totale", "Total Income"]);
+  var noteCol       = findColumnIndex(headers, ["Note", "note", "Notes"]);
 
   var events = [];
 
@@ -82,32 +93,80 @@ function extractEventsFromSheet(sheet, apartmentName) {
     var nome = nomeCol >= 0 ? (data[i][nomeCol] || "").toString().trim() : "";
     if (!nome) continue;
 
-    var checkIn = checkInCol >= 0 ? (data[i][checkInCol] || "").toString().trim() : "";
+    var checkIn  = checkInCol  >= 0 ? (data[i][checkInCol]  || "").toString().trim() : "";
     var checkOut = checkOutCol >= 0 ? (data[i][checkOutCol] || "").toString().trim() : "";
 
     if (!checkIn || !checkOut) continue;
 
-    var checkInDate = parseItalianDate(checkIn);
+    var checkInDate  = parseItalianDate(checkIn);
     var checkOutDate = parseItalianDate(checkOut);
 
     if (!checkInDate || !checkOutDate) continue;
 
-    var ota = otaCol >= 0 ? (data[i][otaCol] || "").toString().trim() : "";
-    var notti = nottiCol >= 0 ? (data[i][nottiCol] || "").toString().trim() : "";
-    var adulti = adultiCol >= 0 ? (data[i][adultiCol] || "").toString().trim() : "";
-    var note = noteCol >= 0 ? (data[i][noteCol] || "").toString().trim() : "";
+    // Estrae tutti i campi
+    var ota        = otaCol        >= 0 ? (data[i][otaCol]        || "").toString().trim() : "";
+    var notti      = nottiCol      >= 0 ? (data[i][nottiCol]      || "").toString().trim() : "";
+    var adulti     = adultiCol     >= 0 ? (data[i][adultiCol]     || "").toString().trim() : "";
+    var bambini    = bambiniCol    >= 0 ? (data[i][bambiniCol]    || "").toString().trim() : "";
+    var animali    = animaliCol    >= 0 ? (data[i][animaliCol]    || "").toString().trim() : "";
+    var totCliente = totClienteCol >= 0 ? (data[i][totClienteCol] || "").toString().trim() : "";
+    var fuoriOta   = fuoriOtaCol   >= 0 ? (data[i][fuoriOtaCol]   || "").toString().trim() : "";
+    var costoNotti = costoNottiCol >= 0 ? (data[i][costoNottiCol] || "").toString().trim() : "";
+    var pulizia    = puliziaCole   >= 0 ? (data[i][puliziaCole]   || "").toString().trim() : "";
+    var sconti     = scontiCol     >= 0 ? (data[i][scontiCol]     || "").toString().trim() : "";
+    var soggTax    = soggTaxCol    >= 0 ? (data[i][soggTaxCol]    || "").toString().trim() : "";
+    var otaTax     = otaTaxCol     >= 0 ? (data[i][otaTaxCol]     || "").toString().trim() : "";
+    var cedolare   = cedolareCol   >= 0 ? (data[i][cedolareCol]   || "").toString().trim() : "";
+    var totale     = totaleCol     >= 0 ? (data[i][totaleCol]     || "").toString().trim() : "";
+    var note       = noteCol       >= 0 ? (data[i][noteCol]       || "").toString().trim() : "";
 
-    var summary = nome + (apartmentName ? " - " + apartmentName : "");
-    var description = [];
-    if (ota) description.push("OTA: " + ota);
-    if (notti) description.push("Notti: " + notti);
-    if (adulti) description.push("Adulti: " + adulti);
-    if (note) description.push("Note: " + note);
+    // Costruisce il titolo: Nome [OTA] - Appartamento
+    var summary = nome;
+    if (ota) summary += " [" + ota + "]";
+    if (apartmentName) summary += " - " + apartmentName;
+
+    // Costruisce la descrizione con tutti i dettagli disponibili.
+    // I singoli valori vengono escaped; le righe vengono unite con \n (iCal newline).
+    var desc = [];
+
+    // Sezione ospiti
+    if (notti)   desc.push("Notti: " + notti);
+    if (adulti)  desc.push("Adulti: " + adulti);
+    if (bambini && bambini !== "0") desc.push("Bambini: " + bambini);
+    if (animali && animali !== "0") desc.push("Animali: " + animali);
+
+    // Sezione economica (solo se ci sono dati finanziari)
+    var hasFinancial = totCliente || costoNotti || pulizia || totale;
+    if (hasFinancial) {
+      desc.push("---");
+      if (totCliente) desc.push("Tot. Cliente: " + formatCurrency(totCliente));
+      if (fuoriOta && fuoriOta !== "0")   desc.push("Fuori OTA: " + formatCurrency(fuoriOta));
+      if (costoNotti) desc.push("Costo Notti: " + formatCurrency(costoNotti));
+      if (pulizia && pulizia !== "0")     desc.push("Pulizia: " + formatCurrency(pulizia));
+      if (sconti && sconti !== "0")       desc.push("Sconti: -" + formatCurrency(sconti));
+      if (soggTax && soggTax !== "0")     desc.push("Tassa Soggiorno: " + formatCurrency(soggTax));
+      if (otaTax && otaTax !== "0")       desc.push("OTA Tax: " + formatCurrency(otaTax));
+      if (cedolare && cedolare !== "0")   desc.push("Cedolare Secca: " + formatCurrency(cedolare));
+      if (totale)  desc.push("Totale Netto: " + formatCurrency(totale));
+    }
+
+    if (note) {
+      desc.push("---");
+      desc.push("Note: " + escapeICalText(note));
+    }
+
+    // Unisce le righe con \n (carattere di escape iCal per i newline nella DESCRIPTION)
+    var descStr = desc.map(function(line) {
+      // Le righe "---" non hanno caratteri speciali da escapare
+      if (line === "---") return line;
+      // Escape solo i caratteri speciali iCal (,;\\) ma non le parentesi monetarie
+      return line.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,(?![0-9])/g, "\\,");
+    }).join("\\n");
 
     events.push({
       uid: generateUID(nome, checkIn),
       summary: summary,
-      description: description.join("\\n"),
+      description: descStr,
       dtstart: formatDateForICal(checkInDate),
       dtend: formatDateForICal(checkOutDate),
       dtstamp: new Date(),
@@ -235,4 +294,14 @@ function escapeICalText(text) {
     .replace(/;/g, "\\;")
     .replace(/,/g, "\\,")
     .replace(/\n/g, "\\n");
+}
+
+/**
+ * Formatta un valore monetario aggiungendo € se non già presente
+ */
+function formatCurrency(value) {
+  var s = (value || "").toString().trim();
+  if (!s) return s;
+  if (s.indexOf("€") === -1) return "€" + s;
+  return s;
 }

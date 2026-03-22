@@ -383,7 +383,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
             ? (selectedBooking.apartment as CalendarType)
             : selectedCalendar
         }
-        onUpdate={loadBookings}
+        onUpdate={() => loadBookings(true)}
       />
 
       <AddBookingModal

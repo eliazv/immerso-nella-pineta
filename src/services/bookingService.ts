@@ -438,55 +438,51 @@ const fetchBookingsForCalendar = async (
 };
 
 /**
- * Implementazione diretta che aggira CORS in modo solido
- * Usare window.open per aprire una nuova finestra con i parametri per aggiornarla
+ * Invia una richiesta all'endpoint Google Apps Script tramite fetch().
+ *
+ * Google Apps Script Web App con accesso "Chiunque" include automaticamente
+ * gli header CORS (Access-Control-Allow-Origin: *), quindi fetch() funziona
+ * direttamente senza necessità di aprire finestre popup.
+ *
+ * Utilizza una GET request (sempre "simple request", nessun preflight CORS)
+ * con il payload JSON codificato nel parametro ?data=.
  */
-function submitViaDirectAccess(
+async function submitToScript(
   action: string,
   data: Record<string, unknown>
 ): Promise<boolean> {
-  return new Promise((resolve) => {
-    // Converti l'oggetto in un parametro URL
-    const params = encodeURIComponent(JSON.stringify({ action, ...data }));
-    // URL dell'endpoint con parametri inclusi
-    const url = `${API_ENDPOINT}?data=${params}`;
+  const params = encodeURIComponent(JSON.stringify({ action, ...data }));
+  const url = `${API_ENDPOINT}?data=${params}`;
 
-    // Apre in una nuova finestra
-    const newWindow = window.open(url, "_blank");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
 
-    // Controlla periodicamente se la finestra è stata chiusa
-    const checkClosed = setInterval(() => {
-      if (newWindow?.closed) {
-        clearInterval(checkClosed);
-        // Quando la finestra viene chiusa, consideriamo l'operazione completata
-        // Invalidiamo la cache per forzare un aggiornamento al prossimo caricamento
-        const cacheKey = `bookings_${
-          data.sheet === "Affitti3"
-            ? "principale"
-            : data.sheet === "Affitti4"
-            ? "secondario"
-            : "terziario"
-        }`;
-        localStorage.removeItem(cacheKey);
-        resolve(true);
-      }
-    }, 1000);
+  try {
+    const response = await fetch(url, { signal: controller.signal });
 
-    // Dopo 30 secondi, consideriamo completata l'operazione anche se la finestra è ancora aperta
-    setTimeout(() => {
-      clearInterval(checkClosed);
-      // Invalidiamo la cache per forzare un aggiornamento al prossimo caricamento
-      const cacheKey = `bookings_${
-        data.sheet === "Affitti3"
-          ? "principale"
-          : data.sheet === "Affitti4"
-          ? "secondario"
-          : "terziario"
-      }`;
-      localStorage.removeItem(cacheKey);
-      resolve(true);
-    }, 30000);
-  });
+    if (!response.ok) {
+      console.error(`Apps Script HTTP error: ${response.status}`);
+      return false;
+    }
+
+    const json = await response.json();
+
+    if (!json.success) {
+      console.error("Apps Script error:", json.message);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    if ((error as Error).name === "AbortError") {
+      console.error("Timeout: Apps Script non ha risposto entro 20 secondi");
+    } else {
+      console.error("Errore comunicazione con Apps Script:", error);
+    }
+    return false;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 // Funzione per aggiornare una prenotazione esistente
@@ -518,8 +514,8 @@ export const updateBooking = async (
       spreadsheetId: SPREADSHEET_ID,
     };
 
-    // Utilizziamo l'accesso diretto aggirando CORS
-    const result = await submitViaDirectAccess("update", payload);
+    // Inviamo la richiesta all'Apps Script tramite fetch
+    const result = await submitToScript("update", payload);
 
     // Dopo un aggiornamento, rimuoviamo la cache per forzare un refresh al prossimo caricamento
     if (result) {
@@ -561,7 +557,7 @@ export const addBooking = async (
       spreadsheetId: SPREADSHEET_ID,
     };
 
-    const result = await submitViaDirectAccess("add", payload);
+    const result = await submitToScript("add", payload);
 
     if (result) {
       const cacheKey = `bookings_${calendarType}`;
@@ -604,8 +600,8 @@ export const deleteBooking = async (
       spreadsheetId: SPREADSHEET_ID,
     };
 
-    // Utilizziamo l'accesso diretto aggirando CORS
-    const result = await submitViaDirectAccess("delete", payload);
+    // Inviamo la richiesta all'Apps Script tramite fetch
+    const result = await submitToScript("delete", payload);
 
     // Dopo una cancellazione, rimuoviamo la cache per forzare un refresh al prossimo caricamento
     if (result) {

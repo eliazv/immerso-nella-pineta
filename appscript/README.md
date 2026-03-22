@@ -157,5 +157,6 @@ Oppure con il nome dell'appartamento:
 
 - **Autorizzazioni:** Alla prima esecuzione, Google chiederà di autorizzare lo script ad accedere ai Google Sheets. Accetta le autorizzazioni necessarie.
 - **Aggiornamenti:** Ogni volta che modifichi il codice, devi creare una **nuova distribuzione** e aggiornare l'URL in `.env`.
-- **CORS:** Lo script usa `window.open()` per aggirare le limitazioni CORS dei browser. Questo apre brevemente una finestra che poi si chiude automaticamente.
-- **Cache:** Dopo ogni operazione di aggiunta/modifica/eliminazione, la cache locale viene invalidata e i dati vengono ricaricati dal foglio.
+- **CORS:** Le Web App di Google Apps Script con accesso "Chiunque" includono automaticamente gli header `Access-Control-Allow-Origin: *`. L'app React comunica direttamente tramite `fetch()` senza finestre popup né workaround.
+- **Timeout:** Le richieste CRUD hanno un timeout di 20 secondi. Se Apps Script impiega più tempo (raro), l'operazione sarà considerata fallita e verrà mostrato un errore.
+- **Cache:** Dopo ogni operazione di aggiunta/modifica/eliminazione, la cache locale viene invalidata e i dati vengono ricaricati dal foglio con un refresh forzato.
