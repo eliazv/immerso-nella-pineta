@@ -1,3 +1,13 @@
+/calendar > form di insermento o modifica prenotazione:
+
+- il costo di pulizia di default 90€
+- metti un date picker moderno che seleziona un range di date
+- in modalita mobile deve essere visualizzato meglio, togli card attorno ai campi e campi piu larghi e testi piu grandi
+- il totale netto deve essere calcolato automaticamente in base ai dati inseriti, solitamente è tipo =K31+M31-N31-P31-Q31+J31 su excel
+- cedolare seccaa se è booking l'ota è =I31\*21/100
+- i valori calcolri o di default vorrei che magari potessi aggiungerli cliccando un bottone dentro la textbox che rimepie con il valore calcolato o di deafult o qualcosa di simile come funzionamento , senno lascia libero inserimento . magari placeholder con il valore calcolato o default nella textbox se non scrivo nulla
+- se dovessia ggiungere una colonna per indicare se la tassa di soggiorno è pagata o meno nbll'excel senza incsainare tutto dove la aggiungeresti? vorrei fosse una spunta che c'è o meno. qui solo consigliami non fare nulla
+
 - il sito in prod è https://immerso.eliazavatta.it/ , non https://immerso-nella-pineta.it/. i problemi di indicizzazione sonos tati risoliti? a cosa erano docvuti? cosa devo fare su googel serach console? cita https://www.vitaromagna.it/eventi/artevento-2026-festival-internazionale-dellaquilone-2510 per festival dell'Aquilone. {/_ Final CTA _/}
   <div className="mt-16 bg-gradient-to-br from-pine-900 to-pine-800 rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl overflow-hidden relative">
   è completamente bianca come seizone non si vede niente correggi . tutte le immigni nel dettalgio del blog non sono visivbili come mia?

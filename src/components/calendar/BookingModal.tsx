@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { User, Coins, BadgeEuro, X } from "lucide-react";
+import {
+  User,
+  Coins,
+  BadgeEuro,
+  X,
+  Calendar as CalendarIcon,
+} from "lucide-react";
 import { Booking, CalendarType } from "@/types/calendar";
 import {
   Dialog,
@@ -40,6 +46,16 @@ import {
 import { updateBooking, deleteBooking } from "@/services/bookingService";
 import { useForm } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
+import { it } from "date-fns/locale";
 
 // Funzione per calcolare la tassa di soggiorno
 const calculateSoggiornoTax = (booking: Booking): string => {
@@ -133,6 +149,60 @@ const parseDate = (dateString: string): Date | null => {
   return date;
 };
 
+const calculateNights = (checkIn: string, checkOut: string): string => {
+  const start = parseDate(checkIn);
+  const end = parseDate(checkOut);
+  if (!start || !end) return "";
+  const diff = Math.round(
+    (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  return diff > 0 ? `${diff}` : "";
+};
+
+const parseNumericValue = (value?: string): number => {
+  if (!value) return 0;
+  const normalized = value
+    .replace(/,/g, ".")
+    .replace(/[^0-9.-]/g, "")
+    .trim();
+  if (!normalized) return 0;
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+const formatNumberForInput = (value: number): string => {
+  if (!Number.isFinite(value)) return "";
+  const rounded = Math.round(value * 100) / 100;
+  if (Number.isInteger(rounded)) return `${rounded}`;
+  return rounded.toFixed(2).replace(/\.?0+$/, "");
+};
+
+const calculateCedolareSecca = (ota: string, totaleCliente: string): string => {
+  if (!ota?.toLowerCase().includes("booking")) return "";
+  const base = parseNumericValue(totaleCliente);
+  if (base <= 0) return "";
+  return formatNumberForInput((base * 21) / 100);
+};
+
+const calculateNetTotal = (values: {
+  CostoNotti: string;
+  Pulizia: string;
+  Sconti: string;
+  SoggiornoTax: string;
+  OTATax: string;
+  FuoriOTA: string;
+}): string => {
+  const result =
+    parseNumericValue(values.CostoNotti) +
+    parseNumericValue(values.Pulizia) -
+    parseNumericValue(values.Sconti) -
+    parseNumericValue(values.SoggiornoTax) -
+    parseNumericValue(values.OTATax) +
+    parseNumericValue(values.FuoriOTA);
+
+  return formatNumberForInput(result);
+};
+
 interface BookingModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -151,6 +221,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
   // Per gestire il form di modifica
   const form = useForm<Booking>({
@@ -161,6 +232,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       Object.keys(booking).forEach((key) => {
         form.setValue(key as keyof Booking, booking[key as keyof Booking]);
       });
+
+      const parsedFrom = parseDate(booking.CheckIn || "") ?? undefined;
+      const parsedTo = parseDate(booking.CheckOut || "") ?? undefined;
+      if (parsedFrom || parsedTo) {
+        setDateRange({ from: parsedFrom, to: parsedTo });
+      } else {
+        setDateRange(undefined);
+      }
 
       // Non impostiamo più valori predefiniti per gli adulti se non sono specificati
       // Questo impedisce di avere valori casuali quando non ci sono dati
@@ -191,6 +270,66 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       form.setValue("SoggiornoTax", "");
     }
   }, [watchedBookingValues, form]);
+
+  const watchedOta = form.watch("OTA");
+  const watchedTotaleCliente = form.watch("TotaleCliente");
+  const watchedCostoNotti = form.watch("CostoNotti");
+  const watchedPulizia = form.watch("Pulizia");
+  const watchedSconti = form.watch("Sconti");
+  const watchedSoggiornoTax = form.watch("SoggiornoTax");
+  const watchedOTATax = form.watch("OTATax");
+  const watchedFuoriOTA = form.watch("FuoriOTA");
+  const watchedCheckIn = form.watch("CheckIn");
+  const watchedCheckOut = form.watch("CheckOut");
+
+  const calculatedCedolare = calculateCedolareSecca(
+    watchedOta,
+    watchedTotaleCliente,
+  );
+  const calculatedTotale = calculateNetTotal({
+    CostoNotti: watchedCostoNotti,
+    Pulizia: watchedPulizia,
+    Sconti: watchedSconti,
+    SoggiornoTax: watchedSoggiornoTax,
+    OTATax: watchedOTATax,
+    FuoriOTA: watchedFuoriOTA,
+  });
+
+  useEffect(() => {
+    const from = parseDate(watchedCheckIn || "") ?? undefined;
+    const to = parseDate(watchedCheckOut || "") ?? undefined;
+    if (!from && !to) {
+      setDateRange(undefined);
+      return;
+    }
+    setDateRange({ from, to });
+  }, [watchedCheckIn, watchedCheckOut]);
+
+  useEffect(() => {
+    const nights = calculateNights(watchedCheckIn || "", watchedCheckOut || "");
+    form.setValue("Notti", nights);
+  }, [watchedCheckIn, watchedCheckOut, form]);
+
+  useEffect(() => {
+    const currentCedolare = form.getValues("CedolareSecca")?.trim() ?? "";
+    if (!currentCedolare && calculatedCedolare) {
+      form.setValue("CedolareSecca", calculatedCedolare);
+    }
+
+    const currentTotale = form.getValues("Totale")?.trim() ?? "";
+    if (!currentTotale && calculatedTotale) {
+      form.setValue("Totale", calculatedTotale);
+    }
+  }, [calculatedCedolare, calculatedTotale, form]);
+
+  const handleDateRangeChange = (range: DateRange | undefined) => {
+    setDateRange(range);
+    const checkIn = range?.from ? format(range.from, "dd/MM/yyyy") : "";
+    const checkOut = range?.to ? format(range.to, "dd/MM/yyyy") : "";
+
+    form.setValue("CheckIn", checkIn);
+    form.setValue("CheckOut", checkOut);
+  };
 
   // Gestisce la submission del form
   const onSubmit = async (formData: Booking) => {
@@ -524,9 +663,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   );
 
   const editContent = (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="pb-8">
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className={cn(
+        "pb-8",
+        isMobile &&
+          "[&_input]:h-12 [&_input]:text-base [&_textarea]:text-base [&_textarea]:min-h-[120px] [&_label]:text-sm",
+      )}
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-        <div className="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+        <div
+          className={cn(
+            "space-y-4",
+            isMobile
+              ? ""
+              : "bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800",
+          )}
+        >
           <div className="font-black text-xs text-slate-400 uppercase tracking-widest mb-3">
             Dati generali
           </div>
@@ -564,6 +717,42 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </SelectContent>
               </Select>
             </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold text-slate-500">
+                Periodo soggiorno
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700",
+                      isMobile && "h-12 text-base",
+                      !dateRange?.from && "text-muted-foreground",
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {dateRange?.from
+                      ? dateRange.to
+                        ? `${format(dateRange.from, "dd MMM yyyy", { locale: it })} - ${format(dateRange.to, "dd MMM yyyy", { locale: it })}`
+                        : format(dateRange.from, "dd MMM yyyy", { locale: it })
+                      : "Seleziona range date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="range"
+                    selected={dateRange}
+                    onSelect={handleDateRangeChange}
+                    numberOfMonths={isMobile ? 1 : 2}
+                    locale={it}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label
@@ -576,7 +765,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   id="CheckIn"
                   {...form.register("CheckIn")}
                   placeholder="DD/MM/YYYY"
-                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                  className={cn(
+                    "bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700",
+                    isMobile ? "text-base" : "text-sm",
+                  )}
                 />
               </div>
               <div className="space-y-1.5">
@@ -590,7 +782,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   id="CheckOut"
                   {...form.register("CheckOut")}
                   placeholder="DD/MM/YYYY"
-                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                  className={cn(
+                    "bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700",
+                    isMobile ? "text-base" : "text-sm",
+                  )}
                 />
               </div>
             </div>
@@ -651,7 +846,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
         </div>
 
-        <div className="space-y-4 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+        <div
+          className={cn(
+            "space-y-4",
+            isMobile
+              ? ""
+              : "bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800",
+          )}
+        >
           <div className="font-black text-xs text-slate-400 uppercase tracking-widest mb-3">
             Dati economici
           </div>
@@ -678,12 +880,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 >
                   TOT. NETTO
                 </Label>
-                <Input
-                  id="Totale"
-                  {...form.register("Totale")}
-                  placeholder="€"
-                  className="bg-white dark:bg-slate-800 rounded-lg border-primary/20 dark:border-primary/40 font-black text-primary"
-                />
+                <div className="flex gap-2">
+                  <Input
+                    id="Totale"
+                    {...form.register("Totale")}
+                    placeholder={
+                      calculatedTotale ? `Suggerito: ${calculatedTotale}` : "€"
+                    }
+                    className="bg-white dark:bg-slate-800 rounded-lg border-primary/20 dark:border-primary/40 font-black text-primary"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => form.setValue("Totale", calculatedTotale)}
+                    disabled={!calculatedTotale}
+                    className="rounded-lg px-3 shrink-0"
+                  >
+                    Usa
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -737,11 +952,22 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 >
                   Pulizia
                 </Label>
-                <Input
-                  id="Pulizia"
-                  {...form.register("Pulizia")}
-                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
-                />
+                <div className="flex gap-2">
+                  <Input
+                    id="Pulizia"
+                    {...form.register("Pulizia")}
+                    placeholder="90"
+                    className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => form.setValue("Pulizia", "90")}
+                    className="rounded-lg px-3 shrink-0"
+                  >
+                    90€
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -794,11 +1020,29 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               >
                 Cedolare Secca (21%)
               </Label>
-              <Input
-                id="CedolareSecca"
-                {...form.register("CedolareSecca")}
-                className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="CedolareSecca"
+                  {...form.register("CedolareSecca")}
+                  placeholder={
+                    calculatedCedolare
+                      ? `Suggerito: ${calculatedCedolare}`
+                      : "Calcolata se OTA = Booking"
+                  }
+                  className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() =>
+                    form.setValue("CedolareSecca", calculatedCedolare)
+                  }
+                  disabled={!calculatedCedolare}
+                  className="rounded-lg px-3 shrink-0"
+                >
+                  Usa
+                </Button>
+              </div>
             </div>
 
             <div className="space-y-1.5">
@@ -819,7 +1063,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         </div>
       </div>
 
-      <div className="flex gap-2 justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
+      <div
+        className={cn(
+          "flex gap-2 justify-end pt-4 border-t border-slate-100 dark:border-slate-800",
+          isMobile && "sticky bottom-0 bg-white dark:bg-slate-900 pb-2",
+        )}
+      >
         <Button
           type="button"
           variant="ghost"
