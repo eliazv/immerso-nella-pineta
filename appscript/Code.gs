@@ -61,9 +61,15 @@ function doGet(e) {
       return generateICalFeed(params);
     }
 
-    return createResponse({ success: false, message: "Nessun parametro valido" });
+    return createResponse({
+      success: false,
+      message: "Nessun parametro valido",
+    });
   } catch (err) {
-    return createResponse({ success: false, message: "Errore: " + err.toString() });
+    return createResponse({
+      success: false,
+      message: "Errore: " + err.toString(),
+    });
   }
 }
 
@@ -75,7 +81,10 @@ function doPost(e) {
     var data = JSON.parse(e.postData.contents);
     return handleRequest(data);
   } catch (err) {
-    return createResponse({ success: false, message: "Errore POST: " + err.toString() });
+    return createResponse({
+      success: false,
+      message: "Errore POST: " + err.toString(),
+    });
   }
 }
 
@@ -92,7 +101,10 @@ function handleRequest(data) {
     var sheet = ss.getSheetByName(sheetName);
 
     if (!sheet) {
-      return createResponse({ success: false, message: "Foglio non trovato: " + sheetName });
+      return createResponse({
+        success: false,
+        message: "Foglio non trovato: " + sheetName,
+      });
     }
 
     switch (action) {
@@ -103,10 +115,16 @@ function handleRequest(data) {
       case "delete":
         return deleteBooking(sheet, data.booking);
       default:
-        return createResponse({ success: false, message: "Azione non riconosciuta: " + action });
+        return createResponse({
+          success: false,
+          message: "Azione non riconosciuta: " + action,
+        });
     }
   } catch (err) {
-    return createResponse({ success: false, message: "Errore: " + err.toString() });
+    return createResponse({
+      success: false,
+      message: "Errore: " + err.toString(),
+    });
   }
 }
 
@@ -129,7 +147,10 @@ function addBooking(sheet, booking) {
       rowIndex: lastRow + 1,
     });
   } catch (err) {
-    return createResponse({ success: false, message: "Errore aggiunta: " + err.toString() });
+    return createResponse({
+      success: false,
+      message: "Errore aggiunta: " + err.toString(),
+    });
   }
 }
 
@@ -148,7 +169,10 @@ function updateBooking(sheet, booking) {
     }
 
     if (!rowIndex) {
-      return createResponse({ success: false, message: "Prenotazione non trovata nel foglio" });
+      return createResponse({
+        success: false,
+        message: "Prenotazione non trovata nel foglio",
+      });
     }
 
     var headers = getHeaders(sheet);
@@ -164,7 +188,10 @@ function updateBooking(sheet, booking) {
       rowIndex: rowIndex,
     });
   } catch (err) {
-    return createResponse({ success: false, message: "Errore aggiornamento: " + err.toString() });
+    return createResponse({
+      success: false,
+      message: "Errore aggiornamento: " + err.toString(),
+    });
   }
 }
 
@@ -182,7 +209,10 @@ function deleteBooking(sheet, booking) {
     }
 
     if (!rowIndex) {
-      return createResponse({ success: false, message: "Prenotazione non trovata nel foglio" });
+      return createResponse({
+        success: false,
+        message: "Prenotazione non trovata nel foglio",
+      });
     }
 
     sheet.deleteRow(rowIndex);
@@ -192,7 +222,10 @@ function deleteBooking(sheet, booking) {
       message: "Prenotazione eliminata con successo",
     });
   } catch (err) {
-    return createResponse({ success: false, message: "Errore eliminazione: " + err.toString() });
+    return createResponse({
+      success: false,
+      message: "Errore eliminazione: " + err.toString(),
+    });
   }
 }
 
@@ -215,7 +248,13 @@ function buildRowFromBooking(booking, headers) {
     Nome: ["Nome", "nome", "Name", "Cliente"],
     OTA: ["OTA", "ota", "Canale", "Channel"],
     CheckIn: ["Check-in", "check-in", "CheckIn", "Arrivo", "Data arrivo"],
-    CheckOut: ["Check-out", "check-out", "CheckOut", "Partenza", "Data partenza"],
+    CheckOut: [
+      "Check-out",
+      "check-out",
+      "CheckOut",
+      "Partenza",
+      "Data partenza",
+    ],
     Notti: ["Notti", "notti", "Nights", "Durata"],
     adulti: ["Adulti", "adulti", "Adults", "Persone", "Num Adulti"],
     bambini: ["Bambini", "bambini", "Children"],
@@ -226,7 +265,17 @@ function buildRowFromBooking(booking, headers) {
     MediaANotte: ["Media a notte", "MediaANotte", "Average"],
     Pulizia: ["Pulizia", "pulizia", "Cleaning"],
     Sconti: ["Sconti", "sconti", "Discount"],
-    SoggiornoTax: ["Soggiorno Tax", "SoggiornoTax", "City Tax", "Tassa di soggiorno"],
+    SoggiornoTax: [
+      "Soggiorno Tax",
+      "SoggiornoTax",
+      "City Tax",
+      "Tassa di soggiorno",
+    ],
+    SoggiornoPagata: [
+      "Soggiorno Pagata",
+      "SoggiornoPagata",
+      "Tassa di soggiorno pagata",
+    ],
     OTATax: ["OTA Tax", "OTATax", "Service Fee"],
     CedolareSecca: ["Cedolare secca", "CedolareSecca", "Cedolare Secca (21%)"],
     Totale: ["Totale", "totale", "Total Income"],
@@ -268,13 +317,19 @@ function findBookingRow(sheet, booking) {
 
   // Trova le colonne per Nome e Check-in
   var nomeCol = findColumnIndex(headers, ["Nome", "nome", "Name", "Cliente"]);
-  var checkInCol = findColumnIndex(headers, ["Check-in", "check-in", "CheckIn", "Arrivo"]);
+  var checkInCol = findColumnIndex(headers, [
+    "Check-in",
+    "check-in",
+    "CheckIn",
+    "Arrivo",
+  ]);
 
   if (nomeCol === -1) return null;
 
   for (var i = 0; i < data.length; i++) {
     var rowNome = (data[i][nomeCol] || "").toString().trim();
-    var rowCheckIn = checkInCol >= 0 ? (data[i][checkInCol] || "").toString().trim() : "";
+    var rowCheckIn =
+      checkInCol >= 0 ? (data[i][checkInCol] || "").toString().trim() : "";
 
     if (
       rowNome.toLowerCase() === (booking.Nome || "").toLowerCase() &&

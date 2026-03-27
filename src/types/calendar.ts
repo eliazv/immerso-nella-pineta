@@ -14,6 +14,7 @@ export interface Booking {
   Pulizia: string;
   Sconti: string;
   SoggiornoTax: string;
+  SoggiornoPagata?: string;
   OTATax: string;
   CedolareSecca: string;
   Totale: string;

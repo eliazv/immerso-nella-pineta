@@ -18,7 +18,7 @@ const CACHE_EXPIRATION = 1000 * 60 * 60 * 6; // 6 ore
 // Funzione per salvare le prenotazioni nella cache locale
 const cacheBookings = (
   calendarType: CalendarType,
-  data: { events: CalendarEvent[]; bookings: Booking[] }
+  data: { events: CalendarEvent[]; bookings: Booking[] },
 ) => {
   const cacheKey = `bookings_${calendarType}`;
   const cachedData = {
@@ -30,7 +30,7 @@ const cacheBookings = (
 
 // Funzione per recuperare le prenotazioni dalla cache locale
 const getCachedBookings = (
-  calendarType: CalendarType
+  calendarType: CalendarType,
 ): { events: CalendarEvent[]; bookings: Booking[] } | null => {
   const cacheKey = `bookings_${calendarType}`;
   const cachedData = localStorage.getItem(cacheKey);
@@ -52,7 +52,7 @@ const getCachedBookings = (
 // Funzione per recuperare le prenotazioni
 export const fetchBookings = async (
   calendarType: CalendarType,
-  forceRefresh = false
+  forceRefresh = false,
 ): Promise<{
   events: CalendarEvent[];
   bookings: Booking[];
@@ -143,7 +143,7 @@ export const fetchBookings = async (
 
 // Funzione ausiliaria per recuperare le prenotazioni da un singolo calendario
 const fetchBookingsForCalendar = async (
-  calendarType: CalendarType
+  calendarType: CalendarType,
 ): Promise<{
   events: CalendarEvent[];
   bookings: Booking[];
@@ -175,7 +175,7 @@ const fetchBookingsForCalendar = async (
   // Funzione helper per trovare valori nel foglio con case insensitive e varianti dei nomi
   const findFieldValue = (
     row: Record<string, string>,
-    fieldNames: string[]
+    fieldNames: string[],
   ): string => {
     // Prima prova a cercare esattamente i nomi forniti
     for (const fieldName of fieldNames) {
@@ -189,7 +189,7 @@ const fetchBookingsForCalendar = async (
     for (const fieldName of fieldNames) {
       const lowerFieldName = fieldName.toLowerCase();
       const matchingKey = allKeys.find(
-        (key) => key.toLowerCase() === lowerFieldName
+        (key) => key.toLowerCase() === lowerFieldName,
       );
       if (matchingKey) {
         return row[matchingKey] || "";
@@ -200,7 +200,7 @@ const fetchBookingsForCalendar = async (
     for (const fieldName of fieldNames) {
       const lowerFieldName = fieldName.toLowerCase();
       const matchingKey = allKeys.find((key) =>
-        key.toLowerCase().includes(lowerFieldName)
+        key.toLowerCase().includes(lowerFieldName),
       );
       if (matchingKey) {
         return row[matchingKey] || "";
@@ -335,6 +335,13 @@ const fetchBookingsForCalendar = async (
           "city tax",
           "Tassa di soggiorno",
         ]),
+        SoggiornoPagata: findFieldValue(row, [
+          "Soggiorno Pagata",
+          "soggiorno pagata",
+          "Tassa soggiorno pagata",
+          "Tassa di soggiorno pagata",
+          "Soggiorno pagato",
+        ]),
         OTATax: findFieldValue(row, ["OTA Tax", "ota tax", "Service Fee"]),
         CedolareSecca: findFieldValue(row, [
           "Cedolare secca",
@@ -359,7 +366,7 @@ const fetchBookingsForCalendar = async (
         ]),
         id: `${findFieldValue(row, ["Nome", "nome", "Name"])}-${findFieldValue(
           row,
-          ["Check-in", "check-in", "CheckIn"]
+          ["Check-in", "check-in", "CheckIn"],
         )}-${findFieldValue(row, ["Check-out", "check-out", "CheckOut"])}`,
         rowIndex: data.indexOf(row) + 2, // +2 perché la prima riga è l'intestazione, e gli indici delle celle partono da 1
       };
@@ -383,7 +390,7 @@ const fetchBookingsForCalendar = async (
       if (parts.length === 3) {
         return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(
           2,
-          "0"
+          "0",
         )}`;
       }
     } else if (date.includes("-")) {
@@ -394,7 +401,7 @@ const fetchBookingsForCalendar = async (
       } else if (parts.length === 3) {
         return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(
           2,
-          "0"
+          "0",
         )}`;
       }
     }
@@ -449,7 +456,7 @@ const fetchBookingsForCalendar = async (
  */
 async function submitToScript(
   action: string,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
 ): Promise<boolean> {
   const params = encodeURIComponent(JSON.stringify({ action, ...data }));
   const url = `${API_ENDPOINT}?data=${params}`;
@@ -488,7 +495,7 @@ async function submitToScript(
 // Funzione per aggiornare una prenotazione esistente
 export const updateBooking = async (
   booking: Booking,
-  calendarType: CalendarType
+  calendarType: CalendarType,
 ): Promise<boolean> => {
   try {
     // Otteniamo il foglio corretto in base al calendario selezionato
@@ -533,7 +540,7 @@ export const updateBooking = async (
 // Funzione per aggiungere una nuova prenotazione
 export const addBooking = async (
   booking: Booking,
-  calendarType: CalendarType
+  calendarType: CalendarType,
 ): Promise<boolean> => {
   try {
     let sheet = "";
@@ -574,7 +581,7 @@ export const addBooking = async (
 // Funzione per cancellare una prenotazione
 export const deleteBooking = async (
   booking: Booking,
-  calendarType: CalendarType
+  calendarType: CalendarType,
 ): Promise<boolean> => {
   try {
     // Otteniamo il foglio corretto in base al calendario selezionato
@@ -618,7 +625,7 @@ export const deleteBooking = async (
 
 // Funzione per forzare un refresh della cache
 export const refreshBookingsCache = async (
-  calendarType: CalendarType
+  calendarType: CalendarType,
 ): Promise<boolean> => {
   try {
     await fetchBookings(calendarType, true);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Calendar as CalendarIcon, PlusCircle } from "lucide-react";
+import { Calendar as CalendarIcon, Calculator, PlusCircle } from "lucide-react";
 import { Booking, CalendarType } from "@/types/calendar";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -70,11 +70,23 @@ const toItalianDate = (date?: Date): string => {
 
 const parseNumericValue = (value?: string): number => {
   if (!value) return 0;
-  const normalized = value
-    .replace(/,/g, ".")
-    .replace(/[^0-9.-]/g, "")
-    .trim();
-  if (!normalized) return 0;
+  const cleaned = value.replace(/\s|€/g, "").trim();
+  if (!cleaned) return 0;
+
+  const lastComma = cleaned.lastIndexOf(",");
+  const lastDot = cleaned.lastIndexOf(".");
+  const decimalIndex = Math.max(lastComma, lastDot);
+
+  let normalized = cleaned;
+  if (decimalIndex >= 0) {
+    const integerPart = cleaned.slice(0, decimalIndex).replace(/[.,]/g, "");
+    const decimalPart = cleaned.slice(decimalIndex + 1).replace(/[.,]/g, "");
+    normalized = `${integerPart}.${decimalPart}`;
+  } else {
+    normalized = cleaned.replace(/[.,]/g, "");
+  }
+
+  normalized = normalized.replace(/[^0-9.-]/g, "");
   const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : 0;
 };
@@ -101,12 +113,16 @@ const calculateNetTotal = (values: {
   OTATax: string;
   FuoriOTA: string;
 }): string => {
+  const sconti = Math.abs(parseNumericValue(values.Sconti));
+  const soggiornoTax = Math.abs(parseNumericValue(values.SoggiornoTax));
+  const otaTax = Math.abs(parseNumericValue(values.OTATax));
+
   const result =
     parseNumericValue(values.CostoNotti) +
     parseNumericValue(values.Pulizia) -
-    parseNumericValue(values.Sconti) -
-    parseNumericValue(values.SoggiornoTax) -
-    parseNumericValue(values.OTATax) +
+    sconti -
+    soggiornoTax -
+    otaTax +
     parseNumericValue(values.FuoriOTA);
   return formatNumberForInput(result);
 };
@@ -137,6 +153,7 @@ const emptyBooking: Booking = {
   Pulizia: "90",
   Sconti: "",
   SoggiornoTax: "",
+  SoggiornoPagata: "No",
   OTATax: "",
   CedolareSecca: "",
   Totale: "",
@@ -434,43 +451,6 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
               </Popover>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <Label
-                  htmlFor="CheckIn"
-                  className="text-xs font-bold text-slate-500"
-                >
-                  Check-in <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="CheckIn"
-                  {...form.register("CheckIn")}
-                  placeholder="DD/MM/YYYY"
-                  className={cn(
-                    "bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700",
-                    isMobile ? "text-base" : "text-sm",
-                  )}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label
-                  htmlFor="CheckOut"
-                  className="text-xs font-bold text-slate-500"
-                >
-                  Check-out <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="CheckOut"
-                  {...form.register("CheckOut")}
-                  placeholder="DD/MM/YYYY"
-                  className={cn(
-                    "bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700",
-                    isMobile ? "text-base" : "text-sm",
-                  )}
-                />
-              </div>
-            </div>
-
             <div className="grid grid-cols-4 gap-2">
               <div className="space-y-1.5 col-span-1">
                 <Label
@@ -578,8 +558,10 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
                     onClick={() => form.setValue("Totale", calculatedTotale)}
                     disabled={!calculatedTotale}
                     className="rounded-lg px-3 shrink-0"
+                    aria-label="Applica totale netto calcolato"
+                    title="Applica totale netto calcolato"
                   >
-                    Usa
+                    <Calculator className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -654,7 +636,7 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div className="space-y-1.5">
                 <Label
                   htmlFor="Sconti"
@@ -694,6 +676,28 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
                   className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
                 />
               </div>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="SoggiornoPagata"
+                  className="text-[10px] font-bold text-slate-500 uppercase"
+                >
+                  Soggiorno Pagata
+                </Label>
+                <Select
+                  value={form.watch("SoggiornoPagata") || "No"}
+                  onValueChange={(value) =>
+                    form.setValue("SoggiornoPagata", value)
+                  }
+                >
+                  <SelectTrigger className="w-full bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 font-bold">
+                    <SelectValue placeholder="Seleziona" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-none shadow-xl">
+                    <SelectItem value="No">No</SelectItem>
+                    <SelectItem value="Si">Si</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="space-y-1.5">
@@ -722,8 +726,10 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
                   }
                   disabled={!calculatedCedolare}
                   className="rounded-lg px-3 shrink-0"
+                  aria-label="Applica cedolare secca calcolata"
+                  title="Applica cedolare secca calcolata"
                 >
-                  Usa
+                  <Calculator className="h-4 w-4" />
                 </Button>
               </div>
             </div>

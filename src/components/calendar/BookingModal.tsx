@@ -5,6 +5,20 @@ import {
   BadgeEuro,
   X,
   Calendar as CalendarIcon,
+  Calculator,
+  BedDouble,
+  Cat,
+  CreditCard,
+  Euro,
+  FileText,
+  Home,
+  Hotel,
+  Moon,
+  PiggyBank,
+  Receipt,
+  ShieldCheck,
+  Ticket,
+  Users,
 } from "lucide-react";
 import { Booking, CalendarType } from "@/types/calendar";
 import {
@@ -56,6 +70,7 @@ import { cn } from "@/lib/utils";
 import { DateRange } from "react-day-picker";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
+import { MdApartment, MdOutlineTravelExplore } from "react-icons/md";
 
 // Funzione per calcolare la tassa di soggiorno
 const calculateSoggiornoTax = (booking: Booking): string => {
@@ -161,11 +176,23 @@ const calculateNights = (checkIn: string, checkOut: string): string => {
 
 const parseNumericValue = (value?: string): number => {
   if (!value) return 0;
-  const normalized = value
-    .replace(/,/g, ".")
-    .replace(/[^0-9.-]/g, "")
-    .trim();
-  if (!normalized) return 0;
+  const cleaned = value.replace(/\s|€/g, "").trim();
+  if (!cleaned) return 0;
+
+  const lastComma = cleaned.lastIndexOf(",");
+  const lastDot = cleaned.lastIndexOf(".");
+  const decimalIndex = Math.max(lastComma, lastDot);
+
+  let normalized = cleaned;
+  if (decimalIndex >= 0) {
+    const integerPart = cleaned.slice(0, decimalIndex).replace(/[.,]/g, "");
+    const decimalPart = cleaned.slice(decimalIndex + 1).replace(/[.,]/g, "");
+    normalized = `${integerPart}.${decimalPart}`;
+  } else {
+    normalized = cleaned.replace(/[.,]/g, "");
+  }
+
+  normalized = normalized.replace(/[^0-9.-]/g, "");
   const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : 0;
 };
@@ -192,12 +219,16 @@ const calculateNetTotal = (values: {
   OTATax: string;
   FuoriOTA: string;
 }): string => {
+  const sconti = Math.abs(parseNumericValue(values.Sconti));
+  const soggiornoTax = Math.abs(parseNumericValue(values.SoggiornoTax));
+  const otaTax = Math.abs(parseNumericValue(values.OTATax));
+
   const result =
     parseNumericValue(values.CostoNotti) +
     parseNumericValue(values.Pulizia) -
-    parseNumericValue(values.Sconti) -
-    parseNumericValue(values.SoggiornoTax) -
-    parseNumericValue(values.OTATax) +
+    sconti -
+    soggiornoTax -
+    otaTax +
     parseNumericValue(values.FuoriOTA);
 
   return formatNumberForInput(result);
@@ -228,6 +259,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     defaultValues: booking || {},
   }); // Aggiorna il form quando cambia la prenotazione
   useEffect(() => {
+    if (!open) {
+      setIsEditing(false);
+      setIsDeleting(false);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    setIsEditing(false);
+  }, [booking?.id, booking?.rowIndex, booking?.Nome, booking?.CheckIn]);
+
+  useEffect(() => {
     if (booking) {
       Object.keys(booking).forEach((key) => {
         form.setValue(key as keyof Booking, booking[key as keyof Booking]);
@@ -246,12 +288,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   }, [booking, form]);
   // Calcola automaticamente la tassa di soggiorno quando cambiano i dati rilevanti
-  const watchedBookingValues = form.watch([
-    "CheckIn",
-    "CheckOut",
-    "adulti",
-    "Notti",
-  ]);
+  const watchedCheckInForTax = form.watch("CheckIn");
+  const watchedNotti = form.watch("Notti");
+  const watchedAdulti = form.watch("adulti");
 
   useEffect(() => {
     const formData = form.getValues();
@@ -269,7 +308,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       // Se manca il numero di adulti, imposta vuoto il campo della tassa
       form.setValue("SoggiornoTax", "");
     }
-  }, [watchedBookingValues, form]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchedCheckInForTax, watchedNotti, watchedAdulti]);
 
   const watchedOta = form.watch("OTA");
   const watchedTotaleCliente = form.watch("TotaleCliente");
@@ -449,23 +489,37 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   const viewContent = (
     <>
-      <div className="flex flex-col gap-4 py-2">
-        {/* Dati generali */}
-        <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
-          <div className="font-black text-xs text-slate-400 uppercase tracking-widest border-b border-slate-200 dark:border-slate-700 pb-2 mb-3 flex items-center gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-2">
+        <div
+          className={cn(
+            "space-y-4",
+            !isMobile &&
+              "bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800",
+          )}
+        >
+          <div className="font-black text-xs text-slate-400 uppercase tracking-widest border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2">
             <User className="w-4 h-4" />
             Dati generali
           </div>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <span className="text-slate-500 font-bold">Nome:</span>
-            <span className="text-slate-800 dark:text-slate-200 font-bold">
-              {booking.Nome || "-"}
-            </span>
 
-            <span className="text-slate-500 font-bold">OTA:</span>
-            <div>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <User className="w-4 h-4" />
+                Ospite
+              </div>
+              <span className="font-black text-slate-900 dark:text-white">
+                {booking.Nome || "-"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Hotel className="w-4 h-4" />
+                OTA
+              </div>
               <span
-                className={`inline-block px-2 py-0.5 rounded-lg text-white text-xs font-black uppercase tracking-tight ${
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-white text-xs font-black uppercase tracking-tight ${
                   booking.OTA?.toLowerCase().includes("booking")
                     ? "bg-blue-600"
                     : booking.OTA?.toLowerCase().includes("airbnb")
@@ -475,143 +529,223 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         : "bg-slate-600"
                 }`}
               >
+                {booking.OTA?.toLowerCase().includes("booking") && (
+                  <MdOutlineTravelExplore className="w-3.5 h-3.5" />
+                )}
+                {booking.OTA?.toLowerCase().includes("airbnb") && (
+                  <MdApartment className="w-3.5 h-3.5" />
+                )}
                 {booking.OTA || "-"}
               </span>
             </div>
 
-            <span className="text-slate-500 font-bold">Check-in:</span>
-            <span className="text-slate-800 dark:text-slate-200">
-              {booking.CheckIn || "-"}
-            </span>
-
-            <span className="text-slate-500 font-bold">Check-out:</span>
-            <span className="text-slate-800 dark:text-slate-200">
-              {booking.CheckOut || "-"}
-            </span>
-
-            <span className="text-slate-500 font-bold">Notti:</span>
-            <span className="text-slate-800 dark:text-slate-200 font-black">
-              {booking.Notti || "-"}
-            </span>
-
-            <span className="text-slate-500 font-bold">Ospiti:</span>
-            <div className="flex flex-wrap gap-1.5 items-center">
-              {booking.adulti && booking.adulti !== "0" && (
-                <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded text-xs font-bold">
-                  {booking.adulti} adulti
-                </span>
-              )}
-              {booking.bambini && booking.bambini !== "0" && (
-                <span className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded text-xs font-bold">
-                  {booking.bambini} bambini
-                </span>
-              )}
-              {booking.animali && booking.animali !== "0" && (
-                <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded text-xs font-bold">
-                  {booking.animali} animali
-                </span>
-              )}
-            </div>
-          </div>
-          {booking.Note && (
-            <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700 italic text-slate-500 text-xs">
-              <span className="font-bold not-italic text-slate-400 mr-1 uppercase tracking-tighter">
-                Note:
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <CalendarIcon className="w-4 h-4" />
+                Check-in
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.CheckIn || "-"}
               </span>
-              {booking.Note}
             </div>
-          )}
+
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <CalendarIcon className="w-4 h-4" />
+                Check-out
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.CheckOut || "-"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Moon className="w-4 h-4" />
+                Notti
+              </div>
+              <span className="font-black text-slate-900 dark:text-white">
+                {booking.Notti || "-"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Users className="w-4 h-4" />
+                Adulti
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.adulti || "0"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <BedDouble className="w-4 h-4" />
+                Bambini
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.bambini || "0"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Cat className="w-4 h-4" />
+                Animali
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.animali || "0"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 py-2">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <ShieldCheck className="w-4 h-4" />
+                Soggiorno pagata
+              </div>
+              <span
+                className={cn(
+                  "px-2 py-1 rounded-lg text-xs font-black uppercase",
+                  booking.SoggiornoPagata?.toLowerCase() === "si"
+                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                    : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+                )}
+              >
+                {booking.SoggiornoPagata || "No"}
+              </span>
+            </div>
+
+            {booking.Note && (
+              <div className="pt-2 mt-2 border-t border-slate-200 dark:border-slate-700">
+                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold mb-1">
+                  <FileText className="w-4 h-4" />
+                  Note
+                </div>
+                <p className="text-sm text-slate-700 dark:text-slate-200">
+                  {booking.Note}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Importi e Tasse */}
-        <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
-          <div className="font-black text-xs text-slate-400 uppercase tracking-widest border-b border-slate-200 dark:border-slate-700 pb-2 mb-3 flex items-center gap-2">
+        <div
+          className={cn(
+            "space-y-4",
+            !isMobile &&
+              "bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800",
+          )}
+        >
+          <div className="font-black text-xs text-slate-400 uppercase tracking-widest border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2">
             <BadgeEuro className="w-4 h-4" />
-            Importi e Tasse
+            Importi e tasse
           </div>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            {/* Funzione helper interna per il rendering condizionale degli importi */}
-            {(() => {
-              const renderEconomicalRow = (
-                label: string,
-                value: any,
-                className = "text-slate-800 dark:text-slate-200 font-bold",
-              ) => {
-                // Se il valore è "-", vuoto, nullo o palesemente zero, non mostriamo la riga
-                if (
-                  !value ||
-                  value === "-" ||
-                  value === "0" ||
-                  value === "€0" ||
-                  value === "0€" ||
-                  (typeof value === "string" && value.trim() === "")
-                ) {
-                  return null;
-                }
 
-                let displayValue = value.toString().trim();
-                // Evita duplicazione del simbolo €
-                if (
-                  !displayValue.includes("€") &&
-                  !displayValue.includes("%")
-                ) {
-                  displayValue = `€${displayValue}`;
-                }
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Euro className="w-4 h-4" />
+                Totale cliente
+              </span>
+              <span className="font-black text-slate-900 dark:text-white">
+                {booking.TotaleCliente ? `€${booking.TotaleCliente}` : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Home className="w-4 h-4" />
+                Fuori OTA
+              </span>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.FuoriOTA ? `€${booking.FuoriOTA}` : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <CreditCard className="w-4 h-4" />
+                Costo notti
+              </span>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.CostoNotti ? `€${booking.CostoNotti}` : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Coins className="w-4 h-4" />
+                Media a notte
+              </span>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.MediaANotte ? `€${booking.MediaANotte}` : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Receipt className="w-4 h-4" />
+                Pulizia
+              </span>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.Pulizia ? `€${booking.Pulizia}` : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Ticket className="w-4 h-4" />
+                Sconti
+              </span>
+              <span className="font-bold text-red-600">
+                {booking.Sconti ? `€${booking.Sconti}` : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <PiggyBank className="w-4 h-4" />
+                Soggiorno tax
+              </span>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.SoggiornoTax
+                  ? `€${booking.SoggiornoTax}`
+                  : calculateSoggiornoTax(booking)
+                    ? `€${calculateSoggiornoTax(booking)}`
+                    : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <CreditCard className="w-4 h-4" />
+                OTA tax
+              </span>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.OTATax ? `€${booking.OTATax}` : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
+                <Receipt className="w-4 h-4" />
+                Cedolare (21%)
+              </span>
+              <span className="font-bold text-slate-900 dark:text-white">
+                {booking.CedolareSecca ? `€${booking.CedolareSecca}` : "-"}
+              </span>
+            </div>
 
-                return (
-                  <React.Fragment key={label}>
-                    <span className="text-slate-500 font-bold">{label}:</span>
-                    <span className={className}>{displayValue}</span>
-                  </React.Fragment>
-                );
-              };
-
-              return (
-                <>
-                  {renderEconomicalRow(
-                    "Totale Cliente",
-                    booking.TotaleCliente,
-                    "text-slate-800 dark:text-slate-200 font-black",
-                  )}
-                  {renderEconomicalRow("Fuori OTA", booking.FuoriOTA)}
-                  {renderEconomicalRow("Costo Notti", booking.CostoNotti)}
-                  {renderEconomicalRow("Media a Notte", booking.MediaANotte)}
-                  {renderEconomicalRow("Pulizia", booking.Pulizia)}
-                  {renderEconomicalRow(
-                    "Sconti",
-                    booking.Sconti,
-                    "text-red-600 font-bold",
-                  )}
-                  {renderEconomicalRow(
-                    "Tassa Soggiorno",
-                    booking.SoggiornoTax && booking.SoggiornoTax.trim() !== ""
-                      ? booking.SoggiornoTax
-                      : calculateSoggiornoTax(booking),
-                  )}
-                  {renderEconomicalRow("OTA Tax", booking.OTATax)}
-                  {renderEconomicalRow(
-                    "Cedolare Secca (21%)",
-                    booking.CedolareSecca,
-                  )}
-
-                  {/* Totale Netto è sempre mostrato se presente, altrimenti - */}
-                  <span className="text-slate-500 font-bold border-t border-slate-200 dark:border-slate-700 pt-2 mt-1">
-                    Totale Netto:
-                  </span>
-                  <span className="text-primary font-black text-lg border-t border-slate-200 dark:border-slate-700 pt-2 mt-1">
-                    {booking.Total && booking.Total !== "0"
-                      ? booking.Total.includes("€")
-                        ? booking.Total
-                        : `€${booking.Total}`
-                      : booking.Totale && booking.Totale !== "0"
-                        ? booking.Totale.includes("€")
-                          ? booking.Totale
-                          : `€${booking.Totale}`
-                        : "-"}
-                  </span>
-                </>
-              );
-            })()}
+            <div className="flex items-center justify-between gap-3 pt-3 mt-1 border-t border-slate-300 dark:border-slate-700">
+              <span className="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-black">
+                <BadgeEuro className="w-4 h-4" />
+                Totale netto
+              </span>
+              <span className="text-primary font-black text-xl">
+                {booking.Total && booking.Total !== "0"
+                  ? booking.Total.includes("€")
+                    ? booking.Total
+                    : `€${booking.Total}`
+                  : booking.Totale && booking.Totale !== "0"
+                    ? booking.Totale.includes("€")
+                      ? booking.Totale
+                      : `€${booking.Totale}`
+                    : "-"}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -895,8 +1029,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     onClick={() => form.setValue("Totale", calculatedTotale)}
                     disabled={!calculatedTotale}
                     className="rounded-lg px-3 shrink-0"
+                    aria-label="Applica totale netto calcolato"
+                    title="Applica totale netto calcolato"
                   >
-                    Usa
+                    <Calculator className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -971,7 +1107,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div className="space-y-1.5">
                 <Label
                   htmlFor="Sconti"
@@ -1011,6 +1147,28 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   className="bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 text-sm"
                 />
               </div>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="SoggiornoPagata"
+                  className="text-[10px] font-bold text-slate-500 uppercase"
+                >
+                  Soggiorno Pagata
+                </Label>
+                <Select
+                  value={form.watch("SoggiornoPagata") || "No"}
+                  onValueChange={(value) =>
+                    form.setValue("SoggiornoPagata", value)
+                  }
+                >
+                  <SelectTrigger className="w-full bg-white dark:bg-slate-800 rounded-lg border-slate-200 dark:border-slate-700 font-bold">
+                    <SelectValue placeholder="Seleziona" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-none shadow-xl">
+                    <SelectItem value="No">No</SelectItem>
+                    <SelectItem value="Si">Si</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="space-y-1.5">
@@ -1039,8 +1197,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   }
                   disabled={!calculatedCedolare}
                   className="rounded-lg px-3 shrink-0"
+                  aria-label="Applica cedolare secca calcolata"
+                  title="Applica cedolare secca calcolata"
                 >
-                  Usa
+                  <Calculator className="h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -1093,7 +1253,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
-          className="rounded-t-[2.5rem] p-6 h-[92vh] overflow-y-auto border-none shadow-2xl"
+          className="rounded-t-[2.5rem] p-4 h-[96vh] overflow-y-auto border-none shadow-2xl"
         >
           {renderHeader()}
           <div className="mt-4">{isEditing ? editContent : viewContent}</div>
@@ -1104,7 +1264,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border-none rounded-[2rem] shadow-2xl p-0">
+      <DialogContent className="sm:max-w-[860px] max-h-[94vh] overflow-y-auto bg-white dark:bg-slate-900 border-none rounded-[2rem] shadow-2xl p-0">
         <div className="p-6 md:p-8">
           {renderHeader()}
           <div className="mt-6">{isEditing ? editContent : viewContent}</div>
