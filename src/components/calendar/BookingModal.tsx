@@ -487,12 +487,42 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     </div>
   );
 
+  // Evita il doppio € se il valore lo contiene già
+  const fmt = (val?: string | null) => {
+    if (!val) return "-";
+    const clean = val.replace(/^€+/, "");
+    return clean ? `€${clean}` : "-";
+  };
+
+  const otaBadge = (
+    <span
+      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-white text-[10px] font-black uppercase tracking-tight ${
+        booking.OTA?.toLowerCase().includes("booking")
+          ? "bg-blue-600"
+          : booking.OTA?.toLowerCase().includes("airbnb")
+            ? "bg-red-600"
+            : booking.OTA?.toLowerCase().includes("extra")
+              ? "bg-emerald-600"
+              : "bg-slate-600"
+      }`}
+    >
+      {booking.OTA?.toLowerCase().includes("booking") && (
+        <MdOutlineTravelExplore className="w-3 h-3" />
+      )}
+      {booking.OTA?.toLowerCase().includes("airbnb") && (
+        <MdApartment className="w-3 h-3" />
+      )}
+      {booking.OTA || "-"}
+    </span>
+  );
+
   const viewContent = (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2">
+        {/* Sezione dati generali */}
         <div
           className={cn(
-            "space-y-4",
+            "space-y-3",
             !isMobile &&
               "bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800",
           )}
@@ -502,137 +532,112 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             Dati generali
           </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <User className="w-4 h-4" />
-                Ospite
-              </div>
-              <span className="font-black text-slate-900 dark:text-white">
+          {/* Ospite + badge OTA affiancati */}
+          <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+            <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+              <User className="w-3 h-3" /> Ospite
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-black text-slate-900 dark:text-white text-sm">
                 {booking.Nome || "-"}
               </span>
+              {booking.OTA && otaBadge}
             </div>
+          </div>
 
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Hotel className="w-4 h-4" />
-                OTA
+          {/* Check-in / Check-out su 2 colonne */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <CalendarIcon className="w-3 h-3" /> Check-in
               </div>
-              <span
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-white text-xs font-black uppercase tracking-tight ${
-                  booking.OTA?.toLowerCase().includes("booking")
-                    ? "bg-blue-600"
-                    : booking.OTA?.toLowerCase().includes("airbnb")
-                      ? "bg-red-600"
-                      : booking.OTA?.toLowerCase().includes("extra")
-                        ? "bg-emerald-600"
-                        : "bg-slate-600"
-                }`}
-              >
-                {booking.OTA?.toLowerCase().includes("booking") && (
-                  <MdOutlineTravelExplore className="w-3.5 h-3.5" />
-                )}
-                {booking.OTA?.toLowerCase().includes("airbnb") && (
-                  <MdApartment className="w-3.5 h-3.5" />
-                )}
-                {booking.OTA || "-"}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <CalendarIcon className="w-4 h-4" />
-                Check-in
-              </div>
-              <span className="font-bold text-slate-900 dark:text-white">
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
                 {booking.CheckIn || "-"}
               </span>
             </div>
-
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <CalendarIcon className="w-4 h-4" />
-                Check-out
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <CalendarIcon className="w-3 h-3" /> Check-out
               </div>
-              <span className="font-bold text-slate-900 dark:text-white">
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
                 {booking.CheckOut || "-"}
               </span>
             </div>
+          </div>
 
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Moon className="w-4 h-4" />
-                Notti
+          {/* Notti / Adulti */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Moon className="w-3 h-3" /> Notti
               </div>
-              <span className="font-black text-slate-900 dark:text-white">
+              <span className="font-black text-slate-900 dark:text-white text-sm">
                 {booking.Notti || "-"}
               </span>
             </div>
-
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Users className="w-4 h-4" />
-                Adulti
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Users className="w-3 h-3" /> Adulti
               </div>
-              <span className="font-bold text-slate-900 dark:text-white">
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
                 {booking.adulti || "0"}
               </span>
             </div>
+          </div>
 
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <BedDouble className="w-4 h-4" />
-                Bambini
+          {/* Bambini / Animali */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <BedDouble className="w-3 h-3" /> Bambini
               </div>
-              <span className="font-bold text-slate-900 dark:text-white">
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
                 {booking.bambini || "0"}
               </span>
             </div>
-
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Cat className="w-4 h-4" />
-                Animali
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Cat className="w-3 h-3" /> Animali
               </div>
-              <span className="font-bold text-slate-900 dark:text-white">
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
                 {booking.animali || "0"}
               </span>
             </div>
-
-            <div className="flex items-center justify-between gap-3 py-2">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <ShieldCheck className="w-4 h-4" />
-                Soggiorno pagata
-              </div>
-              <span
-                className={cn(
-                  "px-2 py-1 rounded-lg text-xs font-black uppercase",
-                  booking.SoggiornoPagata?.toLowerCase() === "si"
-                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
-                    : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
-                )}
-              >
-                {booking.SoggiornoPagata || "No"}
-              </span>
-            </div>
-
-            {booking.Note && (
-              <div className="pt-2 mt-2 border-t border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold mb-1">
-                  <FileText className="w-4 h-4" />
-                  Note
-                </div>
-                <p className="text-sm text-slate-700 dark:text-slate-200">
-                  {booking.Note}
-                </p>
-              </div>
-            )}
           </div>
+
+          {/* Soggiorno pagata full width */}
+          <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1">
+              <ShieldCheck className="w-3 h-3" /> Soggiorno pagata
+            </div>
+            <span
+              className={cn(
+                "px-2 py-1 rounded-lg text-xs font-black uppercase",
+                booking.SoggiornoPagata?.toLowerCase() === "si"
+                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                  : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+              )}
+            >
+              {booking.SoggiornoPagata || "No"}
+            </span>
+          </div>
+
+          {booking.Note && (
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <FileText className="w-3 h-3" /> Note
+              </div>
+              <p className="text-sm text-slate-700 dark:text-slate-200">
+                {booking.Note}
+              </p>
+            </div>
+          )}
         </div>
 
+        {/* Sezione importi */}
         <div
           className={cn(
-            "space-y-4",
+            "space-y-3",
             !isMobile &&
               "bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800",
           )}
@@ -642,110 +647,109 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             Importi e tasse
           </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Euro className="w-4 h-4" />
-                Totale cliente
-              </span>
-              <span className="font-black text-slate-900 dark:text-white">
-                {booking.TotaleCliente ? `€${booking.TotaleCliente}` : "-"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Home className="w-4 h-4" />
-                Fuori OTA
-              </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {booking.FuoriOTA ? `€${booking.FuoriOTA}` : "-"}
+          {/* Totale cliente / Fuori OTA */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Euro className="w-3 h-3" /> Tot. cliente
+              </div>
+              <span className="font-black text-slate-900 dark:text-white text-sm">
+                {fmt(booking.TotaleCliente)}
               </span>
             </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <CreditCard className="w-4 h-4" />
-                Costo notti
-              </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {booking.CostoNotti ? `€${booking.CostoNotti}` : "-"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Coins className="w-4 h-4" />
-                Media a notte
-              </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {booking.MediaANotte ? `€${booking.MediaANotte}` : "-"}
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Home className="w-3 h-3" /> Fuori OTA
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
+                {fmt(booking.FuoriOTA)}
               </span>
             </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Receipt className="w-4 h-4" />
-                Pulizia
-              </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {booking.Pulizia ? `€${booking.Pulizia}` : "-"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Ticket className="w-4 h-4" />
-                Sconti
-              </span>
-              <span className="font-bold text-red-600">
-                {booking.Sconti ? `€${booking.Sconti}` : "-"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <PiggyBank className="w-4 h-4" />
-                Soggiorno tax
-              </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {booking.SoggiornoTax
-                  ? `€${booking.SoggiornoTax}`
-                  : calculateSoggiornoTax(booking)
-                    ? `€${calculateSoggiornoTax(booking)}`
-                    : "-"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <CreditCard className="w-4 h-4" />
-                OTA tax
-              </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {booking.OTATax ? `€${booking.OTATax}` : "-"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-semibold">
-                <Receipt className="w-4 h-4" />
-                Cedolare (21%)
-              </span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {booking.CedolareSecca ? `€${booking.CedolareSecca}` : "-"}
-              </span>
-            </div>
+          </div>
 
-            <div className="flex items-center justify-between gap-3 pt-3 mt-1 border-t border-slate-300 dark:border-slate-700">
-              <span className="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-black">
-                <BadgeEuro className="w-4 h-4" />
-                Totale netto
-              </span>
-              <span className="text-primary font-black text-xl">
-                {booking.Total && booking.Total !== "0"
-                  ? booking.Total.includes("€")
-                    ? booking.Total
-                    : `€${booking.Total}`
-                  : booking.Totale && booking.Totale !== "0"
-                    ? booking.Totale.includes("€")
-                      ? booking.Totale
-                      : `€${booking.Totale}`
-                    : "-"}
+          {/* Costo notti / Media a notte */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <CreditCard className="w-3 h-3" /> Costo notti
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
+                {fmt(booking.CostoNotti)}
               </span>
             </div>
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Coins className="w-3 h-3" /> Media/notte
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
+                {fmt(booking.MediaANotte)}
+              </span>
+            </div>
+          </div>
+
+          {/* Pulizia / Sconti */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Receipt className="w-3 h-3" /> Pulizia
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
+                {fmt(booking.Pulizia)}
+              </span>
+            </div>
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <Ticket className="w-3 h-3" /> Sconti
+              </div>
+              <span className="font-bold text-red-600 text-sm">
+                {fmt(booking.Sconti)}
+              </span>
+            </div>
+          </div>
+
+          {/* Soggiorno tax / OTA tax */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <PiggyBank className="w-3 h-3" /> Soggiorno tax
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
+                {fmt(booking.SoggiornoTax) !== "-"
+                  ? fmt(booking.SoggiornoTax)
+                  : fmt(calculateSoggiornoTax(booking))}
+              </span>
+            </div>
+            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1 mb-1">
+                <CreditCard className="w-3 h-3" /> OTA tax
+              </div>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
+                {fmt(booking.OTATax)}
+              </span>
+            </div>
+          </div>
+
+          {/* Cedolare full width */}
+          <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <div className="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1">
+              <Receipt className="w-3 h-3" /> Cedolare (21%)
+            </div>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">
+              {fmt(booking.CedolareSecca)}
+            </span>
+          </div>
+
+          {/* Totale netto evidenziato */}
+          <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-4 border border-primary/20 flex items-center justify-between">
+            <span className="flex items-center gap-2 text-slate-700 dark:text-slate-200 font-black text-sm">
+              <BadgeEuro className="w-4 h-4 text-primary" />
+              Totale netto
+            </span>
+            <span className="text-primary font-black text-xl">
+              {booking.Total && booking.Total !== "0"
+                ? fmt(booking.Total)
+                : fmt(booking.Totale !== "0" ? booking.Totale : undefined)}
+            </span>
           </div>
         </div>
       </div>
