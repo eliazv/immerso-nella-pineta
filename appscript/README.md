@@ -4,9 +4,9 @@ Questa cartella contiene il codice Google Apps Script per la gestione delle pren
 
 ## File
 
-| File | Descrizione |
-|------|-------------|
-| `Code.gs` | Operazioni CRUD (aggiunta, modifica, eliminazione) sulle prenotazioni nel foglio Google |
+| File            | Descrizione                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| `Code.gs`       | Operazioni CRUD (aggiunta, modifica, eliminazione) sulle prenotazioni nel foglio Google     |
 | `ICalExport.gs` | Generazione del feed iCal per la sincronizzazione con Google Calendar, Apple Calendar, ecc. |
 
 ---
@@ -46,27 +46,27 @@ Riavvia il server di sviluppo (`npm run dev`).
 
 Il foglio deve avere le seguenti intestazioni nella riga 1 (i nomi sono flessibili, il codice li cerca in modo case-insensitive):
 
-| Colonna | Nome intestazione | Campo booking |
-|---------|------------------|---------------|
-| A | Nome | `Nome` |
-| B | OTA | `OTA` |
-| C | Check-in | `CheckIn` |
-| D | Check-out | `CheckOut` |
-| E | Notti | `Notti` |
-| F | Adulti | `adulti` |
-| G | Bambini | `bambini` |
-| H | Animali | `animali` |
-| I | Totale cliente | `TotaleCliente` |
-| J | Fuori OTA | `FuoriOTA` |
-| K | Costo notti | `CostoNotti` |
-| L | Media a notte | `MediaANotte` |
-| M | Pulizia | `Pulizia` |
-| N | Sconti | `Sconti` |
-| O | Soggiorno Tax | `SoggiornoTax` |
-| P | OTA Tax | `OTATax` |
-| Q | Cedolare secca | `CedolareSecca` |
-| R | Totale | `Totale` |
-| S | Note | `Note` |
+| Colonna | Nome intestazione | Campo booking   |
+| ------- | ----------------- | --------------- |
+| A       | Nome              | `Nome`          |
+| B       | OTA               | `OTA`           |
+| C       | Check-in          | `CheckIn`       |
+| D       | Check-out         | `CheckOut`      |
+| E       | Notti             | `Notti`         |
+| F       | Adulti            | `adulti`        |
+| G       | Bambini           | `bambini`       |
+| H       | Animali           | `animali`       |
+| I       | Totale cliente    | `TotaleCliente` |
+| J       | Fuori OTA         | `FuoriOTA`      |
+| K       | Costo notti       | `CostoNotti`    |
+| L       | Media a notte     | `MediaANotte`   |
+| M       | Pulizia           | `Pulizia`       |
+| N       | Sconti            | `Sconti`        |
+| O       | Soggiorno Tax     | `SoggiornoTax`  |
+| P       | OTA Tax           | `OTATax`        |
+| Q       | Cedolare secca    | `CedolareSecca` |
+| R       | Totale            | `Totale`        |
+| S       | Note              | `Note`          |
 
 > **Nota:** I fogli per gli appartamenti sono: `Affitti3` (Principale), `Affitti4` (Secondario), `Affitti8` (Terziario)
 
@@ -75,7 +75,9 @@ Il foglio deve avere le seguenti intestazioni nella riga 1 (i nomi sono flessibi
 ## Operazioni CRUD
 
 ### Aggiungere una prenotazione
+
 L'app invia una richiesta GET con parametro `data`:
+
 ```json
 {
   "action": "add",
@@ -86,6 +88,7 @@ L'app invia una richiesta GET con parametro `data`:
 ```
 
 ### Modificare una prenotazione
+
 ```json
 {
   "action": "update",
@@ -96,6 +99,7 @@ L'app invia una richiesta GET con parametro `data`:
 ```
 
 ### Eliminare una prenotazione
+
 ```json
 {
   "action": "delete",
@@ -115,21 +119,21 @@ Il feed iCal permette di aggiungere le prenotazioni al proprio calendario person
 
 Sostituisci `TUO_SCRIPT_ID` con l'ID dello script pubblicato:
 
-| Appartamento | URL |
-|-------------|-----|
-| Tutti | `https://script.google.com/macros/s/TUO_SCRIPT_ID/exec?action=ical` |
+| Appartamento                | URL                                                                                |
+| --------------------------- | ---------------------------------------------------------------------------------- |
+| Tutti                       | `https://script.google.com/macros/s/TUO_SCRIPT_ID/exec?action=ical`                |
 | Appartamento 3 (Principale) | `https://script.google.com/macros/s/TUO_SCRIPT_ID/exec?action=ical&sheet=Affitti3` |
 | Appartamento 4 (Secondario) | `https://script.google.com/macros/s/TUO_SCRIPT_ID/exec?action=ical&sheet=Affitti4` |
-| Appartamento 8 (Terziario) | `https://script.google.com/macros/s/TUO_SCRIPT_ID/exec?action=ical&sheet=Affitti8` |
+| Appartamento 8 (Terziario)  | `https://script.google.com/macros/s/TUO_SCRIPT_ID/exec?action=ical&sheet=Affitti8` |
 
 Oppure con il nome dell'appartamento:
 
-| Appartamento | URL |
-|-------------|-----|
-| Principale | `...?action=ical&apartment=principale` |
-| Secondario | `...?action=ical&apartment=secondario` |
-| Terziario | `...?action=ical&apartment=terziario` |
-| Tutti | `...?action=ical&apartment=all` |
+| Appartamento | URL                                    |
+| ------------ | -------------------------------------- |
+| Principale   | `...?action=ical&apartment=principale` |
+| Secondario   | `...?action=ical&apartment=secondario` |
+| Terziario    | `...?action=ical&apartment=terziario`  |
+| Tutti        | `...?action=ical&apartment=all`        |
 
 ### Aggiungere a Google Calendar
 
@@ -150,6 +154,33 @@ Oppure con il nome dell'appartamento:
 
 1. Apri Outlook → **Aggiungi calendario → Da Internet**
 2. Incolla l'URL del feed iCal
+
+### Se il feed risulta vuoto (solo BEGIN/END:VCALENDAR)
+
+Controlla questi punti:
+
+1. Le righe devono avere almeno `Nome`, `Check-in`, `Check-out`
+2. I fogli devono chiamarsi `Affitti3`, `Affitti4`, `Affitti8` (oppure usa `sheet=` corretto nell'URL)
+3. Dopo modifiche al codice Apps Script, crea una nuova distribuzione Web App
+
+Il parser ora supporta automaticamente anche date native di Google Sheets (non solo stringhe).
+
+---
+
+## Notifica arrivi giornaliera (opzionale)
+
+Se vuoi ricevere una mail quando arriva un ospite (giorno di check-in):
+
+1. In `ICalExport.gs`, aggiungi in alto una variabile globale:
+
+```javascript
+var ARRIVAL_NOTIFICATION_EMAIL = "tua-email@gmail.com";
+```
+
+2. Nell'editor Apps Script esegui una volta la funzione `createDailyArrivalNotificationTrigger`
+3. Autorizza lo script quando richiesto
+
+Da quel momento, ogni giorno alle 08:00 viene eseguita `sendTodayArrivalsEmail` e ricevi una mail solo se ci sono arrivi previsti oggi.
 
 ---
 

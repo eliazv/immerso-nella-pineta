@@ -169,9 +169,6 @@ const App = () => {
                         element={<Navigate to="/zona" replace />}
                       />
 
-                      {/* Sistema Alloggiati Web */}
-                      <Route path="/alloggiati" element={<AlloggiatiWeb />} />
-
                       {/* SEO Content Pages */}
                       <Route
                         path="/pinarella-guida"
@@ -284,6 +281,7 @@ const App = () => {
                           element={<AvailabilityCalendar />}
                         />
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/alloggiati" element={<AlloggiatiWeb />} />
                         {/* Reindirizza /admin direttamente alla pagina calendar */}
                         <Route
                           path="/admin"

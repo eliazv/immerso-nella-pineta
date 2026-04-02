@@ -19,6 +19,7 @@ import { getStatoByNome } from "@/data/stati";
 import ComuneSelect from "./ComuneSelect";
 import StatoSelect from "./StatoSelect";
 import DateRangeSelector from "./DateRangeSelector";
+import DocumentOCRImporter from "./DocumentOCRImporter";
 import { useFieldErrors } from "@/hooks/useFieldErrors";
 import FieldError from "@/components/ui/field-error";
 
@@ -73,9 +74,8 @@ const GuestForm: React.FC<GuestFormProps> = ({
     };
   };
 
-  const [formData, setFormData] = useState<AlloggiatiFormData>(
-    getInitialFormData()
-  );
+  const [formData, setFormData] =
+    useState<AlloggiatiFormData>(getInitialFormData());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { getFieldError, setFieldError, clearFieldError, clearAllErrors } =
     useFieldErrors();
@@ -131,6 +131,55 @@ const GuestForm: React.FC<GuestFormProps> = ({
     }));
   };
 
+  const isGuestEmpty = (guest: GuestData): boolean => {
+    return !guest.cognome && !guest.nome && !guest.numeroDocumento;
+  };
+
+  const buildGuestFromOCR = (partial: Partial<GuestData>): GuestData => {
+    return {
+      cognome: partial.cognome || "",
+      nome: partial.nome || "",
+      sesso: partial.sesso || "M",
+      dataNascita: partial.dataNascita || "",
+      luogoNascita: partial.luogoNascita || "",
+      provinciaNascita: partial.provinciaNascita || "",
+      statoNascita: partial.statoNascita || "ITALIA",
+      cittadinanza: partial.cittadinanza || "ITALIA",
+      tipoDocumento: partial.tipoDocumento || "IDENT",
+      numeroDocumento: partial.numeroDocumento || "",
+      luogoRilascio: partial.luogoRilascio || "",
+      dataArrivo: formData.dataArrivo,
+      dataPartenza: formData.dataPartenza,
+      giorniPermanenza: formData.giorniPermanenza,
+      tipoAlloggiato: "singolo",
+      isCapoFamiglia: true,
+      isItaliano: (partial.statoNascita || "ITALIA") === "ITALIA",
+    };
+  };
+
+  const handleImportGuestFromOCR = (partial: Partial<GuestData>) => {
+    setFormData((prev) => {
+      const importedGuest = {
+        ...buildGuestFromOCR(partial),
+        dataArrivo: prev.dataArrivo,
+        dataPartenza: prev.dataPartenza,
+        giorniPermanenza: prev.giorniPermanenza,
+      };
+
+      if (prev.ospiti.length === 1 && isGuestEmpty(prev.ospiti[0])) {
+        return {
+          ...prev,
+          ospiti: [importedGuest],
+        };
+      }
+
+      return {
+        ...prev,
+        ospiti: [...prev.ospiti, importedGuest],
+      };
+    });
+  };
+
   // Funzione per calcolare i giorni di permanenza
   const calculateDays = (arrivo: string, partenza: string): number => {
     if (!arrivo || !partenza) return 1;
@@ -145,7 +194,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
   const validateField = (
     field: string,
     value: string | number | boolean | undefined,
-    guestIndex?: number
+    guestIndex?: number,
   ) => {
     const fieldKey =
       guestIndex !== undefined ? `${field}-${guestIndex}` : field;
@@ -162,7 +211,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
               fieldKey,
               `${
                 field === "cognome" ? "Cognome" : "Nome"
-              } deve avere almeno 2 caratteri`
+              } deve avere almeno 2 caratteri`,
             );
           } else if (
             value.trim().length > 0 &&
@@ -172,7 +221,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
               fieldKey,
               `${
                 field === "cognome" ? "Cognome" : "Nome"
-              } contiene caratteri non validi`
+              } contiene caratteri non validi`,
             );
           }
         }
@@ -186,36 +235,38 @@ const GuestForm: React.FC<GuestFormProps> = ({
             if (docNumber.length < 3) {
               setFieldError(
                 fieldKey,
-                "Numero documento troppo corto (minimo 3 caratteri)"
+                "Numero documento troppo corto (minimo 3 caratteri)",
               );
             } else if (docNumber.length > 20) {
               setFieldError(
                 fieldKey,
-                "Numero documento troppo lungo (massimo 20 caratteri)"
+                "Numero documento troppo lungo (massimo 20 caratteri)",
               );
             } else if (!/^[A-Z0-9\-\s]+$/i.test(docNumber)) {
               setFieldError(
                 fieldKey,
-                "Il numero documento può contenere solo lettere, numeri, spazi e trattini"
+                "Il numero documento può contenere solo lettere, numeri, spazi e trattini",
               );
             }
             // Validazione specifica solo per documenti italiani se cittadinanza italiana
             else if (guest.cittadinanza === "ITALIA") {
               if (
                 guest.tipoDocumento === "IDENT" &&
-                !/^[A-Z]{2}\d{5}[A-Z]{2}$/i.test(docNumber.replace(/[\s\-]/g, ''))
+                !/^[A-Z]{2}\d{5}[A-Z]{2}$/i.test(
+                  docNumber.replace(/[\s\-]/g, ""),
+                )
               ) {
                 setFieldError(
                   fieldKey,
-                  "Formato carta d'identità italiana non valido (es: CA01376BS)"
+                  "Formato carta d'identità italiana non valido (es: CA01376BS)",
                 );
               } else if (
                 guest.tipoDocumento === "PATEN" &&
-                !/^[A-Z]{2}\d{6}[A-Z]$/i.test(docNumber.replace(/[\s\-]/g, ''))
+                !/^[A-Z]{2}\d{6}[A-Z]$/i.test(docNumber.replace(/[\s\-]/g, ""))
               ) {
                 setFieldError(
                   fieldKey,
-                  "Formato patente italiana non valido (es: MI123456A)"
+                  "Formato patente italiana non valido (es: MI123456A)",
                 );
               }
             }
@@ -230,7 +281,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
           } else if (value.length > 100) {
             setFieldError(
               fieldKey,
-              "Email di contatto troppo lunga (max 100 caratteri)"
+              "Email di contatto troppo lunga (max 100 caratteri)",
             );
           }
         }
@@ -242,7 +293,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
           if (birthDate > today) {
             setFieldError(
               fieldKey,
-              "Data di nascita non può essere nel futuro"
+              "Data di nascita non può essere nel futuro",
             );
           }
         }
@@ -253,7 +304,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
   const updateGuest = (
     index: number,
     field: keyof GuestData,
-    value: string | number | boolean | undefined
+    value: string | number | boolean | undefined,
   ) => {
     // Validazione in tempo reale
     validateField(field, value, index);
@@ -314,7 +365,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
   // Funzione per aggiornare i dettagli soggiorno e sincronizzarli con tutti gli ospiti
   const updateSoggiornoDetails = (
     field: "dataArrivo" | "dataPartenza",
-    value: string
+    value: string,
   ) => {
     setFormData((prev) => {
       const newFormData = { ...prev, [field]: value };
@@ -358,7 +409,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
         errors.push("Data di arrivo non può essere nel passato");
         setFieldError(
           "dataArrivo",
-          "Data di arrivo non può essere nel passato"
+          "Data di arrivo non può essere nel passato",
         );
       }
     }
@@ -376,7 +427,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
         errors.push("Data di partenza deve essere dopo la data di arrivo");
         setFieldError(
           "dataPartenza",
-          "Data di partenza deve essere dopo la data di arrivo"
+          "Data di partenza deve essere dopo la data di arrivo",
         );
       }
     }
@@ -385,13 +436,13 @@ const GuestForm: React.FC<GuestFormProps> = ({
       errors.push("Giorni permanenza deve essere almeno 1");
       setFieldError(
         "giorniPermanenza",
-        "Giorni permanenza deve essere almeno 1"
+        "Giorni permanenza deve essere almeno 1",
       );
     } else if (formData.giorniPermanenza > 365) {
       errors.push("Giorni permanenza non può superare 365 giorni");
       setFieldError(
         "giorniPermanenza",
-        "Giorni permanenza non può superare 365 giorni"
+        "Giorni permanenza non può superare 365 giorni",
       );
     }
 
@@ -404,19 +455,19 @@ const GuestForm: React.FC<GuestFormProps> = ({
         setFieldError(`cognome-${index}`, "Cognome obbligatorio");
       } else if (guest.cognome.trim().length < 2) {
         errors.push(
-          `Ospite ${guestNum}: Cognome deve avere almeno 2 caratteri`
+          `Ospite ${guestNum}: Cognome deve avere almeno 2 caratteri`,
         );
         setFieldError(
           `cognome-${index}`,
-          "Cognome deve avere almeno 2 caratteri"
+          "Cognome deve avere almeno 2 caratteri",
         );
       } else if (!/^[a-zA-ZÀ-ÿ\s'-]+$/.test(guest.cognome.trim())) {
         errors.push(
-          `Ospite ${guestNum}: Cognome contiene caratteri non validi`
+          `Ospite ${guestNum}: Cognome contiene caratteri non validi`,
         );
         setFieldError(
           `cognome-${index}`,
-          "Cognome contiene caratteri non validi"
+          "Cognome contiene caratteri non validi",
         );
       }
 
@@ -440,11 +491,11 @@ const GuestForm: React.FC<GuestFormProps> = ({
         const today = new Date();
         if (birthDate > today) {
           errors.push(
-            `Ospite ${guestNum}: Data di nascita non può essere nel futuro`
+            `Ospite ${guestNum}: Data di nascita non può essere nel futuro`,
           );
           setFieldError(
             `dataNascita-${index}`,
-            "Data di nascita non può essere nel futuro"
+            "Data di nascita non può essere nel futuro",
           );
         }
       }
@@ -459,14 +510,14 @@ const GuestForm: React.FC<GuestFormProps> = ({
           errors.push(`Ospite ${guestNum}: Comune di nascita obbligatorio`);
           setFieldError(
             `luogoNascita-${index}`,
-            "Comune di nascita obbligatorio"
+            "Comune di nascita obbligatorio",
           );
         }
         if (!guest.provinciaNascita?.trim()) {
           errors.push(`Ospite ${guestNum}: Provincia di nascita obbligatoria`);
           setFieldError(
             `provinciaNascita-${index}`,
-            "Provincia di nascita obbligatoria"
+            "Provincia di nascita obbligatoria",
           );
         }
       }
@@ -487,7 +538,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
 
         if (arrivalDate < today) {
           errors.push(
-            `Ospite ${guestNum}: Data arrivo deve essere da oggi in poi`
+            `Ospite ${guestNum}: Data arrivo deve essere da oggi in poi`,
           );
         }
       }
@@ -505,18 +556,18 @@ const GuestForm: React.FC<GuestFormProps> = ({
 
         if (departureDate < today) {
           errors.push(
-            `Ospite ${guestNum}: Data partenza deve essere da oggi in poi`
+            `Ospite ${guestNum}: Data partenza deve essere da oggi in poi`,
           );
         } else if (departureDate <= arrivalDate) {
           errors.push(
-            `Ospite ${guestNum}: Data partenza deve essere dopo la data di arrivo`
+            `Ospite ${guestNum}: Data partenza deve essere dopo la data di arrivo`,
           );
         }
       }
 
       if (guest.giorniPermanenza < 1) {
         errors.push(
-          `Ospite ${guestNum}: Giorni permanenza deve essere almeno 1`
+          `Ospite ${guestNum}: Giorni permanenza deve essere almeno 1`,
         );
       }
 
@@ -524,11 +575,11 @@ const GuestForm: React.FC<GuestFormProps> = ({
       if (guest.isCapoFamiglia) {
         if (!guest.numeroDocumento?.trim()) {
           errors.push(
-            `Ospite ${guestNum}: Numero documento obbligatorio per capo famiglia/gruppo`
+            `Ospite ${guestNum}: Numero documento obbligatorio per capo famiglia/gruppo`,
           );
           setFieldError(
             `numeroDocumento-${index}`,
-            "Numero documento obbligatorio"
+            "Numero documento obbligatorio",
           );
         } else {
           // Validazione formato numero documento
@@ -537,33 +588,33 @@ const GuestForm: React.FC<GuestFormProps> = ({
             // Carta d'identità: formato italiano (es: CA01376BS)
             if (!/^[A-Z]{2}\d{5}[A-Z]{2}$/i.test(docNumber)) {
               errors.push(
-                `Ospite ${guestNum}: Formato carta d'identità non valido (es: CA01376BS)`
+                `Ospite ${guestNum}: Formato carta d'identità non valido (es: CA01376BS)`,
               );
               setFieldError(
                 `numeroDocumento-${index}`,
-                "Formato carta d'identità non valido (es: CA01376BS)"
+                "Formato carta d'identità non valido (es: CA01376BS)",
               );
             }
           } else if (guest.tipoDocumento === "PASSP") {
             // Passaporto: formato variabile ma almeno 6 caratteri alfanumerici
             if (!/^[A-Z0-9]{6,}$/i.test(docNumber)) {
               errors.push(
-                `Ospite ${guestNum}: Formato passaporto non valido (min 6 caratteri alfanumerici)`
+                `Ospite ${guestNum}: Formato passaporto non valido (min 6 caratteri alfanumerici)`,
               );
               setFieldError(
                 `numeroDocumento-${index}`,
-                "Formato passaporto non valido (min 6 caratteri alfanumerici)"
+                "Formato passaporto non valido (min 6 caratteri alfanumerici)",
               );
             }
           } else if (guest.tipoDocumento === "PATEN") {
             // Patente: formato italiano (es: MI123456A)
             if (!/^[A-Z]{2}\d{6}[A-Z]$/i.test(docNumber)) {
               errors.push(
-                `Ospite ${guestNum}: Formato patente non valido (es: MI123456A)`
+                `Ospite ${guestNum}: Formato patente non valido (es: MI123456A)`,
               );
               setFieldError(
                 `numeroDocumento-${index}`,
-                "Formato patente non valido (es: MI123456A)"
+                "Formato patente non valido (es: MI123456A)",
               );
             }
           }
@@ -571,11 +622,11 @@ const GuestForm: React.FC<GuestFormProps> = ({
 
         if (!guest.luogoRilascio?.trim()) {
           errors.push(
-            `Ospite ${guestNum}: Luogo rilascio documento obbligatorio per capo famiglia/gruppo`
+            `Ospite ${guestNum}: Luogo rilascio documento obbligatorio per capo famiglia/gruppo`,
           );
           setFieldError(
             `luogoRilascio-${index}`,
-            "Luogo rilascio documento obbligatorio"
+            "Luogo rilascio documento obbligatorio",
           );
         }
       }
@@ -591,20 +642,20 @@ const GuestForm: React.FC<GuestFormProps> = ({
         errors.push("Email di contatto troppo lunga (max 100 caratteri)");
         setFieldError(
           "emailContatto",
-          "Email di contatto troppo lunga (max 100 caratteri)"
+          "Email di contatto troppo lunga (max 100 caratteri)",
         );
       }
     }
 
     // Validazione che ci sia almeno un capo famiglia/gruppo
     const capiFamiglia = formData.ospiti.filter(
-      (guest) => guest.isCapoFamiglia
+      (guest) => guest.isCapoFamiglia,
     );
     if (capiFamiglia.length === 0) {
       errors.push("Deve esserci almeno un capo famiglia o ospite singolo");
       setFieldError(
         "tipoAlloggiato-0",
-        "Deve esserci almeno un capo famiglia o ospite singolo"
+        "Deve esserci almeno un capo famiglia o ospite singolo",
       );
     }
 
@@ -622,7 +673,7 @@ const GuestForm: React.FC<GuestFormProps> = ({
           guest1.dataNascita === guest2.dataNascita
         ) {
           errors.push(
-            `Ospiti duplicati trovati: ${guest1.nome} ${guest1.cognome}`
+            `Ospiti duplicati trovati: ${guest1.nome} ${guest1.cognome}`,
           );
           setFieldError(`nome-${j}`, "Ospite duplicato");
           setFieldError(`cognome-${j}`, "Ospite duplicato");
@@ -663,6 +714,8 @@ const GuestForm: React.FC<GuestFormProps> = ({
         onDateChange={updateSoggiornoDetails}
         getFieldError={getFieldError}
       />
+
+      <DocumentOCRImporter onImportGuest={handleImportGuestFromOCR} />
 
       {/* Lista ospiti */}
       {formData.ospiti.map((guest, index) => (
@@ -741,10 +794,10 @@ const GuestForm: React.FC<GuestFormProps> = ({
           {isLoading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Invio in corso...
+              Generazione in corso...
             </>
           ) : (
-            "Invia i documenti"
+            "Genera file Alloggiati"
           )}
         </Button>
       </div>
@@ -758,7 +811,7 @@ interface GuestCardProps {
   isFirst: boolean;
   onUpdate: (
     field: keyof GuestData,
-    value: string | number | boolean | undefined
+    value: string | number | boolean | undefined,
   ) => void;
   onRemove: () => void;
   getFieldError: (field: string) => string | undefined;
@@ -998,8 +1051,8 @@ const GuestCard: React.FC<GuestCardProps> = ({
                     guest.tipoDocumento === "IDENT"
                       ? "CA01376BS"
                       : guest.tipoDocumento === "PASSP"
-                      ? "AA1234567"
-                      : "MI123456A"
+                        ? "AA1234567"
+                        : "MI123456A"
                   }
                   maxLength={20}
                   required

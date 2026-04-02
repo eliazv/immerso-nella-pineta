@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Calendar,
   BarChart3,
@@ -11,6 +10,7 @@ import {
   Menu,
   LogOut,
   CalendarDays,
+  ScanText,
 } from "lucide-react";
 import BookingSearch from "@/components/backoffice/BookingSearch";
 import {
@@ -54,9 +54,11 @@ const BackofficeLayout: React.FC = () => {
   const currentPath = location.pathname;
   const activeTab = currentPath.includes("/dashboard")
     ? "dashboard"
-    : currentPath.includes("/calendar")
-      ? "calendar"
-      : "calendar"; // Default
+    : currentPath.includes("/alloggiati")
+      ? "alloggiati"
+      : currentPath.includes("/calendar")
+        ? "calendar"
+        : "calendar"; // Default
 
   // Verifica se l'utente è già autenticato al caricamento del componente
   useEffect(() => {
@@ -110,7 +112,15 @@ const BackofficeLayout: React.FC = () => {
 
   // Gestisce il cambio di tab
   const handleTabChange = (value: string) => {
-    navigate(value === "dashboard" ? "/dashboard" : "/calendar");
+    if (value === "dashboard") {
+      navigate("/dashboard");
+      return;
+    }
+    if (value === "alloggiati") {
+      navigate("/alloggiati");
+      return;
+    }
+    navigate("/calendar");
   };
 
   // Gestisce il logout
@@ -224,6 +234,17 @@ const BackofficeLayout: React.FC = () => {
                   <BarChart3 className="h-4 w-4" />
                   Statistiche
                 </button>
+                <button
+                  onClick={() => handleTabChange("alloggiati")}
+                  className={`flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold transition-all ${
+                    activeTab === "alloggiati"
+                      ? "bg-background shadow-sm text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <ScanText className="h-4 w-4" />
+                  Alloggiati
+                </button>
               </nav>
 
               <div className="flex items-center gap-2">
@@ -328,6 +349,19 @@ const BackofficeLayout: React.FC = () => {
             <BarChart3 className="h-4 w-4" />
             <span className="text-[8px] font-black uppercase tracking-widest">
               Stats
+            </span>
+          </button>
+          <button
+            className={`flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-full transition-all ${
+              activeTab === "alloggiati"
+                ? "bg-white dark:bg-slate-800 text-primary shadow-sm"
+                : "text-slate-400"
+            }`}
+            onClick={() => handleTabChange("alloggiati")}
+          >
+            <ScanText className="h-4 w-4" />
+            <span className="text-[8px] font-black uppercase tracking-widest">
+              Docs
             </span>
           </button>
         </div>

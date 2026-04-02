@@ -10,13 +10,11 @@ import {
   Info,
   CheckCircle,
   AlertCircle,
-  ExternalLink,
 } from "lucide-react";
 import GuestForm from "@/components/alloggiati/GuestForm";
 import { AlloggiatiFormData } from "@/types/alloggiati";
 import { AlloggiatiService } from "@/services/alloggiatiService";
 import { StorageService } from "@/services/storageService";
-import { EmailAttachmentService } from "@/services/emailAttachmentService";
 import { useToast } from "@/hooks/use-toast";
 import MetaTags from "@/components/MetaTags";
 
@@ -27,7 +25,20 @@ const AlloggiatiWeb: React.FC = () => {
   const [fileName, setFileName] = useState<string>("");
   const [currentFormData, setCurrentFormData] =
     useState<AlloggiatiFormData | null>(null);
-  const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
+
+  const downloadTxtFile = (name: string, content: string) => {
+    const blob = new Blob([content], {
+      type: "text/plain;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  };
 
   // Carica dati da URL se presente parametro data
   useEffect(() => {
@@ -55,79 +66,6 @@ const AlloggiatiWeb: React.FC = () => {
     StorageService.cleanupExpiredData();
   }, [toast]);
 
-  const sendEmailNotification = async (
-    formData: AlloggiatiFormData,
-    fileName: string,
-    fileContent: string,
-  ) => {
-    try {
-      const config = {
-        serviceId: "service_8vct8zl",
-        templateId: "template_8zgge3d",
-        publicKey: "cL0t8BEEWVW6SEE86",
-        toEmail: "zavattaelia@gmail.com",
-        fromEmail: "zavattaelia@gmail.com",
-      };
-
-      const subject = `Nuova registrazione ospiti - ${fileName}`;
-      const message = `
-Nuova registrazione ospiti ricevuta:
-
-File: ${fileName}
-Numero ospiti: ${formData.ospiti.length}
-Data registrazione: ${new Date().toLocaleString("it-IT")}
-
-Primo ospite (capo gruppo):
-- Nome: ${formData.ospiti[0]?.nome} ${formData.ospiti[0]?.cognome}
-- Data arrivo: ${formData.ospiti[0]?.dataArrivo}
-- Data partenza: ${formData.ospiti[0]?.dataPartenza}
-
-${formData.emailContatto ? `Email contatto: ${formData.emailContatto}` : ""}
-${formData.note ? `Note: ${formData.note}` : ""}
-
-ISTRUZIONI:
-1. Scarica il file allegato a questa email
-2. Carica il file sul Portale Alloggiati Web
-3. Il file è in formato corretto per l'importazione
-
-=== CONTENUTO FILE TXT ===
-${fileContent}
-
-=== DATI OSPITI IN FORMATO JSON ===
-${JSON.stringify(formData, null, 2)}
-      `;
-
-      if (import.meta.env.DEV) {
-        console.log("Invio email con allegato ottimizzato...");
-      }
-
-      const result = await EmailAttachmentService.sendEmailWithAttachment(
-        config,
-        fileName,
-        fileContent,
-        subject,
-        message,
-        fileName,
-      );
-
-      if (result.success) {
-        if (import.meta.env.DEV) {
-          console.log("Email inviata con successo");
-          if (result.backupUrl) {
-            console.log("File backup disponibile su:", result.backupUrl);
-          }
-        }
-      } else {
-        console.error("Errore invio email:", result.error);
-        throw new Error(result.error);
-      }
-    } catch (error) {
-      console.error("Errore invio email:", error);
-      // Non bloccare il processo se l'email fallisce
-      throw error;
-    }
-  };
-
   const handleFormSubmit = async (formData: AlloggiatiFormData) => {
     setIsGenerating(true);
 
@@ -150,33 +88,24 @@ ${JSON.stringify(formData, null, 2)}
         formData.idAppartamento,
       );
 
-      // Il caricamento del file viene gestito direttamente nel servizio email
-      if (import.meta.env.DEV) {
-        console.log("Preparazione invio email con file...");
-      }
-
-      // Invia email di notifica con allegato
-      await sendEmailNotification(formData, fileName, content);
+      downloadTxtFile(fileName, content);
 
       // Salva i dati per mostrare la conferma
       setGeneratedContent(content);
       setFileName(fileName);
       setCurrentFormData(formData);
-      setIsSubmittedSuccessfully(true);
 
-      // Mostra toast di successo dopo 2 secondi
-      setTimeout(() => {
-        toast({
-          title: "Documenti inviati con successo",
-          description:
-            "I documenti sono stati inviati al gestore della struttura",
-        });
-      }, 2000);
+      toast({
+        title: "File Alloggiati generato",
+        description:
+          "Download avviato. Puoi ora caricare il file sul portale Alloggiati Web.",
+      });
     } catch (error) {
-      console.error("Errore nell'invio:", error);
+      console.error("Errore nella generazione:", error);
       toast({
         title: "Errore",
-        description: "Si è verificato un errore durante l'invio dei documenti",
+        description:
+          "Si è verificato un errore durante la generazione del file",
         variant: "destructive",
       });
     } finally {
@@ -209,7 +138,8 @@ ${JSON.stringify(formData, null, 2)}
             Raccolta Documenti - Immerso nella pineta
           </h1>
           <p className="text-lg text-gray-600 mb-6">
-            Sistema per la raccolta dati ospiti e comunicazione alla Questura
+            OCR documenti ospiti, compilazione multi-persona e file Alloggiati
+            pronto da scaricare
           </p>
 
           <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -228,8 +158,8 @@ ${JSON.stringify(formData, null, 2)}
           </div>
         </div>
 
-        {/* Guida per l'ospite - nascosta dopo invio riuscito */}
-        {!isSubmittedSuccessfully && (
+        {/* Guida operativa */}
+        {!generatedContent && (
           <Alert className="mb-6 border-blue-200 bg-blue-50">
             <Info className="h-4 w-4 text-blue-600" />
             <AlertDescription>
@@ -238,20 +168,20 @@ ${JSON.stringify(formData, null, 2)}
               </strong>
               <ol className="list-decimal list-inside mt-2 space-y-1 text-blue-700">
                 <li>
-                  <strong>Inserisci tutti gli ospiti</strong> che alloggeranno
-                  (inclusi bambini e neonati)
+                  Carica il <strong>fronte</strong> del documento e, se utile,
+                  anche il <strong>retro</strong> per estrarre i dati con OCR
                 </li>
                 <li>
-                  <strong>Compila tutti i campi obbligatori</strong>{" "}
-                  contrassegnati con *
+                  Controlla i dati estratti, poi usa{" "}
+                  <strong>Aggiungi ospite da OCR</strong>
                 </li>
                 <li>
-                  <strong>Clicca "Invia i documenti"</strong> entro 24 ore
-                  dall'arrivo per completare la registrazione
+                  Ripeti il passaggio per ogni persona e completa i campi
+                  mancanti
                 </li>
                 <li>
-                  I documenti verranno automaticamente inviati al gestore della
-                  struttura
+                  Premi <strong>Genera file Alloggiati</strong> per scaricare il
+                  `.txt` da caricare sul portale ufficiale
                 </li>
               </ol>
             </AlertDescription>
@@ -264,7 +194,7 @@ ${JSON.stringify(formData, null, 2)}
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-green-800">
                 <CheckCircle className="h-5 w-5" />
-                Documenti Inviati con Successo
+                File Generato con Successo
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -273,39 +203,34 @@ ${JSON.stringify(formData, null, 2)}
                   <div className="mb-4">
                     <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-green-800 mb-2">
-                      Registrazione Completata!
+                      Generazione completata
                     </h3>
                     <p className="text-green-700 mb-2">
-                      I documenti di{" "}
+                      File creato per{" "}
                       <strong>
                         {generatedContent.split("\r\n").length} ospiti
                       </strong>{" "}
-                      sono stati inviati automaticamente al gestore della
-                      struttura.
+                      e scaricato automaticamente sul dispositivo.
                     </p>
-                    {/* <p className="text-sm text-green-600">
-                      Riceverai una conferma via email se hai fornito un
-                      indirizzo di contatto.
-                    </p> */}
                   </div>
 
-                  {/* <div className="bg-white p-4 rounded-lg border border-green-200 mb-4">
+                  <div className="bg-white p-4 rounded-lg border border-green-200 mb-4">
                     <p className="text-sm text-gray-600 mb-2">
                       <strong>File generato:</strong> {fileName}
                     </p>
                     <p className="text-xs text-gray-500">
-                      I dati sono stati elaborati secondo le specifiche del
-                      Portale Alloggiati Web
+                      Il file e conforme al formato importabile su Alloggiati
+                      Web
                     </p>
-                  </div> */}
+                  </div>
 
-                  {/* <Button
+                  <Button
                     variant="outline"
                     onClick={resetForm}
                     className="bg-white hover:bg-gray-50"
                   >
-                    Registra Altri Ospiti
-                  </Button> */}
+                    Registra altri ospiti
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -355,8 +280,8 @@ ${JSON.stringify(formData, null, 2)}
                   Web
                 </li>
                 <li>
-                  Nessun dato viene memorizzato permanentemente su server
-                  esterni
+                  Nessun invio email automatico: il file viene generato e
+                  scaricato localmente
                 </li>
               </ul>
 
