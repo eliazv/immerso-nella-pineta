@@ -1,0 +1,25 @@
+Periodo,N3 Airbnb,N3 booking,N8 Airbnb,N8 booking,Note
+gen 15,€55,€62,€65,€73,Bassa stagione
+gen 31,€55,€62,€65,€73,Bassa stagione
+feb 15,€55,€62,€65,€73,Bassa stagione
+feb 28,€55,€62,€65,€73,Bassa stagione
+mar 15,€55,€62,€70,€78,Leggera crescita
+mar 31,€55,€62,€70,€78,Bassa stagione
+apr 15,€60,€67,€85,€95,Pre-pasqua
+apr 30,€80,€90,€105,€118,Aquiloni + ponte 25 Apr
+mag 15,€65,€73,€95,€106,Media stagione
+mag 31,€75,€84,€105,€118,Buona domanda mare
+giu 15,€80,€90,€115,€129,Inizio estate
+giu 30,€90,€101,€130,€146,Alta domanda
+lug 15,€115,€129,€170,€190,Alta stagione
+lug 31,€125,€140,€180,€202,Picco luglio
+ago 15,€130,€146,€190,€213,"Ferragosto, massimo"
+ago 31,€120,€134,€185,€207,"Ultima settimana, leggera discesa"
+set 15,€90,€101,€125,€140,Buona domanda
+set 30,€80,€90,€115,€129,Ironman (alza su date specifiche)
+ott 15,€70,€79,€95,€106,Bassa stagione
+ott 31,€75,€84,€110,€123,Aquiloni autunno
+nov 15,€55,€62,€75,€84,Bassa stagione
+nov 30,€55,€62,€75,€84,Bassa stagione
+dic 15,€55,€62,€80,€90,Periodo tranquillo
+dic 31,€70,€79,€95,€106,Natale/Capodanno (3–4 notti min)
