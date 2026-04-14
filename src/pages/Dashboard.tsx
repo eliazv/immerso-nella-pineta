@@ -27,6 +27,7 @@ const OtaComparison = lazy(
 const SeasonalityChart = lazy(
   () => import("@/components/dashboard/SeasonalityChart"),
 );
+const PricingCards = lazy(() => import("@/components/dashboard/PricingCards"));
 import SummaryCards from "@/components/dashboard/SummaryCards";
 import {
   Loader2,
@@ -151,7 +152,7 @@ const Dashboard: React.FC = () => {
           <SummaryCards stats={stats} />
 
           {/* Griglia Grafici - Stack su mobile, 2x2 su desktop */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-8">
             <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
               <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
                 <div className="flex items-center gap-3">
@@ -221,7 +222,7 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden">
+            <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden self-start">
               <CardHeader className="px-6 pt-6 md:px-8 md:pt-8">
                 <div className="flex items-center gap-3 mb-2">
                   <TrendingUp className="h-7 w-7 text-green-600 dark:text-green-400" />
@@ -290,6 +291,14 @@ const Dashboard: React.FC = () => {
               </Suspense>
             </CardContent>
           </Card>
+
+          <Suspense
+            fallback={
+              <div className="h-[520px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
+            }
+          >
+            <PricingCards selectedCalendar={selectedCalendar} />
+          </Suspense>
         </div>
       ) : (
         <div className="text-center p-8">

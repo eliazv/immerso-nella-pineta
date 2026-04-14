@@ -1,3 +1,6 @@
+- card Top Performance è troppo lung in modalita desktop , torncala qunado finisce non farla come lunghezza uguale a Canali di Vendita card affiancata
+- alloggiati tab nascondi da backoffice
+
 /calendar > form di insermento o modifica prenotazione:
 
 - il costo di pulizia di default 90€

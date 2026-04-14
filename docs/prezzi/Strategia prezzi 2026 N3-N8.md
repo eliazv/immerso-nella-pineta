@@ -4,6 +4,8 @@ Data versione: 14 aprile 2026
 
 Questo file traduce dati interni + benchmark esterni in un listino pratico per piattaforma.
 
+Aggiornamento metodologia: il listino 2026 considera anche lo storico `Affitti3/Affitti8`, ma separa le trattative `Agenzia` molto a ribasso dal prezzo target pubblico su OTA.
+
 ## Regole base canale
 
 - `Diretto`: prezzo migliore per il cliente finale, normalmente sotto Airbnb.
@@ -76,6 +78,17 @@ Regola rapida:
 - Lead time medio prenotazione
 - Conversione richieste diretto (WhatsApp/modulo)
 - Delta prezzo diretto vs OTA
+
+## Regola anti-ribasso da storico Agenzia
+
+- Se una prenotazione Agenzia e molto sotto il range del mese (tipicamente soggiorni lunghi con trattativa), non usarla come riferimento per abbassare il prezzo Airbnb/Booking.
+- In dashboard usare sempre il listino semimensile come base e applicare eventuali riduzioni solo su slot difficili (last minute o buchi brevi).
+- Obiettivo: preservare ADR medio stagionale, usando Agenzia come canale tattico di riempimento.
+
+## Strumento operativo in dashboard
+
+- Card `Listino meta mese 2026`: visualizza i prezzi H1/H2 per N3 e N8 su Diretto/Airbnb/Booking.
+- Card `Preventivo rapido`: stima totale soggiorno per piattaforma e durata, includendo pulizia e imposta soggiorno stagionale.
 
 ## Coerenza con file di base
 
