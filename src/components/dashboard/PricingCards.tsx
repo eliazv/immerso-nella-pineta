@@ -54,9 +54,6 @@ const PLATFORM_OPTIONS: Array<{ value: PlatformType; label: string }> = [
   { value: "booking", label: "Booking" },
 ];
 
-const apartmentLabel = (apartment: ApartmentPricingType) =>
-  apartment === "n3" ? "N3 (4 posti)" : "N8 (6 posti)";
-
 const fromCalendarType = (calendarType: CalendarType): ApartmentPricingType => {
   if (calendarType === "terziario") return "n8";
   return "n3";
@@ -93,8 +90,9 @@ const euro = (value: number) => `${value.toLocaleString("it-IT")} EUR`;
 
 const ChannelRow: React.FC<{
   platform: PlatformType;
-  value: number;
-}> = ({ platform, value }) => {
+  colorValue: number;
+  rangeLabel: string;
+}> = ({ platform, colorValue, rangeLabel }) => {
   const icon =
     platform === "diretto" ? (
       <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/40">
@@ -113,10 +111,8 @@ const ChannelRow: React.FC<{
       >
         {icon}
       </span>
-      <span
-        className={`px-2 py-0.5 rounded-md font-bold tabular-nums ${getPriceLevelClasses(value)}`}
-      >
-        {value} EUR
+      <span className={`px-2.5 py-1 rounded-lg font-bold tabular-nums ${getPriceLevelClasses(colorValue)}`}>
+        {rangeLabel}
       </span>
     </div>
   );
@@ -203,25 +199,25 @@ const PricingCards: React.FC<PricingCardsProps> = ({ selectedCalendar }) => {
   }, [apartment, dateRange, quotePlatform, quoteAdults]);
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-2 xl:items-start gap-8">
-      <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden self-start">
-        <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
+    <div className="grid grid-cols-1 xl:grid-cols-2 xl:items-start gap-6">
+      <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden self-start">
+        <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
           <div className="flex items-center gap-3">
-            <Table2 className="h-6 w-6 text-primary" />
-            <CardTitle className="text-xl font-black">
+            <Table2 className="h-5 w-5 text-primary" />
+            <CardTitle className="text-lg md:text-xl font-black">
               Listino meta mese 2026
             </CardTitle>
           </div>
-          <CardDescription className="font-medium">
+          <CardDescription className="text-xs md:text-sm font-medium">
             Prezzi consigliati per il periodo 1-15 e 16-fine mese.
           </CardDescription>
         </CardHeader>
-        <CardContent className="px-4 pb-6 md:px-8 md:pb-8 space-y-4">
+        <CardContent className="px-4 pb-5 md:px-6 md:pb-6 space-y-3">
           <div className="overflow-auto rounded-xl border border-slate-200 dark:border-slate-800">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs md:text-sm">
               <thead className="bg-slate-50 dark:bg-slate-800/70">
                 <tr>
-                  <th className="text-left p-2.5 font-semibold">Mese</th>
+                  <th className="text-left p-2.5 font-semibold w-[84px]">Mese</th>
                   <th className="text-left p-2.5 font-semibold">Prezzo</th>
                 </tr>
               </thead>
@@ -234,22 +230,23 @@ const PricingCards: React.FC<PricingCardsProps> = ({ selectedCalendar }) => {
                     <td className="p-2.5 font-semibold whitespace-nowrap">
                       {monthLabels[row.month - 1]}
                     </td>
-                    <td className="p-2.5 min-w-[235px]">
+                    <td className="p-2.5 min-w-[210px]">
                       <div className="space-y-1">
-                        <ChannelRow platform="airbnb" value={row.avgAirbnb} />
-                        <div className="pl-7 -mt-0.5 text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                          {row.airbnb}
-                        </div>
-
-                        <ChannelRow platform="booking" value={row.avgBooking} />
-                        <div className="pl-7 -mt-0.5 text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                          {row.booking}
-                        </div>
-
-                        <ChannelRow platform="diretto" value={row.avgDiretto} />
-                        <div className="pl-7 -mt-0.5 text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                          {row.diretto}
-                        </div>
+                        <ChannelRow
+                          platform="airbnb"
+                          colorValue={row.avgAirbnb}
+                          rangeLabel={row.airbnb}
+                        />
+                        <ChannelRow
+                          platform="booking"
+                          colorValue={row.avgBooking}
+                          rangeLabel={row.booking}
+                        />
+                        <ChannelRow
+                          platform="diretto"
+                          colorValue={row.avgDiretto}
+                          rangeLabel={row.diretto}
+                        />
                       </div>
                     </td>
                   </tr>
@@ -257,26 +254,26 @@ const PricingCards: React.FC<PricingCardsProps> = ({ selectedCalendar }) => {
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-[11px] text-muted-foreground">
             Celle colorate: blu prezzi bassi, verde medi, ambra medi-alti, rosso
             alta stagione.
           </p>
         </CardContent>
       </Card>
 
-      <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden self-start">
-        <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
+      <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden self-start">
+        <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
           <div className="flex items-center gap-3">
-            <Calculator className="h-6 w-6 text-primary" />
-            <CardTitle className="text-xl font-black">
+            <Calculator className="h-5 w-5 text-primary" />
+            <CardTitle className="text-lg md:text-xl font-black">
               Preventivo rapido
             </CardTitle>
           </div>
-          <CardDescription className="font-medium">
+          <CardDescription className="text-xs md:text-sm font-medium">
             Calcolo stimato per durata soggiorno e piattaforma.
           </CardDescription>
         </CardHeader>
-        <CardContent className="px-4 pb-6 md:px-8 md:pb-8 space-y-4">
+        <CardContent className="px-4 pb-5 md:px-6 md:pb-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs font-semibold text-muted-foreground">
@@ -299,6 +296,21 @@ const PricingCards: React.FC<PricingCardsProps> = ({ selectedCalendar }) => {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            <div>
+              <Label className="text-xs font-semibold text-muted-foreground">
+                Adulti
+              </Label>
+              <Input
+                type="number"
+                min={0}
+                value={quoteAdults}
+                onChange={(e) =>
+                  setQuoteAdults(parseInt(e.target.value, 10) || 0)
+                }
+                className="h-9 mt-1.5"
+              />
             </div>
 
             <div className="md:col-span-2">
@@ -332,21 +344,6 @@ const PricingCards: React.FC<PricingCardsProps> = ({ selectedCalendar }) => {
                   />
                 </PopoverContent>
               </Popover>
-            </div>
-
-            <div>
-              <Label className="text-xs font-semibold text-muted-foreground">
-                Adulti
-              </Label>
-              <Input
-                type="number"
-                min={0}
-                value={quoteAdults}
-                onChange={(e) =>
-                  setQuoteAdults(parseInt(e.target.value, 10) || 0)
-                }
-                className="h-9 mt-1.5"
-              />
             </div>
           </div>
 
