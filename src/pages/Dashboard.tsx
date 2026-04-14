@@ -100,10 +100,10 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 px-2 md:px-6 lg:px-8 max-w-7xl mx-auto py-4">
+    <div className="space-y-5 px-2 md:px-4 lg:px-6 max-w-[1500px] mx-auto py-3">
       <div className="flex items-center justify-between gap-4 px-2 md:px-0">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-800 dark:text-white">
+          <h1 className="text-2xl md:text-[2rem] font-black tracking-tight text-slate-800 dark:text-white">
             Statistiche
           </h1>
           <p className="text-[10px] md:text-xs text-muted-foreground font-semibold mt-0.5 flex items-center gap-1.5">
@@ -147,25 +147,25 @@ const Dashboard: React.FC = () => {
           </p>
         </div>
       ) : stats ? (
-        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
           {/* Schede riassuntive */}
           <SummaryCards stats={stats} />
 
           {/* Griglia Grafici - Stack su mobile, 2x2 su desktop */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-8">
-            <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
-              <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-6">
+            <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+              <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
                 <div className="flex items-center gap-3">
-                  <TrendingUp className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-xl font-black">
+                  <TrendingUp className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-lg md:text-xl font-black">
                     Andamento Ricavi
                   </CardTitle>
                 </div>
-                <CardDescription className="font-medium">
+                <CardDescription className="text-xs md:text-sm font-medium">
                   Ricavi mensili lordi per il {selectedYear}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-4 pb-6 md:px-8 md:pb-8">
+              <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
                 <Suspense
                   fallback={
                     <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
@@ -176,19 +176,19 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
-              <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
+            <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+              <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
                 <div className="flex items-center gap-3">
-                  <Activity className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-xl font-black">
+                  <Activity className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-lg md:text-xl font-black">
                     Occupazione
                   </CardTitle>
                 </div>
-                <CardDescription className="font-medium">
+                <CardDescription className="text-xs md:text-sm font-medium">
                   Saturazione delle disponibilità mensili
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-4 pb-6 md:px-8 md:pb-8">
+              <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
                 <Suspense
                   fallback={
                     <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
@@ -199,19 +199,19 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
-              <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
+            <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+              <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
                 <div className="flex items-center gap-3">
-                  <PieChart className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-xl font-black">
+                  <PieChart className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-lg md:text-xl font-black">
                     Canali di Vendita
                   </CardTitle>
                 </div>
-                <CardDescription className="font-medium">
+                <CardDescription className="text-xs md:text-sm font-medium">
                   Distribuzione delle prenotazioni per piattaforma
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-4 pb-6 md:px-8 md:pb-8">
+              <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
                 <Suspense
                   fallback={
                     <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
@@ -222,11 +222,11 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden self-start">
-              <CardHeader className="px-6 pt-6 md:px-8 md:pt-8">
+            <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden self-start">
+              <CardHeader className="px-5 pt-5 md:px-6 md:pt-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <TrendingUp className="h-7 w-7 text-green-600 dark:text-green-400" />
-                  <CardTitle className="text-2xl font-black">
+                  <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  <CardTitle className="text-xl font-black">
                     Top Performance
                   </CardTitle>
                 </div>
@@ -234,18 +234,18 @@ const Dashboard: React.FC = () => {
                   I periodi migliori del {selectedYear}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-6 pb-6 md:px-8 md:pb-8">
-                <div className="space-y-3">
+              <CardContent className="px-5 pb-5 md:px-6 md:pb-6">
+                <div className="space-y-2.5">
                   {stats.topMonths
                     .slice(0, 4)
                     .map((month: any, index: number) => (
                       <div
                         key={month.month}
-                        className="flex justify-between items-center p-3.5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800"
+                        className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800"
                       >
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm ${
+                            className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${
                               index === 0
                                 ? "bg-amber-400 text-white"
                                 : "bg-slate-200 dark:bg-slate-700 text-slate-500"
@@ -253,12 +253,12 @@ const Dashboard: React.FC = () => {
                           >
                             {index + 1}
                           </div>
-                          <span className="font-bold text-base">
+                          <span className="font-bold text-sm md:text-base">
                             {month.month}
                           </span>
                         </div>
                         <div className="text-right">
-                          <div className="font-black text-lg text-green-700 dark:text-green-400 leading-none">
+                          <div className="font-black text-base md:text-lg text-green-700 dark:text-green-400 leading-none">
                             € {month.revenue.toLocaleString("it-IT")}
                           </div>
                         </div>
@@ -269,19 +269,19 @@ const Dashboard: React.FC = () => {
             </Card>
           </div>
 
-          <Card className="border-none shadow-xl bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden">
-            <CardHeader className="pb-4 pt-6 px-6 md:pt-8 md:px-8">
+          <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+            <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
               <div className="flex items-center gap-3">
-                <BarChart className="h-6 w-6 text-primary" />
-                <CardTitle className="text-xl font-black">
+                <BarChart className="h-5 w-5 text-primary" />
+                <CardTitle className="text-lg md:text-xl font-black">
                   Stagionalità
                 </CardTitle>
               </div>
-              <CardDescription className="font-medium">
+              <CardDescription className="text-xs md:text-sm font-medium">
                 Performance medie suddivise per stagioni
               </CardDescription>
             </CardHeader>
-            <CardContent className="px-4 pb-6 md:px-8 md:pb-8">
+            <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
               <Suspense
                 fallback={
                   <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />

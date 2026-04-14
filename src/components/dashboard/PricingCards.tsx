@@ -111,7 +111,9 @@ const ChannelRow: React.FC<{
       >
         {icon}
       </span>
-      <span className={`px-2.5 py-1 rounded-lg font-bold tabular-nums ${getPriceLevelClasses(colorValue)}`}>
+      <span
+        className={`px-2.5 py-1 rounded-lg font-bold tabular-nums ${getPriceLevelClasses(colorValue)}`}
+      >
         {rangeLabel}
       </span>
     </div>
@@ -217,7 +219,9 @@ const PricingCards: React.FC<PricingCardsProps> = ({ selectedCalendar }) => {
             <table className="w-full text-xs md:text-sm">
               <thead className="bg-slate-50 dark:bg-slate-800/70">
                 <tr>
-                  <th className="text-left p-2.5 font-semibold w-[84px]">Mese</th>
+                  <th className="text-left p-2.5 font-semibold w-[84px]">
+                    Mese
+                  </th>
                   <th className="text-left p-2.5 font-semibold">Prezzo</th>
                 </tr>
               </thead>
