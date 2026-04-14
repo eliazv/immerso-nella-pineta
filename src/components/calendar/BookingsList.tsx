@@ -111,13 +111,13 @@ const BookingsList: React.FC<BookingsListProps> = ({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 my-6 px-2">
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 my-3 px-1">
         <div>
-          <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">
+          <h3 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">
             Prenotazioni
           </h3>
-          <p className="text-sm font-bold text-slate-400">
+          <p className="text-xs font-bold text-slate-400">
             Dettagli e storico dei tuoi ospiti
           </p>
         </div>
@@ -125,7 +125,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
         <div className="flex bg-slate-100 dark:bg-slate-800 p-1.5 rounded-[1.25rem] w-full sm:w-auto shadow-inner border border-slate-200/50 dark:border-slate-700/50">
           <button
             onClick={() => setShowOnlyUpcoming(true)}
-            className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-black rounded-2xl transition-all ${
+            className={`flex-1 sm:flex-none px-4 py-2 text-xs font-black rounded-xl transition-all ${
               showOnlyUpcoming
                 ? "bg-white dark:bg-slate-900 text-primary shadow-md"
                 : "text-slate-500 hover:text-slate-700 font-bold"
@@ -135,7 +135,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
           </button>
           <button
             onClick={() => setShowOnlyUpcoming(false)}
-            className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-black rounded-2xl transition-all ${
+            className={`flex-1 sm:flex-none px-4 py-2 text-xs font-black rounded-xl transition-all ${
               !showOnlyUpcoming
                 ? "bg-white dark:bg-slate-900 text-primary shadow-md"
                 : "text-slate-500 hover:text-slate-700 font-bold"
@@ -146,12 +146,12 @@ const BookingsList: React.FC<BookingsListProps> = ({
         </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-5">
         {getGroupedBookings().map(({ year, bookings: yearBookings }) => (
-          <div key={year} className="space-y-4">
+          <div key={year} className="space-y-3">
             {year !== "ungrouped" && (
               <div className="flex items-center gap-4">
-                <h4 className="text-xl font-black text-slate-300 tracking-tighter">
+                <h4 className="text-lg font-black text-slate-300 tracking-tighter">
                   {year}
                 </h4>
                 <div className="h-[1px] bg-slate-200 flex-1" />
@@ -161,7 +161,7 @@ const BookingsList: React.FC<BookingsListProps> = ({
               </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-3">
               {yearBookings.map((booking, index) => (
                 <div
                   key={`${year}-${index}`}

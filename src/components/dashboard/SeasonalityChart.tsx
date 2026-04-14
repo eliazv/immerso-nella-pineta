@@ -54,8 +54,8 @@ const SeasonalityChart: React.FC<SeasonalityChartProps> = ({ data }) => {
   const euroFormatter = (value: number) => `€ ${value.toLocaleString("it-IT")}`;
 
   return (
-    <div className="space-y-8">
-      <div className="w-full h-[400px]">
+    <div className="space-y-5">
+      <div className="w-full h-[290px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={chartData}
@@ -117,9 +117,9 @@ const SeasonalityChart: React.FC<SeasonalityChartProps> = ({ data }) => {
         </ResponsiveContainer>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-4">
-          <h3 className="font-semibold">Mesi con più prenotazioni</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold">Mesi con più prenotazioni</h3>
           {[...chartData]
             .sort((a, b) => b.bookings - a.bookings)
             .slice(0, 3)
@@ -132,17 +132,19 @@ const SeasonalityChart: React.FC<SeasonalityChartProps> = ({ data }) => {
                   <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold">
                     {index + 1}
                   </div>
-                  <span>{month.month}</span>
+                  <span className="text-sm">{month.month}</span>
                 </div>
-                <div className="text-right font-medium">
+                <div className="text-right text-sm font-medium">
                   {month.bookings} prenotazioni
                 </div>
               </div>
             ))}
         </div>
 
-        <div className="space-y-4">
-          <h3 className="font-semibold">Mesi con prezzo medio più alto</h3>
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold">
+            Mesi con prezzo medio più alto
+          </h3>
           {[...chartData]
             .sort((a, b) => b.avgPrice - a.avgPrice)
             .slice(0, 3)
@@ -155,9 +157,9 @@ const SeasonalityChart: React.FC<SeasonalityChartProps> = ({ data }) => {
                   <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center text-white text-xs font-bold">
                     {index + 1}
                   </div>
-                  <span>{month.month}</span>
+                  <span className="text-sm">{month.month}</span>
                 </div>
-                <div className="text-right font-medium">
+                <div className="text-right text-sm font-medium">
                   {euroFormatter(month.avgPrice)}
                 </div>
               </div>

@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-5 px-2 md:px-4 lg:px-6 max-w-[1500px] mx-auto py-3">
+    <div className="space-y-4 px-2 md:px-4 lg:px-5 max-w-[1450px] mx-auto py-3">
       <div className="flex items-center justify-between gap-4 px-2 md:px-0">
         <div>
           <h1 className="text-2xl md:text-[2rem] font-black tracking-tight text-slate-800 dark:text-white">
@@ -147,13 +147,13 @@ const Dashboard: React.FC = () => {
           </p>
         </div>
       ) : stats ? (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
           {/* Schede riassuntive */}
           <SummaryCards stats={stats} />
 
           {/* Griglia Grafici - Stack su mobile, 2x2 su desktop */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-6">
-            <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-5">
+            <Card className="border-none shadow-md bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
               <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
                 <div className="flex items-center gap-3">
                   <TrendingUp className="h-5 w-5 text-primary" />
@@ -165,10 +165,10 @@ const Dashboard: React.FC = () => {
                   Ricavi mensili lordi per il {selectedYear}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
+              <CardContent className="px-4 pb-4 md:px-6 md:pb-5">
                 <Suspense
                   fallback={
-                    <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
+                    <div className="h-[280px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
                   }
                 >
                   <RevenueChart data={stats.revenue} />
@@ -176,7 +176,7 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+            <Card className="border-none shadow-md bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
               <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
                 <div className="flex items-center gap-3">
                   <Activity className="h-5 w-5 text-primary" />
@@ -188,10 +188,10 @@ const Dashboard: React.FC = () => {
                   Saturazione delle disponibilità mensili
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
+              <CardContent className="px-4 pb-4 md:px-6 md:pb-5">
                 <Suspense
                   fallback={
-                    <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
+                    <div className="h-[280px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
                   }
                 >
                   <OccupancyChart data={stats.occupancy} />
@@ -199,7 +199,7 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+            <Card className="border-none shadow-md bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
               <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
                 <div className="flex items-center gap-3">
                   <PieChart className="h-5 w-5 text-primary" />
@@ -211,13 +211,15 @@ const Dashboard: React.FC = () => {
                   Distribuzione delle prenotazioni per piattaforma
                 </CardDescription>
               </CardHeader>
-              <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
+              <CardContent className="px-4 pb-4 md:px-6 md:pb-5">
                 <Suspense
                   fallback={
-                    <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
+                    <div className="h-[280px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
                   }
                 >
-                  <OtaComparison data={stats.ota} />
+                  <div className="max-h-[460px] overflow-auto pr-1">
+                    <OtaComparison data={stats.ota} />
+                  </div>
                 </Suspense>
               </CardContent>
             </Card>
@@ -269,7 +271,7 @@ const Dashboard: React.FC = () => {
             </Card>
           </div>
 
-          <Card className="border-none shadow-lg bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
+          <Card className="border-none shadow-md bg-white dark:bg-slate-900 rounded-3xl overflow-hidden">
             <CardHeader className="pb-3 pt-5 px-5 md:pt-6 md:px-6">
               <div className="flex items-center gap-3">
                 <BarChart className="h-5 w-5 text-primary" />
@@ -281,10 +283,10 @@ const Dashboard: React.FC = () => {
                 Performance medie suddivise per stagioni
               </CardDescription>
             </CardHeader>
-            <CardContent className="px-4 pb-5 md:px-6 md:pb-6">
+            <CardContent className="px-4 pb-4 md:px-6 md:pb-5">
               <Suspense
                 fallback={
-                  <div className="h-[350px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
+                  <div className="h-[280px] w-full bg-slate-50 dark:bg-slate-800 animate-pulse rounded-3xl" />
                 }
               >
                 <SeasonalityChart data={stats.seasonality} />

@@ -54,8 +54,8 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
   const euroFormatter = (value: number) => `€ ${value.toLocaleString("it-IT")}`;
 
   return (
-    <div className="space-y-4">
-      <div className="w-full h-[350px]">
+    <div className="space-y-3">
+      <div className="w-full h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={processedData}
@@ -81,7 +81,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
               formatter={(value: number) => [euroFormatter(value), "Ricavo"]}
               labelFormatter={(label, items) => {
                 const dataPoint = processedData.find(
-                  (item) => item.shortMonth === label
+                  (item) => item.shortMonth === label,
                 );
                 return dataPoint
                   ? `${dataPoint.monthName} ${dataPoint.year}`
@@ -101,7 +101,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
         </ResponsiveContainer>
       </div>
 
-      <div className="text-center text-muted-foreground text-sm border-t pt-4">
+      <div className="text-center text-muted-foreground text-xs border-t pt-3">
         Ricavi totali: <strong>{euroFormatter(data.totalRevenue)}</strong> |
         Media per notte: <strong>{euroFormatter(data.averagePerNight)}</strong>{" "}
         | Media per prenotazione:{" "}

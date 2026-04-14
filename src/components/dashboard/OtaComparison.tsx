@@ -31,10 +31,10 @@ const COLORS = [
 const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
   // Ordina i dati per numero di prenotazioni (dal più grande al più piccolo)
   const sortedBookingData = [...data.bookingCount].sort(
-    (a, b) => b.count - a.count
+    (a, b) => b.count - a.count,
   );
   const sortedRevenueData = [...data.revenue].sort(
-    (a, b) => b.revenue - a.revenue
+    (a, b) => b.revenue - a.revenue,
   );
 
   // Formatter per i valori in euro
@@ -71,14 +71,14 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5">
       {/* Prima riga: grafici a torta */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <h3 className="text-sm font-semibold mb-2 text-center">
+          <h3 className="text-xs font-semibold mb-1.5 text-center">
             Distribuzione prenotazioni per OTA
           </h3>
-          <div className="h-[300px]">
+          <div className="h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -87,7 +87,7 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
                   cy="50%"
                   labelLine={false}
                   label={renderCustomizedLabel}
-                  outerRadius={100}
+                  outerRadius={78}
                   fill="#8884d8"
                   dataKey="count"
                   nameKey="ota"
@@ -110,10 +110,10 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold mb-2 text-center">
+          <h3 className="text-xs font-semibold mb-1.5 text-center">
             Distribuzione ricavi per OTA
           </h3>
-          <div className="h-[300px]">
+          <div className="h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -122,7 +122,7 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
                   cy="50%"
                   labelLine={false}
                   label={renderCustomizedLabel}
-                  outerRadius={100}
+                  outerRadius={78}
                   fill="#8884d8"
                   dataKey="revenue"
                   nameKey="ota"
@@ -150,10 +150,10 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
 
       {/* Seconda riga: grafico a barre per confronto prezzi medi */}
       <div>
-        <h3 className="text-sm font-semibold mb-2 text-center">
+        <h3 className="text-xs font-semibold mb-1.5 text-center">
           Prezzo medio per notte per OTA
         </h3>
-        <div className="h-[300px]">
+        <div className="h-[220px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data.averagePerNight}
@@ -204,17 +204,23 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-muted/50">
-              <th className="p-3 text-left font-medium">Piattaforma</th>
-              <th className="p-3 text-right font-medium">Prenotazioni</th>
-              <th className="p-3 text-right font-medium">Ricavi totali</th>
-              <th className="p-3 text-right font-medium">Prezzo medio</th>
+              <th className="p-2 text-left text-xs font-medium">Piattaforma</th>
+              <th className="p-2 text-right text-xs font-medium">
+                Prenotazioni
+              </th>
+              <th className="p-2 text-right text-xs font-medium">
+                Ricavi totali
+              </th>
+              <th className="p-2 text-right text-xs font-medium">
+                Prezzo medio
+              </th>
             </tr>
           </thead>
           <tbody>
             {sortedBookingData.map((item, index) => {
               const revenueItem = data.revenue.find((r) => r.ota === item.ota);
               const avgItem = data.averagePerNight.find(
-                (a) => a.ota === item.ota
+                (a) => a.ota === item.ota,
               );
 
               return (
@@ -222,7 +228,7 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
                   key={item.ota}
                   className={index % 2 === 0 ? "bg-white" : "bg-muted/20"}
                 >
-                  <td className="p-3 border-t">
+                  <td className="p-2 text-xs border-t">
                     <div className="flex items-center">
                       <div
                         className="w-3 h-3 rounded-full mr-2"
@@ -233,11 +239,13 @@ const OtaComparison: React.FC<OtaComparisonProps> = ({ data }) => {
                       {item.ota}
                     </div>
                   </td>
-                  <td className="p-3 text-right border-t">{item.count}</td>
-                  <td className="p-3 text-right border-t">
+                  <td className="p-2 text-xs text-right border-t">
+                    {item.count}
+                  </td>
+                  <td className="p-2 text-xs text-right border-t">
                     {revenueItem ? euroFormatter(revenueItem.revenue) : "-"}
                   </td>
-                  <td className="p-3 text-right border-t">
+                  <td className="p-2 text-xs text-right border-t">
                     {avgItem ? euroFormatter(avgItem.average) : "-"}
                   </td>
                 </tr>

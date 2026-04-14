@@ -158,16 +158,16 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
   };
 
   return (
-    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700 px-2 md:px-0">
+    <div className="space-y-3 animate-in fade-in slide-in-from-bottom-6 duration-700 px-2 md:px-0">
       <style>{`
         .fc-header-toolbar {
-          padding: 0.5rem 0 !important;
-          margin-bottom: 1.5rem !important;
+          padding: 0.35rem 0 !important;
+          margin-bottom: 1rem !important;
           flex-wrap: wrap;
-          gap: 12px;
+          gap: 10px;
         }
         .fc-header-toolbar .fc-toolbar-title {
-          font-size: 1.5rem !important;
+          font-size: 1.25rem !important;
           font-weight: 900 !important;
           color: #1e293b;
           text-transform: capitalize;
@@ -178,8 +178,8 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           border: none !important;
           color: #64748b !important;
           font-weight: 800 !important;
-          font-size: 0.875rem !important;
-          padding: 0.6rem 1.2rem !important;
+          font-size: 0.8rem !important;
+          padding: 0.45rem 0.9rem !important;
           border-radius: 1rem !important;
           box-shadow: none !important;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -208,7 +208,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           transform: translateY(-1px);
         }
         .fc-daygrid-day-number {
-          padding: 10px !important;
+          padding: 6px !important;
           font-size: 0.8rem !important;
           font-weight: 600 !important;
           color: #94a3b8 !important;
@@ -273,10 +273,10 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-800 dark:text-white">
+          <h1 className="text-xl md:text-2xl font-black tracking-tight text-slate-800 dark:text-white">
             Calendario
           </h1>
-          <p className="text-muted-foreground text-sm font-semibold flex items-center gap-2">
+          <p className="text-muted-foreground text-xs md:text-sm font-semibold flex items-center gap-2">
             <Building className="h-3.5 w-3.5 text-primary" />
             {apartmentNames[selectedCalendar as keyof typeof apartmentNames]}
           </p>
@@ -289,7 +289,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
             target="_blank"
             rel="noopener noreferrer"
             title="Esporta feed iCal"
-            className="hidden md:flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 active:scale-95 transition-all rounded-xl shadow-sm font-bold text-sm"
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 active:scale-95 transition-all rounded-xl shadow-sm font-bold text-xs"
           >
             <CalendarDays className="h-4 w-4" />
             iCal
@@ -297,7 +297,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
 
           <button
             onClick={() => openAddBooking()}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-white hover:bg-primary/90 active:scale-95 transition-all rounded-xl shadow-md font-bold text-sm"
+            className="flex items-center gap-2 px-3.5 py-1.5 bg-primary text-white hover:bg-primary/90 active:scale-95 transition-all rounded-xl shadow-md font-bold text-xs md:text-sm"
           >
             <PlusCircle className="h-4 w-4" />
             <span className="hidden md:inline">Nuova Prenotazione</span>
@@ -306,16 +306,18 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           <button
             onClick={handleRefresh}
             disabled={isLoading}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm"
+            className="flex items-center gap-2 px-3.5 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed font-bold text-xs md:text-sm"
           >
-            <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span className="hidden md:inline">Sincronizza Excel</span>
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
-        <div className="bg-white dark:bg-slate-900 rounded-[1.5rem] p-4 md:p-6 shadow-md border border-slate-100 dark:border-slate-800">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 xl:gap-5">
+        <div className="xl:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-3.5 md:p-5 shadow-sm border border-slate-100 dark:border-slate-800">
           <div className=" flex flex-wrap items-center justify-between gap-4">
             {/* <h3 className="text-xl font-black text-slate-800 dark:text-white">
               Disponibilità
@@ -324,7 +326,7 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           </div>
 
           {isLoading && !events.length ? (
-            <div className="h-[500px] flex items-center justify-center">
+            <div className="h-[420px] flex items-center justify-center">
               <div className="flex flex-col items-center gap-4">
                 <div className="h-12 w-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
                 <p className="text-sm font-bold text-slate-400">
@@ -381,11 +383,13 @@ const AvailabilityCalendar = ({ className }: AvailabilityCalendarProps) => {
           )}
         </div>
 
-        <div>
-          <BookingsList
-            bookings={bookings}
-            onBookingClick={(booking) => openBookingDetails(booking)}
-          />
+        <div className="xl:col-span-4">
+          <div className="xl:sticky xl:top-24 xl:max-h-[calc(100vh-7.5rem)] xl:overflow-y-auto xl:pr-1">
+            <BookingsList
+              bookings={bookings}
+              onBookingClick={(booking) => openBookingDetails(booking)}
+            />
+          </div>
         </div>
       </div>
 

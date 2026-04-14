@@ -28,7 +28,7 @@ const OccupancyChart: React.FC<OccupancyChartProps> = ({ data }) => {
 
   return (
     <div className="w-full">
-      <div className="h-[400px]">
+      <div className="h-[290px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
@@ -58,7 +58,7 @@ const OccupancyChart: React.FC<OccupancyChartProps> = ({ data }) => {
               ]}
               labelFormatter={(label) => {
                 const fullMonth = chartData.find(
-                  (item) => item.monthShort === label
+                  (item) => item.monthShort === label,
                 )?.month;
                 return fullMonth || label;
               }}
@@ -85,7 +85,7 @@ const OccupancyChart: React.FC<OccupancyChartProps> = ({ data }) => {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="text-center text-muted-foreground text-sm mt-2 pb-2">
+      <div className="text-center text-muted-foreground text-xs mt-1.5 pb-1">
         Occupazione media annuale: <strong>{averageRate}%</strong> (
         {data.occupiedDays} giorni su {data.totalDays})
       </div>
